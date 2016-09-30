@@ -284,6 +284,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\One\Controllers\" />
     <Folder Include="Areas\One\Models\" />
+    <Folder Include="Areas\One\Repositories\" />
     <Folder Include="Areas\One\Views\Shared\" />
     <Folder Include="Areas\Two\Controllers\" />
     <Folder Include="Areas\Two\Models\" />
