@@ -7,7 +7,7 @@ namespace IITAcademicAutomationSystem.Models
 {
     public class Batch
     {
-        public int BatchId { get; set; }
+        public int Id { get; set; }
         public int ProgramId { get; set; }
         public string BatchNo { get; set; }
         public int SemesterIdCurrent { get; set; }

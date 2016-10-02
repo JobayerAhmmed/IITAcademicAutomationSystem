@@ -7,7 +7,7 @@ namespace IITAcademicAutomationSystem.Models
 {
     public class Semester
     {
-        public int SemesterId { get; set; }
+        public int Id { get; set; }
         public int ProgramId { get; set; }
         public string SemesterNo { get; set; }
     }

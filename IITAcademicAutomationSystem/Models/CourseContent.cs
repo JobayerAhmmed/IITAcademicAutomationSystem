@@ -7,7 +7,7 @@ namespace IITAcademicAutomationSystem.Models
 {
     public class CourseContent
     {
-        public int CourseContentId { get; set; }
+        public int Id { get; set; }
         public int CourseId { get; set; }
         public int TeacherId { get; set; }
         public string ContentTitle { get; set; }
