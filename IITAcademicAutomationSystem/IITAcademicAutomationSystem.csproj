@@ -195,14 +195,15 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Areas\One\DAL\AppContext.cs" />
-    <Compile Include="Areas\One\DAL\AppInitializer.cs" />
-    <Compile Include="Areas\One\DAL\GenericRepository.cs" />
+    <Compile Include="DAL\AppContext.cs" />
+    <Compile Include="DAL\AppInitializer.cs" />
+    <Compile Include="DAL\GenericRepository.cs" />
     <Compile Include="Areas\One\OneAreaRegistration.cs" />
     <Compile Include="Areas\Two\TwoAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -287,6 +288,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\One\Controllers\" />
     <Folder Include="Areas\One\Models\" />
+    <Folder Include="Areas\One\Repositories\" />
     <Folder Include="Areas\One\Views\Shared\" />
     <Folder Include="Areas\Two\Controllers\" />
     <Folder Include="Areas\Two\Models\" />

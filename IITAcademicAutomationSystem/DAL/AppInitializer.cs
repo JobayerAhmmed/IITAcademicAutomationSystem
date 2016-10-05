@@ -5,7 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace IITAcademicAutomationSystem.Areas.One.DAL
+namespace IITAcademicAutomationSystem.DAL
 {
     public class AppInitializer : DropCreateDatabaseIfModelChanges<AppContext>
     {
