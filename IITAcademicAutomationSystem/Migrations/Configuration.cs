@@ -1,15 +1,20 @@
-﻿using IITAcademicAutomationSystem.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
-
-namespace IITAcademicAutomationSystem.DAL
+namespace IITAcademicAutomationSystem.Migrations
 {
-    public class AppInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    using Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<IITAcademicAutomationSystem.DAL.ApplicationDbContext>
     {
-        protected override void Seed(ApplicationDbContext context)
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = false;
+        }
+
+        protected override void Seed(IITAcademicAutomationSystem.DAL.ApplicationDbContext context)
         {
             //var users = new List<User> { };
             //var students = new List<Student> { };
@@ -21,7 +26,7 @@ namespace IITAcademicAutomationSystem.DAL
                 new Program { ProgramName="PGDIT" },
                 new Program { ProgramName="MIT" }
             };
-            programs.ForEach(s => context.Programs.Add(s));
+            programs.ForEach(s => context.Programs.AddOrUpdate(s));
             context.SaveChanges();
 
             var semesters = new List<Semester>
@@ -48,7 +53,7 @@ namespace IITAcademicAutomationSystem.DAL
                 new Semester { ProgramId = programs.Single(s => s.ProgramName == "MIT").Id, SemesterNo = "Semester 3" },
                 new Semester { ProgramId = programs.Single(s => s.ProgramName == "MIT").Id, SemesterNo = "Semester 4" }
             };
-            semesters.ForEach(s => context.Semesters.Add(s));
+            semesters.ForEach(s => context.Semesters.AddOrUpdate(s));
             context.SaveChanges();
 
             var batches = new List<Batch>
@@ -56,8 +61,8 @@ namespace IITAcademicAutomationSystem.DAL
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id,
                     BatchNo = "BSSE01",
-                    SemesterIdCurrent = semesters.Single(s => 
-                        s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id && 
+                    SemesterIdCurrent = semesters.Single(s =>
+                        s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         s.SemesterNo == "Semester 1").Id,
                     BatchStatus = "Active"
                 },
@@ -166,7 +171,7 @@ namespace IITAcademicAutomationSystem.DAL
                     BatchStatus = "Active"
                 }
             };
-            batches.ForEach(b => context.Batches.Add(b));
+            batches.ForEach(b => context.Batches.AddOrUpdate(b));
             context.SaveChanges();
 
             var courses = new List<Course>
@@ -188,7 +193,7 @@ namespace IITAcademicAutomationSystem.DAL
                     CreditLab = 0
                 }
             };
-            courses.ForEach(c => context.Courses.Add(c));
+            courses.ForEach(c => context.Courses.AddOrUpdate(c));
             context.SaveChanges();
 
             //var courseContents = new List<CourseContent>

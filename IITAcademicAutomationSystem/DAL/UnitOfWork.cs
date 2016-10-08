@@ -12,7 +12,7 @@ namespace IITAcademicAutomationSystem.DAL
     // using the same database context instance as the other repository instances.
     public class UnitOfWork : IDisposable
     {
-        private AppContext context = new AppContext();
+        private ApplicationDbContext context = new ApplicationDbContext();
 
         private GenericRepository<Program> programRepository;
         private GenericRepository<Semester> semesterRepository;

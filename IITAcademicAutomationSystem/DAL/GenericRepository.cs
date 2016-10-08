@@ -10,10 +10,10 @@ namespace IITAcademicAutomationSystem.Repositories
 {
     public class GenericRepository<TEntity> where TEntity : class
     {
-        internal AppContext context;
+        internal ApplicationDbContext context;
         internal DbSet<TEntity> dbSet;
 
-        public GenericRepository(AppContext context)
+        public GenericRepository(ApplicationDbContext context)
         {
             this.context = context;
             this.dbSet = context.Set<TEntity>();

@@ -195,7 +195,8 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="DAL\AppContext.cs" />
+    <Compile Include="Areas\One\Controllers\ProgramController.cs" />
+    <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="DAL\AppInitializer.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
     <Compile Include="Areas\One\OneAreaRegistration.cs" />
@@ -207,6 +208,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610080344209_FirstCommit.cs" />
+    <Compile Include="Migrations\201610080344209_FirstCommit.Designer.cs">
+      <DependentUpon>201610080344209_FirstCommit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Batch.cs" />
     <Compile Include="Models\Course.cs" />
@@ -237,6 +243,13 @@
     </Content>
     <Content Include="Areas\One\Views\web.config" />
     <Content Include="Areas\Two\Views\web.config" />
+    <Content Include="Areas\One\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\One\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\One\Views\Program\Create.cshtml" />
+    <Content Include="Areas\One\Views\Program\Delete.cshtml" />
+    <Content Include="Areas\One\Views\Program\Details.cshtml" />
+    <Content Include="Areas\One\Views\Program\Edit.cshtml" />
+    <Content Include="Areas\One\Views\Program\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -249,7 +262,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -286,10 +301,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\One\Controllers\" />
     <Folder Include="Areas\One\Models\" />
     <Folder Include="Areas\One\Repositories\" />
-    <Folder Include="Areas\One\Views\Shared\" />
+    <Folder Include="Areas\One\Services\" />
     <Folder Include="Areas\Two\Controllers\" />
     <Folder Include="Areas\Two\Models\" />
     <Folder Include="Areas\Two\Views\Shared\" />
@@ -301,6 +315,11 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201610080344209_FirstCommit.resx">
+      <DependentUpon>201610080344209_FirstCommit.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
