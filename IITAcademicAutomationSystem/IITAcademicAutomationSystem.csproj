@@ -226,6 +226,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Program.cs" />
     <Compile Include="Models\Semester.cs" />
+    <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentCourse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
