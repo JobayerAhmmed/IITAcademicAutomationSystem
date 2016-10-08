@@ -212,6 +212,10 @@
     <Compile Include="Migrations\201610080344209_FirstCommit.Designer.cs">
       <DependentUpon>201610080344209_FirstCommit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610080830079_ProgramModelIsDelete.cs" />
+    <Compile Include="Migrations\201610080830079_ProgramModelIsDelete.Designer.cs">
+      <DependentUpon>201610080830079_ProgramModelIsDelete.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Batch.cs" />
@@ -319,6 +323,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610080344209_FirstCommit.resx">
       <DependentUpon>201610080344209_FirstCommit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610080830079_ProgramModelIsDelete.resx">
+      <DependentUpon>201610080830079_ProgramModelIsDelete.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
