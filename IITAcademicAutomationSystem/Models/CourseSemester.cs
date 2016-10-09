@@ -11,6 +11,6 @@ namespace IITAcademicAutomationSystem.Models
         public int BatchIdCurrent { get; set; }
         public int SemesterId { get; set; }
         public int CourseId { get; set; }
-        public int TeacherId { get; set; }
+        public string TeacherId { get; set; }
     }
 }

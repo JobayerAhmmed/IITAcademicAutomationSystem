@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
@@ -9,14 +10,14 @@ using System.Web;
 
 namespace IITAcademicAutomationSystem.DAL
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Role, int, UserLogin, UserRole, UserClaim>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection")
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
-        //public DbSet<Student> Students { get; set; }
+        public DbSet<Student> Students { get; set; }
         public DbSet<Program> Programs { get; set; }
         public DbSet<Semester> Semesters { get; set; }
         public DbSet<Batch> Batches { get; set; }
@@ -28,6 +29,15 @@ namespace IITAcademicAutomationSystem.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.Entity<ApplicationUser>().Property(s => s.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            //modelBuilder.Entity<ApplicationRole>().Property(s => s.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            //modelBuilder.Entity<ApplicationUser>().HasKey<int>(l => l.Id);
+            //modelBuilder.Entity<ApplicationUser>().Property(s => s.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            //modelBuilder.Entity<ApplicationUserLogin>().HasKey<int>(l => l.UserId);
+            //modelBuilder.Entity<ApplicationRole>().HasKey<int>(r => r.Id);
+            //modelBuilder.Entity<ApplicationUserRole>().HasKey(r => new { r.RoleId, r.UserId });
 
             modelBuilder.Entity<ApplicationUser>().ToTable("User");
             modelBuilder.Entity<IdentityRole>().ToTable("Role");

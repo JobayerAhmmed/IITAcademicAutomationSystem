@@ -175,9 +175,9 @@ namespace IITAcademicAutomationSystem.Controllers
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(int userId, string code)
+        public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
-            if (userId == default(int) || code == null)
+            if (userId == null || code == null)
             {
                 return View("Error");
             }
@@ -288,7 +288,7 @@ namespace IITAcademicAutomationSystem.Controllers
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == default(int))
+            if (userId == null)
             {
                 return View("Error");
             }

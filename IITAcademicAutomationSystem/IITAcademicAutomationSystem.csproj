@@ -216,6 +216,26 @@
     <Compile Include="Migrations\201610080830079_ProgramModelIsDelete.Designer.cs">
       <DependentUpon>201610080830079_ProgramModelIsDelete.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610082002270_UserPropertiesAdded.cs" />
+    <Compile Include="Migrations\201610082002270_UserPropertiesAdded.Designer.cs">
+      <DependentUpon>201610082002270_UserPropertiesAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610090407579_StudentModel.cs" />
+    <Compile Include="Migrations\201610090407579_StudentModel.Designer.cs">
+      <DependentUpon>201610090407579_StudentModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610090628035_UserIdAsIdentity.cs" />
+    <Compile Include="Migrations\201610090628035_UserIdAsIdentity.Designer.cs">
+      <DependentUpon>201610090628035_UserIdAsIdentity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610090950148_BackToIdentityDefault.cs" />
+    <Compile Include="Migrations\201610090950148_BackToIdentityDefault.Designer.cs">
+      <DependentUpon>201610090950148_BackToIdentityDefault.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610091006377_UserIdChangedInModels.cs" />
+    <Compile Include="Migrations\201610091006377_UserIdChangedInModels.Designer.cs">
+      <DependentUpon>201610091006377_UserIdChangedInModels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Batch.cs" />
@@ -327,6 +347,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610080830079_ProgramModelIsDelete.resx">
       <DependentUpon>201610080830079_ProgramModelIsDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610082002270_UserPropertiesAdded.resx">
+      <DependentUpon>201610082002270_UserPropertiesAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610090407579_StudentModel.resx">
+      <DependentUpon>201610090407579_StudentModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610090628035_UserIdAsIdentity.resx">
+      <DependentUpon>201610090628035_UserIdAsIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610090950148_BackToIdentityDefault.resx">
+      <DependentUpon>201610090950148_BackToIdentityDefault.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610091006377_UserIdChangedInModels.resx">
+      <DependentUpon>201610091006377_UserIdChangedInModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

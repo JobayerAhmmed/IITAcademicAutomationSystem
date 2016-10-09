@@ -4,20 +4,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using IITAcademicAutomationSystem.DAL;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IITAcademicAutomationSystem.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationUser : IdentityUser<int, UserLogin, UserRole, UserClaim>
+    public class ApplicationUser : IdentityUser
     {
         public string FullName { get; set; }
         public string Designation { get; set; }
-        public string ProfileLink { get; set; }
+        public string ProfileLink { get; set; } 
         public string ImagePath { get; set; }
         public string Status { get; set; }
         public bool IsDelete { get; set; }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, int> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
@@ -25,41 +26,52 @@ namespace IITAcademicAutomationSystem.Models
             return userIdentity;
         }
     }
-
-    public class UserRole : IdentityUserRole<int>
+    /*
+    public class ApplicationUserRole : IdentityUserRole<int>
+    {
+        public ApplicationUserRole()
+        {
+            
+        }
+    }
+    public class ApplicationUserClaim : IdentityUserClaim<int>
     {
 
     }
-    public class UserClaim : IdentityUserClaim<int>
-    {
-
-    }
-    public class UserLogin : IdentityUserLogin<int>
+    public class ApplicationUserLogin : IdentityUserLogin<int>
     {
 
     }
 
-    public class Role : IdentityRole<int, UserRole>
+    public class ApplicationRole : IdentityRole<int, ApplicationUserRole>
     {
-        public Role() { }
-        public Role(string name) { Name = name; }
+        public ApplicationRole()
+        {
+            //this.Id = default(int);
+        }
+        public ApplicationRole(string name)
+            //: this()
+        {
+            Name = name;
+        }
     }
 
-    public class UserStore : UserStore<ApplicationUser, Role, int, UserLogin, UserRole, UserClaim>
+    public class ApplicationUserStore : UserStore<ApplicationUser, ApplicationRole, int, 
+        ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
     {
-        public UserStore(ApplicationDbContext context)
+        public ApplicationUserStore(ApplicationDbContext context)
             : base(context)
         {
         }
     }
 
-    public class RoleStore : RoleStore<Role, int, UserRole>
+    public class ApplicationRoleStore : RoleStore<ApplicationRole, int, ApplicationUserRole>
     {
-        public RoleStore(ApplicationDbContext context)
+        public ApplicationRoleStore(ApplicationDbContext context)
             : base(context)
         {
         }
-    }
+    }*/
 
         //public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         //{
