@@ -236,6 +236,10 @@
     <Compile Include="Migrations\201610091006377_UserIdChangedInModels.Designer.cs">
       <DependentUpon>201610091006377_UserIdChangedInModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610101847156_CourseSemesterBatchIdCurrentToBatchId.cs" />
+    <Compile Include="Migrations\201610101847156_CourseSemesterBatchIdCurrentToBatchId.Designer.cs">
+      <DependentUpon>201610101847156_CourseSemesterBatchIdCurrentToBatchId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Batch.cs" />
@@ -362,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610091006377_UserIdChangedInModels.resx">
       <DependentUpon>201610091006377_UserIdChangedInModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610101847156_CourseSemesterBatchIdCurrentToBatchId.resx">
+      <DependentUpon>201610101847156_CourseSemesterBatchIdCurrentToBatchId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

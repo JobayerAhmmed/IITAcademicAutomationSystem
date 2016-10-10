@@ -18,9 +18,6 @@ namespace IITAcademicAutomationSystem.Migrations
         // Seed method runs every time update-database
         protected override void Seed(IITAcademicAutomationSystem.DAL.ApplicationDbContext context)
         {
-            //var users = new List<User> { };
-            //var students = new List<Student> { };
-
             var programs = new List<Program>
             {
                 new Program { ProgramName="BSSE" },
@@ -193,18 +190,240 @@ namespace IITAcademicAutomationSystem.Migrations
                     CourseCredit = 3,
                     CreditTheory = 3,
                     CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="BSSE").Id,
+                    CourseCode = "STAT103",
+                    CourseTitle = "Probability and Statistics for Engineers-I",
+                    CourseCredit = 3,
+                    CreditTheory = 3,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="BSSE").Id,
+                    CourseCode = "MATH104",
+                    CourseTitle = "Calculus and Analytical Geometry",
+                    CourseCredit = 3,
+                    CreditTheory = 3,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="BSSE").Id,
+                    CourseCode = "GE105",
+                    CourseTitle = "Sociology",
+                    CourseCredit = 3,
+                    CreditTheory = 2,
+                    CreditLab = 1
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="BSSE").Id,
+                    CourseCode = "SE106",
+                    CourseTitle = "Introduction to Software Engineering",
+                    CourseCredit = 3,
+                    CreditTheory = 3,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="BSSE").Id,
+                    CourseCode = "CSE201",
+                    CourseTitle = "Data Structure & Algorithm",
+                    CourseCredit = 3,
+                    CreditTheory = 1,
+                    CreditLab = 2
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="BSSE").Id,
+                    CourseCode = "EEE202",
+                    CourseTitle = "Digital Systems Design",
+                    CourseCredit = 3,
+                    CreditTheory = 2,
+                    CreditLab = 1
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="BSSE").Id,
+                    CourseCode = "STAT203",
+                    CourseTitle = "Probability and Statistics for Engineers-II",
+                    CourseCredit = 3,
+                    CreditTheory = 3,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="BSSE").Id,
+                    CourseCode = "MATH204",
+                    CourseTitle = "Ordinary Differential Equations",
+                    CourseCredit = 3,
+                    CreditTheory = 3,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="BSSE").Id,
+                    CourseCode = "SE205",
+                    CourseTitle = "Theory of Computing",
+                    CourseCredit = 3,
+                    CreditTheory = 2,
+                    CreditLab = 1
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="BSSE").Id,
+                    CourseCode = "SE206",
+                    CourseTitle = "Object Oriented Concepts I",
+                    CourseCredit = 3,
+                    CreditTheory = 2,
+                    CreditLab = 1
+                },
+
+                // 4 MSSE courses
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="MSSE").Id,
+                    CourseCode = "MS1001",
+                    CourseTitle = "Research Methodology",
+                    CourseCredit = 3,
+                    CreditTheory = 2,
+                    CreditLab = 1
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="MSSE").Id,
+                    CourseCode = "MS1002",
+                    CourseTitle = "Formal methods and Models in Software Engineering",
+                    CourseCredit = 3,
+                    CreditTheory = 2,
+                    CreditLab = 1
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="MSSE").Id,
+                    CourseCode = "MS1003",
+                    CourseTitle = "Secure Software Design and Programming",
+                    CourseCredit = 3,
+                    CreditTheory = 2,
+                    CreditLab = 1
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="MSSE").Id,
+                    CourseCode = "MS1004",
+                    CourseTitle = "Distributed Software Engineering",
+                    CourseCredit = 3,
+                    CreditTheory = 2,
+                    CreditLab = 1
+                },
+
+                // 6 PGDIT courses
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="PGDIT").Id,
+                    CourseCode = "PGD101",
+                    CourseTitle = "Computer Fundamentals and Office Automation",
+                    CourseCredit = 3,
+                    CreditTheory = 0,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="PGDIT").Id,
+                    CourseCode = "PGD104",
+                    CourseTitle = "Structured Programming",
+                    CourseCredit = 3,
+                    CreditTheory = 0,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="PGDIT").Id,
+                    CourseCode = "PGD106",
+                    CourseTitle = "Operation System Concepts & UNIX OS",
+                    CourseCredit = 3,
+                    CreditTheory = 0,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="PGDIT").Id,
+                    CourseCode = "PGD204",
+                    CourseTitle = "DBMS & XML",
+                    CourseCredit = 3,
+                    CreditTheory = 0,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="PGDIT").Id,
+                    CourseCode = "PGD201",
+                    CourseTitle = "Data Structure & Algorithm",
+                    CourseCredit = 3,
+                    CreditTheory = 0,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="PGDIT").Id,
+                    CourseCode = "PGD202",
+                    CourseTitle = "Object Oriented Programming",
+                    CourseCredit = 3,
+                    CreditTheory = 0,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="PGDIT").Id,
+                    CourseCode = "PGD105",
+                    CourseTitle = "Introduction to Software Engineering",
+                    CourseCredit = 3,
+                    CreditTheory = 0,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="PGDIT").Id,
+                    CourseCode = "PGD107",
+                    CourseTitle = "Internet programming",
+                    CourseCredit = 3,
+                    CreditTheory = 0,
+                    CreditLab = 0
+                },
+
+                // MIT courses
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="MIT").Id,
+                    CourseCode = "MITM301",
+                    CourseTitle = "Project Management and Business Info System",
+                    CourseCredit = 2,
+                    CreditTheory = 2,
+                    CreditLab = 0
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="MIT").Id,
+                    CourseCode = "MITM302",
+                    CourseTitle = "Computer Programming",
+                    CourseCredit = 4,
+                    CreditTheory = 2,
+                    CreditLab = 2
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="MIT").Id,
+                    CourseCode = "MITM304",
+                    CourseTitle = "Database Architecture and Administration",
+                    CourseCredit = 4,
+                    CreditTheory = 2,
+                    CreditLab = 2
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="MIT").Id,
+                    CourseCode = "MITM306",
+                    CourseTitle = "Advanced Computer Networks & Internetworking",
+                    CourseCredit = 4,
+                    CreditTheory = 2,
+                    CreditLab = 2
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="MIT").Id,
+                    CourseCode = "MITM305",
+                    CourseTitle = "Internet Computing",
+                    CourseCredit = 4,
+                    CreditTheory = 2,
+                    CreditLab = 2
+                },
+                new Course {
+                    ProgramId = programs.Single(p => p.ProgramName=="MIT").Id,
+                    CourseCode = "MITM303",
+                    CourseTitle = "Client Server Technology and System Programming",
+                    CourseCredit = 4,
+                    CreditTheory = 2,
+                    CreditLab = 2
                 }
             };
             courses.ForEach(c => context.Courses.AddOrUpdate(s => new { s.ProgramId, s.CourseCode}, c));
             context.SaveChanges();
-
-            //var courseContents = new List<CourseContent>
-            //{
-            //    new CourseContent {
-            //        CourseId = courses.Single(c => c.CourseCode=="CSE101").Id,
-            //        TeacherId = users.Single(u => u.).Id,
-            //    }
-            //};
 
             var users = new List<ApplicationUser>
             {
@@ -829,6 +1048,194 @@ namespace IITAcademicAutomationSystem.Migrations
                 }
             };
             students.ForEach(s => context.Students.AddOrUpdate(p => p.UserId, s));
+            context.SaveChanges();
+
+            // CourseSemester
+            var courseSemesters = new List<CourseSemester>
+            {
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
+                        s.SemesterNo=="Semester 1").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "CSE101").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit24@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
+                        s.SemesterNo=="Semester 1").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "CSE102").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit30@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
+                        s.SemesterNo=="Semester 1").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "SE106").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit21@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
+                        s.SemesterNo=="Semester 2").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "CSE201").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit29@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
+                        s.SemesterNo=="Semester 2").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "SE205").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit22@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
+                        s.SemesterNo=="Semester 2").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "SE206").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit28@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
+                        b.BatchNo == "MSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="MSSE").Id &&
+                        s.SemesterNo=="Semester 1").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
+                        c.CourseCode == "MS1001").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit24@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
+                        b.BatchNo == "MSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="MSSE").Id &&
+                        s.SemesterNo=="Semester 1").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
+                        c.CourseCode == "MS1002").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit23@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
+                        b.BatchNo == "MSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="MSSE").Id &&
+                        s.SemesterNo=="Semester 1").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
+                        c.CourseCode == "MS1003").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit25@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
+                        b.BatchNo == "MSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="MSSE").Id &&
+                        s.SemesterNo=="Semester 1").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
+                        c.CourseCode == "MS1004").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit30@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        b.BatchNo == "PGD01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
+                        s.SemesterNo=="Semester 1").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        c.CourseCode == "PGD101").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit29@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        b.BatchNo == "PGD01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
+                        s.SemesterNo=="Semester 1").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        c.CourseCode == "PGD104").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit24@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        b.BatchNo == "PGD01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
+                        s.SemesterNo=="Semester 1").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        c.CourseCode == "PGD106").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit23@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        b.BatchNo == "PGD01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
+                        s.SemesterNo=="Semester 1").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        c.CourseCode == "PGD204").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit26@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        b.BatchNo == "PGD01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
+                        s.SemesterNo=="Semester 2").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        c.CourseCode == "PGD201").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit29@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        b.BatchNo == "PGD01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
+                        s.SemesterNo=="Semester 2").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        c.CourseCode == "PGD202").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit30@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        b.BatchNo == "PGD01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
+                        s.SemesterNo=="Semester 2").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        c.CourseCode == "PGD105").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit21@iit.du.ac.bd").Id
+                },
+                new CourseSemester
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        b.BatchNo == "PGD01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
+                        s.SemesterNo=="Semester 2").Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
+                        c.CourseCode == "PGD107").Id,
+                    TeacherId = users.Single(u => u.UserName == "iit25@iit.du.ac.bd").Id
+                }
+            };
+            courseSemesters.ForEach(d => context.CourseSemesters.AddOrUpdate(s => 
+                new { s.BatchId, s.SemesterId, s.CourseId, s.TeacherId }, d));
             context.SaveChanges();
         }
     }
