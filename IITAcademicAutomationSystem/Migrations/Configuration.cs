@@ -1237,6 +1237,93 @@ namespace IITAcademicAutomationSystem.Migrations
             courseSemesters.ForEach(d => context.CourseSemesters.AddOrUpdate(s => 
                 new { s.BatchId, s.SemesterId, s.CourseId, s.TeacherId }, d));
             context.SaveChanges();
+
+            var studentCourses = new List<StudentCourse>
+            {
+                new StudentCourse
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        s.SemesterNo == "Semester 1").Id,
+                    StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "CSE101").Id
+                },
+                new StudentCourse
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        s.SemesterNo == "Semester 1").Id,
+                    StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "CSE102").Id
+                },
+                new StudentCourse
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        s.SemesterNo == "Semester 1").Id,
+                    StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "STAT103").Id
+                },
+                new StudentCourse
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        s.SemesterNo == "Semester 1").Id,
+                    StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "MATH104").Id
+                },
+                new StudentCourse
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        s.SemesterNo == "Semester 2").Id,
+                    StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "CSE201").Id
+                },
+                new StudentCourse
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        s.SemesterNo == "Semester 2").Id,
+                    StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "EEE202").Id
+                },
+                new StudentCourse
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        s.SemesterNo == "Semester 2").Id,
+                    StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "STAT203").Id
+                },
+                new StudentCourse
+                {
+                    BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        b.BatchNo == "BSSE01").Id,
+                    SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        s.SemesterNo == "Semester 2").Id,
+                    StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
+                    CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
+                        c.CourseCode == "MATH204").Id
+                }
+            };
+            studentCourses.ForEach(s => context.StudentCourses.AddOrUpdate(d => 
+                new { d.BatchId, d.SemesterId, d.StudentId, d.CourseId }, s));
+            context.SaveChanges();
         }
     }
 }
