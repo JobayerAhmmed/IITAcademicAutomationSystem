@@ -1,0 +1,14 @@
+﻿label {
+    font-weight: 600;
+}
+.edit {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+@media (max-width: 767px) 
+{
+    .edit {
+        padding-left: 5px;
+        padding-right:5px;
+    }
+}

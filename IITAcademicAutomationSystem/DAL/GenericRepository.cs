@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
-namespace IITAcademicAutomationSystem.Repositories
+namespace IITAcademicAutomationSystem.DAL
 {
     public class GenericRepository<TEntity> where TEntity : class
     {

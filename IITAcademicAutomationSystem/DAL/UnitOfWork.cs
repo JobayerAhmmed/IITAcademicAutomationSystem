@@ -1,5 +1,7 @@
-﻿using IITAcademicAutomationSystem.Models;
-using IITAcademicAutomationSystem.Repositories;
+﻿using IITAcademicAutomationSystem.Areas.One.Models;
+using IITAcademicAutomationSystem.Areas.One.Repositories;
+using IITAcademicAutomationSystem.Models;
+//using IITAcademicAutomationSystem.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +16,49 @@ namespace IITAcademicAutomationSystem.DAL
     {
         private ApplicationDbContext context = new ApplicationDbContext();
 
-        private GenericRepository<Program> programRepository;
+        private IProgramRepository programRepository;
+        private IBatchRepository batchRepository;
+        private ICourseRepository courseRepository;
+
+        public IProgramRepository ProgramRepository
+        {
+            get
+            {
+                if (this.programRepository == null)
+                {
+                    this.programRepository = new ProgramRepository(context);
+                }
+                return programRepository;
+            }
+        }
+        public IBatchRepository BatchRepository
+        {
+            get
+            {
+                if (this.batchRepository == null)
+                {
+                    this.batchRepository = new BatchRepository(context);
+                }
+                return batchRepository;
+            }
+        }
+        public ICourseRepository CourseRepository
+        {
+            get
+            {
+                if (this.courseRepository == null)
+                {
+                    this.courseRepository = new CourseRepository(context);
+                }
+                return courseRepository;
+            }
+        }
+        
+
+        /*private GenericRepository<Program> programRepository;
         private GenericRepository<Semester> semesterRepository;
         private GenericRepository<Batch> batchRepository;
-        private GenericRepository<Course> courseRepository;
+        private GenericRepository<CourseViewModel> courseRepository;
         private GenericRepository<CourseSemester> courseSemesterRepository;
         private GenericRepository<CourseContent> courseContentRepository;
         private GenericRepository<StudentCourse> studentCourseRepository;
@@ -58,13 +99,13 @@ namespace IITAcademicAutomationSystem.DAL
             }
         }
 
-        public GenericRepository<Course> CourseRepository
+        public GenericRepository<CourseViewModel> CourseRepository
         {
             get
             {
                 if (this.courseRepository == null)
                 {
-                    this.courseRepository = new GenericRepository<Course>(context);
+                    this.courseRepository = new CourseRepository(context);
                 }
                 return courseRepository;
             }
@@ -105,7 +146,7 @@ namespace IITAcademicAutomationSystem.DAL
                 return studentCourseRepository;
             }
         }
-
+        */
         public void Save()
         {
             context.SaveChanges();

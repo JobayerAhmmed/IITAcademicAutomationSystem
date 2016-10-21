@@ -1,0 +1,76 @@
+﻿@model IEnumerable<IITAcademicAutomationSystem.Areas.One.Models.CourseIndexViewModel>
+
+@{
+    ViewBag.Title = ViewBag.ProgramName + " Course List";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.ProgramName Course List
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li><a href="#">@ViewBag.ProgramName</a></li>
+        <li class="active">Courses</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title pull-right">
+                        @Html.ActionLink("Create course", "Create", "Course", new { area = "One", programId = Model.FirstOrDefault().ProgramId }, null) 
+                        @*@Html.ActionLink("View deleted courses", "IndexDeleted")*@
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <table id="courseIndex" class="table table-responsive table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Course code
+                                </th>
+                                <th>
+                                    Course title
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.CourseCode, "Details", "Course", new { area = "One", id = item.Id, programId = item.ProgramId }, null)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink(item.CourseTitle, "Details", "Course", new { area = "One", id = item.Id, programId = item.ProgramId }, null)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/datatable")
+    <script>
+        $(function () {
+            $("#courseIndex").DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true
+            });
+        });
+    </script>
+}

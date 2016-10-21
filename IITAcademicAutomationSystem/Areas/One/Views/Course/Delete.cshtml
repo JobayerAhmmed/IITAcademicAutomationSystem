@@ -1,0 +1,93 @@
+﻿@model IITAcademicAutomationSystem.Areas.One.Models.CourseDetailsViewModel
+
+@{
+    ViewBag.Title = "Delete Course";
+}
+
+<section class="content-header">
+    <h1>
+        @Html.DisplayFor(model => model.CourseCode) - @Html.DisplayFor(model => model.CourseTitle)
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li><a href="#">@ViewBag.ProgramName</a></li>
+        <li>
+            @Html.ActionLink("Courses", "Index", "Course", new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li class="active">
+            @Html.DisplayFor(model => model.CourseCode)
+        </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-6">
+            <div class="box box-default">
+                <div class="box-body with-border">
+                    <table class="table table-hover table-responsive table-bordered">
+                        <tr>
+                            <td>
+                                Course credit
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.CourseCredit)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Theroy
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.CreditTheory)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Lab
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.CreditLab)
+                            </td>
+                        </tr>
+                        @if (Model.DependentCourse1 != null || Model.DependentCourse2 != null)
+                        {
+                            <tr>
+                                <td>
+                                    Dependent courses
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.DependentCourse1) @Html.DisplayFor(model => model.DependentCourse2)
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <div class="box-footer text-center">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.ProgramId)
+                        @Html.HiddenFor(model => model.CourseCode)
+                        @Html.HiddenFor(model => model.CourseTitle)
+                        @Html.HiddenFor(model => model.CourseCredit)
+                        @Html.HiddenFor(model => model.CreditTheory)
+                        @Html.HiddenFor(model => model.CreditLab)
+                        @Html.HiddenFor(model => model.DependentCourse1)
+                        @Html.HiddenFor(model => model.DependentCourse2)
+
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Confirm Delete" class="btn btn-danger" />
+                            @Html.ActionLink("Cancel", "Details", "Course", new { area = "One", id = Model.Id }, new { @class = "btn btn-primary" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

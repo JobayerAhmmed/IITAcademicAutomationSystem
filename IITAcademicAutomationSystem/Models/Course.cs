@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -16,5 +17,6 @@ namespace IITAcademicAutomationSystem.Models
         public double CreditLab { get; set; }
         public int DependentCourseId1 { get; set; }
         public int DependentCourseId2 { get; set; }
+        public bool IsDelete { get; set; }
     }
 }

@@ -9,6 +9,5 @@ namespace IITAcademicAutomationSystem.Models
     {
         public int Id { get; set; }
         public string ProgramName { get; set; }
-        public bool IsDelete { get; set; }
     }
 }

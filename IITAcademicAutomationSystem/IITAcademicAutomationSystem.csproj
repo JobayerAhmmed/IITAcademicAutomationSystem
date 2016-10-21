@@ -44,6 +44,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FoolproofValidation, Version=0.9.5851.39121, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Foolproof.0.9.4518\lib\net45\FoolproofValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -195,7 +203,22 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\One\AutoMapperConfig.cs" />
+    <Compile Include="Areas\One\FoolproofCustomValidations.cs" />
+    <Compile Include="Areas\One\Models\CourseDetailsViewModel.cs" />
+    <Compile Include="Areas\One\Models\CourseEditViewModel.cs" />
+    <Compile Include="Areas\One\Models\CourseIndexViewModel.cs" />
+    <Compile Include="Areas\One\Repositories\BatchRepository.cs" />
+    <Compile Include="Areas\One\Services\BatchService.cs" />
+    <Compile Include="Areas\One\Services\ProgramService.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Areas\One\Controllers\CourseController.cs" />
     <Compile Include="Areas\One\Controllers\ProgramController.cs" />
+    <Compile Include="Areas\One\Models\CourseCreateViewModel.cs" />
+    <Compile Include="Areas\One\Models\SideMenuViewModel.cs" />
+    <Compile Include="Areas\One\Repositories\CourseRepository.cs" />
+    <Compile Include="Areas\One\Repositories\ProgramRepository.cs" />
+    <Compile Include="Areas\One\Services\CourseService.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="DAL\AppInitializer.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
@@ -244,6 +267,10 @@
     <Compile Include="Migrations\201610110621088_StudentCourseModel.Designer.cs">
       <DependentUpon>201610110621088_StudentCourseModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610150729147_IsDeleteRemovedProgramModel.cs" />
+    <Compile Include="Migrations\201610150729147_IsDeleteRemovedProgramModel.Designer.cs">
+      <DependentUpon>201610150729147_IsDeleteRemovedProgramModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Batch.cs" />
@@ -260,17 +287,19 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-cosmo.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Client Scripts\mvcfoolproof.unobtrusive.js" />
+    <Content Include="Client Scripts\mvcfoolproof.unobtrusive.min.js" />
+    <Content Include="Client Scripts\MvcFoolproofJQueryValidation.js" />
+    <Content Include="Client Scripts\MvcFoolproofJQueryValidation.min.js" />
+    <Content Include="Client Scripts\MvcFoolproofValidation.js" />
+    <Content Include="Client Scripts\MvcFoolproofValidation.min.js" />
+    <Content Include="Content\One.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\ai.0.22.19-build00125.js" />
     <Content Include="Scripts\ai.0.22.19-build00125.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -283,12 +312,28 @@
     <Content Include="Areas\One\Views\Program\Details.cshtml" />
     <Content Include="Areas\One\Views\Program\Edit.cshtml" />
     <Content Include="Areas\One\Views\Program\Index.cshtml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Areas\One\Views\Course\Create.cshtml" />
+    <Content Include="Areas\One\Views\Course\DeleteConfirmed.cshtml" />
+    <Content Include="Areas\One\Views\Course\Edit.cshtml" />
+    <Content Include="Areas\One\Views\Course\Index.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Scripts\jquery-2.2.3.intellisense.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-2.2.3.js" />
+    <Content Include="Scripts\jquery-2.2.3.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Views\Base\IndexAdmin.cshtml" />
+    <Content Include="Areas\One\Views\Course\Details.cshtml" />
+    <Content Include="Areas\One\Views\Course\Delete.cshtml" />
+    <Content Include="Areas\One\Views\Course\EditConfirmed.cshtml" />
+    <Content Include="Areas\One\Views\Course\CreateConfirmed.cshtml" />
+    <Content Include="Scripts\jquery-2.2.3.min.map" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -331,23 +376,22 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_SideMenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\One\Models\" />
-    <Folder Include="Areas\One\Repositories\" />
-    <Folder Include="Areas\One\Services\" />
     <Folder Include="Areas\Two\Controllers\" />
     <Folder Include="Areas\Two\Models\" />
     <Folder Include="Areas\Two\Views\Shared\" />
+    <Folder Include="Content\bootstrap\" />
+    <Folder Include="Content\dist\" />
+    <Folder Include="Content\font-awesome\" />
+    <Folder Include="Content\ionicons\" />
+    <Folder Include="Content\plugins\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610080344209_FirstCommit.resx">
@@ -376,6 +420,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610110621088_StudentCourseModel.resx">
       <DependentUpon>201610110621088_StudentCourseModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610150729147_IsDeleteRemovedProgramModel.resx">
+      <DependentUpon>201610150729147_IsDeleteRemovedProgramModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

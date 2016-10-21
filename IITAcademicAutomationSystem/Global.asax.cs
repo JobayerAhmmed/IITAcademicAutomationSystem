@@ -1,4 +1,5 @@
-﻿using IITAcademicAutomationSystem.DAL;
+﻿using IITAcademicAutomationSystem.Areas.One;
+using IITAcademicAutomationSystem.DAL;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,6 +20,7 @@ namespace IITAcademicAutomationSystem
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            AutoMapperConfig.RegisterMappings();
         }
     }
 }
