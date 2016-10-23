@@ -5,6 +5,10 @@
     padding-left: 10px;
     padding-right: 10px;
 }
+.bg-one-aqua {
+  background-color:#499FC8 !important;
+  color: #fff;
+}
 @media (max-width: 767px) 
 {
     .edit {

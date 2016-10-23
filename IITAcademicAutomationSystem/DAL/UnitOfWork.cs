@@ -16,17 +16,41 @@ namespace IITAcademicAutomationSystem.DAL
     {
         private ApplicationDbContext context = new ApplicationDbContext();
 
+        private IUserRepository userRepository;
+        private IStudentRepository studentRepository;
         private IProgramRepository programRepository;
         private IBatchRepository batchRepository;
         private ICourseRepository courseRepository;
 
+        public IUserRepository UserRepository
+        {
+            get
+            {
+                if (userRepository == null)
+                {
+                    userRepository = new UserRepository(context);
+                }
+                return userRepository;
+            }
+        }
+        public IStudentRepository StudentRepository
+        {
+            get
+            {
+                if (studentRepository == null)
+                {
+                    studentRepository = new StudentRepository(context);
+                }
+                return studentRepository;
+            }
+        }
         public IProgramRepository ProgramRepository
         {
             get
             {
-                if (this.programRepository == null)
+                if (programRepository == null)
                 {
-                    this.programRepository = new ProgramRepository(context);
+                    programRepository = new ProgramRepository(context);
                 }
                 return programRepository;
             }
@@ -35,9 +59,9 @@ namespace IITAcademicAutomationSystem.DAL
         {
             get
             {
-                if (this.batchRepository == null)
+                if (batchRepository == null)
                 {
-                    this.batchRepository = new BatchRepository(context);
+                    batchRepository = new BatchRepository(context);
                 }
                 return batchRepository;
             }
@@ -46,9 +70,9 @@ namespace IITAcademicAutomationSystem.DAL
         {
             get
             {
-                if (this.courseRepository == null)
+                if (courseRepository == null)
                 {
-                    this.courseRepository = new CourseRepository(context);
+                    courseRepository = new CourseRepository(context);
                 }
                 return courseRepository;
             }

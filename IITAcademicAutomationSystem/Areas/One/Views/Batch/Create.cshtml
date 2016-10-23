@@ -1,0 +1,81 @@
+﻿@model IITAcademicAutomationSystem.Areas.One.Models.BatchCreateViewModel
+
+@{
+    ViewBag.Title = "Create Batch";
+}
+
+<section class="content-header">
+    <h1>
+        Create batch
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li><a href="#">@Model.ProgramName</a></li>
+        <li>
+            @Html.ActionLink("Batches", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li class="active">
+            Create
+        </li>
+    </ol>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8">
+            <div class="box box-primary">
+                &nbsp;
+                @using (Html.BeginForm())
+                {
+                    <div class="box-body with-border">
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.ProgramId)
+                        @Html.HiddenFor(model => model.ProgramName)
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.ProgramName, "Program name", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.ProgramName, new { htmlAttributes = new { @class = "form-control", disabled="" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.BatchNo, "Batch no.", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.BatchNo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.BatchNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <input type="submit" value="Confirm create" class="btn btn-primary" />
+                                    @Html.ActionLink("Cancel", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, new { @class = "btn btn-primary" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/jqueryval")
+    @Scripts.Render("~/foolproof")
+}

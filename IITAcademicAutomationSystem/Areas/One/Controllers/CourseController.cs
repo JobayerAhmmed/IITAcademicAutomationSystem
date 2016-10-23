@@ -35,7 +35,9 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             IEnumerable<CourseIndexViewModel> coursesToView =
                 Mapper.Map<IEnumerable<Course>, IEnumerable<CourseIndexViewModel>>(courses);
 
+            ViewBag.ProgramId = programId;
             ViewBag.ProgramName = program.ProgramName;
+
             return View(coursesToView);
         }
 

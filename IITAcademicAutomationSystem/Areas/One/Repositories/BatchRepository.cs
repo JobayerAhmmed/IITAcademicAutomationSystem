@@ -12,7 +12,10 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
     {
         IEnumerable<Batch> GetActiveBatches(int programId);
         IEnumerable<Batch> GetPassedBatches(int programId);
-        Batch GetBatchById(int programId, int batchId);
+        IEnumerable<Student> GetCurrentStudentsOfBatch(int batchId);
+        Batch GetBatchById(int batchId);
+        Batch GetBatchByBatchNo(int programId, int batchNo);
+        Batch GetPreviousBatch(int programId);
         void CreateBatch(Batch batch);
     }
     public class BatchRepository : IBatchRepository
@@ -24,15 +27,31 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         }
         public IEnumerable<Batch> GetActiveBatches(int programId)
         {
-            return context.Batches.Where(b => b.ProgramId == programId && b.BatchStatus == "Active").OrderByDescending(a => a.BatchNo).ToList();
+            return context.Batches.Where(b => b.ProgramId == programId && b.BatchStatus == "Active").OrderBy(a => a.BatchNo).ToList();
         }
         public IEnumerable<Batch> GetPassedBatches(int programId)
         {
             return context.Batches.Where(b => b.ProgramId == programId && b.BatchStatus == "Passed").OrderByDescending(a => a.BatchNo).ToList();
         }
-        public Batch GetBatchById(int programId, int batchId)
+        
+        // Get current students of a batch
+        public IEnumerable<Student> GetCurrentStudentsOfBatch(int batchId)
         {
-            return context.Batches.Find(programId, batchId);
+            return context.Students.Where(s => s.BatchIdCurrent == batchId).OrderBy(b => b.CurrentRoll).ToList();
+        }
+        public Batch GetBatchById(int batchId)
+        {
+            return context.Batches.Find(batchId);
+        }
+
+        public Batch GetBatchByBatchNo(int programId, int batchNo)
+        {
+            return context.Batches.Where(b => b.ProgramId == programId && b.BatchNo == batchNo).FirstOrDefault();
+        }
+
+        public Batch GetPreviousBatch(int programId)
+        {
+            return context.Batches.Where(b => b.ProgramId == programId).OrderByDescending(a => a.BatchNo).FirstOrDefault();
         }
         public void CreateBatch(Batch batch)
         {

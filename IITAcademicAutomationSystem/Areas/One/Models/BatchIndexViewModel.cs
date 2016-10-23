@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace IITAcademicAutomationSystem.Models
+namespace IITAcademicAutomationSystem.Areas.One.Models
 {
-    public class Batch
+    public class BatchIndexViewModel
     {
         public int Id { get; set; }
         public int ProgramId { get; set; }
+        public string ProgramName { get; set; }
         public int BatchNo { get; set; }
-        public int SemesterIdCurrent { get; set; }
-        public string BatchStatus { get; set; }
     }
 }

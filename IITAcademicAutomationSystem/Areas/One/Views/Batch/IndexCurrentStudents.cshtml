@@ -1,0 +1,83 @@
+﻿@model IITAcademicAutomationSystem.Areas.One.Models.BatchCurrentStudentsViewModel
+
+@{
+    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo + " - Current Students";
+}
+
+<section class="content-header">
+    <h1>
+        @Model.ProgramName @Model.BatchNo <small>Current Students</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li><a href="#">@Model.ProgramName</a></li>
+        <li>
+            @Html.ActionLink("Batches", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName + " " + Model.BatchNo, "Details", "Batch", new { area = "One", id = Model.BatchIdCurrent }, null)
+        </li>
+        <li class="active">Current Students</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title pull-right">
+                        @Html.ActionLink("Create batch", "Create", "Batch", new { area = "One", programId = ViewBag.ProgramId }, null) |
+                        @Html.ActionLink("View previous batches", "IndexPassed", "Batch", new { area = "One", programId = ViewBag.ProgramId }, null)
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <table id="batchCurrentStudents" class="table table-responsive table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Roll
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CurrentStudents)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.CurrentRoll, "Details", "Student", new { area = "One", id = item.StudentId }, null)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink(item.FullName, "Details", "Student", new { area = "One", id = item.StudentId }, null)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/datatable")
+    <script>
+        $(function () {
+            $("#batchCurrentStudents").DataTable({
+                "paging": false,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true
+            });
+        });
+    </script>
+}
+
+

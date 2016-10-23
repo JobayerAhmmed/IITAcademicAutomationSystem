@@ -1,5 +1,6 @@
 ﻿using IITAcademicAutomationSystem.Areas.One.Models;
 using IITAcademicAutomationSystem.DAL;
+using IITAcademicAutomationSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

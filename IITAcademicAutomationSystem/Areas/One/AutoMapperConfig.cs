@@ -14,10 +14,17 @@ namespace IITAcademicAutomationSystem.Areas.One
         public static void RegisterMappings()
         {
             MapperConfiguration = new MapperConfiguration(cfg => {
+
+                // Course
                 cfg.CreateMap<Course, CourseCreateViewModel>().ReverseMap();
                 cfg.CreateMap<Course, CourseEditViewModel>().ReverseMap();
                 cfg.CreateMap<Course, CourseIndexViewModel>();
                 cfg.CreateMap<Course, CourseDetailsViewModel>();
+
+                // Batch
+                cfg.CreateMap<Batch, BatchCreateViewModel>();
+                cfg.CreateMap<Batch, BatchIndexViewModel>();
+
             });
         }
     }

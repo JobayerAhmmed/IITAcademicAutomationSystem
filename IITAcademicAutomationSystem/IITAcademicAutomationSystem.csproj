@@ -204,18 +204,31 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\One\AutoMapperConfig.cs" />
+    <Compile Include="Areas\One\Controllers\BatchController.cs" />
     <Compile Include="Areas\One\FoolproofCustomValidations.cs" />
+    <Compile Include="Areas\One\Models\BatchCreateViewModel.cs" />
+    <Compile Include="Areas\One\Models\BatchCurrentStudentsViewModel.cs" />
+    <Compile Include="Areas\One\Models\BatchDetailsViewModel.cs" />
+    <Compile Include="Areas\One\Models\BatchIndexViewModel.cs" />
     <Compile Include="Areas\One\Models\CourseDetailsViewModel.cs" />
     <Compile Include="Areas\One\Models\CourseEditViewModel.cs" />
     <Compile Include="Areas\One\Models\CourseIndexViewModel.cs" />
     <Compile Include="Areas\One\Repositories\BatchRepository.cs" />
+    <Compile Include="Areas\One\Repositories\StudentRepository.cs" />
+    <Compile Include="Areas\One\Repositories\UserRepository.cs" />
     <Compile Include="Areas\One\Services\BatchService.cs" />
     <Compile Include="Areas\One\Services\ProgramService.cs" />
+    <Compile Include="Areas\One\Services\StudentService.cs" />
+    <Compile Include="Areas\One\Services\UserService.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Areas\One\Controllers\CourseController.cs" />
     <Compile Include="Areas\One\Controllers\ProgramController.cs" />
     <Compile Include="Areas\One\Models\CourseCreateViewModel.cs" />
-    <Compile Include="Areas\One\Models\SideMenuViewModel.cs" />
+    <Compile Include="Migrations\201610230616549_BatchNoStringToInt.cs" />
+    <Compile Include="Migrations\201610230616549_BatchNoStringToInt.Designer.cs">
+      <DependentUpon>201610230616549_BatchNoStringToInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SideMenuViewModel.cs" />
     <Compile Include="Areas\One\Repositories\CourseRepository.cs" />
     <Compile Include="Areas\One\Repositories\ProgramRepository.cs" />
     <Compile Include="Areas\One\Services\CourseService.cs" />
@@ -320,6 +333,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Areas\One\Views\Batch\Create.cshtml" />
+    <Content Include="Areas\One\Views\Batch\CreateConfirmed.cshtml" />
+    <Content Include="Areas\One\Views\Batch\Index.cshtml" />
+    <Content Include="Areas\One\Views\Batch\IndexPassed.cshtml" />
+    <Content Include="Areas\One\Views\Batch\Details.cshtml" />
+    <Content Include="Areas\One\Views\Batch\IndexCurrentStudents.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -423,6 +442,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610150729147_IsDeleteRemovedProgramModel.resx">
       <DependentUpon>201610150729147_IsDeleteRemovedProgramModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610230616549_BatchNoStringToInt.resx">
+      <DependentUpon>201610230616549_BatchNoStringToInt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

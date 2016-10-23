@@ -55,7 +55,7 @@ namespace IITAcademicAutomationSystem.DAL
             {
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id,
-                    BatchNo = "BSSE01",
+                    BatchNo = 1,
                     SemesterIdCurrent = semesters.Single(s => 
                         s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id && 
                         s.SemesterNo == "Semester 1").Id,
@@ -63,7 +63,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id,
-                    BatchNo = "BSSE02",
+                    BatchNo = 2,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -71,7 +71,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id,
-                    BatchNo = "BSSE03",
+                    BatchNo = 3,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -79,7 +79,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id,
-                    BatchNo = "BSSE04",
+                    BatchNo = 4,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -87,7 +87,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id,
-                    BatchNo = "BSSE05",
+                    BatchNo = 5,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -95,7 +95,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "MSSE").Id,
-                    BatchNo = "MSSE01",
+                    BatchNo = 1,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -103,7 +103,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "MSSE").Id,
-                    BatchNo = "MSSE02",
+                    BatchNo = 2,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -111,7 +111,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "MSSE").Id,
-                    BatchNo = "MSSE03",
+                    BatchNo = 3,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -119,7 +119,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "PGDIT").Id,
-                    BatchNo = "PGD01",
+                    BatchNo = 1,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -127,7 +127,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "PGDIT").Id,
-                    BatchNo = "PGD02",
+                    BatchNo = 2,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -135,7 +135,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "PGDIT").Id,
-                    BatchNo = "PGD03",
+                    BatchNo = 3,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -143,7 +143,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "MIT").Id,
-                    BatchNo = "MIT01",
+                    BatchNo = 1,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MIT").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -151,7 +151,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "MIT").Id,
-                    BatchNo = "MIT02",
+                    BatchNo = 2,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MIT").Id &&
                         s.SemesterNo == "Semester 1").Id,
@@ -159,7 +159,7 @@ namespace IITAcademicAutomationSystem.DAL
                 },
                 new Batch {
                     ProgramId = programs.Single(s => s.ProgramName == "MIT").Id,
-                    BatchNo = "MIT03",
+                    BatchNo = 3,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MIT").Id &&
                         s.SemesterNo == "Semester 1").Id,

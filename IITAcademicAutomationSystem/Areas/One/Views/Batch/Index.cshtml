@@ -1,19 +1,19 @@
-﻿@model IEnumerable<IITAcademicAutomationSystem.Areas.One.Models.CourseIndexViewModel>
+﻿@model IEnumerable<IITAcademicAutomationSystem.Areas.One.Models.BatchIndexViewModel>
 
 @{
-    ViewBag.Title = ViewBag.ProgramName + " Course List";
+    ViewBag.Title = ViewBag.ProgramName + " Batch List";
 }
 
 <section class="content-header">
     <h1>
-        @ViewBag.ProgramName Course List
+        @ViewBag.ProgramName Batch List
     </h1>
     <ol class="breadcrumb">
         <li>
             @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li><a href="#">@ViewBag.ProgramName</a></li>
-        <li class="active">Courses</li>
+        <li class="active">Batches</li>
     </ol>
 </section>
 <section class="content">
@@ -22,19 +22,16 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title pull-right">
-                        @Html.ActionLink("Create course", "Create", "Course", new { area = "One", programId = ViewBag.ProgramId }, null) 
-                        @*@Html.ActionLink("View deleted courses", "IndexDeleted")*@
+                        @Html.ActionLink("Create batch", "Create", "Batch", new { area = "One", programId = ViewBag.ProgramId }, null) | 
+                        @Html.ActionLink("View previous batches", "IndexPassed", "Batch", new { area = "One", programId = ViewBag.ProgramId }, null)
                     </h3>
                 </div>
                 <div class="box-body">
-                    <table id="courseIndex" class="table table-responsive table-bordered table-hover">
+                    <table id="batchIndex" class="table table-responsive table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>
-                                    Course code
-                                </th>
-                                <th>
-                                    Course title
+                                    Batches
                                 </th>
                             </tr>
                         </thead>
@@ -43,10 +40,7 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.ActionLink(item.CourseCode, "Details", "Course", new { area = "One", id = item.Id, programId = item.ProgramId }, null)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink(item.CourseTitle, "Details", "Course", new { area = "One", id = item.Id, programId = item.ProgramId }, null)
+                                        @Html.ActionLink(item.ProgramName + " " + item.BatchNo, "Details", "Batch", new { area = "One", id = item.Id }, null)
                                     </td>
                                 </tr>
                             }
@@ -62,12 +56,12 @@
     @Scripts.Render("~/datatable")
     <script>
         $(function () {
-            $("#courseIndex").DataTable({
-                "paging": true,
+            $("#batchIndex").DataTable({
+                "paging": false,
                 "lengthChange": false,
-                "searching": true,
-                "ordering": true,
-                "info": true,
+                "searching": false,
+                "ordering": false,
+                "info": false,
                 "autoWidth": true
             });
         });

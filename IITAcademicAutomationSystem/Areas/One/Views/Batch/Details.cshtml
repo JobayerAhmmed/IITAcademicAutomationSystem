@@ -1,0 +1,98 @@
+﻿@model IITAcademicAutomationSystem.Areas.One.Models.BatchDetailsViewModel
+
+@{
+    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo;
+}
+
+<section class="content-header">
+    <h1>
+        @Model.ProgramName @Model.BatchNo
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li><a href="#">@Model.ProgramName</a></li>
+        <li>
+            @Html.ActionLink("Batches", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li class="active">@Model.ProgramName @Model.BatchNo</li>
+    </ol>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-one-aqua">
+                <div class="inner">
+                    <h3>@Model.CurrentStudent</h3>
+                    <p>Current students</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios-people-outline"></i>
+                </div>
+                <a href='@Url.Action("IndexCurrentStudents", "Batch", new { area = "One", batchId = Model.Id })' class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-teal">
+                <div class="inner">
+                    <h3>@Model.AdmittedStudent</h3>
+                    <p>Admitted students</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios-people-outline"></i>
+                </div>
+                <a href="#" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>@Model.CurrentSemesterNo</h3>
+                    <p>Current semester</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios-gear-outline"></i>
+                </div>
+                <a href="#" class="small-box-footer">Update <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            @if (Model.Status == "Active")
+            {
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>@Model.Status</h3>
+                        <p>Batch status</p>
+                    </div>
+                    <div class="icon">
+                            <i class="ion ion-checkmark"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">Update <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            }
+            else
+            {
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>@Model.Status</h3>
+                        <p>Batch status</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-close"></i>
+                    </div>
+                    <span class="small-box-footer">&nbsp;</span>
+                </div>
+            }
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="text-center">
+                @Html.ActionLink("Back to batches", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, new { @class = "btn btn-primary btn-flat btn-lg" })
+            </div>
+        </div>
+    </div>
+</section>
