@@ -14,7 +14,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Models
         public int CurrentStudent { get; set; }
         public int AdmittedStudent { get; set; }
         public int SemesterIdCurrent { get; set; }
-        public int CurrentSemesterNo { get; set; }
+        public string CurrentSemesterNo { get; set; }
         public string Status { get; set; }
     }
 }

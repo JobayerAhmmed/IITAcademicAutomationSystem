@@ -1,12 +1,12 @@
 ﻿@model IITAcademicAutomationSystem.Areas.One.Models.BatchStudentsViewModel
 
 @{
-    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo + " - Current Students";
+    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo + " - Admitted Students";
 }
 
 <section class="content-header">
     <h1>
-        @Model.ProgramName @Model.BatchNo <small>Current Students</small>
+        @Model.ProgramName @Model.BatchNo <small>Admitted Students</small>
     </h1>
     <ol class="breadcrumb">
         <li>
@@ -19,7 +19,7 @@
         <li>
             @Html.ActionLink(Model.ProgramName + " " + Model.BatchNo, "Details", "Batch", new { area = "One", id = Model.BatchId }, null)
         </li>
-        <li class="active">Current Students</li>
+        <li class="active">Admitted Students</li>
     </ol>
 </section>
 <section class="content">

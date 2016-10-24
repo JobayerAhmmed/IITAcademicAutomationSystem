@@ -8,26 +8,25 @@ using System.Web.Mvc;
 
 namespace IITAcademicAutomationSystem.Areas.One.Services
 {
-    public interface IUserService
+    public interface ISemesterService
     {
-        ApplicationUser ViewUser(string id);
+        Semester ViewSemester(int id);
         void Dispose();
     }
-    public class UserService : IUserService
+    public class SemesterService : ISemesterService
     {
         private ModelStateDictionary modelState;
         public UnitOfWork unitOfWork;
-
-        public UserService(ModelStateDictionary modelState, UnitOfWork unitOfWork)
+        public SemesterService(ModelStateDictionary modelState, UnitOfWork unitOfWork)
         {
             this.modelState = modelState;
             this.unitOfWork = unitOfWork;
         }
 
-        // View User
-        public ApplicationUser ViewUser(string id)
+        // View Semester
+        public Semester ViewSemester(int id)
         {
-            return unitOfWork.UserRepository.GetUserById(id);
+            return unitOfWork.SemesterRepository.GetSemesterById(id);
         }
 
 

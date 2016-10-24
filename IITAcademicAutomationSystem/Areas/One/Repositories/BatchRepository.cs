@@ -13,6 +13,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         IEnumerable<Batch> GetActiveBatches(int programId);
         IEnumerable<Batch> GetPassedBatches(int programId);
         IEnumerable<Student> GetCurrentStudentsOfBatch(int batchId);
+        IEnumerable<Student> GetAdmittedStudentsOfBatch(int batchId);
         Batch GetBatchById(int batchId);
         Batch GetBatchByBatchNo(int programId, int batchNo);
         Batch GetPreviousBatch(int programId);
@@ -38,6 +39,12 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         public IEnumerable<Student> GetCurrentStudentsOfBatch(int batchId)
         {
             return context.Students.Where(s => s.BatchIdCurrent == batchId).OrderBy(b => b.CurrentRoll).ToList();
+        }
+
+        // Get admitted students of a batch
+        public IEnumerable<Student> GetAdmittedStudentsOfBatch(int batchId)
+        {
+            return context.Students.Where(s => s.BatchIdOriginal == batchId).OrderBy(b => b.CurrentRoll).ToList();
         }
         public Batch GetBatchById(int batchId)
         {

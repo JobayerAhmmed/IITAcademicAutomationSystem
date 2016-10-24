@@ -15,9 +15,9 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         IEnumerable<Batch> ViewActiveBatches(int programId);
         IEnumerable<Batch> ViewPassedBatches(int programId);
         IEnumerable<Student> ViewCurrentStudentsOfBatch(int batchId);
+        IEnumerable<Student> ViewAdmittedStudentsOfBatch(int batchId);
         Batch ViewBatch(int id);
         Batch GetPreviousBatch(int programId);
-        Program GetProgramById(int programId);
         bool BatchExist(int batchNo, int programId);
         void Dispose();
     }
@@ -74,6 +74,12 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             return unitOfWork.BatchRepository.GetCurrentStudentsOfBatch(batchId);
         }
 
+        // View admitted students
+        public IEnumerable<Student> ViewAdmittedStudentsOfBatch(int batchId)
+        {
+            return unitOfWork.BatchRepository.GetAdmittedStudentsOfBatch(batchId);
+        }
+
         // Get previous batch
         public Batch GetPreviousBatch(int programId)
         {
@@ -85,12 +91,6 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         {
 
             return modelState.IsValid;
-        }
-
-        // Get program
-        public Program GetProgramById(int programId)
-        {
-            return unitOfWork.ProgramRepository.GetProgramById(programId);
         }
 
         // Batch Exist

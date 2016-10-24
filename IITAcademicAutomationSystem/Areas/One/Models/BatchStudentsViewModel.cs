@@ -5,22 +5,22 @@ using System.Web;
 
 namespace IITAcademicAutomationSystem.Areas.One.Models
 {
-    public class BatchCurrentStudentsViewModel
+    public class BatchStudentsViewModel
     {
         public int ProgramId { get; set; }
         public string ProgramName { get; set; }
-        public int BatchIdCurrent { get; set; }
+        public int BatchId { get; set; }
         public int BatchNo { get; set; }
-        public IEnumerable<BatchCurrentStudent> CurrentStudents { get; set; }
+        public IEnumerable<BatchStudent> Students { get; set; }
         
     }
 
-    public class BatchCurrentStudent
+    public class BatchStudent
     {
         public int StudentId { get; set; }
         public string UserId { get; set; }
         public int SemesterIdCurrent { get; set; }
-        public string CurrentRoll { get; set; }
+        public string Roll { get; set; }
         public string FullName { get; set; }
     }
 }

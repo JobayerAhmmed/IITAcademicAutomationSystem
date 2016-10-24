@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.ModelBinding;
+using System.Web.Mvc;
 
 namespace IITAcademicAutomationSystem.Areas.One.Services
 {
     public interface IProgramService
     {
-        Program GetProgramById(int id);
+        Program ViewProgram(int id);
     }
     public class ProgramService : IProgramService
     {
@@ -22,7 +22,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public Program GetProgramById(int id)
+        public Program ViewProgram(int id)
         {
             return unitOfWork.ProgramRepository.GetProgramById(id);
         }
