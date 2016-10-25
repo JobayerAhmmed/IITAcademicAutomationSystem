@@ -10,7 +10,11 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
 {
     public interface IUserService
     {
-        ApplicationUser ViewUser(string id);
+        ApplicationUser ViewUser(string userId);
+        bool CreateUser(ApplicationUser user);
+        bool UpdateUser(ApplicationUser user);
+        bool DeleteUser(string userId);
+        bool UserExist(string email);
         void Dispose();
     }
     public class UserService : IUserService
@@ -23,13 +27,39 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             this.modelState = modelState;
             this.unitOfWork = unitOfWork;
         }
-
+    
         // View User
-        public ApplicationUser ViewUser(string id)
+        public ApplicationUser ViewUser(string userId)
         {
-            return unitOfWork.UserRepository.GetUserById(id);
+            return unitOfWork.UserRepository.GetUserById(userId);
         }
 
+        // Create
+        public bool CreateUser(ApplicationUser user)
+        {
+            return true;
+        }
+
+        // Update
+        public bool UpdateUser(ApplicationUser user)
+        {
+            return true;
+        }
+
+        // Delete
+        public bool DeleteUser(string userId)
+        {
+            return true;
+        }
+
+        // User exist
+        public bool UserExist(string email)
+        {
+            ApplicationUser user = unitOfWork.UserRepository.GetUserByUsername(email);
+            if (user == null)
+                return false;
+            return true;
+        }
 
         public void Dispose()
         {

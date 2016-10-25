@@ -12,6 +12,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using IITAcademicAutomationSystem.Models;
 using IITAcademicAutomationSystem.DAL;
+using System.Net.Mail;
 
 namespace IITAcademicAutomationSystem
 {
@@ -19,8 +20,16 @@ namespace IITAcademicAutomationSystem
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            MailMessage msg = new MailMessage();
+            msg.To.Add(message.Destination);
+            msg.Subject = message.Subject;
+            msg.Body = message.Body;
+            msg.IsBodyHtml = true;
+
+            SmtpClient smtpClient = new SmtpClient();
+            return smtpClient.SendMailAsync(msg);
+            
+            //return Task.FromResult(0);
         }
     }
 
@@ -33,7 +42,6 @@ namespace IITAcademicAutomationSystem
         }
     }
 
-    // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
@@ -55,10 +63,10 @@ namespace IITAcademicAutomationSystem
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults
@@ -83,7 +91,12 @@ namespace IITAcademicAutomationSystem
             if (dataProtectionProvider != null)
             {
                 manager.UserTokenProvider = 
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                    new DataProtectorTokenProvider<ApplicationUser>
+                        (dataProtectionProvider.Create("ASP.NET Identity"))
+                    {
+                        // the forgotten password and the email confirmation tokens will expire in 12 hours
+                        TokenLifespan = TimeSpan.FromHours(12)
+                    };
             }
             return manager;
         }

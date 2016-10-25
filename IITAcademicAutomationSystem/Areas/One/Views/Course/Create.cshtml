@@ -25,7 +25,7 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-8">
-            <div class="box box-default">
+            <div class="box box-primary">
                 @using (Html.BeginForm())
                 {
                     <div class="box-body with-border">
@@ -64,7 +64,7 @@
                                     @Html.LabelFor(model => model.CourseCredit, "Course credit", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.EditorFor(model => model.CourseCredit, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.TextBoxFor(model => model.CourseCredit, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.CourseCredit, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                     @Html.LabelFor(model => model.CreditTheory, "Credit theory", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.EditorFor(model => model.CreditTheory, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.TextBoxFor(model => model.CreditTheory, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.CreditTheory, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -88,7 +88,7 @@
                                     @Html.LabelFor(model => model.CreditLab, "Credit lab", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.EditorFor(model => model.CreditLab, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.TextBoxFor(model => model.CreditLab, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.CreditLab, "", new { @class = "text-danger" })
                                 </div>
                             </div>

@@ -9,3 +9,6 @@
     font-size: 12px;
     color: #DADADA;
 }
+.validation-errors ul {
+    list-style-type: square;
+}

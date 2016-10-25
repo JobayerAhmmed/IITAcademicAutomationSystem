@@ -22,8 +22,7 @@
         </span>
     </div>
 </form>
-<!-- /.search form -->
-<!-- Sidebar Menu -->
+
 <ul class="sidebar-menu">
     <li class="header">PROGRAMS</li>
     <!-- Optionally, you can add icons to the links -->
@@ -91,5 +90,10 @@
             </li>
         </ul>
     </li>
+    <li class="header">USER</li>
+    <li>@Html.ActionLink("Create user", "Register", "Account",  new { area = "" }, null)</li>
+    <li>
+        @Html.ActionLink("Log in", "Login", "Account", new { are = "" }, new { id = "loginLink" })
+    </li>
 </ul>
-<!-- /.sidebar-menu -->
+

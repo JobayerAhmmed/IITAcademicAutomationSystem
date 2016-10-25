@@ -9,6 +9,21 @@
   background-color:#499FC8 !important;
   color: #fff;
 }
+.login{
+    max-width: 380px;
+    padding: 30px 10px 40px;
+    margin: 0 auto;
+}
+.login-form{
+    border-radius: 0;
+    border: 1px solid transparent;
+    border-color: lightgray;
+}
+.login-heading{
+    font-size: 1.8em;
+    text-align: center;
+    border-radius: 0;
+}
 @media (max-width: 767px) 
 {
     .edit {

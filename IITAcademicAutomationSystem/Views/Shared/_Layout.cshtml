@@ -1,5 +1,4 @@
 ﻿<!DOCTYPE html>
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -23,7 +22,6 @@
 
 <body class="hold-transition skin-blue fixed sidebar-mini">
     <div class="wrapper">
-        <!-- Main Header -->
         <header class="main-header">
             <!-- Logo -->
             <a href="index2.html" class="logo">
@@ -190,30 +188,18 @@
                 </div>
             </nav>
         </header>
-        <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
-            <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
                 @Html.Action("SideMenu", "Base", new { area = "" })
             </section>
-            <!-- /.sidebar -->
         </aside>
 
-        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             @RenderBody()
         </div>
-        <!-- /.content-wrapper -->
-        <!-- Main Footer -->
         <footer class="main-footer  text-center">
-            <!-- To the right -->
-            @*<div class="pull-right hidden-xs">
-                Anything you want
-            </div>*@
-            <!-- Default to the left -->
             <strong>2016 &copy; IIT.</strong> Developed by Jobayer Ahmmed, Shahriar Mohammed Ishmam.
         </footer>
-        <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Create the tabs -->
             <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
@@ -278,33 +264,13 @@
                 <!-- /.tab-pane -->
             </div>
         </aside>
-        <!-- /.control-sidebar -->
-        <!-- Add the sidebar's background. This div must be placed
-             immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div>
-    <!-- ./wrapper -->
 
     @Scripts.Render("~/jquery")
     @Scripts.Render("~/bootstrap")
     @RenderSection("scripts", required: false)
-    @Scripts.Render("~/admin")
-
-    @*<script src="@Url.Content("~/Content/plugins/jQuery/jquery-2.2.3.min.js")"></script>
-    <!-- Bootstrap 3.3.6 -->
-    <script src="@Url.Content("~/Content/bootstrap/js/bootstrap.min.js")"></script>
-    <!-- DataTables -->
-    <script src="@Url.Content("~/Content/plugins/datatables/jquery.dataTables.js")"></script>
-    <script src="@Url.Content("~/Content/plugins/datatables/dataTables.bootstrap.js")"></script>
-    <!-- SlimScroll -->
-    <script src="@Url.Content("~/Content/plugins/slimScroll/jquery.slimscroll.min.js")"></script>
-    <!-- FastClick -->
-    <script src="@Url.Content("~/Content/plugins/fastclick/fastclick.min.js")"></script>
-
-    <!-- AdminLTE App -->
-    <script src="@Url.Content("~/Content/dist/js/app.js")"></script>*@
-    <!-- page script -->
-    
+    @Scripts.Render("~/admin")  
     
 </body>
 </html>
