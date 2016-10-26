@@ -149,6 +149,14 @@ namespace IITAcademicAutomationSystem.Controllers
             return View(model);
         }
 
+        // User exist
+        public JsonResult UserExist(string Email)
+        {
+            if (!userService.UserExist(Email))
+                return Json(true, JsonRequestBehavior.AllowGet);
+            return Json(false, JsonRequestBehavior.AllowGet);
+        }
+
         // ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -250,14 +258,6 @@ namespace IITAcademicAutomationSystem.Controllers
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
-        }
-
-        // User exist
-        public JsonResult UserExist(string Email)
-        {
-            if (!userService.UserExist(Email))
-                return Json(true, JsonRequestBehavior.AllowGet);
-            return Json(false, JsonRequestBehavior.AllowGet);
         }
 
         //

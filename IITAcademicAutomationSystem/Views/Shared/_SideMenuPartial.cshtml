@@ -93,7 +93,10 @@
     <li class="header">USER</li>
     <li>@Html.ActionLink("Create user", "Register", "Account",  new { area = "" }, null)</li>
     <li>
-        @Html.ActionLink("Log in", "Login", "Account", new { are = "" }, new { id = "loginLink" })
+        @Html.ActionLink("Log in", "Login", "Account", new { area = "" }, new { id = "loginLink" })
+    </li>
+    <li>
+        @Html.ActionLink("View Profile", "ViewProfile", "Manage", new { area = "" }, null)
     </li>
 </ul>
 
