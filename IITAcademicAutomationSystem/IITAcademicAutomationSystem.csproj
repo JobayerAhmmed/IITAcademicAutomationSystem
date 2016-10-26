@@ -402,7 +402,6 @@
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\ResetPasswordFailed.cshtml" />
     <Content Include="Views\Account\ForgotPasswordFailed.cshtml" />
-    <Content Include="Views\Manage\ViewProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
