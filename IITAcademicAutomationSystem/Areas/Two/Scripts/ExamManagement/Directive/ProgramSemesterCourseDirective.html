@@ -1,0 +1,25 @@
+<div>
+    <div >
+        <div>Select Program : </div>
+        <div>
+            <select class="form-control" ng-change="whenProgramIsSelected()" ng-model="selected.program" ng-options="program as program.name for program in selection.programs">
+            </select>
+        </div>
+    </div>
+    <div ng-show="selected.program.name">
+        <div>Select Semester : </div>
+        <div >
+            <select class="form-control"  ng-change="whenSemesterIsSelected()" ng-model="selected.semester" ng-options="semester as semester.name for semester in selection.semesters">
+            </select>
+        </div>
+    </div>
+
+
+    <div ng-show="selected.program.name && selected.semester.name">
+        <div>Select Course : </div>
+        <div >
+            <select class="form-control"  ng-change="whenCourseIsSelected()" ng-model="selected.course" ng-options="course as course.name for course in selection.courses">
+            </select>
+        </div>
+    </div>
+</div>

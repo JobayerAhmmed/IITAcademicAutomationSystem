@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "View GivenMarks";
+}
+<script src='~/Areas/Two/Library/angular.min.js'></script>
+
+<script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Module/ExaminationManagement.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Controllers/ViewGivenMarks_s.Controller.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Factory/Result.Factory.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/Utility/Factory/Utility.Factory.js" type="text/javascript"></script>
+
+<div class="container-fluid">
+    <div>
+        <div ng-app="examinationManagement_module" ng-controller="viewGivenMarks_controller">
+            <div ng-cloak>
+                <div>
+                    <div ng-if="message.content!=''">
+                        <div class="{{message.color}}">{{message.content}}</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <div>
+                                    <div><b>Course</b></div>
+                                    <div>
+                                        <select class="form-control" ng-change="whenCourseIsSelected()" ng-model="selected.course" ng-options="course as course.name for course in selection.courses"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div ng-show="selected.course.name && selection.marksInfo.heads">
+                    <div>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Class Roll</th>
+                                    <th>Exam Roll</th>
+                                    <th ng-repeat=" head in selection.marksInfo.subHeads">
+                                        {{head.headName}}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th ng-repeat="subHead in selection.marksInfo.subHeads">{{subHead.name+" - "}}{{subHead.examMarks}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="student in selection.marksInfo.marksOfStudents">
+                                    <td>{{student.studentName}}</td>
+                                    <td>{{student.classRoll}}</td>
+                                    <td>{{student.examRoll}}</td>
+                                    <td ng-repeat="marks in student.marksOfAllSubHeads">{{marks.marks}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

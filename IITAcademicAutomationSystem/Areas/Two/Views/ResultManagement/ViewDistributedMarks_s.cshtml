@@ -1,0 +1,67 @@
+﻿<script src='~/Areas/Two/Library/angular.min.js'></script>
+
+<script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Module/ExaminationManagement.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Controllers/ViewMarksDistribution_student.controller.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/Utility/Factory/Utility.Factory.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Factory/Result.Factory.js" type="text/javascript"></script>
+
+<div class="container-fluid">
+    <div>
+        <div ng-app="examinationManagement_module" ng-controller="viewMarksDistribution_controller">
+            <div ng-cloak>
+                <div>
+                    <div ng-if="message.content!=''">
+                        <div class="{{message.color}}">{{message.content}}</div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-12">                                    
+                                <div class="col-sm-4">
+                                    <div><b>Course</b></div>
+                                    <div>
+                                        <select class="form-control" ng-change="whenCourseIsSelected()" ng-model="selected.course" ng-options="course as course.name for course in selection.courses"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div>
+                            <div ng-show="selected.course.name">
+                                <div>
+                                    <div ng-if="flag.isMarksAlreadyDistributed===false">
+                                        <h3>Marks is Not Distributed Yet</h3>
+                                    </div>
+                                    <div ng-if="flag.isMarksAlreadyDistributed===true">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Head</th>
+                                                        <th>Weight</th>
+                                                        <th>Avarage/Best Count</th>
+                                                        <th>Can Student See?</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="distributedMarks in selection.headDistribution">
+                                                        <td>{{distributedMarks.head.name}}</td>
+                                                        <td>{{distributedMarks.weight}}</td>
+                                                        <td>{{distributedMarks.avarageOrBestCount}}</td>
+                                                        <td>{{distributedMarks.isVisibleToStudent}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

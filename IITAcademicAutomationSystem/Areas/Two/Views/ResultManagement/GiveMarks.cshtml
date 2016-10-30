@@ -1,0 +1,137 @@
+﻿<script src='~/Areas/Two/Library/angular.min.js'></script>
+
+<script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Module/ExaminationManagement.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Controllers/GiveMarks.Controller.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Factory/Result.Factory.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/Utility/Factory/Utility.Factory.js" type="text/javascript"></script>
+    
+<div class="container-fluid">
+    <div>
+        <div ng-app="examinationManagement_module" ng-controller="giveMarks_controller">
+            <div ng-cloak>
+                {{selected}}
+                ....
+                <br/>
+                .....
+                {{selection}}
+                <div>
+                    <div>
+                        <div class="row">
+                            <div ng-if="message.content!=''">
+                                <div class="{{message.color}}">{{message.content}}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div>
+                                        <div>
+                                            <div class="col-sm-2">
+                                                <div><b>Program</b>
+                                                </div>
+                                                <div>
+                                                    <select class="form-control" ng-change="whenProgramIsSelected()" ng-model="selected.program" ng-options="program as program.name for program in selection.programs"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div ng-show="selected.program.name">
+                                                    <div><b>Semester</b>
+                                                    </div>
+                                                    <div>
+                                                        <select class="form-control" ng-change="whenSemesterIsSelected()" ng-model="selected.semester" ng-options="semester as semester.name for semester in selection.semesters"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div ng-show="selected.program.name && selected.semester.name">
+                                                    <div><b>Course</b>
+                                                    </div>
+                                                    <div>
+                                                        <select class="form-control" ng-change="whenCourseIsSelected()" ng-model="selected.course" ng-options="course as course.name for course in selection.courses"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div ng-show="selected.program.id && selected.semester.id && selected.batch.id && selected.course.id">
+                                                    <div ng-show="selection.distributedMarks.length!=0">
+                                                        <div><b>Head</b>
+                                                        </div>
+                                                        <div>
+                                                            <select class="form-control" ng-change="whenHeadIsSelected()" ng-model="selected.distributedMarks" ng-options="mark as mark.head.name for mark in selection.distributedMarks"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div ng-show="selected.program.name && selected.semester.name && selected.course.name && selected.distributedMarks.id">
+                                                    <div><b>Sub-Head</b>
+                                                    </div>
+                                                    <div>
+                                                        <select class="form-control" ng-change="whenSubHeadIsSelected()" ng-model="selected.subHead" ng-options="subHead as subHead.name for subHead in selection.subHeads"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div ng-show="selected.program.name && selected.semester.name && selected.course.name">
+                                <div ng-if="flag.isMarksAlreadyDistributed==false">
+                                    <h3>Marks Are Not Distributed Yet</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-if="flag.isMarksAlreadyDistributed==true">
+                            <div ng-show="selected.program.name && selected.semester.name && selected.course.name && selected.distributedMarks.id && selected.subHead.name">
+                                <div>
+                                    <div ng-if="flag.isMarksGiven==true">
+                                        <h3>Marks Is Already Given</h3>
+                                    </div>
+                                </div>
+                                <div ng-if="flag.isMarksGiven==false">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-4">
+                                                <div><b>Examination Marks</b>
+                                                </div>
+                                                <div>
+                                                    <input type="number" class="form-control" placeholder="Examination Marks" ng-model="selected.marks.examMarks" min="0" max="1000">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>Roll</th>
+                                                <th>Name</th>
+                                                <th>Obtained Marks</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="student in selection.students">
+                                                <td>{{student.classRoll}}</td>
+                                                <td>{{student.name}}</td>
+                                                <td><input type="number" class="form-control" ng-disabled="!selected.marks.examMarks" ng-model="selected.marks.obtainedMarks[$index].marksIndividual" ng-change="whenMarksAreGiven()" min="0" max="{{selected.marks.examMarks}}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="control-label col-sm-2">
+                                        <input type="button" class="btn btn-primary" value="Save" ng-disabled="flag.disableSaveButton" ng-click="save()">
+                                        <input type="button" class="btn btn-primary" value="Cancel" ng-click="cancel()">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
