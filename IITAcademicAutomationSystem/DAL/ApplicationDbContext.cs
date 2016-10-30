@@ -26,6 +26,13 @@ namespace IITAcademicAutomationSystem.DAL
         public DbSet<CourseSemester> CourseSemesters { get; set; }
         public DbSet<StudentCourse> StudentCourses { get; set; }
 
+        public DbSet<Marks> Marks { get; set; }
+        public DbSet<MarksDistribution> MarksDistributions { get; set; }
+        public DbSet<MarksHead> MarksHeads { get; set; }
+        public DbSet<MarksSubHead> MarksSubHeads { get; set; }
+        public DbSet<AcademicFile> AcademicFiles { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -53,25 +60,5 @@ namespace IITAcademicAutomationSystem.DAL
             return new ApplicationDbContext();
         }
     }
-    //public class AppContext : DbContext
-    //{
-    //    public AppContext() : base("DefaultConnection")
-    //    {
-
-    //    }
-
-    //    //public DbSet<Student> Students { get; set; }
-    //    public DbSet<Program> Programs { get; set; }
-    //    public DbSet<Semester> Semesters { get; set; }
-    //    public DbSet<Batch> Batches { get; set; }
-    //    public DbSet<Course> Courses { get; set; }
-    //    public DbSet<CourseContent> CourseContents { get; set; }
-    //    public DbSet<CourseSemester> CourseSemesters { get; set; }
-    //    public DbSet<StudentCourse> StudentCourses { get; set; }
-
-    //    protected override void OnModelCreating(DbModelBuilder modelBuilder)
-    //    {
-    //        modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-    //    }
-    //}
+    
 }

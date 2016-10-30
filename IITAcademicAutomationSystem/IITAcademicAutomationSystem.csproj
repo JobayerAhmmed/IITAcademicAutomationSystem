@@ -222,6 +222,60 @@
     <Compile Include="Areas\One\Services\SemesterService.cs" />
     <Compile Include="Areas\One\Services\StudentService.cs" />
     <Compile Include="Areas\One\Services\UserService.cs" />
+    <Compile Include="Areas\Two\Controllers\AcademicCalendarManagementController.cs" />
+    <Compile Include="Areas\Two\Controllers\AttendanceManagementController.cs" />
+    <Compile Include="Areas\Two\Controllers\NoticeManagementController.cs" />
+    <Compile Include="Areas\Two\Controllers\ResultManagementController.cs" />
+    <Compile Include="Areas\Two\Controllers\RoutineManagementController.cs" />
+    <Compile Include="Areas\Two\Controllers\UtilityController.cs" />
+    <Compile Include="Areas\Two\RepoImpl\AcademicFileRepoImpl.cs" />
+    <Compile Include="Areas\Two\RepoImpl\AttendanceRepoImpl.cs" />
+    <Compile Include="Areas\Two\RepoImpl\MarksDistributionRepoImpl.cs" />
+    <Compile Include="Areas\Two\RepoImpl\MarksHeadRepoImpl.cs" />
+    <Compile Include="Areas\Two\RepoImpl\MarksRepoImpl.cs" />
+    <Compile Include="Areas\Two\RepoImpl\MarksSubHeadRepoImpl.cs" />
+    <Compile Include="Areas\Two\RepoImpl\UtilityRepoImpl.cs" />
+    <Compile Include="Areas\Two\Repo\AcademicFileRepoI.cs" />
+    <Compile Include="Areas\Two\Repo\AttendanceRepoI.cs" />
+    <Compile Include="Areas\Two\Repo\MarksDistributionRepoI.cs" />
+    <Compile Include="Areas\Two\Repo\MarksHeadRepoI.cs" />
+    <Compile Include="Areas\Two\Repo\MarksRepoI.cs" />
+    <Compile Include="Areas\Two\Repo\MarksSubHeadRepoI.cs" />
+    <Compile Include="Areas\Two\Repo\UtilityRepoI.cs" />
+    <Compile Include="Areas\Two\RequestDto\AcademicCalendarReqDto.cs" />
+    <Compile Include="Areas\Two\RequestDto\AttendanceReqDto.cs" />
+    <Compile Include="Areas\Two\RequestDto\DistributeMarksFinalReqDto.cs" />
+    <Compile Include="Areas\Two\RequestDto\GiveMarksReqDto.cs" />
+    <Compile Include="Areas\Two\RequestDto\HeadRequestDto.cs" />
+    <Compile Include="Areas\Two\RequestDto\NoticeReqDto.cs" />
+    <Compile Include="Areas\Two\RequestDto\RoutineReqDto.cs" />
+    <Compile Include="Areas\Two\RequestDto\SubHeadRequestDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\AcademicCalendarResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\AttendanceResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\GetBatchesResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\GetCoursesResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\GetDistributedMarksResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\GetInformationOfLoggedInUserResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\GetProgramsResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\GetSemestersResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\GetStudentsResponseDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\HeadResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\MarksResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\NoticeResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\RoutineResDto.cs" />
+    <Compile Include="Areas\Two\ResponseDto\SubHeadResDto.cs" />
+    <Compile Include="Areas\Two\ServiceImpl\AcademicCalendarManagementSerImpl.cs" />
+    <Compile Include="Areas\Two\ServiceImpl\AttendanceManagementSerImpl.cs" />
+    <Compile Include="Areas\Two\ServiceImpl\NoticeManagementSerImpl.cs" />
+    <Compile Include="Areas\Two\ServiceImpl\ResultManagementSerImpl.cs" />
+    <Compile Include="Areas\Two\ServiceImpl\RoutineManagementSerImpl.cs" />
+    <Compile Include="Areas\Two\ServiceImpl\UtilitySerImpl.cs" />
+    <Compile Include="Areas\Two\Service\AcademicCalendarManagementSerI.cs" />
+    <Compile Include="Areas\Two\Service\AttendanceManagementSerI.cs" />
+    <Compile Include="Areas\Two\Service\NoticeManagementSerI.cs" />
+    <Compile Include="Areas\Two\Service\ResultManagementSerI.cs" />
+    <Compile Include="Areas\Two\Service\RoutineManagementSerI.cs" />
+    <Compile Include="Areas\Two\Service\UtilitySerI.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Areas\One\Controllers\CourseController.cs" />
     <Compile Include="Areas\One\Controllers\ProgramController.cs" />
@@ -230,6 +284,16 @@
     <Compile Include="Migrations\201610230616549_BatchNoStringToInt.Designer.cs">
       <DependentUpon>201610230616549_BatchNoStringToInt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610300940507_Integrating_initial.cs" />
+    <Compile Include="Migrations\201610300940507_Integrating_initial.Designer.cs">
+      <DependentUpon>201610300940507_Integrating_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AcademicFile.cs" />
+    <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\Marks.cs" />
+    <Compile Include="Models\MarksDistribution.cs" />
+    <Compile Include="Models\MarksHead.cs" />
+    <Compile Include="Models\MarksSubHead.cs" />
     <Compile Include="Models\SideMenuViewModel.cs" />
     <Compile Include="Areas\One\Repositories\CourseRepository.cs" />
     <Compile Include="Areas\One\Repositories\ProgramRepository.cs" />
@@ -302,6 +366,54 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Two\Library\angular.min.js" />
+    <Content Include="Areas\Two\Library\bootstrap.min.css" />
+    <Content Include="Areas\Two\Library\bootstrap.min.js" />
+    <Content Include="Areas\Two\Library\jquery-2.0.2.min.js" />
+    <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Controller\EditOrDeleteAcademicCalendar.Controller.js" />
+    <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Controller\UploadAcademicCalendar.Controller.js" />
+    <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Controller\ViewOrDownloadAcademicCalendar_s.Controller.js" />
+    <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Controller\ViewOrDownloadAcademicCalendar_tp.Controller.js" />
+    <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Factory\AcademicCalendarManagement.Factory.js" />
+    <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Module\AcademicCalendarManagement.module.js" />
+    <Content Include="Areas\Two\Scripts\AttendanceManagement\Controller\EditAttendence.Controller.js" />
+    <Content Include="Areas\Two\Scripts\AttendanceManagement\Controller\GiveAttendence.Controller.js" />
+    <Content Include="Areas\Two\Scripts\AttendanceManagement\Controller\ViewAttendanceIndividual.Controller.js" />
+    <Content Include="Areas\Two\Scripts\AttendanceManagement\Controller\ViewAttendenceCourseWise.Controller.js" />
+    <Content Include="Areas\Two\Scripts\AttendanceManagement\Factory\AttendanceManagement.Factory.js" />
+    <Content Include="Areas\Two\Scripts\AttendanceManagement\Module\AttendanceManagement.module.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\CreateOrViewHead.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\CreateOrViewSubHead.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\DistributeMarks.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\EditDistributedMarks.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\EditGivenMarks.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\FinalSubmission.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\GiveMarks.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewAllFinalSubmission.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewGivenMarks_s.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewGivenMarks_t.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewMarksDistribution_student.controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewMarksDistribution_teacher.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Directive\ProgramSemesterCourseDirective.html" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Directive\ProgramSemesterCourseDirective.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Factory\Result.Factory.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Module\ExaminationManagement.module.js" />
+    <Content Include="Areas\Two\Scripts\NoticeManagement\Controller\EditOrDeleteNotice.Controller.js" />
+    <Content Include="Areas\Two\Scripts\NoticeManagement\Controller\UploadNotice.Controller.js" />
+    <Content Include="Areas\Two\Scripts\NoticeManagement\Controller\viewNotice.Controller.js" />
+    <Content Include="Areas\Two\Scripts\NoticeManagement\Controller\ViewOrDownloadNotice_s.Controller.js" />
+    <Content Include="Areas\Two\Scripts\NoticeManagement\Controller\ViewOrDownloadNotice_tp.Controller.js" />
+    <Content Include="Areas\Two\Scripts\NoticeManagement\Factory\NoticeManagement.Factory.js" />
+    <Content Include="Areas\Two\Scripts\NoticeManagement\Module\NoticeManagement.module.js" />
+    <Content Include="Areas\Two\Scripts\RoutineManagement\Controller\EditOrDeleteRoutine.Controller.js" />
+    <Content Include="Areas\Two\Scripts\RoutineManagement\Controller\UploadRoutine.Controller.js" />
+    <Content Include="Areas\Two\Scripts\RoutineManagement\Controller\ViewOrDownloadRoutine_s.Controller.js" />
+    <Content Include="Areas\Two\Scripts\RoutineManagement\Controller\ViewOrDownloadRoutine_tp.Controller.js" />
+    <Content Include="Areas\Two\Scripts\RoutineManagement\Factory\RoutineManagement.Factory.js" />
+    <Content Include="Areas\Two\Scripts\RoutineManagement\Module\RoutineManagement.module.js" />
+    <Content Include="Areas\Two\Scripts\Utility\Controller\ViewOrDownloadPdf.Controller.js" />
+    <Content Include="Areas\Two\Scripts\Utility\Factory\Utility.Factory.js" />
+    <Content Include="Areas\Two\Scripts\Utility\Module\Utility.module.js" />
     <Content Include="Client Scripts\mvcfoolproof.unobtrusive.js" />
     <Content Include="Client Scripts\mvcfoolproof.unobtrusive.min.js" />
     <Content Include="Client Scripts\MvcFoolproofJQueryValidation.js" />
@@ -342,6 +454,20 @@
     <Content Include="Areas\One\Views\Batch\Details.cshtml" />
     <Content Include="Areas\One\Views\Batch\IndexCurrentStudents.cshtml" />
     <Content Include="Areas\One\Views\Batch\IndexAdmittedStudents.cshtml" />
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\1400b2a6-ad05-406d-8382-731d4ffd9894.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\2a116dbc-2b90-4963-9928-24be13e6cbed.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\859236ef-adbd-474f-a595-bb42400bdd5c.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\a353d838-b2a7-4997-8e97-ab00342c8c9a.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\e373d52a-9aa4-44af-9bb4-9063b099ec7e.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\edccdb57-f869-4feb-bb38-ea1f8995e1f2.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\2d9e793d-012c-457e-9a58-40f9657c9d8e.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\3f17e861-053c-4667-ad40-fb799245a65d.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\856aadd0-16ee-4971-88ac-7f7e92acf27a.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\a6e61377-5aef-46d9-b488-c09813c15e69.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\ba13ac05-bfe1-4d9f-b744-ac2dc0a339a7.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\e7d8ff38-4238-4243-ab1d-a85a57f10ded.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Routine\aaec490a-eb0f-48a0-abd9-51023d3c4087.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Routine\eeca4dfd-a472-4333-bae8-94db3cb71205.pdf" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -405,7 +531,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Two\Controllers\" />
     <Folder Include="Areas\Two\Models\" />
     <Folder Include="Areas\Two\Views\Shared\" />
     <Folder Include="Content\bootstrap\" />
@@ -451,6 +576,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610230616549_BatchNoStringToInt.resx">
       <DependentUpon>201610230616549_BatchNoStringToInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610300940507_Integrating_initial.resx">
+      <DependentUpon>201610300940507_Integrating_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
