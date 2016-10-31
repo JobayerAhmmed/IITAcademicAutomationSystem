@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Edit/Delete Notice";
+}
+
+<script src='~/Areas/Two/Library/angular.min.js'></script>
+
+<script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/NoticeManagement/Module/NoticeManagement.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/NoticeManagement/Controller/EditOrDeleteNotice.Controller.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/NoticeManagement/Factory/NoticeManagement.Factory.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/Utility/Factory/Utility.Factory.js" type="text/javascript"></script>
+
+
+
+
+<div class="container-fluid">
+    <div>
+        <div ng-app="noticeManagement_module" ng-controller="editOrDeleteNotice_controller">
+            <div ng-cloak>
+                <div ng-if="message.content!=''">
+                    <div class="{{message.color}}">{{message.content}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div>
+                            <div class="col-sm-4">
+                                <b>Program</b>
+                                <div>
+                                    <select class="form-control" ng-change="whenProgramIsSelected()" ng-model="selected.program" ng-options="program as program.name for program in selection.programs"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div ng-show="selected.program.name">
+                                    <b>Semester</b>
+                                    <div>
+                                        <select class="form-control" ng-change="whenSemesterIsSelected()" ng-model="selected.semester" ng-options="semester as semester.name for semester in selection.semesters"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <div ng-show="selected.program.id && selected.semester.id">
+                    <div>
+                        <div ng-if="flag.isEditButtonClicked==false && selection.files.notices.length!=0">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Title</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="notice in selection.files.notices">
+                                            <td><b>{{notice.date}}</b></td>
+                                            <td><b>{{notice.title}}</b></td>
+                                            <td><span><input type="button" class="btn btn-primary" value="Edit Title" ng-click="whenEditButtonIsSelected($index)"></span></td>
+                                            <td><span><input type="button" class="btn btn-danger" value="Delete" ng-click="whenDeleteButtonClicked($index)"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div ng-if="flag.isEditButtonClicked==true && selection.files.notices.length!=0">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="title"><b>Title</b></label>
+                                            <input type="text" class="form-control" id="title" ng-model="selected.file.title" ng-change="whenTitleIsChanged()" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <span><input type="button" class="btn btn-success" value="Save" ng-click="whenSaveEditIsClicked()" ng-disabled="flag.disableSubmitButton"></span>
+                                <span><input type="button" class="btn btn-danger" value="Cancel" ng-click="whenCancelEditIsClicked()"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

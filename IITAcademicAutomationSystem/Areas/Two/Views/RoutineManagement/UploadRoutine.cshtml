@@ -1,0 +1,92 @@
+﻿
+<script src="~/Areas/Two/Library/jquery-2.0.2.min.js"></script>
+<script src='~/Areas/Two/Library/angular.min.js'></script>
+
+<script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/RoutineManagement/Module/RoutineManagement.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/RoutineManagement/Controller/UploadRoutine.Controller.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/RoutineManagement/Factory/RoutineManagement.Factory.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/Utility/Factory/Utility.Factory.js" type="text/javascript"></script>
+
+<div class="container-fluid">
+    <div >
+        <div ng-app="routineManagement_module" ng-controller="uploadRoutine_controller">
+            <div ng-cloak>
+                <div ng-if="message.content!=''">
+                    <div class="{{message.color}}">{{message.content}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div>
+                            <div class="col-sm-4">
+                                <b>Program</b>
+                                <div>
+                                    <select class="form-control" ng-change="whenProgramIsSelected()" ng-model="selected.program" ng-options="program as program.name for program in selection.programs"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div ng-if="selected.program.id!=-1 && selected.program.id">
+                                    <b>Semester</b>
+                                    <div>
+                                        <select class="form-control" ng-change="whenSemesterIsSelected()" ng-model="selected.semester" ng-options="semester as semester.name for semester in selection.semesters"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <div ng-if="flag.isRoutineAlreadyUploaded==true">
+                    <div class="alert alert-info">
+                        <h3>Routine Already Uploaded</h3>
+                    </div>
+                </div>
+                <div>
+                    <div ng-show="flag.showUploadForm">
+                        <div ng-show="flag.isRoutineAlreadyUploaded==false">
+                            <form novalidate name="f1" ng-submit="SaveFile()">
+                                <div style="color: red">{{Message}}</div>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-4">
+                                                <b>Upload Routine : </b>
+                                                <div>
+                                                    <div class="btn btn-primary btn-sm">
+                                                        <input type="file" name="file" accept="application/pdf" onchange="angular.element(this).scope().selectFileforUpload(this.files)" required />
+                                                    </div>
+                                                    <span class="error" ng-show="(f1.file.$dirty || IsFormSubmitted) && f1.file.$error.required">Image required!</span>
+                                                    <span class="error">{{FileInvalidMessage}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-4">
+                                                <input type="submit" value="Submit" class="btn btn-primary" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>                        
+                    </div>
+                </div>                                    
+            </div>                
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

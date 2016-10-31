@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "View Routine";
+}
+<script src='~/Areas/Two/Library/angular.min.js'></script>
+
+<script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/RoutineManagement/Module/RoutineManagement.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/RoutineManagement/Controller/ViewOrDownloadRoutine_s.Controller.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/RoutineManagement/Factory/RoutineManagement.Factory.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/Utility/Factory/Utility.Factory.js" type="text/javascript"></script>
+
+
+<div class="container-fluid">
+    <div>
+        <div ng-app="routineManagement_module" ng-controller="viewRoutine_controller">
+            <div ng-cloak>
+                <div ng-if="message.content!=''">
+                    <div class="{{message.color}}">{{message.content}}</div>
+                </div>
+                <div>
+                    <div>
+                        <div ng-if="flag.isRoutineUploaded==false">
+                            <h3>Routine Is Not Uploaded Yet</h3>
+                        </div>
+                        <div ng-if="flag.isRoutineUploaded==true">
+                            <div class="row">
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe class="embed-responsive-item" src="{{selected.path}}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>   
+
+
+
+
+
+
+
+
+
+
+

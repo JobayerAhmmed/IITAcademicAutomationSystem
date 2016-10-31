@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Upload Notice";
+}
+<script src="~/Areas/Two/Library/jquery-2.0.2.min.js"></script>
+<script src='~/Areas/Two/Library/angular.min.js'></script>
+<script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/NoticeManagement/Module/NoticeManagement.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/NoticeManagement/Controller/UploadNotice.Controller.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/NoticeManagement/Factory/NoticeManagement.Factory.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/Utility/Factory/Utility.Factory.js" type="text/javascript"></script>
+
+<div class="container-fluid">
+    <div >
+        <div ng-app="noticeManagement_module" ng-controller="uploadNotice_controller">
+            <div ng-cloak>
+                <div class="row">
+                    <div ng-if="message.content!=''">
+                        <div class="{{message.color}}">{{message.content}}</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div>
+                            <div class="col-sm-4">
+                                <b>Program</b>
+                                <div>
+                                    <select class="form-control" ng-change="whenProgramIsSelected()" ng-model="selected.program" ng-options="program as program.name for program in selection.programs"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div ng-if="selected.program.id!=-1 && selected.program.id">
+                                    <b>Semester</b>
+                                    <div>
+                                        <select class="form-control" ng-change="whenSemesterIsSelected()" ng-model="selected.semester" ng-options="semester as semester.name for semester in selection.semesters"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <div ng-show="flag.showUploadForm">
+                    <form novalidate name="f1" ng-submit="SaveFile()">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="title"><b>Title</b></label>
+                                        <input type="text" class="form-control" id="title" ng-model="selected.file.title" ng-change="whenTitleIsChanged()" required>
+                                    </div>
+                                </div>                                    
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4">
+                                        <b>Upload Notice</b>
+                                        <div>
+                                            <div class="btn btn-primary btn-sm">
+                                                <input type="file" name="file" accept="application/pdf" onchange="angular.element(this).scope().selectFileforUpload(this.files)" />
+                                            </div>
+                                            <span class="error" ng-show="(f1.file.$dirty || IsFormSubmitted) && f1.file.$error.required">Notice required!</span>
+                                            <span class="error" style="color: red">{{FileInvalidMessage}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4">
+                                        <div>
+                                            <input type="submit" value="Submit" class="btn btn-primary" ng-disabled="flag.disableSubmitButton" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>                    
+            </div>                
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
