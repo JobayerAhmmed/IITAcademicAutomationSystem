@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using IITAcademicAutomationSystem.Models;
+using IITAcademicAutomationSystem.Areas.One.Services;
 
 namespace IITAcademicAutomationSystem.Controllers
 {
@@ -15,15 +16,18 @@ namespace IITAcademicAutomationSystem.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IUserService userService;
 
         public ManageController()
         {
+            userService = new UserService(ModelState, new DAL.UnitOfWork());
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            userService = new UserService(ModelState, new DAL.UnitOfWork());
         }
 
         public ApplicationSignInManager SignInManager
@@ -73,6 +77,25 @@ namespace IITAcademicAutomationSystem.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
+        }
+
+        // View Profile
+        public ActionResult ViewProfile()
+        {
+            //var userId = User.Identity.GetUserId();
+            //var user = userService.ViewUser(userId);
+
+            //var profile = new ProfileViewModel
+            //{
+            //    FullName = user.FullName,
+            //    Designation = user.Designation,
+            //    Email = user.Email,
+            //    PhoneNumber = user.PhoneNumber,
+            //    ImagePath = user.ImagePath,
+            //    ProfileLink = user.ProfileLink
+            //};
+
+            return View();
         }
 
         //
@@ -168,37 +191,6 @@ namespace IITAcademicAutomationSystem.Controllers
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
 
-        //
-        // POST: /Manage/EnableTwoFactorAuthentication
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EnableTwoFactorAuthentication()
-        {
-            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user != null)
-            {
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-            }
-            return RedirectToAction("Index", "Manage");
-        }
-
-        //
-        // POST: /Manage/DisableTwoFactorAuthentication
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DisableTwoFactorAuthentication()
-        {
-            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user != null)
-            {
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-            }
-            return RedirectToAction("Index", "Manage");
-        }
-
-        //
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {

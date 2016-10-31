@@ -30,27 +30,27 @@ namespace IITAcademicAutomationSystem.Migrations
 
             var semesters = new List<Semester>
             {
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = "Semester 1" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = "Semester 2" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = "Semester 3" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = "Semester 4" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = "Semester 5" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = "Semester 6" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = "Semester 7" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = "Semester 8" },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = 1 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = 2 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = 3 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = 4 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = 5 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = 6 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = 7 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "BSSE").Id, SemesterNo = 8 },
 
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MSSE").Id, SemesterNo = "Semester 1" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MSSE").Id, SemesterNo = "Semester 2" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MSSE").Id, SemesterNo = "Semester 3" },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MSSE").Id, SemesterNo = 1 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MSSE").Id, SemesterNo = 2 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MSSE").Id, SemesterNo = 3 },
 
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "PGDIT").Id, SemesterNo = "Semester 1" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "PGDIT").Id, SemesterNo = "Semester 2" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "PGDIT").Id, SemesterNo = "Semester 3" },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "PGDIT").Id, SemesterNo = 1 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "PGDIT").Id, SemesterNo = 2 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "PGDIT").Id, SemesterNo = 3 },
 
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MIT").Id, SemesterNo = "Semester 1" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MIT").Id, SemesterNo = "Semester 2" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MIT").Id, SemesterNo = "Semester 3" },
-                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MIT").Id, SemesterNo = "Semester 4" }
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MIT").Id, SemesterNo = 1 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MIT").Id, SemesterNo = 2 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MIT").Id, SemesterNo = 3 },
+                new Semester { ProgramId = programs.Single(s => s.ProgramName == "MIT").Id, SemesterNo = 4 }
             };
             semesters.ForEach(s => context.Semesters.AddOrUpdate(p => new { p.ProgramId, p.SemesterNo }, s));
             context.SaveChanges();
@@ -62,7 +62,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 1,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -70,7 +70,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 2,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -78,7 +78,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 3,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -86,7 +86,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 4,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -94,7 +94,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 5,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -102,7 +102,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 1,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -110,7 +110,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 2,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -118,7 +118,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 3,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -126,7 +126,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 1,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -134,7 +134,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 2,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -142,7 +142,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 3,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -150,7 +150,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 1,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MIT").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -158,7 +158,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 2,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MIT").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 },
                 new Batch {
@@ -166,7 +166,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchNo = 3,
                     SemesterIdCurrent = semesters.Single(s =>
                         s.ProgramId == programs.Single(p => p.ProgramName == "MIT").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     BatchStatus = "Active"
                 }
             };
@@ -753,7 +753,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id && 
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0101",
                     CurrentRoll = "BSSE0101",
                     AdmissionSession = "2008-2009",
@@ -768,7 +768,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0102",
                     CurrentRoll  = "BSSE0102",
                     AdmissionSession = "2008-2009",
@@ -783,7 +783,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0103",
                     CurrentRoll  = "BSSE0103",
                     AdmissionSession = "2008-2009",
@@ -798,7 +798,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0104",
                     CurrentRoll  = "BSSE0104",
                     AdmissionSession = "2008-2009",
@@ -813,7 +813,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0105",
                     CurrentRoll  = "BSSE0105",
                     AdmissionSession = "2008-2009",
@@ -828,7 +828,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0106",
                     CurrentRoll  = "BSSE0106",
                     AdmissionSession = "2008-2009",
@@ -843,7 +843,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0107",
                     CurrentRoll  = "BSSE0107",
                     AdmissionSession = "2008-2009",
@@ -858,7 +858,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0108",
                     CurrentRoll  = "BSSE0108",
                     AdmissionSession = "2008-2009",
@@ -873,7 +873,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0109",
                     CurrentRoll  = "BSSE0109",
                     AdmissionSession = "2008-2009",
@@ -888,7 +888,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0110",
                     CurrentRoll  = "BSSE0110",
                     AdmissionSession = "2008-2009",
@@ -905,7 +905,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 2).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0201",
                     CurrentRoll  = "BSSE0201",
                     AdmissionSession = "2009-2010",
@@ -920,7 +920,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 2).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0202",
                     CurrentRoll  = "BSSE0202",
                     AdmissionSession = "2009-2010",
@@ -935,7 +935,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 2).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0203",
                     CurrentRoll  = "BSSE0203",
                     AdmissionSession = "2009-2010",
@@ -950,7 +950,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 2).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0204",
                     CurrentRoll  = "BSSE0204",
                     AdmissionSession = "2009-2010",
@@ -965,7 +965,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 2).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0205",
                     CurrentRoll  = "BSSE0205",
                     AdmissionSession = "2009-2010",
@@ -980,7 +980,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 2).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0206",
                     CurrentRoll  = "BSSE0206",
                     AdmissionSession = "2009-2010",
@@ -995,7 +995,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 2).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0207",
                     CurrentRoll  = "BSSE0207",
                     AdmissionSession = "2009-2010",
@@ -1010,7 +1010,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 2).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0208",
                     CurrentRoll  = "BSSE0208",
                     AdmissionSession = "2009-2010",
@@ -1025,7 +1025,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 2).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0209",
                     CurrentRoll  = "BSSE0209",
                     AdmissionSession = "2009-2010",
@@ -1040,7 +1040,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchIdCurrent = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 2).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                    s.SemesterNo=="Semester 1").Id,
+                    s.SemesterNo==1).Id,
                     OriginalRoll = "BSSE0210",
                     CurrentRoll  = "BSSE0210",
                     AdmissionSession = "2009-2010",
@@ -1058,7 +1058,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                        s.SemesterNo=="Semester 1").Id,
+                        s.SemesterNo==1).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "CSE101").Id,
                     TeacherId = users.Single(u => u.UserName == "iit24@iit.du.ac.bd").Id
@@ -1068,7 +1068,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                        s.SemesterNo=="Semester 1").Id,
+                        s.SemesterNo==1).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "CSE102").Id,
                     TeacherId = users.Single(u => u.UserName == "iit30@iit.du.ac.bd").Id
@@ -1078,7 +1078,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                        s.SemesterNo=="Semester 1").Id,
+                        s.SemesterNo==1).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "SE106").Id,
                     TeacherId = users.Single(u => u.UserName == "iit21@iit.du.ac.bd").Id
@@ -1088,7 +1088,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                        s.SemesterNo=="Semester 2").Id,
+                        s.SemesterNo==2).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "CSE201").Id,
                     TeacherId = users.Single(u => u.UserName == "iit29@iit.du.ac.bd").Id
@@ -1098,7 +1098,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                        s.SemesterNo=="Semester 2").Id,
+                        s.SemesterNo==2).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "SE205").Id,
                     TeacherId = users.Single(u => u.UserName == "iit22@iit.du.ac.bd").Id
@@ -1108,7 +1108,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="BSSE").Id &&
-                        s.SemesterNo=="Semester 2").Id,
+                        s.SemesterNo==2).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "SE206").Id,
                     TeacherId = users.Single(u => u.UserName == "iit28@iit.du.ac.bd").Id
@@ -1118,7 +1118,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="MSSE").Id &&
-                        s.SemesterNo=="Semester 1").Id,
+                        s.SemesterNo==1).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
                         c.CourseCode == "MS1001").Id,
                     TeacherId = users.Single(u => u.UserName == "iit24@iit.du.ac.bd").Id
@@ -1128,7 +1128,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="MSSE").Id &&
-                        s.SemesterNo=="Semester 1").Id,
+                        s.SemesterNo==1).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
                         c.CourseCode == "MS1002").Id,
                     TeacherId = users.Single(u => u.UserName == "iit23@iit.du.ac.bd").Id
@@ -1138,7 +1138,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="MSSE").Id &&
-                        s.SemesterNo=="Semester 1").Id,
+                        s.SemesterNo==1).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
                         c.CourseCode == "MS1003").Id,
                     TeacherId = users.Single(u => u.UserName == "iit25@iit.du.ac.bd").Id
@@ -1148,7 +1148,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="MSSE").Id &&
-                        s.SemesterNo=="Semester 1").Id,
+                        s.SemesterNo==1).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "MSSE").Id &&
                         c.CourseCode == "MS1004").Id,
                     TeacherId = users.Single(u => u.UserName == "iit30@iit.du.ac.bd").Id
@@ -1158,7 +1158,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
-                        s.SemesterNo=="Semester 1").Id,
+                        s.SemesterNo==1).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         c.CourseCode == "PGD101").Id,
                     TeacherId = users.Single(u => u.UserName == "iit29@iit.du.ac.bd").Id
@@ -1168,7 +1168,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
-                        s.SemesterNo=="Semester 1").Id,
+                        s.SemesterNo==1).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         c.CourseCode == "PGD104").Id,
                     TeacherId = users.Single(u => u.UserName == "iit24@iit.du.ac.bd").Id
@@ -1178,7 +1178,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
-                        s.SemesterNo=="Semester 1").Id,
+                        s.SemesterNo==1).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         c.CourseCode == "PGD106").Id,
                     TeacherId = users.Single(u => u.UserName == "iit23@iit.du.ac.bd").Id
@@ -1188,7 +1188,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
-                        s.SemesterNo=="Semester 1").Id,
+                        s.SemesterNo==1).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         c.CourseCode == "PGD204").Id,
                     TeacherId = users.Single(u => u.UserName == "iit26@iit.du.ac.bd").Id
@@ -1198,7 +1198,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
-                        s.SemesterNo=="Semester 2").Id,
+                        s.SemesterNo==2).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         c.CourseCode == "PGD201").Id,
                     TeacherId = users.Single(u => u.UserName == "iit29@iit.du.ac.bd").Id
@@ -1208,7 +1208,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
-                        s.SemesterNo=="Semester 2").Id,
+                        s.SemesterNo==2).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         c.CourseCode == "PGD202").Id,
                     TeacherId = users.Single(u => u.UserName == "iit30@iit.du.ac.bd").Id
@@ -1218,7 +1218,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
-                        s.SemesterNo=="Semester 2").Id,
+                        s.SemesterNo==2).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         c.CourseCode == "PGD105").Id,
                     TeacherId = users.Single(u => u.UserName == "iit21@iit.du.ac.bd").Id
@@ -1228,7 +1228,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId==programs.Single(p => p.ProgramName=="PGDIT").Id &&
-                        s.SemesterNo=="Semester 2").Id,
+                        s.SemesterNo==2).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "PGDIT").Id &&
                         c.CourseCode == "PGD107").Id,
                     TeacherId = users.Single(u => u.UserName == "iit25@iit.du.ac.bd").Id
@@ -1245,7 +1245,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "CSE101").Id
@@ -1255,7 +1255,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "CSE102").Id
@@ -1265,7 +1265,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "STAT103").Id
@@ -1275,7 +1275,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 1").Id,
+                        s.SemesterNo == 1).Id,
                     StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "MATH104").Id
@@ -1285,7 +1285,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 2").Id,
+                        s.SemesterNo == 2).Id,
                     StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "CSE201").Id
@@ -1295,7 +1295,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 2").Id,
+                        s.SemesterNo == 2).Id,
                     StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "EEE202").Id
@@ -1305,7 +1305,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 2").Id,
+                        s.SemesterNo == 2).Id,
                     StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "STAT203").Id
@@ -1315,7 +1315,7 @@ namespace IITAcademicAutomationSystem.Migrations
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         b.BatchNo == 1).Id,
                     SemesterId = semesters.Single(s => s.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
-                        s.SemesterNo == "Semester 2").Id,
+                        s.SemesterNo == 2).Id,
                     StudentId = students.Single(s => s.UserId == users.Single(u => u.UserName == "iit1@iit.du.ac.bd").Id).Id,
                     CourseId = courses.Single(c => c.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
                         c.CourseCode == "MATH204").Id

@@ -24,6 +24,17 @@
     text-align: center;
     border-radius: 0;
 }
+
+.panel-sm {
+    border-radius: 0;
+    margin: auto;
+    max-width: 757px;
+}
+.panel-heading-sm,
+.panel-footer-sm {
+    background-color: #fff !important;
+}
+
 @media (max-width: 767px) 
 {
     .edit {
@@ -31,3 +42,14 @@
         padding-right:5px;
     }
 }
+
+/*<section class="content">
+    <div class="one-panel panel-default one-panel">
+        <div class="panel-body one-panel-body">
+
+        </div>
+        <div class="one-panel-footer one-panel-footer">
+
+        </div>
+    </div>
+</section>*/

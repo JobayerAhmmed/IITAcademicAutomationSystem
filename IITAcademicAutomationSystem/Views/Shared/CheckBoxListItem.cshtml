@@ -1,0 +1,6 @@
+﻿@model IITAcademicAutomationSystem.Areas.One.Models.CheckBoxListItem
+
+    @Html.HiddenFor(model => model.Value)
+    @Html.CheckBoxFor(model => model.IsChecked)
+    @Html.LabelFor(model => model.IsChecked, Model.Text)
+<br />

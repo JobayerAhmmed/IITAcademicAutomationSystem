@@ -1,4 +1,8 @@
-﻿using Microsoft.Owin;
+﻿using IITAcademicAutomationSystem.DAL;
+using IITAcademicAutomationSystem.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(IITAcademicAutomationSystem.Startup))]

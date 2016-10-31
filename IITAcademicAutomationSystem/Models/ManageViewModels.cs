@@ -5,6 +5,14 @@ using Microsoft.Owin.Security;
 
 namespace IITAcademicAutomationSystem.Models
 {
+    public class ProfileViewModel
+    {
+        public string Id { get; set; }
+        public string FullName { get; set; }
+        public string Designation { get; set; }
+        public string ImagePath { get; set; }
+    }
+
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }

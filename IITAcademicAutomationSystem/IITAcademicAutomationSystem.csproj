@@ -85,6 +85,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcCheckBoxList, Version=1.4.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcCheckBoxList.1.4.5\lib\net45\MvcCheckBoxList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -205,31 +209,45 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\One\AutoMapperConfig.cs" />
     <Compile Include="Areas\One\Controllers\BatchController.cs" />
+    <Compile Include="Areas\One\Controllers\UserController.cs" />
+    <Compile Include="Areas\One\CustomFilters.cs" />
     <Compile Include="Areas\One\FoolproofCustomValidations.cs" />
     <Compile Include="Areas\One\Models\BatchCreateViewModel.cs" />
     <Compile Include="Areas\One\Models\BatchStudentsViewModel.cs" />
     <Compile Include="Areas\One\Models\BatchDetailsViewModel.cs" />
     <Compile Include="Areas\One\Models\BatchIndexViewModel.cs" />
+    <Compile Include="Areas\One\Models\CheckBoxListItem.cs" />
     <Compile Include="Areas\One\Models\CourseDetailsViewModel.cs" />
     <Compile Include="Areas\One\Models\CourseEditViewModel.cs" />
     <Compile Include="Areas\One\Models\CourseIndexViewModel.cs" />
+    <Compile Include="Areas\One\Models\RoleCreateViewModel.cs" />
+    <Compile Include="Areas\One\Models\RoleDetailsViewModel.cs" />
+    <Compile Include="Areas\One\Models\RoleEditViewModel.cs" />
+    <Compile Include="Areas\One\Models\RoleIndexViewModel.cs" />
     <Compile Include="Areas\One\Repositories\BatchRepository.cs" />
+    <Compile Include="Areas\One\Repositories\RoleRepository.cs" />
     <Compile Include="Areas\One\Repositories\SemesterRepository.cs" />
     <Compile Include="Areas\One\Repositories\StudentRepository.cs" />
     <Compile Include="Areas\One\Repositories\UserRepository.cs" />
     <Compile Include="Areas\One\Services\BatchService.cs" />
     <Compile Include="Areas\One\Services\ProgramService.cs" />
+    <Compile Include="Areas\One\Services\RoleService.cs" />
     <Compile Include="Areas\One\Services\SemesterService.cs" />
     <Compile Include="Areas\One\Services\StudentService.cs" />
     <Compile Include="Areas\One\Services\UserService.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Areas\One\Controllers\CourseController.cs" />
     <Compile Include="Areas\One\Controllers\ProgramController.cs" />
     <Compile Include="Areas\One\Models\CourseCreateViewModel.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Migrations\201610230616549_BatchNoStringToInt.cs" />
     <Compile Include="Migrations\201610230616549_BatchNoStringToInt.Designer.cs">
       <DependentUpon>201610230616549_BatchNoStringToInt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610311321215_SemesterNoStringToInt.cs" />
+    <Compile Include="Migrations\201610311321215_SemesterNoStringToInt.Designer.cs">
+      <DependentUpon>201610311321215_SemesterNoStringToInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\SideMenuViewModel.cs" />
     <Compile Include="Areas\One\Repositories\CourseRepository.cs" />
     <Compile Include="Areas\One\Repositories\ProgramRepository.cs" />
@@ -342,6 +360,10 @@
     <Content Include="Areas\One\Views\Batch\Details.cshtml" />
     <Content Include="Areas\One\Views\Batch\IndexCurrentStudents.cshtml" />
     <Content Include="Areas\One\Views\Batch\IndexAdmittedStudents.cshtml" />
+    <Content Include="Areas\One\Views\User\TeacherIndex.cshtml" />
+    <Content Include="Areas\One\Views\User\TeacherRegister.cshtml" />
+    <Content Include="Areas\One\Views\User\RegisterConfirmed.cshtml" />
+    <Content Include="Views\Shared\CheckBoxListItem.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -350,7 +372,6 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Views\Base\IndexAdmin.cshtml" />
     <Content Include="Areas\One\Views\Course\Details.cshtml" />
     <Content Include="Areas\One\Views\Course\Delete.cshtml" />
     <Content Include="Areas\One\Views\Course\EditConfirmed.cshtml" />
@@ -378,10 +399,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -399,12 +417,35 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_SideMenuPartial.cshtml" />
-    <Content Include="Views\Account\DisplayEmail.cshtml" />
+    <Content Include="Views\Account\RegisterConfirmed.cshtml" />
     <Content Include="Views\Account\ResetPasswordFailed.cshtml" />
     <Content Include="Views\Account\ForgotPasswordFailed.cshtml" />
+    <Content Include="Views\Account\EmailNotConfirmed.cshtml" />
+    <Content Include="Views\Manage\ViewProfile.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\Create.cshtml" />
+    <Content Include="Views\Role\CreateConfirmed.cshtml" />
+    <Content Include="Views\Role\Edit.cshtml" />
+    <Content Include="Views\Role\EditConfirmed.cshtml" />
+    <Content Include="Views\Role\Details.cshtml" />
+    <Content Include="Views\Shared\NoAccess.cshtml" />
+    <Content Include="Views\Account\TeacherRegister.cshtml" />
+    <Content Include="Views\Account\TeacherRegisterConfirmed.cshtml" />
+    <Content Include="Views\Account\TeacherIndex.cshtml" />
+    <Content Include="Views\Account\TeacherAllIndex.cshtml" />
+    <Content Include="Views\Account\TeacherDetails.cshtml" />
+    <Content Include="Views\Account\TeacherEdit.cshtml" />
+    <Content Include="Views\Account\TeacherEditConfirmed.cshtml" />
+    <Content Include="Views\Account\TeacherDelete.cshtml" />
+    <Content Include="Views\Account\TeacherDeleteConfirmed.cshtml" />
+    <Content Include="Views\Account\TeacherSetRole.cshtml" />
+    <Content Include="Views\Account\TeacherSetRoleConfirmed.cshtml" />
+    <Content Include="Views\Account\ResetEmail.cshtml" />
+    <Content Include="Views\Account\ResetEmailConfirmed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\One\Content\UserImage\" />
     <Folder Include="Areas\Two\Controllers\" />
     <Folder Include="Areas\Two\Models\" />
     <Folder Include="Areas\Two\Views\Shared\" />
@@ -451,6 +492,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610230616549_BatchNoStringToInt.resx">
       <DependentUpon>201610230616549_BatchNoStringToInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610311321215_SemesterNoStringToInt.resx">
+      <DependentUpon>201610311321215_SemesterNoStringToInt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

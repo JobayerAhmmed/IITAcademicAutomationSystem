@@ -9,6 +9,6 @@ namespace IITAcademicAutomationSystem.Models
     {
         public int Id { get; set; }
         public int ProgramId { get; set; }
-        public string SemesterNo { get; set; }
+        public int SemesterNo { get; set; }
     }
 }

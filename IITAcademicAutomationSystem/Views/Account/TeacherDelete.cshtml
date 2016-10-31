@@ -1,0 +1,105 @@
+﻿@model IITAcademicAutomationSystem.Models.TeacherDetailsViewModel
+
+@{
+    ViewBag.Title = "Delete Teacher";
+}
+
+<section class="content-header">
+    <h1>
+        You are going to delete the following teacher account. Please confirm.
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
+        </li>
+        <li class="active">
+            Delete
+        </li>
+    </ol>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-6">
+            <div class="box box-default">
+                <div class="box-body with-border">
+                    <table class="table table-hover table-responsive table-bordered">
+                        <tr>
+                            <td>
+                                Name
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.FullName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Designation
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.Designation)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Status
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.Status)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Email
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.Email)
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Contact No.
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.PhoneNumber)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                IIT Profile
+                            </td>
+                            <td>
+                                <a href="@Model.ProfileLink" target="_blank" class="btn btn-default btn-flat">Visit</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="box-footer text-center">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.FullName)
+                        @Html.HiddenFor(model => model.Designation)
+                        @Html.HiddenFor(model => model.Status)
+                        @Html.HiddenFor(model => model.Email)
+                        @Html.HiddenFor(model => model.PhoneNumber)
+                        @Html.HiddenFor(model => model.ProfileLink)
+                        @Html.HiddenFor(model => model.ImagePath)
+
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Confirm Delete" class="btn btn-danger btn-flat" />
+                            @Html.ActionLink("Back", "TeacherIndex", "Account", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,87 @@
+﻿@model IEnumerable<IITAcademicAutomationSystem.Models.TeacherIndexViewModel>
+
+@{
+    ViewBag.Title = "Teachers";
+}
+
+<section class="content-header">
+    <h1>
+        List of All Teachers
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
+        </li>
+        <li class="active">
+            All Teachers
+        </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-body with-border">
+                    <table id="teacherAllIndex" class="table table-responsive table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Designation</th>
+                                <th>Status</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.FullName, "TeacherDetails", "Account", new { area = "", id = item.Id }, null)
+                                    </td>
+                                    <td>@item.Designation</td>
+                                    <td>@item.Status</td>
+                                    <td>
+                                        @foreach (var role in item.Roles)
+                                        {
+                                            <span>@role.Name </span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Set Role", "SetRole", "Role", new { area = "One", id = item.Id },
+                                            new { @class = "btn btn-primary" })
+                                        @Html.ActionLink("Set Status", "ChangeStatus", "Role", new { area = "One", id = item.Id },
+                                            new { @class = "btn btn-primary" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    @Html.ActionLink("Back to Teachers", "TeacherIndex", "Account", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/datatable")
+    <script>
+        $(function () {
+            $("#teacherAllIndex").DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true
+            });
+        });
+    </script>
+}
