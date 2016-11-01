@@ -156,5 +156,19 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
             }
 
         }
+
+        public List<Marks> getMarksOfAHeadOfAllSubHeadOfAStudent(int marksDistributionId, int studentId)
+        {
+            try
+            {
+                var query = (from Marks in db.Marks where Marks.marksDistributionId == marksDistributionId && Marks.studentId == studentId select Marks);
+
+                return query.ToList();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

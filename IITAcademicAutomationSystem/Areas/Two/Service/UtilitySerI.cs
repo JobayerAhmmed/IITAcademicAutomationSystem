@@ -23,6 +23,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
 
         BatchResDto getBatch(int programId,int semesterId);
         ProgramSemesterBatchResDto getProgramSemesterBatchOfLoggedInStudent();
+        GetStudentsResponseDto getStudentsOfASemester(int programId, int semesterId, int batchId);
         GetStudentsResponseDto getStudentsOfACOurse(int programId, int semesterId, int batchId, int courseId);
         StudentFullInfoResDto getStudentByStudentId(int studentId);
         CourseResDto getCourse(int courseId);
