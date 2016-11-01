@@ -2,7 +2,7 @@
 @model LoginViewModel
 
 @{ 
-    ViewBag.Title = "Log In";
+    ViewBag.Title = "IIT Academic Automation System";
 }
 
     <div class="login">
@@ -21,10 +21,11 @@
                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", autofocus="" })
                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         </div>
-                        &nbsp;
                         <div class="form-group">
                             @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "" })
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                        </div>
+                        <div class="form-group  text-center">
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>

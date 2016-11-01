@@ -1,0 +1,71 @@
+﻿@model IITAcademicAutomationSystem.Areas.One.Models.RoleDetailsViewModel
+
+@{
+    ViewBag.Title = "Role";
+}
+
+<section class="content-header">
+    <h1>Role Details</h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink("Roles", "Index", "Role", new { area = "" }, null)
+        </li>
+        <li class="active">@Model.Name</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="panel panel-default panel-sm">
+        <div class="panel-heading panel-heading-sm">
+            <h4>
+                Role Name: @Html.DisplayFor(model => model.Name)
+            </h4>
+        </div>
+        <div class="panel-body">
+            <ul class="todo-list">
+                <li>
+                    <input type="checkbox" value="" />
+                    <span class="text">Controller1 - Action1</span>
+                </li>
+                <li>
+                    <input type="checkbox" value="" />
+                    <span class="text">Controller1 - Action2</span>
+                </li>
+                <li>
+                    <input type="checkbox" value="" />
+                    <span class="text">Controller1 - Action3</span>
+                </li>
+                <li>
+                    <input type="checkbox" value="" />
+                    <span class="text">Controller2 - Action1</span>
+                </li>
+                <li>
+                    <input type="checkbox" value="" />
+                    <span class="text">Controller2 - Action2</span>
+                </li>
+            </ul>
+                @*<table class="table table-responsive table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td>Controller Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Controller1 - Action1</td>
+                            <td>Controller1 - Action2</td>
+                            <td>Controller1 - Action3</td>
+                            <td>Controller2 - Action1</td>
+                            <td>Controller2 - Action2</td>
+                        </tr>
+                    </tbody>
+                </table>*@
+        </div>
+        <div class="panel-footer panel-footer-sm">
+            @Html.ActionLink("Save", "Index", "Role", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+            @*@Html.ActionLink("Edit", "Edit", "Role", new { area = "", id = Model.Id }, new { @class = "btn btn-primary btn-flat" })*@
+        </div>
+    </div>
+</section>

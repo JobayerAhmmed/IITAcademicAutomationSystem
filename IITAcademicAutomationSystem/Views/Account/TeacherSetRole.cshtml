@@ -1,0 +1,63 @@
+﻿@model IITAcademicAutomationSystem.Models.SetRoleViewModel
+
+@{
+    ViewBag.Title = "Assign Roles to Teacher";
+}
+
+<section class="content-header">
+    <h1>
+        Assign Roles to Teacher
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink("Teachers","TeacherIndex", "Account", new { area = "" }, null)
+        </li>
+        <li class="active">
+            Set Role
+        </li>
+    </ol>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-6">
+            <div class="box box-default">
+                <div class="box-header">
+                    <h3>
+                        @Model.FullName <small>@Model.Designation</small>
+                    </h3>
+                </div>
+                @using (Html.BeginForm())
+                {
+                <div class="box-body">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.FullName)
+                    @Html.HiddenFor(model => model.Designation)
+
+                    <ul class="todo-list ui-sortable">
+                        @for (int i = 0; i < Model.Roles.Count; i++)
+                        {
+                            <li>
+                                @Html.CheckBoxFor(x => x.Roles[i].IsChecked)
+                                @Html.LabelFor(x => x.Roles[i].IsChecked, Model.Roles[i].Text)
+                                @Html.HiddenFor(x => x.Roles[i].Value)
+                                @Html.HiddenFor(x => x.Roles[i].Text)
+                            </li>
+                        }
+                        @Html.ValidationMessageFor(model => model.Roles)
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </ul>
+                </div>
+                <div class="box-footer clearfix no-border">
+                    <input type="submit" value="Save" class="btn btn-primary btn-flat" />
+                    @Html.ActionLink("Cancel", "TeacherIndex", "Account", new { area = "" }, new { @class = "btn btn-danger btn-flat" })
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

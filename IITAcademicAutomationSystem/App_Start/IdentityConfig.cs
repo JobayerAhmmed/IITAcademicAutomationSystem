@@ -95,7 +95,7 @@ namespace IITAcademicAutomationSystem
                         (dataProtectionProvider.Create("ASP.NET Identity"))
                     {
                         // the forgotten password and the email confirmation tokens will expire in 12 hours
-                        TokenLifespan = TimeSpan.FromHours(12)
+                        TokenLifespan = TimeSpan.FromHours(240)
                     };
             }
             return manager;

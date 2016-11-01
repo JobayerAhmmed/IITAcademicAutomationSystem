@@ -11,6 +11,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
     public interface IProgramService
     {
         Program ViewProgram(int id);
+        IEnumerable<Program> GetPrograms();
     }
     public class ProgramService : IProgramService
     {
@@ -25,6 +26,11 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         public Program ViewProgram(int id)
         {
             return unitOfWork.ProgramRepository.GetProgramById(id);
+        }
+
+        public IEnumerable<Program> GetPrograms()
+        {
+            return unitOfWork.ProgramRepository.GetPrograms();
         }
     }
 }

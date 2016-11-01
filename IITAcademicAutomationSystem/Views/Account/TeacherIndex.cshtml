@@ -1,0 +1,106 @@
+﻿@model IEnumerable<IITAcademicAutomationSystem.Models.TeacherIndexViewModel>
+
+@{
+    ViewBag.Title = "Teachers";
+}
+
+<section class="content-header">
+    <h1>
+        List of Teachers
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li class="active">
+            Teachers
+        </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title pull-right">
+                        @Html.ActionLink("Register New Teacher", "TeacherRegister", "Account", new { area = "" }, null)
+                        @*@Html.ActionLink("View All Teachers", "TeacherAllIndex", "Account", new { area = "" }, null)*@
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <table id="teacherIndex" class="table table-responsive table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Designation</th>
+                                <th>Status</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <img src="@Url.Content("~/Areas/One/Content/UserImage/" + @item.ImagePath)"
+                                                 class="img-responsive img-rounded img-sm"
+                                                 alt="" />
+                                            &nbsp;&nbsp;
+                                            @item.FullName
+                                        </span>
+                                        
+                                    </td>
+                                    <td>@item.Designation</td>
+                                    <td>@item.Status</td>
+                                    <td>
+                                        @foreach (var role in item.Roles)
+                                        {
+                                            <span class="btn btn-default btn-flat" style="cursor: default;">
+                                                @role.Name
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Set Role", "TeacherSetRole", "Account",
+                                            new { area = "", id = item.Id },
+                                            new { @class = "btn btn-primary btn-flat btn-sm" })
+                                        @Html.ActionLink("Change Email", "ResetEmail", "Account",
+                                            new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
+                                        @Html.ActionLink("Details", "TeacherDetails", "Account",
+                                            new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
+                                        @Html.ActionLink("Edit", "TeacherEdit", "Account",
+                                            new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
+                                        @Html.ActionLink("Delete", "TeacherDelete", "Account",
+                                            new { area = "", id = item.Id }, new { @class = "btn btn-danger btn-flat btn-sm" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    @Html.ActionLink("Back to Home", "Index", "Base", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/datatable")
+    <script>
+        $(function () {
+            $("#teacherIndex").DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true
+            });
+        });
+    </script>
+}

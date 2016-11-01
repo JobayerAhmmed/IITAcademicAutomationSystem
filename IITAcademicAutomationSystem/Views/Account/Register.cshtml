@@ -45,6 +45,17 @@
                         <div class="form-group">
                             <div class="row edit">
                                 <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.Designation, "Designation", htmlAttributes: null)
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
                                     @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
@@ -75,17 +86,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="row edit">
-                                <div class="col-xs-12 col-sm-4">
-                                    @Html.LabelFor(model => model.Designation, "Designation", htmlAttributes: null)
-                                </div>
-                                <div class="col-xs-12 col-sm-8">
-                                    @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="form-group">
                             <div class="row edit">
                                 <div class="col-xs-12 col-sm-4">

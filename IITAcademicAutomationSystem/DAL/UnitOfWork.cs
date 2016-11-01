@@ -17,6 +17,7 @@ namespace IITAcademicAutomationSystem.DAL
         private ApplicationDbContext context = new ApplicationDbContext();
 
         private IUserRepository userRepository;
+        private IRoleRepository roleRepository;
         private IStudentRepository studentRepository;
         private IProgramRepository programRepository;
         private IBatchRepository batchRepository;
@@ -32,6 +33,17 @@ namespace IITAcademicAutomationSystem.DAL
                     userRepository = new UserRepository(context);
                 }
                 return userRepository;
+            }
+        }
+        public IRoleRepository RoleRepository
+        {
+            get
+            {
+                if (roleRepository == null)
+                {
+                    roleRepository = new RoleRepository(context);
+                }
+                return roleRepository;
             }
         }
         public IStudentRepository StudentRepository

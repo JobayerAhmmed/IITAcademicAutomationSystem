@@ -1,0 +1,41 @@
+﻿@model IEnumerable<IITAcademicAutomationSystem.Areas.One.Models.RoleIndexViewModel>
+
+@{
+    ViewBag.Title = "Role";
+}
+
+<section class="content-header">
+    <h1>User Roles</h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li class="active">Roles</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="panel panel-default panel-sm">
+        <div class="panel-heading panel-heading-sm text-right">
+            @Html.ActionLink("Create Role", "Create", "Role", new { area = "" }, null)
+        </div>
+        <div class="panel-body">
+            <table id="courseIndex" class="table table-responsive table-hover">
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(item.Name, "Details", "Role", new { area = "", id = item.Id }, null)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer panel-footer-sm text-center">
+            <div class="form-group">
+                @Html.ActionLink("Back to Home", "Index", "Base", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+            </div>
+        </div>
+    </div>
+</section>
