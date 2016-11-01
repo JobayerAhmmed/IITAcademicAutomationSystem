@@ -83,6 +83,16 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
             return View();
         }
 
+        public ActionResult ViewResult()
+        {
+            return View();
+        }
+
+        public ActionResult StudentPromotion()
+        {
+            return View();
+        }
+
 
         //..........................For HTTP service
 
@@ -358,6 +368,54 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
             try
             {
                 var data = resultManagementSerI.getFinalSubmissionInfoOfAllCourses(programId, semesterId, batchId);
+                Object response = new { Status = "OK", Data = data };
+                return this.Json(response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Object response = new { Status = "ERROR", Message = "Error has Occured While Reading Distributed Marks Info" + e };
+                return this.Json(response, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult checkIfAllCourseAreFinallySubmitted(int programId, int semesterId, int batchId)
+        {
+            try
+            {
+                var data = resultManagementSerI.checkIfAllCourseAreFinallySubmitted(programId, semesterId, batchId);
+                Object response = new { Status = "OK", Data = data };
+                return this.Json(response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Object response = new { Status = "ERROR", Message = "Error has Occured While Reading Distributed Marks Info" + e };
+                return this.Json(response, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult getResultOfASemester(int programId, int semesterId, int batchId)
+        {
+            try
+            {
+                var data = resultManagementSerI.getResult(programId, semesterId, batchId);
+                Object response = new { Status = "OK", Data = data };
+                return this.Json(response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Object response = new { Status = "ERROR", Message = "Error has Occured While Reading Distributed Marks Info" + e };
+                return this.Json(response, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult getPassFailInfoOfASemester(int programId, int semesterId, int batchId)
+        {
+            try
+            {
+                var data = resultManagementSerI.getPassFailInfoOfStudents(programId, semesterId, batchId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }

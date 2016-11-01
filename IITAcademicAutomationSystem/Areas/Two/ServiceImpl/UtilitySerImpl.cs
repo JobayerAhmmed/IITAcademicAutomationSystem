@@ -218,6 +218,102 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
+        public GetStudentsResponseDto getStudentsOfASemester(int programId, int semesterId, int batchId)//has to be corrected....................
+        {
+            GetStudentsResponseDto getStudentsResponseDto = new GetStudentsResponseDto();
+            try
+            {
+                StudentResDto[] studentList = new StudentResDto[11];
+                StudentResDto student = new StudentResDto();
+
+                student.id = 1;
+                student.classRoll = "0501";
+                student.name = "Dipok Chandra Dus";
+                student.examRoll = "111";
+                studentList[0] = student;
+                student = new StudentResDto();
+
+                student.id = 2;
+                student.classRoll = "0502";
+                student.name = "Jobayer Ahmed";
+                student.examRoll = "222";
+                studentList[1] = student;
+                student = new StudentResDto();
+
+                student.id = 3;
+                student.classRoll = "0503";
+                student.name = "Shofol Kawsir";
+                student.examRoll = "666666";
+                studentList[2] = student;
+                student = new StudentResDto();
+
+                student.id = 4;
+                student.classRoll = "0504";
+                student.name = "Tayeb Zayed";
+                student.examRoll = "333";
+                studentList[3] = student;
+                student = new StudentResDto();
+
+                student.id = 6;
+                student.classRoll = "0506";
+                student.name = "Atikur Rahman";
+                student.examRoll = "555";
+                studentList[4] = student;
+                student = new StudentResDto();
+
+                student.id = 7;
+                student.classRoll = "0507";
+                student.name = "Shadiqur Rahman";
+                student.examRoll = "666";
+                studentList[5] = student;
+                student = new StudentResDto();
+
+                student.id = 8;
+                student.classRoll = "0508";
+                student.name = "Misu Bin Imp";
+                student.examRoll = "777";
+                studentList[6] = student;
+                student = new StudentResDto();
+
+                student.id = 9;
+                student.classRoll = "0509";
+                student.name = "Mostaq Adil";
+                student.examRoll = "888";
+                studentList[7] = student;
+                student = new StudentResDto();
+
+                student.id = 10;
+                student.classRoll = "0510";
+                student.name = "Babu Pahari";
+                student.examRoll = "999";
+                studentList[8] = student;
+                student = new StudentResDto();
+
+                student.id = 11;
+                student.classRoll = "0511";
+                student.name = "Saimul Islam";
+                student.examRoll = "000";
+                studentList[9] = student;
+                student = new StudentResDto();
+
+
+                student.id = 12;
+                student.classRoll = "0512";
+                student.name = "Ishmam Shahriar";
+                student.examRoll = "221";
+                studentList[10] = student;
+                student = new StudentResDto();
+
+                getStudentsResponseDto.students = studentList;
+                return getStudentsResponseDto;
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public GetStudentsResponseDto getStudentsOfACOurse(int programId, int semesterId,int batchId, int courseId )//has to be corrected....................
         {
             GetStudentsResponseDto getStudentsResponseDto = new GetStudentsResponseDto();
@@ -355,8 +451,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 student.programId = 1;
                 student.programName = "BSSE";
 
-                student.semesterId = 1;
-                student.semesterName = "*th Semester";
+                student.semesterId = 3;
+                student.semesterName = "3th Semester";
 
                 student.batchId = 4;
                 student.batchName = "Fifth Batch";
@@ -461,5 +557,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 throw e;
             }
         }
+
+       
     }
 }

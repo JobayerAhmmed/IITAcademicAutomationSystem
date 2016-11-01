@@ -97,6 +97,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
                 semester.SemesterNo = "3rd";
                 semesterList.Add(semester);
 
+                semester = new Semester();
                 semester.Id = 4;
                 semester.SemesterNo = "4th";
                 semesterList.Add(semester);
@@ -136,18 +137,18 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
             try
             {
                 Semester semester = new Semester();
-                semester.Id = 1;
+                semester.Id = 3;
                 semester.SemesterNo = "3rd";
                 semesterList.Add(semester);
 
                 semester = new Semester();
-                semester.Id = 2;
+                semester.Id = 6;
                 semester.SemesterNo = "6th";
                 semesterList.Add(semester);
 
 
                 semester = new Semester();
-                semester.Id = 3;
+                semester.Id = 8;
                 semester.SemesterNo = "8th";
                 semesterList.Add(semester);
 

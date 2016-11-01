@@ -787,6 +787,33 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
+        public bool checkIfAllCourseAreFinallySubmitted(int programId, int semesterId, int batchId)
+        {
+            try
+            {
+                AllFinalSubmissionResDto finalSubmissionInfo = getFinalSubmissionInfoOfAllCourses(programId, semesterId, batchId);
+
+                int counter = 0;
+                for (int i = 0; i < finalSubmissionInfo.submissionInfos.Length; i++)
+                {
+                    var submissionInfoTemp = finalSubmissionInfo.submissionInfos[i];
+                    if (submissionInfoTemp.isFinallySubmitted == true)
+                        counter++;
+
+
+                }
+
+                if (counter == finalSubmissionInfo.submissionInfos.Length)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public bool checkIfMarksIsGiven(int programId, int semesterId, int batchId, int courseId, int headId, int subheadId)
         {
             try
@@ -807,5 +834,237 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 throw e;
             }
         }
+
+
+        //................. result process will start from here.............
+        //get all courses of a program,semester & batch
+        //get all students of program,semester,batch
+        //-run loop for all student
+        //-- run loop for courses
+        // count GPA for that course
+
+
+        // 4 tar moddhe jodi 3 ta course ney, baki 1tar jonno error handle baki ase
+        public AllStudentsResultResDto getResult(int programId,int semesterId,int batchId)
+        {
+            try
+            {
+                AllStudentsResultResDto responseToReturn = new AllStudentsResultResDto();
+
+                var courseList = utilityService.getAllCoursesOfASemester(programId, semesterId, batchId);
+                var studentList = utilityService.getStudentsOfASemester(programId, semesterId, batchId);
+
+
+                List<IndividualResultResDto> eachStudentResultList = new List<IndividualResultResDto>();
+                for (int studentCount = 0; studentCount < studentList.students.Length; studentCount++)
+                {
+                    var studentTemp = studentList.students.ElementAt(studentCount);
+
+                    IndividualResultResDto eachStudentResult = new IndividualResultResDto();
+
+                    List<IndividualCourseResultResDto> courseResultList = new List<IndividualCourseResultResDto>();
+                    for (int courseCount = 0; courseCount < courseList.Count; courseCount++)
+                    {
+                        IndividualCourseResultResDto individualCourseResultResDto = new IndividualCourseResultResDto();
+                        var courseTemp = courseList.ElementAt(courseCount);
+
+                        double totalMarksOfCourse = countMarksOfACourse(programId, semesterId, batchId, courseTemp.id, studentTemp.id);
+
+                        individualCourseResultResDto.courseName = courseTemp.name;
+                        if (totalMarksOfCourse != -1)
+                        {
+                            double GPAOfCourse = findGPABasedOnMarks(totalMarksOfCourse);
+                            individualCourseResultResDto.GPA = GPAOfCourse;
+                        }
+                        
+                        else if (totalMarksOfCourse == -1)
+                        {
+                            individualCourseResultResDto.GPA = -1;//when student does not have he course
+                        }
+
+                        courseResultList.Add(individualCourseResultResDto);
+                        
+                    }
+                    eachStudentResult.id = studentTemp.id;
+                    eachStudentResult.studentName = studentTemp.name;
+                    eachStudentResult.classRoll = studentTemp.classRoll;
+                    eachStudentResult.examRoll = studentTemp.examRoll;
+                    eachStudentResult.result = courseResultList.ToArray();
+
+                    eachStudentResultList.Add(eachStudentResult);
+                }
+                responseToReturn.program = "";
+                responseToReturn.semester = "";
+                responseToReturn.batch = "";
+
+                List<String> courseToResponse = new List<String>();
+
+                for (int temp = 0; temp < courseList.Count; temp++)
+                {
+                    courseToResponse.Add(courseList.ElementAt(temp).name);
+                }
+                responseToReturn.courses = courseToResponse.ToArray();
+                responseToReturn.results = eachStudentResultList.ToArray();
+
+                return responseToReturn;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        private double countMarksOfACourse(int programId,int semesterId,int batchId,int courseId,int studentId)
+        {
+            var marksDistributionList = getDistributedMarksPartially(programId, semesterId, batchId, courseId);  //1 marks distribution for each head
+
+            double finalMarks = 0.00;
+
+            for (int marksDistributionCount = 0; marksDistributionCount
+                 < marksDistributionList.distributedMarks.Length;
+                marksDistributionCount++)
+            {
+                var marksDistributionTemp = marksDistributionList.distributedMarks[marksDistributionCount];
+                var marksListOfAllSubHeadOfAStudent = marksRepository.getMarksOfAHeadOfAllSubHeadOfAStudent(marksDistributionTemp.id, studentId);
+                if (marksListOfAllSubHeadOfAStudent == null)//when a course is not aloocated to a student
+                {
+                    return -1;
+                }
+
+                MarksDistribution marksDistribution = marksDistributionRepo.getDistributedMarks(marksDistributionTemp.id);
+
+                double individualHeadmarks = countMarksOfAHead(marksDistribution, marksListOfAllSubHeadOfAStudent);
+
+                finalMarks = finalMarks + individualHeadmarks;
+            }
+            return finalMarks;
+        }
+
+        private double countMarksOfAHead(MarksDistribution marksDistribution, List<Marks> marksListOfAllSubHeadOfAStudent)
+        {
+           if (marksDistribution.avarageOrBestCount == true)
+                return countMarksBasedOnAvarageOfSubheads(marksDistribution.marksEvaluated, marksListOfAllSubHeadOfAStudent);
+
+           if(marksDistribution.avarageOrBestCount == false)
+                return countMarksBasedOnBestCountOfSubheads(marksDistribution.marksEvaluated, marksListOfAllSubHeadOfAStudent);
+            return 0.00;
+        }
+
+        private double countMarksBasedOnAvarageOfSubheads(double weightOfHead, List<Marks> marksListOfAllSubHeadOfAStudent)
+        {
+            double solidMarks = 0;
+
+            for (int i = 0; i < marksListOfAllSubHeadOfAStudent.Count; i++)
+            {
+                var marksTemp = marksListOfAllSubHeadOfAStudent.ElementAt(i);
+                solidMarks = solidMarks + ((marksTemp.obtainedMarks/ marksTemp.examMarks)* weightOfHead);
+            }
+            double avarageOfMarks = solidMarks/marksListOfAllSubHeadOfAStudent.Count;
+
+            return avarageOfMarks;
+        }
+
+        private double countMarksBasedOnBestCountOfSubheads(double weightOfHead, List<Marks> marksListOfAllSubHeadOfAStudent)
+        {
+            Marks bestMarks= marksListOfAllSubHeadOfAStudent.ElementAt(0);
+
+            for (int i = 0; i < marksListOfAllSubHeadOfAStudent.Count; i++)
+            {
+                var marksTemp = marksListOfAllSubHeadOfAStudent.ElementAt(i);
+                if (marksTemp.obtainedMarks > bestMarks.obtainedMarks)
+                    bestMarks = marksTemp;
+            }
+
+            double solidMarks = (bestMarks.obtainedMarks* weightOfHead) /bestMarks.examMarks;
+
+            return solidMarks;
+        }
+
+        private double findGPABasedOnMarks(double marks)
+        {
+            if (marks >= 80)
+                return 4.00;
+            if (marks >= 75 && marks < 80)
+                return 3.75;
+            if (marks >= 70 && marks < 75)
+                return 3.50;
+            if (marks >= 65 && marks < 70)
+                return 3.25;
+            if (marks >= 60 && marks < 65)
+                return 3.00;
+            if (marks >= 55 && marks < 60)
+                return 2.75;
+            if (marks >= 50 && marks < 55)
+                return 2.50;
+            if (marks >= 45 && marks < 50)
+                return 2.25;
+            if (marks >= 40 && marks < 45)
+                return 2.25;
+            if (marks < 40)//it means fails
+                return 0.00;//it means fail
+            return 0.00;
+        }
+
+        public IndividualStudentPromotionResDto[] getPassFailInfoOfStudents(int programId,int semesterId,int batchId)
+        {
+            List<IndividualStudentPromotionResDto> responseToReturn = new List<IndividualStudentPromotionResDto>();
+
+            try
+            {
+                AllStudentsResultResDto resultList = getResult(programId, semesterId, batchId);
+
+
+                for (int resultListCount = 0; resultListCount < resultList.results.Length; resultListCount++)
+                {
+                    IndividualStudentPromotionResDto individualStudentPromotion = new IndividualStudentPromotionResDto();
+                    
+
+                    var resultTemp = resultList.results[resultListCount];
+
+                    individualStudentPromotion.studentId = resultTemp.id;
+                    individualStudentPromotion.name = resultTemp.studentName;
+                    individualStudentPromotion.examRoll = resultTemp.examRoll;
+                    individualStudentPromotion.classRoll = resultTemp.classRoll;
+
+                    bool isPassed = true;
+
+                    for (var courseResultCount = 0; courseResultCount < resultTemp.result.Length; courseResultCount++)
+                    {
+                        var courseResultTemp = resultTemp.result[0];
+
+                        if (courseResultTemp.GPA == -1)
+                            continue;   // suppose student has taken 5 ourses from 6 courses, forthat course which student have not taken, CGPA will be -1
+                        if (courseResultTemp.GPA == 0.00) // failing GPA is counted as 0.00
+                        {
+                            isPassed = false;
+                            break;
+                        }
+
+                    }
+                    individualStudentPromotion.isPassedAllCourses = isPassed;
+
+                    responseToReturn.Add(individualStudentPromotion);
+                }
+
+                return responseToReturn.ToArray();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        private bool checkIfPassedOrFailed(double marks)
+        {
+            if (marks >= 40.00)
+                return true;
+
+            else
+            {
+                return false;
+            }
+        }
+
+       
     }
 }

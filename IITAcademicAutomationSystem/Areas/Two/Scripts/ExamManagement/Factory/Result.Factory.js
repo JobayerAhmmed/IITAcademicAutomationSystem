@@ -218,6 +218,28 @@
                         }
                 );
         },
+        getResultOfAllStudents: function (programId, semesterId, batchId) {
+            return $http.get('/ResultManagement/getResultOfASemester?programId=' + programId + "&semesterId=" + semesterId + "&batchId=" + batchId)
+                .then(
+                        function (response) {
+                            return response.data;
+                        },
+                        function (errResponse) {
+                            return $q.reject(errResponse);
+                        }
+                );
+        },
+        getPassFailInfoOfASemester: function (programId, semesterId, batchId) {
+            return $http.get('/ResultManagement/getPassFailInfoOfASemester?programId=' + programId + "&semesterId=" + semesterId + "&batchId=" + batchId)
+                .then(
+                        function (response) {
+                            return response.data;
+                        },
+                        function (errResponse) {
+                            return $q.reject(errResponse);
+                        }
+                );
+        }
     };
 
 }])

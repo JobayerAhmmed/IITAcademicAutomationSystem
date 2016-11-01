@@ -18,6 +18,7 @@ namespace IITAcademicAutomationSystem.DAL
         }
 
         //public DbSet<Menu> Menus { get; set; }
+        //public DbSet<IdentityUserRole> UserRoles { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Program> Programs { get; set; }
         public DbSet<Semester> Semesters { get; set; }
@@ -61,4 +62,5 @@ namespace IITAcademicAutomationSystem.DAL
             return new ApplicationDbContext();
         }
     }
+    
 }
