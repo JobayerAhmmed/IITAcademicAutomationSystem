@@ -10,7 +10,7 @@
     </h1>
     <ol class="breadcrumb">
         <li>
-            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li><a href="#">@Model.ProgramName</a></li>
         <li>
@@ -19,8 +19,15 @@
         <li class="active">@Model.ProgramName @Model.BatchNo</li>
     </ol>
 </section>
-<hr />
 <section class="content">
+    <div class="row">
+        <div class="col-xs-12 text-right">
+            @Html.ActionLink("Admit Students", "StudentRegister", "Account",
+                new { area = "", programId = Model.ProgramId, batchId = Model.Id },
+                new { @class = "btn btn-success btn-flat btn-lg" })
+        </div>
+    </div>
+    <br />
     <div class="row">
         <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-one-aqua">
@@ -67,7 +74,7 @@
                         <p>Batch status</p>
                     </div>
                     <div class="icon">
-                            <i class="ion ion-checkmark"></i>
+                        <i class="ion ion-checkmark"></i>
                     </div>
                     <a href="#" class="small-box-footer">Update <i class="fa fa-arrow-circle-right"></i></a>
                 </div>

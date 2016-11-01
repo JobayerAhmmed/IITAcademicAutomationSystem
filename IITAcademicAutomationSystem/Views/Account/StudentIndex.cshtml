@@ -1,19 +1,19 @@
-﻿@model IEnumerable<IITAcademicAutomationSystem.Models.TeacherIndexViewModel>
+﻿@model IEnumerable<IITAcademicAutomationSystem.Models.StudentIndexViewModel>
 
 @{
-    ViewBag.Title = "Teachers";
+    ViewBag.Title = "Students";
 }
 
 <section class="content-header">
     <h1>
-        List of Teachers
+        List of Students
     </h1>
     <ol class="breadcrumb">
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li class="active">
-            Teachers
+            Students
         </li>
     </ol>
 </section>
@@ -22,20 +22,14 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
-                <div class="box-header with-border">
-                    <h3 class="box-title pull-right">
-                        @Html.ActionLink("Register New Teacher", "TeacherRegister", "Account", new { area = "" }, null)
-                        @*@Html.ActionLink("View All Teachers", "TeacherAllIndex", "Account", new { area = "" }, null)*@
-                    </h3>
-                </div>
-                <div class="box-body">
-                    <table id="teacherIndex" class="table table-responsive table-bordered table-hover">
+                <div class="box-body with-border">
+                    <table id="studentIndex" class="table table-responsive table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Designation</th>
-                                <th>Status</th>
-                                <th>Role</th>
+                                <th>Roll</th>
+                                <th>Email</th>
+                                <th>Phone</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -51,22 +45,12 @@
                                             &nbsp;&nbsp;
                                             @item.FullName
                                         </span>
-                                        
+
                                     </td>
-                                    <td>@item.Designation</td>
-                                    <td>@item.Status</td>
+                                    <td>@item.Roll</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.PhoneNumber</td>
                                     <td>
-                                        @foreach (var role in item.Roles)
-                                        {
-                                            <span class="btn btn-default btn-flat" style="cursor: default;">
-                                                @role.Name
-                                            </span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Set Role", "TeacherSetRole", "Account",
-                                            new { area = "", id = item.Id },
-                                            new { @class = "btn btn-primary btn-flat btn-sm" })
                                         @Html.ActionLink("Change Email", "ResetEmail", "Account",
                                             new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
                                         @Html.ActionLink("Details", "TeacherDetails", "Account",
@@ -93,7 +77,7 @@
     @Scripts.Render("~/datatable")
     <script>
         $(function () {
-            $("#teacherIndex").DataTable({
+            $("#studentIndex").DataTable({
                 "paging": true,
                 "lengthChange": false,
                 "searching": true,

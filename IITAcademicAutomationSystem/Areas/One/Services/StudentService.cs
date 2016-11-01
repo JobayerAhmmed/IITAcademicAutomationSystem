@@ -2,15 +2,18 @@
 using IITAcademicAutomationSystem.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
-using System.Web.ModelBinding;
+using System.Web.Mvc;
 
 namespace IITAcademicAutomationSystem.Areas.One.Services
 {
     public interface IStudentService
     {
         Student ViewStudent(int id);
+        IEnumerable<Student> GetAllStudents();
+        int CreateStudent(Student student);
         void Dispose();
     }
     public class StudentService : IStudentService
@@ -28,8 +31,25 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         {
             return unitOfWork.StudentRepository.GetStudentById(id);
         }
+        public int CreateStudent(Student student)
+        {
+            try
+            {
+                unitOfWork.StudentRepository.CreateStudent(student);
+                unitOfWork.Save();
+                return student.Id;
+            }
+            catch (DataException)
+            {
+                modelState.AddModelError("", "Unable to save, try again.");
+                return -1;
+            }
+        }
 
-
+        public IEnumerable<Student> GetAllStudents()
+        {
+            return unitOfWork.StudentRepository.GetAllStudents();
+        }
         public void Dispose()
         {
             unitOfWork.Dispose();

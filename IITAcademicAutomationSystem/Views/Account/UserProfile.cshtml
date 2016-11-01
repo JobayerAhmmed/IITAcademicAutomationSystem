@@ -1,7 +1,7 @@
-﻿@model IITAcademicAutomationSystem.Models.TeacherDetailsViewModel
+﻿@model IITAcademicAutomationSystem.Models.UserProfileViewModel
 
 @{
-    ViewBag.Title = "Teacher Profile";
+    ViewBag.Title = "Profile";
 }
 
 <section class="content-header">
@@ -11,9 +11,6 @@
     <ol class="breadcrumb">
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
-        </li>
-        <li>
-            @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
         </li>
         <li class="active">
             Profile
@@ -44,18 +41,31 @@
                             Contact No.
                             <b class="pull-right">@Model.PhoneNumber</b>
                         </li>
-                        <li class="list-group-item">
-                            IIT Profile
-                            <span class="pull-right">
-                                <a href="@Model.ProfileLink" target="_blank" class="">Visit</a>
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <li class="list-group-item">
+                                IIT Profile
+                                <span class="pull-right">
+                                    <a href="@Model.ProfileLink" target="_blank" class="">Visit</a>
+                                </span>
+                            </li>
+                        }
+                        <li class="list-group-item text-center">
+                            <span>
+                                @Html.ActionLink("Change Password", "ChangePassword", "Manage", new { area="" }, null)
                             </span>
                         </li>
                     </ul>
                 </div>
                 <div class="box-footer text-center">
-                    @Html.ActionLink("Back", "TeacherIndex", "Account", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+                    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" },
+                        new { @class = "btn btn-primary btn-flat" })
+                    @Html.ActionLink("Update Profile", "UserProfileEdit", "Account", new { area = "", id=Model.Id },
+                        new { @class = "btn btn-primary btn-flat" })
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+

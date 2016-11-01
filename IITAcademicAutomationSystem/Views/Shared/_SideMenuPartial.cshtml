@@ -91,9 +91,36 @@
                 </ul>
             </li>
             <li class="header">USER</li>
-            <li>@Html.ActionLink("Create user", "Register", "Account", new { area = "" }, null)</li>
-            <li>@Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)</li>
-            <li>@Html.ActionLink("Role", "Index", "Role", new { area = "" }, null)</li>
+            <li>
+                <a href="@Url.Action("TeacherIndex", "Account", new { are = "" })">
+                    <i class="fa fa-user"></i>
+                    <span>Teachers</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Register", "Account", new { are = "" })">
+                    <i class="fa fa-user"></i>
+                    <span>Students</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Register", "Account", new { are = "" })">
+                    <i class="fa fa-user"></i>
+                    <span>Others</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Register", "Account", new { are = "" })">
+                    <i class="fa fa-user"></i>
+                    <span>All Users</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Role", new { are = "" })">
+                    <i class="fa fa-tasks"></i>
+                    <span>Role</span>
+                </a>
+            </li>
 
         </ul>
     </section>

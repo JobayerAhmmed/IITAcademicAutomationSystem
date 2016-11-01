@@ -1,0 +1,90 @@
+﻿@model IITAcademicAutomationSystem.Models.StudentRegisterViewModel
+
+@{
+    ViewBag.Title = "Admit Students";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName + Model.BatchNo, "Details", "Batch",
+                new { area = "One", id = Model.BatchId }, null)
+        </li>
+        <li class="active">
+            Admit Students
+        </li>
+    </ol>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                </div>
+                @using (Html.BeginForm("StudentRegister", "Account",
+                    FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                {
+                    <div class="box-body">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.ProgramId)
+                        @Html.HiddenFor(model => model.ProgramName)
+                        @Html.HiddenFor(model => model.BatchId)
+                        @Html.HiddenFor(model => model.BatchNo)
+                        @Html.HiddenFor(model => model.StudentFile)
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-6">
+                                    Download Formatted File
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                    @Html.ActionLink("Download", "Download", "Account",
+                                        new { area = "", fileName = Model.StudentFile },
+                                        new { @class = "btn btn-default btn-flat" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-6">
+                                    Upload Student Information File
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                    <input id="StudentFile" name="file" type="file" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-12">
+                                    @Html.ValidationMessageFor(model => model.StudentFile, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer text-center">
+                        <input type="submit" value="Submit" class="btn btn-primary btn-flat" />
+                        @Html.ActionLink("Cancel", "Details", "Batch",
+                            new { area = "One", id = Model.BatchId }, new { @class = "btn btn-danger btn-flat" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/jqueryval")
+}
