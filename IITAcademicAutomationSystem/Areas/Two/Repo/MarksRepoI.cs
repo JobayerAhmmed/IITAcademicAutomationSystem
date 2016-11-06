@@ -14,6 +14,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Repo
         List<Marks> getMarksOfAHeadOfAllSubHeadOfAStudent(int marksDistributionId,int studentId);
         Marks getMarksByDistribution(int distributionId,int subheadId);
         void saveGivenMarks(Marks marks);
+        void saveGivenMarks(Marks[] marks);
         void saveEditedMarks(Marks[] marks);
         List<MarksSubHead> getSubHeadByDistributionId(int distributionId);
         bool checkIfMarksIsGivenOfAHead(int distributionId);

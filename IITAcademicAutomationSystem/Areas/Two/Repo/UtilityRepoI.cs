@@ -10,11 +10,15 @@ namespace IITAcademicAutomationSystem.Areas.Two.Repo
 {
     interface UtilityRepoI
     {
+        Program getProgramByProgramId(int programId);
         List<Program> getAllPrograms();
         List<Program> getProgramsOfATeacher(int teacherId);
         List<Semester> getSemestersOfAProgram(int programId);
         List<Semester> getSemestersOfATeacherOfAProgram(int teacherId, int programId);
+        Semester getSemesterBySemesterId(int semesterId);
+        List<Semester> getStudentsAllSemester(int programId,int currentSemesterNo);
         List<Course> getCoursesOfATeacherOfASemesterOfAProgram(int teacherId, int programId, int semesterId);
         Batch getBatch(int programId, int semesterId);
+        List<Batch> getBatchesOfAProgram(int programId);
     }
 }

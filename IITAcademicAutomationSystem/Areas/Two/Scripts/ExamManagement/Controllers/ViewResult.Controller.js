@@ -18,31 +18,107 @@
 
             $scope.selection = {
                 programs: [],
+                batches:[],
                 semesters: [],
                 courses: [],
                 resultInfo:{
 
                 }
             }
+
+            $scope.flag={
+                
+            }
+
             $scope.message = {
                 content: "",
                 color: ""
             }
             $scope.whenProgramIsSelected = function () {
+                $scope.selected = {
+                    program: $scope.selected.program,
+                    semester: {
+                    },
+                    batch: {
+                    },
+
+                }
+
+                $scope.selection = {
+                    programs: $scope.selection.programs,
+                    batches: [],
+                    semesters: [],
+                    courses: [],
+                    resultInfo: {
+
+                    }
+                }
+                $scope.flag = {
+
+                }
+
+
+
                 if ($scope.selected.program.id)
+                    getBatches();
+
+                
+
+            }
+
+            $scope.whenBatchIsSelected = function () {
+                $scope.selected = {
+                    program: $scope.selected.program,
+                    semester: {
+                    },
+                    batch: $scope.selected.batch
+
+                }
+
+                $scope.selection = {
+                    programs: $scope.selection.programs,
+                    batches: $scope.selection.batches,
+                    semesters: [],
+                    courses: [],
+                    resultInfo: {
+
+                    }
+                }
+                $scope.flag = {
+
+                }
+
+                if ($scope.selected.program.id && $scope.selected.batch.id)
                     getSemesters();
 
-                $scope.selected.semester = {};
-                $scope.selected.batch = {};
-                $scope.selected.course = {};
+                
 
             }
 
 
             $scope.whenSemesterIsSelected = function () {
-                if ($scope.selected.program.id && $scope.selected.semester.id) {
-                   
-                    getBatch();
+                $scope.selected = {
+                    program: $scope.selected.program,
+                    semester: $scope.selected.semester,
+                    batch: $scope.selected.batch
+
+                }
+
+                $scope.selection = {
+                    programs: $scope.selection.programs,
+                    batches: $scope.selection.batches,
+                    semesters: $scope.selection.semesters,
+                    courses: [],
+                    resultInfo: {
+
+                    }
+                }
+                $scope.flag = {
+
+                }
+
+                if ($scope.selected.program.id && $scope.selected.batch.id && $scope.selected.semester.id) {
+                    checkIfAllCourseAreFinallySubmitted();
                 }
             }
 
@@ -110,13 +186,34 @@
 
             }
 
-            var getBatch = function () {
-                UtilityService.getBatch($scope.selected.program.id, $scope.selected.semester.id)
+            var getBatches = function () {
+                UtilityService.getBatchesOfAProgram($scope.selected.program.id)
                    .then(
                           function (d) {
                               if (d.Status == "OK") {
-                                  $scope.selected.batch = d.Data;
-                                  getResult();
+                                  $scope.selection.batches = d.Data;
+                                  console.log(d.Data)
+                              }
+                              else if (d.Status == "ERROR") {
+                                  showNotification(d.Message, d.Status);
+                              }
+                          },
+                           function (errResponse) {
+                               showNotification('Error While Fetching Batch', 'ERROR');
+                           }
+                   );
+            }
+
+            var checkIfAllCourseAreFinallySubmitted = function () {
+                ResultService.checkIfAllCourseAreFinallySubmitted($scope.selected.program.id,$scope.selected.semester.id,$scope.selected.batch.id)
+                   .then(
+                          function (d) {
+                              if (d.Status == "OK") {
+                                  $scope.flag.isAllMarksFinallySybmitted = d.Data;
+
+                                  if ($scope.flag.isAllMarksFinallySybmitted === true) {
+                                      getResult();
+                                  }
                                   console.log(d.Data)
                               }
                               else if (d.Status == "ERROR") {
@@ -135,6 +232,7 @@
                           function (d) {
                               if (d.Status == "OK") {
                                   $scope.selection.resultInfo = d.Data;
+                                  console.log("Res")
                                   console.log(d.Data)
                               }
                               else if (d.Status == "ERROR") {

@@ -57,8 +57,9 @@
                 }
             }
 
-            $scope.processResult=function () {
-                
+            $scope.goToProcessResult = function () {
+                console.log("ssss");
+                window.location = '/two/ResultManagement/ViewResult';
             }
 
             var clearData=function () {

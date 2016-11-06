@@ -102,7 +102,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 {
                     SemesterResDto semesterResDto = new SemesterResDto();
                     semesterResDto.id = semesterList.ElementAt(i).Id;
-                    semesterResDto.name = semesterList.ElementAt(i).SemesterNo;
+                    semesterResDto.name = ""+semesterList.ElementAt(i).SemesterNo;
 
                     semesterResDtoList[i] = semesterResDto;
                 }
@@ -129,7 +129,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 {
                     SemesterResDto semesterResDto = new SemesterResDto();
                     semesterResDto.id = semesterList.ElementAt(i).Id;
-                    semesterResDto.name = semesterList.ElementAt(i).SemesterNo;
+                    semesterResDto.name = ""+semesterList.ElementAt(i).SemesterNo;
 
                     semesterResDtoList[i] = semesterResDto;
                 }
@@ -194,17 +194,17 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             {
                 ProgramResDto programResDto = new ProgramResDto();
                 programResDto.id = 1;
-                programResDto.name = "PGDIT";
+                programResDto.name = "BSSE";
                 programSemesterBatchResDto.program = programResDto;
 
 
                 SemesterResDto semesterResDto = new SemesterResDto();
-                semesterResDto.id = 1;
-                semesterResDto.name="8th";
+                semesterResDto.id = 2;
+                semesterResDto.name="2nd";
 
                 programSemesterBatchResDto.semester = semesterResDto;
 
-
+                                              
                 BatchResDto batchResDto = new BatchResDto();
                 batchResDto.id = 4;
                 batchResDto.name = "Fifth Batch";
@@ -223,7 +223,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             GetStudentsResponseDto getStudentsResponseDto = new GetStudentsResponseDto();
             try
             {
-                StudentResDto[] studentList = new StudentResDto[11];
+                StudentResDto[] studentList = new StudentResDto[5];
                 StudentResDto student = new StudentResDto();
 
                 student.id = 1;
@@ -254,14 +254,14 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 studentList[3] = student;
                 student = new StudentResDto();
 
-                student.id = 6;
-                student.classRoll = "0506";
+                student.id = 5;
+                student.classRoll = "0505";
                 student.name = "Atikur Rahman";
                 student.examRoll = "555";
                 studentList[4] = student;
                 student = new StudentResDto();
 
-                student.id = 7;
+                /*student.id = 7;
                 student.classRoll = "0507";
                 student.name = "Shadiqur Rahman";
                 student.examRoll = "666";
@@ -302,7 +302,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 student.name = "Ishmam Shahriar";
                 student.examRoll = "221";
                 studentList[10] = student;
-                student = new StudentResDto();
+                student = new StudentResDto();*/
 
                 getStudentsResponseDto.students = studentList;
                 return getStudentsResponseDto;
@@ -319,7 +319,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             GetStudentsResponseDto getStudentsResponseDto = new GetStudentsResponseDto();
             try
             {
-                StudentResDto[] studentList = new StudentResDto[11];
+                StudentResDto[] studentList = new StudentResDto[5];
                 StudentResDto student = new StudentResDto();
 
                 student.id = 1;
@@ -350,14 +350,14 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 studentList[3] = student;
                 student = new StudentResDto();
 
-                student.id = 6;
-                student.classRoll = "0506";
+                student.id = 5;
+                student.classRoll = "0505";
                 student.name = "Atikur Rahman";
                 student.examRoll = "555";
                 studentList[4] = student;
                 student = new StudentResDto();
 
-                student.id = 7;
+                /*student.id = 7;
                 student.classRoll = "0507";
                 student.name = "Shadiqur Rahman";
                 student.examRoll = "666";
@@ -398,7 +398,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 student.name = "Ishmam Shahriar";
                 student.examRoll = "221";
                 studentList[10] = student;
-                student = new StudentResDto();
+                student = new StudentResDto();*/
 
                 getStudentsResponseDto.students = studentList;
                 return  getStudentsResponseDto;
@@ -443,16 +443,16 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             {
                 StudentFullInfoResDto student = new StudentFullInfoResDto();               
 
-                student.id = 10;
+                student.id = 4;
                 student.classRoll = "0510";
-                student.name = "Babu Pahari";
+                student.name = "Tayeb Zayed";
                 student.examRoll = "999";
 
                 student.programId = 1;
                 student.programName = "BSSE";
 
-                student.semesterId = 3;
-                student.semesterName = "3th Semester";
+                student.semesterId = 2;
+                student.semesterName = "2nd Semester";
 
                 student.batchId = 4;
                 student.batchName = "Fifth Batch";
@@ -558,6 +558,29 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-       
+        public BatchResDto[] getBatchesOfAProgram(int programId)
+        {
+            try
+            {
+                List<Batch> batchListFromRepo = utilityRepository.getBatchesOfAProgram(programId);
+
+                List< BatchResDto > responseToReturn=new List<BatchResDto>();
+                for (int i = 0; i < batchListFromRepo.Count; i++)
+                {
+                    BatchResDto batchResDto = new BatchResDto();
+                    var batchTemp = batchListFromRepo.ElementAt(i);
+
+                    batchResDto.id = batchTemp.Id;
+                    batchResDto.name = "Batch: "+batchTemp.BatchNo;
+                    responseToReturn.Add(batchResDto);
+                }
+
+                return responseToReturn.ToArray();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

@@ -1,252 +1,201 @@
 (
-    function(){
+    function () {
         angular.module("examinationManagement_module").controller("giveMarks_controller", ["$scope", "Result_Service", "Utility_Service", function ($scope, ResultService, UtilityService) {
             $scope.name = "Ishmnam";
-           
 
-            var GiveMarks={
-                programId:"",
-                semesterId:"",
-                batchId:"",
-                courseId:"",
-                subHeadId:"",
+            var EditMarks = {
                 examMarks: "",
-                marksDistributionId:"",
-                marks: []
+                marksDistributionId: "",
+                subheadId: "",
+                marksToEdit: []
             }
-            $scope.selected={
-                program:{
+
+            $scope.selected = {
+                program: {
                 },
-                semester:{
+                semester: {
                 },
-                batch:{
+                batch: {
                 },
-                course:{
+                course: {
                 },
-                distributedMarks:{
+                head: {
                 },
-                subHead:{
+                subHead: {
 
                 },
-                marks:{
-                    examMarks:"",
-                    obtainedMarks:[]
+                marksInfo: {
+
                 }
             }
 
-            $scope.selection={
-                programs:[],
-                semesters:[],
-                courses:[],
-                distributedMarks:[],
-                subHeads:[],
-                students:[
-
-                ]
+            $scope.selection = {
+                programs: [],
+                semesters: [],
+                courses: [],
+                heads: [],
+                subHeads: [],
             }
 
-            $scope.flag={
-                hideProgramSemesterCourse:false,
-                disableSaveButton:true,
+            $scope.flag = {
+                disableSaveButton: false
             }
 
             $scope.message = {
                 content: "",
                 color: ""
             }
-            
 
-            $scope.whenProgramIsSelected=function() {
+            $scope.whenProgramIsSelected = function () {
                 getSemesters();
 
+                $scope.selected.semester = {};
+                $scope.selected.batch = {};
+                $scope.selected.course = {};
+                $scope.selected.head = {};
+                $scope.selected.subHead = {};
+                $scope.selected.marksInfo = {};
 
 
-
-                 $scope.selected.semester={};
-                 $scope.selected.batch={};
-                 $scope.selected.course={}
-                 $scope.selected.head={}
-                 $scope.selected.subHead={}
-                $scope.selected.marks={
-                    examMarks:"",
-                    obtainedMarks:[]
-                }
-
-                 $scope.selection.courses=[];
-                 $scope.selection.distributedMarks=[];
+                $scope.selection.courses = [];
+                $scope.selection.heads = [];
                 $scope.selection.subHeads = [];
                 $scope.flag = {
-                    hideProgramSemesterCourse: false,
-                    disableSaveButton: true,
+                    disableSaveButton: false
                 }
             }
 
 
-            $scope.whenSemesterIsSelected=function(){
-                getCourses();
+            $scope.whenSemesterIsSelected = function () {
                 getBatch();
+                getCourses();
 
+                $scope.selected.batch = {};
+                $scope.selected.course = {};
+                $scope.selected.head = {};
+                $scope.selected.subHead = {};
+                $scope.selected.marksInfo = {};
 
-                $scope.selected.batch={};
-                $scope.selected.course={}
-                $scope.selected.head={}
-                $scope.selected.subHead={}
-                $scope.selected.marks={
-                    examMarks:"",
-                    obtainedMarks:[]
-                }
-
-
-                $scope.selection.distributedMarks=[];
+                $scope.selection.heads = [];
                 $scope.selection.subHeads = [];
                 $scope.flag = {
-                    hideProgramSemesterCourse: false,
-                    disableSaveButton: true
+                    disableSaveButton: false
                 }
             }
 
 
-            $scope.whenCourseIsSelected=function(){
+            $scope.whenCourseIsSelected = function () {
                 getIdAndHeadsOfADistribution();
-                
-                
-                $scope.selected.head={}
-                $scope.selected.subHead={}
-                $scope.selected.marks={
-                    examMarks:"",
-                    obtainedMarks:[]
-                }
+                $scope.selected.head = {};
+                $scope.selected.subHead = {};
+                $scope.selected.marksInfo = {};
                 $scope.selection.subHeads = [];
+
+                $scope.flag = {
+                    disableSaveButton: false
+                }
             }
 
-
-
-            
-            $scope.whenHeadIsSelected = function(){
-                getSubHeadOfAHead();
-
-
-
-                $scope.selected.subHead={}
-                $scope.selected.marks={
-                    examMarks:"",
-                    obtainedMarks:[]
+            $scope.whenHeadIsSelected = function () {
+                if ($scope.selected.distributedMarks) {
+                    $scope.selected.head = {
+                        id: $scope.selected.distributedMarks.head.id,
+                        name: $scope.selected.distributedMarks.head.name,
+                    }
+                    getSubHeadOfAHead();
                 }
                 
+                
+                $scope.selected.subHead = {};
+                $scope.selected.marksInfo = {};
+
                 $scope.flag = {
-                    hideProgramSemesterCourse: false,
-                    disableSaveButton: true,
+                    disableSaveButton: false,
                     isMarksAlreadyDistributed: $scope.flag.isMarksAlreadyDistributed
                 }
+
             }
 
 
             $scope.whenSubHeadIsSelected = function () {
                 $scope.flag = {
-                    hideProgramSemesterCourse: false,
-                    disableSaveButton: true,
+                    disableSaveButton: false,
                     isMarksAlreadyDistributed: $scope.flag.isMarksAlreadyDistributed
                 }
-                checkIfMarksIsALreadyGivenForSubHead();
-                $scope.selected.marks={
-                    examMarks:"",
-                    obtainedMarks:[]
-                }
-                
-                
-                $scope.flag.hideProgramSemesterCourse=true;
+                getGivenMarks();
+                $scope.flag.hideProgramSemesterCourse = true;
             }
 
 
-            var createObjectForStoringMarks=function(){
-                for(var i=0;i<$scope.selection.students.length;i++){
-                    $scope.selected.marks.obtainedMarks[i]={
-                        id:$scope.selection.students[i].id,
-                        marksIndividual:""
-                    }
-                }
-            }
-
-            $scope.whenMarksAreGiven=function () {
+            $scope.whenMarksAreGiven = function () {
                 checkWheatherToDisableSaveButton();
             }
 
-            var checkWheatherToDisableSaveButton=function () {
-                var temp=checkIfAllMarksAreGiven();
-                if(temp==false || $scope.selected.marks.examMarks==""){
-                    $scope.flag.disableSaveButton=true;
+            var checkWheatherToDisableSaveButton = function () {
+                var temp = checkIfAllMarksAreGiven();
+                if (temp == false) {
+                    $scope.flag.disableSaveButton = true;
                 }
-                else{
-                    $scope.flag.disableSaveButton=false;
+                else {
+                    $scope.flag.disableSaveButton = false;
                 }
             }
 
-            var checkIfAllMarksAreGiven=function () {
-                for(var i=0;i<$scope.selected.marks.obtainedMarks.length;i++){
-                    if($scope.selected.marks.obtainedMarks[i].marksIndividual=="" || $scope.selected.marks.obtainedMarks[i].marksIndividual==null)
+            var checkIfAllMarksAreGiven = function () {
+                for (var i = 0; i < $scope.selected.marksInfo.obtainedMarks.length; i++) {
+                    if ($scope.selected.marksInfo.obtainedMarks[i].marks==null)
                         return false;
                 }
                 return true;
             }
 
 
-            $scope.cancel=function(){
+            $scope.cancel = function () {
                 clearData();
+
             }
 
-            $scope.save=function(){
-                processMarksToSave();
-                console.log(GiveMarks);
-                saveGivenMarks();
+            $scope.save = function () {
+                EditMarks.marksToEdit = $scope.selected.marksInfo.obtainedMarks;
+                processDataToSave();
+                saveEditedMarks(EditMarks);
+                console.log(EditMarks);
             }
 
-            var processMarksToSave=function () {
-                GiveMarks.programId=$scope.selected.program.id;
-                GiveMarks.semesterId = $scope.selected.semester.id;
-                GiveMarks.batchId = $scope.selected.batch.id;
-                GiveMarks.courseId=$scope.selected.course.id;
-                GiveMarks.subHeadId=$scope.selected.subHead.id;
-                GiveMarks.examMarks = $scope.selected.marks.examMarks;
-                GiveMarks.marksDistributionId = $scope.selected.distributedMarks.id;
-                for(var i=0;i<$scope.selected.marks.obtainedMarks.length;i++){
-                    GiveMarks.marks[i] = {
-                        studentId:$scope.selected.marks.obtainedMarks[i].id,
-                        obtainedMarks:$scope.selected.marks.obtainedMarks[i].marksIndividual,
+            var processDataToSave=function() {
+
+                EditMarks.examMarks = $scope.selected.marksInfo.examMarks;
+                EditMarks.marksDistributionId = $scope.selected.distributedMarks.id;
+                EditMarks.subheadId = $scope.selected.subHead.id;
+                for (var i = 0; i < $scope.selected.marksInfo.obtainedMarks.length; i++) {
+                        EditMarks.marksToEdit[i] =
+                        {
+                            marksId: $scope.selected.marksInfo.obtainedMarks[i].id,
+                            studentId: $scope.selected.marksInfo.obtainedMarks[i].studentId,
+                            obtainedMarks: $scope.selected.marksInfo.obtainedMarks[i].marks,
+                            studentClassRoll: $scope.selected.marksInfo.obtainedMarks[i].studentClassRoll,
+                            studentName: $scope.selected.marksInfo.obtainedMarks[i].studentName
+                        }
                     }
-                }
+                    
+                
             }
 
-            var inatializeThePage=function(){
+
+            var inatializeThePage = function () {
                 getPrograms();
             }
 
 
 
-            var checkIfMarksDistributedCallBack=function(){
-                if ($scope.selection.distributedMarks.length > 0) {
-                    $scope.flag.isMarksAlreadyDistributed = true;
-                }
-                else {
-                    $scope.flag.isMarksAlreadyDistributed = false;
-                }
-            }
-
-            var checkIfMarksDistributed = function (checkIfMarksDistributedCallBack) {
-                checkIfMarksDistributedCallBack();
-            }
-            
-
             var clearData = function () {
-                GiveMarks = {
-                    programId: "",
-                    semesterId: "",
-                    batchId: "",
-                    courseId: "",
-                    subHeadId: "",
+                EditMarks = {
                     examMarks: "",
                     marksDistributionId: "",
-                    marks: []
+                    subheadId: "",
+                    marksToEdit: []
                 }
+
                 $scope.selected = {
                     program: {
                     },
@@ -256,26 +205,32 @@
                     },
                     course: {
                     },
-                    distributedMarks: {
+                    head: {
                     },
                     subHead: {
 
                     },
-                    marks: {
-                        examMarks: "",
-                        obtainedMarks: []
+                    marksInfo: {
+
                     }
                 }
 
                 $scope.selection = {
-                    programs:$scope.selection.programs,
+                    programs: $scope.selection.programs,
                     semesters: [],
                     courses: [],
-                    distributedMarks: [],
+                    heads: [],
                     subHeads: [],
-                    students: [
+                }
 
-                    ]
+                $scope.flag = {
+                    hideProgramSemesterCourse: false,
+                    disableSaveButton: false
+                }
+
+                $scope.message = {
+                    content: "",
+                    color: ""
                 }
             }
             var showNotification = function (message, status) {
@@ -309,7 +264,7 @@
                               }
                           },
                            function (errResponse) {
-                               showNotification('Error While Fetching Programs','ERROR');
+                               showNotification('Error While Fetching Programs', 'ERROR');
                            }
                    );
             }
@@ -326,10 +281,9 @@
                               }
                           },
                            function (errResponse) {
-                               showNotification('Error While Fetching Semesters','ERROR');
+                               showNotification('Error While Fetching Semesters', 'ERROR');
                            }
                    );
-
             }
 
             var getBatch = function () {
@@ -338,19 +292,20 @@
                           function (d) {
                               if (d.Status == "OK") {
                                   $scope.selected.batch = d.Data;
+                                  console.log(d.Data)
                               }
                               else if (d.Status == "ERROR") {
                                   showNotification(d.Message, d.Status);
                               }
                           },
                            function (errResponse) {
-                               showNotification('Error While Fetching Batch','ERROR');
+                               showNotification('Error While Fetching Batch', 'ERROR');
                            }
                    );
             }
 
             var getCourses = function () {
-                UtilityService.getCourses($scope.selected.program.id, $scope.selected.semester.id, $scope.selected.batch.id, $scope.selected.head.id)
+                UtilityService.getCourses($scope.selected.program.id, $scope.selected.semester.id)
                    .then(
                           function (d) {
                               if (d.Status == "OK") {
@@ -361,7 +316,7 @@
                               }
                           },
                            function (errResponse) {
-                               showNotification('Error While Fetching Courses','ERROR');
+                               showNotification('Error While Fetching Courses', 'ERROR');
                            }
                    );
             }
@@ -372,7 +327,6 @@
                           function (d) {
                               if (d.Status == "OK") {
                                   $scope.selection.distributedMarks = d.Data.distributedMarks;
-
                                   if ($scope.selection.distributedMarks.length > 0) {
                                       $scope.flag.isMarksAlreadyDistributed = true;
                                       getAllStudentOfACourse();
@@ -386,7 +340,7 @@
                               }
                           },
                            function (errResponse) {
-                               showNotification('Error While Fetching Courses','ERROR');
+                               showNotification('Error While Fetching Courses', 'ERROR');
                            }
                    );
             }
@@ -403,37 +357,11 @@
 			                   }
 			               },
     				        function (errResponse) {
-    				            showNotification('Error While Fetching Sub Heads','ERROR');
-    				        }
-	                );
-            }
-
-            var checkIfMarksIsALreadyGivenForSubHead = function () {
-                console.log("sssss");
-                ResultService.checkIfMarksIsGiven($scope.selected.program.id, $scope.selected.semester.id, $scope.selected.batch.id, $scope.selected.course.id, $scope.selected.distributedMarks.head.id, $scope.selected.subHead.id)
-                    .then(
-			               function (d) {
-			                   if (d.Status == "OK") {
-                                   if(d.Data==true)
-                                       $scope.flag.isMarksGiven = true;
-                                   else if (d.Data == false) {
-                                       $scope.flag.isMarksGiven = false;
-                                       createObjectForStoringMarks();
-                                   }
-                                       
-                                   
-			                   }
-			                   else if (d.Status == "ERROR") {
-			                       showNotification(d.Message, d.Status);
-			                   }
-			               },
-    				        function (errResponse) {
     				            showNotification('Error While Fetching Sub Heads', 'ERROR');
     				        }
 	                );
             }
-            
-           
+
             var getAllStudentOfACourse = function () {
                 UtilityService.getAllStudentOfACourse($scope.selected.program.id, $scope.selected.semester.id, $scope.selected.batch.id, $scope.selected.course.id)
                     .then(
@@ -446,13 +374,37 @@
 			                   }
 			               },
     				        function (errResponse) {
-    				            showNotification('Error While Fetching Sub Heads','ERROR');
+    				            showNotification('Error While Fetching Sub Heads', 'ERROR');
     				        }
 	                );
-            }           
+            }
 
-            var saveGivenMarks = function () {
-                ResultService.saveGivenMarks(GiveMarks)
+            var getGivenMarks = function () {
+                ResultService.getGivenMarksOfAllStudentForEditing($scope.selected.program.id, $scope.selected.semester.id, $scope.selected.batch.id, $scope.selected.course.id, $scope.selected.head.id, $scope.selected.subHead.id)
+                    .then(
+			               function (d) {
+			                   if (d.Status == "OK") {
+			                       $scope.selected.marksInfo = d.Data;
+
+			                       if ($scope.selected.marksInfo.obtainedMarks != null && $scope.selected.marksInfo.examMarks != 0) {
+			                           $scope.flag.isMarksGiven = true;
+			                       }
+			                       else {
+			                           $scope.flag.isMarksGiven = false;
+			                       }
+			                   }
+			                   else if (d.Status == "ERROR") {
+			                       showNotification(d.Message, d.Status);
+			                   }
+			               },
+    				        function (errResponse) {
+    				            showNotification('Error While Fetching Sub Heads', 'ERROR');
+    				        }
+	                );
+            }
+
+            var saveEditedMarks = function (editedMarks) {
+                ResultService.saveEditedMarks(editedMarks)
 	              .then(
                        function (d) {
                            if (d.Status == "OK") {
@@ -463,10 +415,11 @@
                            }
                        },
 			            function (errResponse) {
-			                showNotification('Error while Adding Subhead','ERROR');
+			                showNotification('Error while Adding Subhead', 'ERROR');
 			            });
                 clearData();
             }
+
             inatializeThePage();
         }])
     }()

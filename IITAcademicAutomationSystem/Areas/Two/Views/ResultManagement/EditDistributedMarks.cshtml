@@ -11,7 +11,10 @@
     <div>
         <div ng-app="examinationManagement_module" ng-controller="editDistributedMarks_controller">
             <div ng-cloak>
-                <br />
+                {{flag}}
+                <br/>
+                {{selected}}
+                <br/>
                 <div>
                     <div ng-if="message.content!=''">
                         <div class="{{message.color}}">{{message.content}}</div>
@@ -24,14 +27,16 @@
                                 <div class="col-sm-12">
                                     <div>
                                         <div class="col-sm-4">
-                                            <div><b>Program</b></div>
+                                            <div><b>Program</b>
+                                            </div>
                                             <div>
                                                 <select class="form-control" ng-change="whenProgramIsSelected()" ng-model="selected.program" ng-options="program as program.name for program in selection.programs"></select>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div ng-show="selected.program.name">
-                                                <div><b>Semester</b></div>
+                                                <div><b>Semester</b>
+                                                </div>
                                                 <div>
                                                     <select class="form-control" ng-change="whenSemesterIsSelected()" ng-model="selected.semester" ng-options="semester as semester.name for semester in selection.semesters"></select>
                                                 </div>
@@ -40,7 +45,8 @@
 
                                         <div class="col-sm-4">
                                             <div ng-show="selected.program.name && selected.semester.name">
-                                                <div><b>Course</b></div>
+                                                <div><b>Course</b>
+                                                </div>
                                                 <div>
                                                     <select class="form-control" ng-change="whenCourseIsSelected()" ng-model="selected.course" ng-options="course as course.name for course in selection.courses"></select>
                                                 </div>
@@ -56,22 +62,26 @@
                                 <div ng-if="flag.isMarksAlreadyDistributed===false">
                                     <h3>Marks is not Distributed</h3>
                                 </div>
+                                <div ng-if="flag.isFinallySubmitted">
+                                    <h3>Marks is Finally Submitted</h3>
+                                </div>
                                 <div ng-if="flag.isMarksAlreadyDistributed===true">
                                     <div ng-show="flag.isMarksAlreadyDistributed===true && flag.showDistributedMark===true">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <div>
-                                                    <div><b>Head Number</b></div>
+                                                <div ng-if="flag.isFinallySubmitted!=true">
+                                                    <div><b>Head Number</b>
+                                                    </div>
                                                     <div class="col-sm-4">
                                                         <input type="number" class="form-control" ng-change="whenHeadNumberChanged()" ng-model="selected.distribution.number.changed" min="{{selected.distribution.number.original}}" max="10">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <br />
+                                        <br/>
                                         <div>
                                             <div ng-repeat="t in getTimes(selected.distribution.number.changed) track by $index">
-                                                <div style="border:1px solid black;" class="well">
+                                                <div style="border: 1px solid black;" class="well">
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="col-sm-6">
@@ -79,7 +89,7 @@
                                                                 <div>
                                                                     <select class="form-control" ng-model="selected.distribution.head[$index].head" ng-change="whenHeadIsSelected()" ng-options="head.name for head in selection.heads track by head.id"></select>
                                                                 </div>
-                                                                <span style="color:#ff0000">
+                                                                <span style="color: #ff0000">
                                                                     <span ng-show="flag.isSameHeadSelectedMultipleTimes[$index]">Same head is selected multiple times</span>
                                                                 </span>
                                                             </div>
@@ -88,13 +98,13 @@
                                                                 <div>
                                                                     <input type="number" class="form-control" ng-model="selected.distribution.head[$index].weight" min="0" max="100" ng-change="checkIfHeadAndWeightAreDistributed()">
                                                                 </div>
-                                                                <span style="color:#ff0000">
+                                                                <span style="color: #ff0000">
                                                                     <span ng-show="!flag.isWeightIsDistributedInHundred">Total of all weights have to be 100</span>
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <br />
+                                                    <br/>
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="col-sm-6">
@@ -119,7 +129,7 @@
                                                 </div>
                                             </div>
                                             <div class="control-label col-sm-2">
-                                                <input type="button" class="btn btn-primary" value="Save" ng-disabled="flag.disableSaveButton" ng-click="save()">
+                                                <input type="button" class="btn btn-primary" value="Save" ng-disabled="flag.disableSaveButton || flag.isFinallySubmitted" ng-click="save()">
                                                 <input type="button" class="btn btn-primary" value="Cancel" ng-click="cancelDistribution()">
                                             </div>
                                         </div>

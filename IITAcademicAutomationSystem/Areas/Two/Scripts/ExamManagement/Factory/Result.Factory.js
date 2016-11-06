@@ -219,7 +219,7 @@
                 );
         },
         getResultOfAllStudents: function (programId, semesterId, batchId) {
-            return $http.get('/ResultManagement/getResultOfASemester?programId=' + programId + "&semesterId=" + semesterId + "&batchId=" + batchId)
+            return $http.get('/ResultManagement/getResultTillCurrentSenester?programId=' + programId + "&semesterId=" + semesterId + "&batchId=" + batchId)
                 .then(
                         function (response) {
                             return response.data;
@@ -239,7 +239,19 @@
                             return $q.reject(errResponse);
                         }
                 );
-        }
+        },
+        
+        checkIfAllCourseAreFinallySubmitted: function (programId, semesterId, batchId) {
+            return $http.get('/ResultManagement/checkIfAllCourseAreFinallySubmitted?programId=' + programId + "&semesterId=" + semesterId + "&batchId=" + batchId)
+            .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        return $q.reject(errResponse);
+                    }
+            );
+         }
     };
 
 }])

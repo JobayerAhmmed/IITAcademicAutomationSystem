@@ -43,6 +43,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ResponseDto
 
     public class GetGivenMarksToEditResDto
     {
+        public bool isFinallYSubmitted { get; set; }
         public double examMarks { get; set; }
         public GetObtainedMarksToEditResDto[] obtainedMarks { get; set; }
     }
@@ -52,6 +53,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ResponseDto
         public int id { get; set; }
         public string studentClassRoll { get; set; }
         public string studentName { get; set; }
+        public int studentId { get; set; }
         public double marks { get; set; }
     }
 

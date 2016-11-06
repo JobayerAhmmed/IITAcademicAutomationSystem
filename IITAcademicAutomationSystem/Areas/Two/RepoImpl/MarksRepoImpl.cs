@@ -82,6 +82,23 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
             }
         }
 
+        public void saveGivenMarks(Marks[] marks)
+        {
+            try
+            {
+                for (int i = 0; i < marks.Length; i++)
+                {
+                    db.Marks.Add(marks[i]);
+                    db.SaveChanges();
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public void saveGivenMarks(Marks marks)
         {
             try
