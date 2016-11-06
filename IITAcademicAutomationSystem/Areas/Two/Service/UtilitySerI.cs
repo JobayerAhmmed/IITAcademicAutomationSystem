@@ -30,5 +30,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
         List<CourseResDto> getAllCoursesOfASemester(int programId, int semesterId, int batchId);
 
         BatchResDto[] getBatchesOfAProgram(int programId);
+
+        
     }
 }

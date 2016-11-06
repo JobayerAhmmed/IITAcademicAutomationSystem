@@ -20,5 +20,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Repo
         List<Course> getCoursesOfATeacherOfASemesterOfAProgram(int teacherId, int programId, int semesterId);
         Batch getBatch(int programId, int semesterId);
         List<Batch> getBatchesOfAProgram(int programId);
+
+        
     }
 }
