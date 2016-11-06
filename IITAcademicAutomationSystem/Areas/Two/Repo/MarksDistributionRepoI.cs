@@ -13,7 +13,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.Repo
         void distributeMarks(MarksDistribution distributeMarksFinalReqDto);
         List<MarksDistribution> getDistributedMarks(int programId, int semesterId, int batchId, int courseId);
         int GetMarksDistributionId(int programId, int semesterId, int batchId, int courseId,int headId);
-        /*List<MarksDistribution> getDistributedMarksByProgramSemesterCourse(int programId, int semesterId, int courseId);*/
+        MarksDistribution GetMarksDistribution(int programId, int semesterId, int batchId, int courseId, int headId);
+
+          /*List<MarksDistribution> getDistributedMarksByProgramSemesterCourse(int programId, int semesterId, int courseId);*/
         void editDistributedMarks(MarksDistribution marksDistribution);
         void submitFinally(int programId, int semesterId, int batchId, int courseId);
         bool checkIfFinallySubmitted(int programId, int semesterId, int batchId, int courseId);

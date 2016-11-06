@@ -18,7 +18,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
         private MarksDistributionRepoI marksDistributionRepo = new MarksDistributionRepoImpl();
         UtilitySerI utilityService = new UtilitySerImpl();
         MarksRepoI marksRepository = new MarksRepoImpl();
-
+        UtilityRepoI utilityRepository=new UtilityRepoImpl();
         public void createHead(AddHeadRequestDto addHeadRequestDto)
         {
             MarksHead marksHead = new MarksHead();
@@ -189,6 +189,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 DistributedMarkResDto[] distributedMarkResDtoTemp = new DistributedMarkResDto[distributedMarksList.Count];
                 for (int i = 0; i < distributedMarksList.Count; i++)
                 {
+                    if(i==0)
+                        getDistributedMarksResDto.isFinallySubmitted = distributedMarksList.ElementAt(i).isFinallySubmitted;
                     DistributedMarkResDto distributedMarkResDto = new DistributedMarkResDto();
                     distributedMarkResDto.id = distributedMarksList.ElementAt(i).Id;
                     distributedMarkResDto.weight = distributedMarksList.ElementAt(i).marksEvaluated;
@@ -582,12 +584,10 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                             MarksOfAStudentResDto studentMarksOnly = new MarksOfAStudentResDto();
                             studentMarksOnly.subHead = subHeads[j].name;
                             var ifVisibleToStudentOrNot = checkIfMarksVisibleYoStudentOrNot(marksDistributionList, studnetMarksIndividual.ElementAt(k).marksDistributionId);
-                            if (ifVisibleToStudentOrNot)
+                            if (ifVisibleToStudentOrNot==true)
                                 studentMarksOnly.marks = "" + studnetMarksIndividual.ElementAt(k).obtainedMarks;
-                            else if (!ifVisibleToStudentOrNot)
-                                studentMarksOnly.marks = "Invisible To Student";
-                            
-                            studentMarksOnly.marks = "" + studnetMarksIndividual.ElementAt(k).obtainedMarks;
+                            else if (ifVisibleToStudentOrNot==false)
+                                studentMarksOnly.marks = "Invisible";
                             
                             marksOfAStudentList.Add(studentMarksOnly);
                         }
@@ -638,15 +638,18 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             GetGivenMarksToEditResDto getGivenMarksToReturn= new GetGivenMarksToEditResDto();
             try
             {
-                int marksDistributionId = marksDistributionRepo.GetMarksDistributionId(programId,semesterId,batchId,courseId,headId);
-                List<Marks> marks = marksRepository.getMarks(marksDistributionId, subheadId);
+                var marksDistribution = marksDistributionRepo.GetMarksDistribution(programId,semesterId,batchId,courseId,headId);
+                List<Marks> marks = marksRepository.getMarks(marksDistribution.Id, subheadId);
 
-                if (marks.Count == 0)
+                if (marks.Count != 0)//when data is picked up during give marks
                 {
-                    return getGivenMarksToReturn;
+                    getGivenMarksToReturn.isFinallYSubmitted = marksDistribution.isFinallySubmitted;
+
+                    getGivenMarksToReturn.examMarks = marks.ElementAt(0).examMarks;
                 }
 
-                getGivenMarksToReturn.examMarks = marks.ElementAt(0).examMarks;
+                
+                
                 GetStudentsResponseDto studentList = utilityService.getStudentsOfACOurse(programId, semesterId, batchId, courseId);
 
                 GetObtainedMarksToEditResDto[] getObtainedMarksList = new GetObtainedMarksToEditResDto[studentList.students.Length];
@@ -657,18 +660,37 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
                     var student = studentList.students[i];
 
-                    for(int j=0;j< marks.Count; j++)
-                    {
-                        if (student.id == marks.ElementAt(j).studentId && marks.ElementAt(j).subheadId == subheadId)
-                        {
-                            getObtainedMarks.id = marks.ElementAt(j).Id;
-                            getObtainedMarks.studentClassRoll = student.classRoll;
-                            getObtainedMarks.studentName = student.name;
-                            getObtainedMarks.marks = marks.ElementAt(j).obtainedMarks;
 
-                            getObtainedMarksList[i] = getObtainedMarks;
-                        }
+                    if (marks.Count == 0)
+                    {
+
+
+                        getObtainedMarks.id = -1;//-1 will detect that,its have to be created in db
+                        getObtainedMarks.studentClassRoll = student.classRoll;
+                        getObtainedMarks.studentName = student.name;
+                        getObtainedMarks.studentId = student.id;
+                        getObtainedMarks.marks = 0;
+                        getObtainedMarksList[i] = getObtainedMarks;
+                            
+
                         
+                    }
+
+                    else
+                    {
+                        for (int j = 0; j < marks.Count; j++)
+                        {
+                            if (student.id == marks.ElementAt(j).studentId && marks.ElementAt(j).subheadId == subheadId)
+                            {
+                                getObtainedMarks.id = marks.ElementAt(j).Id;
+                                getObtainedMarks.studentClassRoll = student.classRoll;
+                                getObtainedMarks.studentName = student.name;
+                                getObtainedMarks.marks = marks.ElementAt(j).obtainedMarks;
+
+                                getObtainedMarksList[i] = getObtainedMarks;
+                            }
+
+                        }
                     }
 
                     
@@ -690,16 +712,40 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
         {
             try
             {
+                List<Marks> marksToCreate=new List<Marks>();
                 Marks[] marks = new Marks[saveEditedMarksResDto.marksToEdit.Length];
                 for(int i=0;i< saveEditedMarksResDto.marksToEdit.Length; i++)
                 {
-                    Marks mark = new Marks();
-                    mark.obtainedMarks = saveEditedMarksResDto.marksToEdit[i].marks;
-                    mark.Id = saveEditedMarksResDto.marksToEdit[i].id;
-                    marks[i] = mark;
-                }
+                    if (saveEditedMarksResDto.marksToEdit[i].marksId == -1)
+                    {
+                        var individualMarks = saveEditedMarksResDto.marksToEdit[i];
+                        Marks marksTemp = new Marks();
+                        marksTemp.examMarks = saveEditedMarksResDto.examMarks;
+                        marksTemp.obtainedMarks = individualMarks.obtainedMarks;
+                        marksTemp.marksDistributionId = saveEditedMarksResDto.marksDistributionId;
+                        marksTemp.subheadId = saveEditedMarksResDto.subheadId;
+                        marksTemp.studentId = individualMarks.studentId;
+                        marksTemp.marksGiverId = "" + utilityService.getIdOfLoggedInTeacher();
+                        marksToCreate.Add(marksTemp);
+                        continue;
+                    }
 
-                marksRepository.saveEditedMarks(marks);
+                    else
+                    {
+                        Marks mark = new Marks();
+                        mark.obtainedMarks = saveEditedMarksResDto.marksToEdit[i].obtainedMarks;
+                        mark.Id = saveEditedMarksResDto.marksToEdit[i].marksId;
+                        marks[i] = mark;
+                    }
+
+                    
+                }
+                if (saveEditedMarksResDto.marksToEdit[0].marksId == -1)
+                {
+                    marksRepository.saveGivenMarks(marksToCreate.ToArray());
+                }
+                else if(saveEditedMarksResDto.marksToEdit[0].marksId != -1)
+                    marksRepository.saveEditedMarks(marks);
             }
             catch(Exception e)
             {
@@ -835,6 +881,51 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
+        public AllStudentsResultResDto getCompleteResultOfAllStudents(int programId, int semesterId, int batchId)
+        {
+            AllStudentsResultResDto responseToReturn = new AllStudentsResultResDto();
+            try
+            {
+                //.............................has to be changed wile integrating .............................................................................
+
+                int lastSemesterIdWhereallCoursesAreFinallYSubmitted = semesterId;
+                semesterId = lastSemesterIdWhereallCoursesAreFinallYSubmitted;
+
+                var semester = utilityRepository.getSemesterBySemesterId(semesterId);
+                var studentSemesterList = utilityRepository.getStudentsAllSemester(programId, semester.SemesterNo);
+
+                List< AllStudentsResultResDto > studentResultListAllSemester=new List<AllStudentsResultResDto>();
+
+                for (int semesterCount = 0; semesterCount < studentSemesterList.Count; semesterCount++)
+                {
+                    int semesterIdTemp = studentSemesterList.ElementAt(semesterCount).Id;
+                    AllStudentsResultResDto resultOfASemesterTemp = getResultOfALlStudentOfASemester(programId, semesterIdTemp, batchId);
+                    studentResultListAllSemester.Add(resultOfASemesterTemp);
+                }
+
+                AllStudentsResultResDto latestSemesterResult = new AllStudentsResultResDto();
+
+                for (int i = 0; i < studentResultListAllSemester.Count; i++)
+                {
+                    if (studentResultListAllSemester.ElementAt(i).semesterId == semesterId)
+                    {
+                        latestSemesterResult = studentResultListAllSemester.ElementAt(i);
+                        break;
+                    }
+                }
+
+                studentResultListAllSemester = processGPAOfEachSemester(studentResultListAllSemester);// 
+                responseToReturn = processFinalResult(latestSemesterResult, studentResultListAllSemester);
+
+                return setAllValuesToTwoDecimal(responseToReturn);
+
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+             }
 
         //................. result process will start from here.............
         //get all courses of a program,semester & batch
@@ -845,7 +936,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
 
         // 4 tar moddhe jodi 3 ta course ney, baki 1tar jonno error handle baki ase
-        public AllStudentsResultResDto getResult(int programId,int semesterId,int batchId)
+        private AllStudentsResultResDto getResultOfALlStudentOfASemester(int programId,int semesterId,int batchId)
         {
             try
             {
@@ -871,16 +962,16 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                         double totalMarksOfCourse = countMarksOfACourse(programId, semesterId, batchId, courseTemp.id, studentTemp.id);
 
                         individualCourseResultResDto.courseName = courseTemp.name;
-                        if (totalMarksOfCourse != -1)
+                        if (totalMarksOfCourse != -1 && totalMarksOfCourse != -2)
                         {
                             double GPAOfCourse = findGPABasedOnMarks(totalMarksOfCourse);
                             individualCourseResultResDto.GPA = GPAOfCourse;
                         }
                         
-                        else if (totalMarksOfCourse == -1)
+                        else if (totalMarksOfCourse == -1 || totalMarksOfCourse != -2)
                         {
-                            individualCourseResultResDto.GPA = -1;//when student does not have he course
-                        }
+                            individualCourseResultResDto.GPA = -1;//-1 when student does not have he course or marks is not given
+                        }                                         
 
                         courseResultList.Add(individualCourseResultResDto);
                         
@@ -893,9 +984,15 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
                     eachStudentResultList.Add(eachStudentResult);
                 }
-                responseToReturn.program = "";
-                responseToReturn.semester = "";
-                responseToReturn.batch = "";
+                var programTemp = utilityRepository.getProgramByProgramId(programId);
+                responseToReturn.programId = programTemp.Id;
+                responseToReturn.programName = programTemp.ProgramName;
+                var semesterTemp = utilityRepository.getSemesterBySemesterId(semesterId);
+                responseToReturn.semesterId = semesterTemp.Id;
+                responseToReturn.semesterName = semesterTemp.SemesterNo;
+
+                responseToReturn.batchId = 4;//these has to be chaged
+                responseToReturn.batchName = "";
 
                 List<String> courseToResponse = new List<String>();
 
@@ -930,8 +1027,14 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 {
                     return -1;
                 }
+                if (marksListOfAllSubHeadOfAStudent.Count == 0 )//when marks is not given for All sub head of a head
+                {
+                    return -2;
+                }
 
                 MarksDistribution marksDistribution = marksDistributionRepo.getDistributedMarks(marksDistributionTemp.id);
+
+                
 
                 double individualHeadmarks = countMarksOfAHead(marksDistribution, marksListOfAllSubHeadOfAStudent);
 
@@ -966,18 +1069,18 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
         private double countMarksBasedOnBestCountOfSubheads(double weightOfHead, List<Marks> marksListOfAllSubHeadOfAStudent)
         {
-            Marks bestMarks= marksListOfAllSubHeadOfAStudent.ElementAt(0);
+            double bestMarks = 0.00;
 
             for (int i = 0; i < marksListOfAllSubHeadOfAStudent.Count; i++)
             {
                 var marksTemp = marksListOfAllSubHeadOfAStudent.ElementAt(i);
-                if (marksTemp.obtainedMarks > bestMarks.obtainedMarks)
-                    bestMarks = marksTemp;
+                double solidMarks = (marksTemp.obtainedMarks*weightOfHead)/marksTemp.examMarks;
+
+                if (solidMarks > bestMarks)
+                    bestMarks = solidMarks;
             }
 
-            double solidMarks = (bestMarks.obtainedMarks* weightOfHead) /bestMarks.examMarks;
-
-            return solidMarks;
+            return bestMarks;
         }
 
         private double findGPABasedOnMarks(double marks)
@@ -1011,7 +1114,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
             try
             {
-                AllStudentsResultResDto resultList = getResult(programId, semesterId, batchId);
+                AllStudentsResultResDto resultList = getResultOfALlStudentOfASemester(programId, semesterId, batchId);
 
 
                 for (int resultListCount = 0; resultListCount < resultList.results.Length; resultListCount++)
@@ -1065,6 +1168,93 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-       
+        private List<AllStudentsResultResDto> processGPAOfEachSemester(List<AllStudentsResultResDto> allSemesterResultList)
+        {
+            for (int semesterResultCount = 0; semesterResultCount < allSemesterResultList.Count; semesterResultCount++)//loop ..for all result of all semester from last semester to previous semesters
+            {
+                var allStudentResultTemp = allSemesterResultList.ElementAt(semesterResultCount);
+
+                for (int studentCount = 0; studentCount < allStudentResultTemp.results.Length; studentCount++)
+                {
+                    var individualStudentResult = allStudentResultTemp.results.ElementAt(studentCount);
+
+                    double SummationOfGPAOfAllCourses = 0.00;
+                    int courseNoFlag = 0;
+                    for (int individualStudentCoursesCount = 0;
+                        individualStudentCoursesCount < individualStudentResult.result.Length;
+                        individualStudentCoursesCount++)
+                    {
+                        var individualCourseResult = individualStudentResult.result[individualStudentCoursesCount];
+
+                        if (individualCourseResult.GPA == -1) // if student does not have a course,its GPA is -1
+                            continue;
+
+                        SummationOfGPAOfAllCourses = SummationOfGPAOfAllCourses + individualCourseResult.GPA;//counting summation of GPA of all courses of a semester
+                        courseNoFlag++;
+                    }
+
+                    double GPATemp = SummationOfGPAOfAllCourses/courseNoFlag;
+
+                    allSemesterResultList.ElementAt(semesterResultCount).results[studentCount].GPA = GPATemp;
+                }
+            }
+            return allSemesterResultList;
+        }
+
+        private AllStudentsResultResDto processFinalResult(AllStudentsResultResDto lastSemesterResult , List<AllStudentsResultResDto> allSemesterResultList)
+        {
+            for (int studentCount = 0; studentCount < lastSemesterResult.results.Length; studentCount++)
+            {
+                var individualStudentResult = lastSemesterResult.results[studentCount];
+                double CGPA = countCGPAOfAStudent(allSemesterResultList, individualStudentResult.id);
+                lastSemesterResult.results[studentCount].CGPA = CGPA;
+            }
+            return lastSemesterResult;
+        }
+
+        private double countCGPAOfAStudent(List<AllStudentsResultResDto> allSemesterResultList,int studentId)
+        {
+            double summationOfGPA = 0.00;
+            double noOfSemester = 0.00;
+            for (int semesterCount = 0; semesterCount < allSemesterResultList.Count; semesterCount++)
+            {
+                var semesterResultOfAllStudents = allSemesterResultList.ElementAt(semesterCount);
+                for (int studentCount = 0; studentCount < semesterResultOfAllStudents.results.Length; studentCount++)
+                {
+                    var studentResultTemp = semesterResultOfAllStudents.results[studentCount];
+                    if(studentResultTemp.id!= studentId)
+                        continue;
+                    if (studentResultTemp.id == studentId)
+                    {
+                        summationOfGPA = summationOfGPA + studentResultTemp.GPA;
+                        noOfSemester++;
+                        break;
+                    }
+                }
+            }
+            double CGPA = summationOfGPA/noOfSemester;
+            return CGPA;
+        }
+
+        private AllStudentsResultResDto setAllValuesToTwoDecimal(AllStudentsResultResDto result)
+        {
+            for (int studentCount = 0; studentCount < result.results.Length; studentCount++)
+            {
+                var studentResultTemp = result.results[studentCount];
+
+                result.results[studentCount].GPA= Math.Round(result.results[studentCount].GPA, 2);
+                result.results[studentCount].CGPA = Math.Round(result.results[studentCount].CGPA, 2);
+
+                for (int courseCount = 0; courseCount < studentResultTemp.result.Length; courseCount++)
+                {
+                    var courseResultTemp = studentResultTemp.result[courseCount];
+
+                    result.results[studentCount].result[courseCount].GPA= Math.Round(result.results[studentCount].result[courseCount].GPA, 2);
+                }
+            }
+
+            return result;
+        }
+
     }
 }

@@ -185,8 +185,6 @@
                         continue;
                     if ($scope.selected.distribution.head[i].head.id != "")
                         numberOfSelectedHeads++;
-
-                    console.log(numberOfSelectedHeads);
                 }
                 if (numberOfSelectedHeads == $scope.selected.distribution.number.changed)
                     return true;
@@ -462,7 +460,12 @@
 			               function (d) {
 			                   console.log(d);
 			                   if (d.Status == "OK") {
+                                   console.log("ssss1")
+			                       console.log(d);
 			                       $scope.selection.distributedMarks = d.Data.distributedMarks;
+			                       $scope.flag.isFinallySubmitted = d.Data.isFinallySubmitted;
+			                       console.log("ssss2")
+			                       console.log($scope.flag.isFinallySubmitted);
 			                       var distributionLength = $scope.selection.distributedMarks.length;		                       
 			                             
 			                       if (distributionLength != 0) {

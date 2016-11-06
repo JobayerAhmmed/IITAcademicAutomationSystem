@@ -91,6 +91,20 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
             }
         }
 
+        public MarksDistribution GetMarksDistribution(int programId, int semesterId, int batchId, int courseId, int headId)
+        {
+            try
+            {
+                var query = (from MarksDistribution in db.MarksDistributions where MarksDistribution.programId == programId && MarksDistribution.semesterId == semesterId && MarksDistribution.batchId == batchId && MarksDistribution.courseId == courseId && MarksDistribution.headId == headId select MarksDistribution).FirstOrDefault();
+                return query;
+                
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public void submitFinally(int programId, int semesterId, int batchId, int courseId)
         {
             try
@@ -138,6 +152,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
                 throw e;
             }
         }
+
+        
 
         /*public List<MarksDistribution> getDistributedMarksByProgramSemesterCourse(int programId, int semesterId, int courseId)
         {

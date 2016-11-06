@@ -13,9 +13,12 @@ namespace IITAcademicAutomationSystem.Areas.Two.ResponseDto
 
     public class AllStudentsResultResDto
     {
-        public string program { get; set; }
-        public string semester { get; set; }
-        public string batch { get; set; }
+        public int programId { get; set; }
+        public string programName { get;set;}
+        public int semesterId { get; set; }
+        public int semesterName { get; set; }
+        public int batchId { get; set; }
+        public string batchName { get; set; }
         public string[] courses { get; set; }
         public IndividualResultResDto[] results { get; set; }
     }
@@ -27,6 +30,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.ResponseDto
         public string classRoll { get; set; }
         public string examRoll { get; set; }
         public IndividualCourseResultResDto[] result { get; set; }
+        public double GPA { get; set; }
+        public double CGPA { get; set; }
     }
 
     public class IndividualCourseResultResDto

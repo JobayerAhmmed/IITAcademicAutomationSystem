@@ -26,15 +26,19 @@ namespace IITAcademicAutomationSystem.Areas.Two.RequestDto
 
     public class SaveEditedMarksResDto
     {
+        public double examMarks { get; set; }
+        public int marksDistributionId { get; set; }
+        public int subheadId { get; set; }
         public MarksToEditResDto[] marksToEdit { get; set; }
     }
 
     public class MarksToEditResDto
     {
-        public int id { get; set; }
+        public int marksId { get; set; }
+        public int studentId { get; set; }
+        public double obtainedMarks { get; set; }
         public string studentClassRoll { get; set; }
         public string studentName { get; set; }
-        public double marks { get; set; }
     }
 
 

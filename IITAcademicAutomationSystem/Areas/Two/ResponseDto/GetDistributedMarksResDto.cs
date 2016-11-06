@@ -7,6 +7,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ResponseDto
 {
     public class GetDistributedMarksResDto
     {
+        public bool isFinallySubmitted { get; set; }
         public DistributedMarkResDto[] distributedMarks { get; set; }
     }
 

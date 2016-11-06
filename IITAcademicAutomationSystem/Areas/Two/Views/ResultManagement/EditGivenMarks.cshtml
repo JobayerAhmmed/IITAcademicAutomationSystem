@@ -15,6 +15,7 @@ ViewBag.Title = "viewEditGivenMarks";
     <div>
         <div ng-app="examinationManagement_module" ng-controller="editGivenMarks_controller">
             <div ng-cloak>
+                {{selected}}
                 <br/>
                 <div>
                     <div ng-if="message.content!=''">
@@ -26,14 +27,16 @@ ViewBag.Title = "viewEditGivenMarks";
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="col-sm-2">
-                                    <div><b>Program</b></div>
+                                    <div><b>Program</b>
+                                    </div>
                                     <div>
                                         <select class="form-control" ng-change="whenProgramIsSelected()" ng-model="selected.program" ng-options="program as program.name for program in selection.programs"></select>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div ng-show="selected.program.name">
-                                        <div><b>Semester</b></div>
+                                        <div><b>Semester</b>
+                                        </div>
                                         <div>
                                             <select class="form-control" ng-change="whenSemesterIsSelected()" ng-model="selected.semester" ng-options="semester as semester.name for semester in selection.semesters"></select>
                                         </div>
@@ -41,7 +44,8 @@ ViewBag.Title = "viewEditGivenMarks";
                                 </div>
                                 <div class="col-sm-2">
                                     <div ng-show="selected.program.name && selected.semester.name">
-                                        <div><b>Course</b></div>
+                                        <div><b>Course</b>
+                                        </div>
                                         <div>
                                             <select class="form-control" ng-change="whenCourseIsSelected()" ng-model="selected.course" ng-options="course as course.name for course in selection.courses"></select>
                                         </div>
@@ -50,7 +54,8 @@ ViewBag.Title = "viewEditGivenMarks";
 
                                 <div class="col-sm-2">
                                     <div ng-show="selected.program.id && selected.semester.id && selected.course.id && selection.distributedMarks.length!=0">
-                                        <div><b>Head</b></div>
+                                        <div><b>Head</b>
+                                        </div>
                                         <div>
                                             <select class="form-control" ng-change="whenHeadIsSelected()" ng-model="selected.distributedMarks" ng-options="mark as mark.head.name for mark in selection.distributedMarks"></select>
                                         </div>
@@ -58,7 +63,8 @@ ViewBag.Title = "viewEditGivenMarks";
                                 </div>
                                 <div class="col-sm-2">
                                     <div ng-show="selected.program.name && selected.semester.name && selected.course.name && selected.head.name">
-                                        <div><b>Sub-Head</b> </div>
+                                        <div><b>Sub-Head</b>
+                                        </div>
                                         <div>
                                             <select class="form-control" ng-change="whenSubHeadIsSelected()" ng-model="selected.subHead" ng-options="subHead as subHead.name for subHead in selection.subHeads"></select>
                                         </div>
@@ -70,13 +76,16 @@ ViewBag.Title = "viewEditGivenMarks";
                             <div ng-show="selected.program.name && selected.semester.name && selected.course.name">
                                 <div ng-if="flag.isMarksAlreadyDistributed==false">
                                     <h3>Marks Are Not Distributed Yet</h3>
-                                </div>                                    
+                                </div>
                             </div>
-                    </div>
+                        </div>
                         <br/>
                         <div ng-if="flag.isMarksAlreadyDistributed==true">
                             <div ng-if="flag.isMarksGiven==false">
                                 <h3>Marks Are Not Given Yet</h3>
+                            </div>
+                            <div ng-if="selected.marksInfo.isFinallYSubmitted">
+                                <h3>Marks is Submitted Finally</h3>
                             </div>
                             <div ng-if="flag.isMarksGiven==true">
                                 <div ng-show="selected.program.name && selected.semester.name && selected.course.name && selected.head.name && selected.subHead.name">
@@ -89,25 +98,25 @@ ViewBag.Title = "viewEditGivenMarks";
                                     <div>
                                         <table class="table">
                                             <thead>
-                                                <tr>
-                                                    <th>Roll</th>
-                                                    <th>Name</th>
-                                                    <th>Obtained Marks</th>
-                                                </tr>
+                                            <tr>
+                                                <th>Roll</th>
+                                                <th>Name</th>
+                                                <th>Obtained Marks</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="marks in selected.marksInfo.obtainedMarks">
-                                                    <td>{{marks.studentClassRoll}}</td>
-                                                    <td>{{marks.studentName}}</td>
-                                                    <td><input type="number" class="form-control" ng-model="selected.marksInfo.obtainedMarks[$index].marks" ng-change="whenMarksAreGiven()" min="0" max="{{selected.marksInfo.examMarks}}"></td>
-                                                </tr>
+                                            <tr ng-repeat="marks in selected.marksInfo.obtainedMarks">
+                                                <td>{{marks.studentClassRoll}}</td>
+                                                <td>{{marks.studentName}}</td>
+                                                <td><input type="number" class="form-control" ng-model="selected.marksInfo.obtainedMarks[$index].marks" ng-disabled="selected.marksInfo.isFinallYSubmitted" ng-change="whenMarksAreGiven()" min="0" max="{{selected.marksInfo.examMarks}}"></td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="col-sm-4">
-                                                <input type="button" class="btn btn-primary" value="Save" ng-disabled="flag.disableSaveButton" ng-click="save()">
+                                                <input type="button" class="btn btn-primary" value="Save" ng-disabled="flag.disableSaveButton || selected.marksInfo.isFinallYSubmitted" ng-click="save()">
                                                 <input type="button" class="btn btn-primary" value="Cancel" ng-click="cancel()">
                                             </div>
                                         </div>
@@ -115,8 +124,8 @@ ViewBag.Title = "viewEditGivenMarks";
                                 </div>
                             </div>
                         </div>
-                   
-                     </div>
+
+                    </div>
                 </div>
             </div>
         </div>

@@ -395,11 +395,11 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
-        public JsonResult getResultOfASemester(int programId, int semesterId, int batchId)
+        public JsonResult getResultTillCurrentSenester(int programId, int semesterId, int batchId)
         {
             try
             {
-                var data = resultManagementSerI.getResult(programId, semesterId, batchId);
+                var data = resultManagementSerI.getCompleteResultOfAllStudents(programId, semesterId, batchId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }

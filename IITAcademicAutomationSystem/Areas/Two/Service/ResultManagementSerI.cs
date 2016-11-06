@@ -30,11 +30,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
 
         AllHeadsMarksStatusOfACourseGivingInfoResDto getHeadsMarksGivingInfoOfACourse(int programId, int semesterId, int batchId, int courseId);
         void submitFinally(int programId, int semesterId, int batchId, int courseId);
-
         AllFinalSubmissionResDto getFinalSubmissionInfoOfAllCourses(int programId, int semesterId, int batchId);
         bool checkIfAllCourseAreFinallySubmitted(int programId, int semesterId, int batchId);
-
-        AllStudentsResultResDto getResult(int programId, int semesterId, int batchId);
+        AllStudentsResultResDto getCompleteResultOfAllStudents(int programId, int semesterId, int batchId);
         IndividualStudentPromotionResDto[] getPassFailInfoOfStudents(int programId, int semesterId, int batchId);
     }
 }
