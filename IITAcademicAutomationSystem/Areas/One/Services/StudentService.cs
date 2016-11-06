@@ -12,8 +12,10 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
     public interface IStudentService
     {
         Student ViewStudent(int id);
+        Student GetStudentByUserId(string userId);
         IEnumerable<Student> GetAllStudents();
         int CreateStudent(Student student);
+        bool EditStudent(Student student);
         void Dispose();
     }
     public class StudentService : IStudentService
@@ -31,6 +33,11 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         {
             return unitOfWork.StudentRepository.GetStudentById(id);
         }
+
+        public Student GetStudentByUserId(string userId)
+        {
+            return unitOfWork.StudentRepository.GetStudentByUserId(userId);
+        }
         public int CreateStudent(Student student)
         {
             try
@@ -43,6 +50,21 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             {
                 modelState.AddModelError("", "Unable to save, try again.");
                 return -1;
+            }
+        }
+
+        public bool EditStudent(Student student)
+        {
+            try
+            {
+                unitOfWork.StudentRepository.EditStudent(student);
+                unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                modelState.AddModelError("", "Unable to save student, please try again.");
+                return false;
             }
         }
 

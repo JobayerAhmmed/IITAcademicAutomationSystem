@@ -6,25 +6,26 @@
 
 <section class="content-header">
     <h1>
-        @ViewBag.ProgramName Batch List
+        @ViewBag.Title
     </h1>
     <ol class="breadcrumb">
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
-        <li><a href="#">@ViewBag.ProgramName</a></li>
-        <li class="active">Batches</li>
+        <li>
+            @Html.ActionLink((string)ViewBag.ProgramName, "Index", "Batch",
+                new { area = "One", programId = ViewBag.ProgramId }, null)
+        </li>
+        <li class="active">Previous Batches</li>
     </ol>
+
 </section>
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
                 <div class="box-header with-border">
-                    <h3 class="box-title pull-right">
-                        @Html.ActionLink("Back to batches", "Index", "Batch", new { area = "One", programId = ViewBag.ProgramId }, null)
-                        @*@Html.ActionLink("View previous batches", "IndexPrevious")*@
-                    </h3>
+                    <h3 class="box-title pull-right"></h3>
                 </div>
                 <div class="box-body">
                     <table id="batchIndex" class="table table-responsive table-bordered table-hover">
@@ -40,17 +41,25 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.ActionLink(item.ProgramName + " " + item.BatchNo, "Details", "Batch", new { area = "One", id = item.Id, programId = item.ProgramId }, null)
+                                        @Html.ActionLink((string)ViewBag.ProgramName + " " + item.BatchNo, "Details",
+                                            "Batch", new { area = "One", id = item.Id, programId = ViewBag.ProgramId },
+                                            null)
                                     </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
+                <div class="box-footer">
+                    @Html.ActionLink("Back to Batches", "Index", "Batch",
+                        new { area = "One", programId = ViewBag.ProgramId },
+                        new { @class = "btn btn-primary btn-flat" })
+                </div>
             </div>
         </div>
     </div>
 </section>
+
 
 @section Scripts {
     @Scripts.Render("~/datatable")

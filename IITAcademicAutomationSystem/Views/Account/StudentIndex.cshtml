@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
-                <div class="box-body with-border">
+                <div class="box-body">
                     <table id="studentIndex" class="table table-responsive table-bordered table-hover">
                         <thead>
                             <tr>
@@ -51,14 +51,14 @@
                                     <td>@item.Email</td>
                                     <td>@item.PhoneNumber</td>
                                     <td>
-                                        @Html.ActionLink("Change Email", "ResetEmail", "Account",
+                                        @Html.ActionLink("Details", "StudentDetails", "Account",
                                             new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
-                                        @Html.ActionLink("Details", "TeacherDetails", "Account",
-                                            new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
-                                        @Html.ActionLink("Edit", "TeacherEdit", "Account",
-                                            new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
-                                        @Html.ActionLink("Delete", "TeacherDelete", "Account",
-                                            new { area = "", id = item.Id }, new { @class = "btn btn-danger btn-flat btn-sm" })
+                                        @*@Html.ActionLink("Change Email", "ResetEmail", "Account",
+                                                new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
+                                            @Html.ActionLink("Edit", "TeacherEdit", "Account",
+                                                new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
+                                            @Html.ActionLink("Delete", "TeacherDelete", "Account",
+                                                new { area = "", id = item.Id }, new { @class = "btn btn-danger btn-flat btn-sm" })*@
                                     </td>
                                 </tr>
                             }
@@ -66,12 +66,14 @@
                     </table>
                 </div>
                 <div class="box-footer">
-                    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+                    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" },
+                        new { @class = "btn btn-primary btn-flat" })
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 
 @section Scripts {
     @Scripts.Render("~/datatable")

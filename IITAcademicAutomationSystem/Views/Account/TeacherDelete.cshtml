@@ -13,7 +13,7 @@
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li>
-            @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
+                @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
         </li>
         <li class="active">
             Delete
@@ -68,14 +68,14 @@
                                 @Html.DisplayFor(model => model.PhoneNumber)
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                IIT Profile
-                            </td>
-                            <td>
-                                <a href="@Model.ProfileLink" target="_blank" class="btn btn-default btn-flat">Visit</a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    IIT Profile
+                                </td>
+                                <td>
+                                    <a href="@Model.ProfileLink" target="_blank" class="btn btn-default btn-flat">Visit</a>
+                                </td>
+                            </tr>
                     </table>
                 </div>
                 <div class="box-footer text-center">
@@ -95,7 +95,8 @@
 
                         <div class="form-actions no-color">
                             <input type="submit" value="Confirm Delete" class="btn btn-danger btn-flat" />
-                            @Html.ActionLink("Back", "TeacherIndex", "Account", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+                                @Html.ActionLink("Cancel", "TeacherIndex", "Account", new { area = "" },
+                                    new { @class = "btn btn-primary btn-flat" })
                         </div>
                     }
                 </div>
@@ -103,3 +104,4 @@
         </div>
     </div>
 </section>
+

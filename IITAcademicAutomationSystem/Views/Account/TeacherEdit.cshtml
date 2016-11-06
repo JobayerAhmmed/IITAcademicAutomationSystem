@@ -1,7 +1,7 @@
 ﻿@model IITAcademicAutomationSystem.Models.TeacherEditViewModel
 
 @{
-    ViewBag.Title = "Update Teacher Profile";
+    ViewBag.Title = "Update Profile";
 }
 
 <section class="content-header">
@@ -13,7 +13,7 @@
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li>
-            @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
+             @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
         </li>
         <li class="active">
             Edit
@@ -63,21 +63,13 @@
                                     @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.DropDownListFor(
-                                        model => model.Status,
-                                        new SelectList(
-                                            new List<Object>
-                                            {
-                                                new { value = "On Duty", text = "On Duty"},
-                                                new { value = "On Study Leave", text = "On Study Leave"},
-                                                new { value = "Retired", text = "Retired"}
-                                            },
-                                            "value",
-                                            "text",
-                                            Model.Status
-                                        ),
-                                        new { @class = "form-control" })
-                                    @*@Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })*@
+                                    @Html.DropDownListFor(model => model.Status, new SelectList(
+                                        new List<Object>
+                                        {
+                                            new { value = "On Duty", text = "On Duty"},
+                                            new { value = "On Study Leave", text = "On Study Leave"},
+                                            new { value = "Retired", text = "Retired"}
+                                        }, "value", "text", Model.Status), new { @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -90,11 +82,9 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
                                     @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", disabled = "" } })
-                                    @*@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })*@
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="row edit">
                                 <div class="col-xs-12 col-sm-4">
@@ -106,17 +96,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="row edit">
-                                <div class="col-xs-12 col-sm-4">
-                                    @Html.LabelFor(model => model.ProfileLink, "IIT Profile", htmlAttributes: new { @class = "" })
-                                </div>
-                                <div class="col-xs-12 col-sm-8">
-                                    @Html.EditorFor(model => model.ProfileLink, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.ProfileLink, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                <div class="row edit">
+                                    <div class="col-xs-12 col-sm-4">
+                                        @Html.LabelFor(model => model.ProfileLink, "IIT Profile", htmlAttributes: new { @class = "" })
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        @Html.EditorFor(model => model.ProfileLink, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ProfileLink, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <div class="form-group">
                             <div class="row edit">
                                 <div class="col-xs-12 col-sm-4">
@@ -135,7 +125,8 @@
                             <div class="row">
                                 <div class="col-xs-12 text-center">
                                     <input type="submit" value="Save" class="btn btn-primary btn-flat" />
-                                    @Html.ActionLink("Back", "TeacherIndex", "Account", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+                                        @Html.ActionLink("Back", "TeacherIndex", "Account", new { area = "" },
+                                            new { @class = "btn btn-primary btn-flat" })
                                 </div>
                             </div>
                         </div>

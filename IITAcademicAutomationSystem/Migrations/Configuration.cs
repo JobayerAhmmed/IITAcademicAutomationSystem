@@ -1050,6 +1050,7 @@ namespace IITAcademicAutomationSystem.Migrations
             students.ForEach(s => context.Students.AddOrUpdate(p => p.UserId, s));
             context.SaveChanges();
 
+            /*
             // CourseSemester
             var courseSemesters = new List<CourseSemester>
             {
@@ -1063,6 +1064,7 @@ namespace IITAcademicAutomationSystem.Migrations
                         c.CourseCode == "CSE101").Id,
                     TeacherId = users.Single(u => u.UserName == "iit24@iit.du.ac.bd").Id
                 },
+                
                 new CourseSemester
                 {
                     BatchId = batches.Single(b => b.ProgramId == programs.Single(p => p.ProgramName == "BSSE").Id &&
@@ -1236,8 +1238,9 @@ namespace IITAcademicAutomationSystem.Migrations
             };
             courseSemesters.ForEach(d => context.CourseSemesters.AddOrUpdate(s => 
                 new { s.BatchId, s.SemesterId, s.CourseId, s.TeacherId }, d));
-            context.SaveChanges();
+            context.SaveChanges();*/
 
+            /*
             var studentCourses = new List<StudentCourse>
             {
                 new StudentCourse
@@ -1323,7 +1326,7 @@ namespace IITAcademicAutomationSystem.Migrations
             };
             studentCourses.ForEach(s => context.StudentCourses.AddOrUpdate(d => 
                 new { d.BatchId, d.SemesterId, d.StudentId, d.CourseId }, s));
-            context.SaveChanges();
+            context.SaveChanges();*/
         }
     }
 }

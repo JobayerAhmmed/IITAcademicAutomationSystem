@@ -25,7 +25,8 @@
         <div class="col-xs-12 col-sm-12 col-md-8">
             <div class="box box-primary">
                 &nbsp;
-                @using (Html.BeginForm("TeacherRegister", "Account", FormMethod.Post, new { role = "form", enctype="multipart/form-data" }))
+                @using (Html.BeginForm("TeacherRegister", "Account", FormMethod.Post,
+                    new { role = "form", enctype = "multipart/form-data" }))
                 {
                     <div class="box-body with-border">
                         @Html.AntiForgeryToken()
@@ -141,7 +142,8 @@
     </div>
 </section>
 
+
+
 @section Scripts {
     @Scripts.Render("~/jqueryval")
-    @Scripts.Render("~/foolproof")
 }

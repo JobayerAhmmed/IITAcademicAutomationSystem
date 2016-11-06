@@ -1,0 +1,155 @@
+﻿@model IITAcademicAutomationSystem.Areas.One.Models.SemesterIndexViewModel
+
+@{
+    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo + " - Semester " + Model.SemesterNo;
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch",
+                new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li class="active">@Model.ProgramName @Model.BatchNo - Semester @Model.SemesterNo</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 text-right">
+            @Html.ActionLink("Add Student", "AddStudentToSemester", "Semester",
+                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                new { @class = "btn btn-success btn-flat btn-lg" })
+            @Html.ActionLink("Remove Student", "RemoveStudentFromSemester", "Semester",
+                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                new { @class = "btn btn-success btn-flat btn-lg" })
+            @Html.ActionLink("Add Course", "AllocateCoursesToSemester", "Semester",
+                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                new { @class = "btn btn-success btn-flat btn-lg" })
+            @Html.ActionLink("Remove Course", "RemoveCourseFromSemester", "Semester",
+                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                new { @class = "btn btn-success btn-flat btn-lg" })
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-one-aqua">
+                <div class="inner">
+                    <h3>@Model.NumberOfEnrolledStudents</h3>
+                    <p>Enrolled Students</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios-people-outline"></i>
+                </div>
+                <a href='@Url.Action("SemesterStudents", "Semester", 
+                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId })' class="small-box-footer">
+                    View
+                    <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-teal">
+                <div class="inner">
+                    <h3>@Model.NumberOfOfferedCourses</h3>
+                    <p>Offered Courses</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios-people-outline"></i>
+                </div>
+                <a href='@Url.Action("SemesterCourses", "Semester", 
+                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId })' class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>@Model.NumberOfCourseTeachers</h3>
+                    <p>Course Teachers</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios-gear-outline"></i>
+                </div>
+                <a href='@Url.Action("SemesterTeachers", "Semester", 
+                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId })' class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="text-center">
+                @Html.ActionLink("Back to Batches", "Index", "Batch",
+                                new { area = "One", programId = Model.ProgramId },
+                                new { @class = "btn btn-primary btn-flat btn-lg" })
+            </div>
+        </div>
+    </div>
+
+    @*<div class="row">
+            <div class="col-xs-12">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <span class="pull-right">
+                            @Html.ActionLink("Add Student", "AddStudentToSemester", "Semester",
+                                    new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                    new { @class = "btn btn-default btn-flat" })
+                            @Html.ActionLink("Remove Student", "RemoveStudentFromSemester", "Semester",
+                                    new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                    new { @class = "btn btn-default btn-flat" })
+                            @Html.ActionLink("Add Course", "AllocateCoursesToSemester", "Semester",
+                                    new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                    new { @class = "btn btn-default btn-flat" })
+                            @Html.ActionLink("Remove Course", "RemoveCourseFromSemester", "Semester",
+                                    new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                    new { @class = "btn btn-default btn-flat" })
+                        </span>
+                    </div>
+                    <div class="box-body">
+                        <table id="semesterIndex" class="table table-responsive table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        Course
+                                    </th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Courses)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.CourseCode - @item.CourseTitle
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                @Html.ActionLink("Students", "", "",
+                                                    new { area = "One" },
+                                                    new { @class = "btn btn-primary btn-flat" })
+                                                @Html.ActionLink("Teachers", "", "",
+                                                    new { area = "One" },
+                                                    new { @class = "btn btn-primary btn-flat" })
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer">
+                        @Html.ActionLink("Back to Batches", "Index", "Batch",
+                                    new { area = "One", programId = Model.ProgramId },
+                                    new { @class = "btn btn-primary btn-flat" })
+                    </div>
+                </div>
+            </div>
+        </div>*@
+</section>

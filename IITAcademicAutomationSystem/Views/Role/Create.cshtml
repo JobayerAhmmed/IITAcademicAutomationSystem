@@ -8,7 +8,7 @@
     <h1>Create User Role</h1>
     <ol class="breadcrumb">
         <li>
-            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li>
             @Html.ActionLink("Roles", "Index", "Role", new { area = "" }, null)
@@ -20,7 +20,6 @@
     @using (Html.BeginForm())
     {
         <div class="panel panel-default panel-sm">
-
             <div class="panel-heading panel-heading-sm">
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -39,7 +38,28 @@
             </div>
             <div class="panel-body">
                 <div class="form-group">
-                    hello
+                    <ul class="todo-list">
+                        <li>
+                            <input type="checkbox" value="" />
+                            <span class="text">Controller1 - Action1</span>
+                        </li>
+                        <li>
+                            <input type="checkbox" value="" />
+                            <span class="text">Controller1 - Action2</span>
+                        </li>
+                        <li>
+                            <input type="checkbox" value="" />
+                            <span class="text">Controller1 - Action3</span>
+                        </li>
+                        <li>
+                            <input type="checkbox" value="" />
+                            <span class="text">Controller2 - Action1</span>
+                        </li>
+                        <li>
+                            <input type="checkbox" value="" />
+                            <span class="text">Controller2 - Action2</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="panel-footer panel-footer-sm">

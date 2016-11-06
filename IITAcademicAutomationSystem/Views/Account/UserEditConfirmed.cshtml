@@ -1,0 +1,83 @@
+﻿@model IITAcademicAutomationSystem.Models.TeacherEditViewModel
+
+@{
+    ViewBag.Title = "Update Profile Confirmed";
+}
+
+<section class="content-header">
+    <h1>
+        The profile has been successfully updated.
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink("Users", "OtherIndex", "Account", new { area = "" }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Edit", "UserEdit", "Account", new { area = "", id = Model.Id }, null)
+        </li>
+        <li class="active">
+            Confirmed
+        </li>
+    </ol>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-6">
+            <div class="box box-default">
+                <div class="box-body with-border">
+                    <table class="table table-hover table-responsive table-bordered">
+                        <tr>
+                            <td>
+                                Name
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.FullName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Designation
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.Designation)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Status
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.Status)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Email
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.Email)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Contact No.
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.PhoneNumber)
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="box-footer text-center">
+                    @Html.ActionLink("Back to Users", "OtherIndex", "Account",
+                            new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

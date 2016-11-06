@@ -1,0 +1,94 @@
+﻿@model IITAcademicAutomationSystem.Areas.One.Models.SemesterIndexViewModel
+
+@{
+    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo + " - Semester " + Model.SemesterNo;
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title <small>Offered Courses</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch",
+                new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName + " " + Model.BatchNo + " - Semester " + Model.SemesterNo,
+                "Index", "Semester",
+                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
+        </li>
+        <li class="active">Courses</li>
+    </ol>
+
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-body">
+                    <table id="semesterCourses" class="table table-responsive table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Course Code</th>
+                                <th>Course Title</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Courses)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.CourseCode
+                                    </td>
+                                    <td>
+                                        @item.CourseTitle
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            @Html.ActionLink("Details", "", "",
+                                                    new { area = "One" },
+                                                    new { @class = "btn btn-primary btn-flat" })
+                                            @Html.ActionLink("Students", "", "",
+                                                    new { area = "One" },
+                                                    new { @class = "btn btn-primary btn-flat" })
+                                            @Html.ActionLink("Teachers", "", "",
+                                                    new { area = "One" },
+                                                    new { @class = "btn btn-primary btn-flat" })
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    @Html.ActionLink("Back to Semester", "Index", "Semester",
+                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                        new { @class = "btn btn-primary btn-flat btn-lg" })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/datatable")
+    <script>
+        $(function () {
+            $("#semesterCourses").DataTable({
+                "paging": false,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true
+            });
+        });
+    </script>
+}

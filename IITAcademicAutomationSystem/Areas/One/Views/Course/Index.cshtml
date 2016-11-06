@@ -12,19 +12,29 @@
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
-        <li><a href="#">@ViewBag.ProgramName</a></li>
+        <li>
+            @Html.ActionLink((string)ViewBag.ProgramName, "Index", "Batch",
+                new { area = "One", programId = ViewBag.ProgramId }, null)
+        </li>
         <li class="active">Courses</li>
     </ol>
+
 </section>
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
                 <div class="box-header with-border">
-                    <h3 class="box-title pull-right">
-                        @Html.ActionLink("Create course", "Create", "Course", new { area = "One", programId = ViewBag.ProgramId }, null) 
-                        @*@Html.ActionLink("View deleted courses", "IndexDeleted")*@
-                    </h3>
+                        <span>
+                            @Html.ActionLink("Back to Batches", "Index", "Batch",
+                                new { area = "One", programId = ViewBag.ProgramId },
+                                new { @class = "btn btn-primary btn-flat" })
+                        </span>
+                        <span class="pull-right">
+                            @Html.ActionLink("Create Course", "Create", "Course",
+                                new { area = "One", programId = ViewBag.ProgramId },
+                                new { @class = "btn btn-default btn-flat" })
+                        </span>
                 </div>
                 <div class="box-body">
                     <table id="courseIndex" class="table table-responsive table-bordered table-hover">

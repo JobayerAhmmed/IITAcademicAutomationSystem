@@ -1,23 +1,24 @@
-﻿@model IITAcademicAutomationSystem.Areas.One.Models.BatchStudentsViewModel
+﻿@model IEnumerable<IITAcademicAutomationSystem.Models.StudentIndexViewModel>
 
 @{
-    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo + " - Current Students";
+    ViewBag.Title = ViewBag.ProgramName + " " + ViewBag.BatchNo + " - Current Students";
 }
 
 <section class="content-header">
     <h1>
-        @Model.ProgramName @Model.BatchNo <small>Current Students</small>
+        @ViewBag.ProgramName @ViewBag.BatchNo <small>Current Students</small>
     </h1>
     <ol class="breadcrumb">
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
-        <li><a href="#">@Model.ProgramName</a></li>
         <li>
-            @Html.ActionLink("Batches", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
+            @Html.ActionLink((string)ViewBag.ProgramName, "Index", "Batch",
+                new { area = "One", programId = ViewBag.ProgramId }, null)
         </li>
         <li>
-            @Html.ActionLink(Model.ProgramName + " " + Model.BatchNo, "Details", "Batch", new { area = "One", id = Model.BatchId }, null)
+            @Html.ActionLink((string)ViewBag.ProgramName + " " + (int)ViewBag.BatchNo, "Details", "Batch",
+                new { area = "One", id = ViewBag.BatchId }, null)
         </li>
         <li class="active">Current Students</li>
     </ol>
@@ -25,34 +26,53 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
-            <div class="box box-primary">
+            <div class="box box-default">
                 <div class="box-header with-border">
-                    <h3 class="box-title pull-right">
-                        @Html.ActionLink("Back to batch", "Details", "Batch", new { area = "One", id = Model.BatchId }, null)
+                    <h3 class="box-title">
+                        @Html.ActionLink("Back to Batch", "Details", "Batch",
+                            new { area = "One", id = ViewBag.BatchId },
+                            new { @class="btn btn-primary btn-flat" })
                     </h3>
                 </div>
                 <div class="box-body">
-                    <table id="batchCurrentStudents" class="table table-responsive table-bordered table-hover">
+                    <table id="indexCurrentStudents" class="table table-responsive table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>
-                                    Roll
-                                </th>
-                                <th>
-                                    Name
-                                </th>
+                                <th>Name</th>
+                                <th>Roll</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.Students)
+                            @foreach (var item in Model)
                             {
                                 <tr>
                                     <td>
-                                        @Html.ActionLink(item.Roll, "Details", "Student", new { area = "One", id = item.StudentId }, null)
+                                        <span>
+                                            <img src="@Url.Content("~/Areas/One/Content/UserImage/" + @item.ImagePath)"
+                                                 class="img-responsive img-rounded img-sm"
+                                                 alt="" />
+                                            &nbsp;&nbsp;
+                                            @item.FullName
+                                        </span>
                                     </td>
+                                    <td>@item.Roll</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.PhoneNumber</td>
                                     <td>
-                                        @Html.ActionLink(item.FullName, "Details", "Student", new { area = "One", id = item.StudentId }, null)
+                                        @Html.ActionLink("Details", "CurrentStudentDetails", "Batch",
+                                            new { area = "One", id = item.Id },
+                                            new { @class = "btn btn-primary btn-flat btn-sm" })
+                                        @*@Html.ActionLink("Change Email", "ResetEmail", "Account",
+                new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
+            @Html.ActionLink("Edit", "TeacherEdit", "Account",
+                new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
+            @Html.ActionLink("Delete", "TeacherDelete", "Account",
+                new { area = "", id = item.Id }, new { @class = "btn btn-danger btn-flat btn-sm" })*@
                                     </td>
+
                                 </tr>
                             }
                         </tbody>
@@ -67,7 +87,7 @@
     @Scripts.Render("~/datatable")
     <script>
         $(function () {
-            $("#batchCurrentStudents").DataTable({
+            $("#indexCurrentStudents").DataTable({
                 "paging": false,
                 "lengthChange": false,
                 "searching": false,

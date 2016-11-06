@@ -12,3 +12,6 @@
 .validation-errors ul {
     list-style-type: square;
 }
+.box {
+    border-top: 0 !important;
+}

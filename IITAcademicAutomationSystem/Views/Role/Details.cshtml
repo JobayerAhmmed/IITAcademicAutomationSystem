@@ -8,7 +8,7 @@
     <h1>Role Details</h1>
     <ol class="breadcrumb">
         <li>
-            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li>
             @Html.ActionLink("Roles", "Index", "Role", new { area = "" }, null)
@@ -24,28 +24,6 @@
             </h4>
         </div>
         <div class="panel-body">
-            <ul class="todo-list">
-                <li>
-                    <input type="checkbox" value="" />
-                    <span class="text">Controller1 - Action1</span>
-                </li>
-                <li>
-                    <input type="checkbox" value="" />
-                    <span class="text">Controller1 - Action2</span>
-                </li>
-                <li>
-                    <input type="checkbox" value="" />
-                    <span class="text">Controller1 - Action3</span>
-                </li>
-                <li>
-                    <input type="checkbox" value="" />
-                    <span class="text">Controller2 - Action1</span>
-                </li>
-                <li>
-                    <input type="checkbox" value="" />
-                    <span class="text">Controller2 - Action2</span>
-                </li>
-            </ul>
                 @*<table class="table table-responsive table-bordered table-hover">
                     <thead>
                         <tr>
@@ -64,8 +42,7 @@
                 </table>*@
         </div>
         <div class="panel-footer panel-footer-sm">
-            @Html.ActionLink("Save", "Index", "Role", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
-            @*@Html.ActionLink("Edit", "Edit", "Role", new { area = "", id = Model.Id }, new { @class = "btn btn-primary btn-flat" })*@
+            @Html.ActionLink("Back to Roles", "Index", "Role", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
         </div>
     </div>
 </section>

@@ -10,8 +10,14 @@
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
+        <li>
+            @Html.ActionLink("Users", "OtherIndex", "Account", new { area = "" }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Register", "Register", "Account", new { area = "" }, null)
+        </li>
         <li class="active">
-            Register
+            Confirmed
         </li>
     </ol>
 </section>

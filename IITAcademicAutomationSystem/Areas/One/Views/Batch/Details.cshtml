@@ -12,9 +12,8 @@
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
-        <li><a href="#">@Model.ProgramName</a></li>
         <li>
-            @Html.ActionLink("Batches", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
         </li>
         <li class="active">@Model.ProgramName @Model.BatchNo</li>
     </ol>
@@ -27,7 +26,7 @@
                 new { @class = "btn btn-success btn-flat btn-lg" })
         </div>
     </div>
-    <br />
+    <hr />
     <div class="row">
         <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-one-aqua">
@@ -38,7 +37,7 @@
                 <div class="icon">
                     <i class="ion ion-ios-people-outline"></i>
                 </div>
-                <a href='@Url.Action("IndexCurrentStudents", "Batch", new { area = "One", batchId = Model.Id })' class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+                <a href='@Url.Action("IndexCurrentStudents", "Batch", new { area = "One", id = Model.Id })' class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <div class="col-lg-3 col-xs-6">
@@ -50,7 +49,7 @@
                 <div class="icon">
                     <i class="ion ion-ios-people-outline"></i>
                 </div>
-                <a href='@Url.Action("IndexAdmittedStudents", "Batch", new { area = "One", batchId = Model.Id })' class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+                <a href='@Url.Action("IndexAdmittedStudents", "Batch", new { area = "One", id = Model.Id })' class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <div class="col-lg-3 col-xs-6">
@@ -98,7 +97,9 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="text-center">
-                @Html.ActionLink("Back to batches", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, new { @class = "btn btn-primary btn-flat btn-lg" })
+                @Html.ActionLink("Back to Batches", "Index", "Batch",
+                    new { area = "One", programId = Model.ProgramId },
+                    new { @class = "btn btn-primary btn-flat btn-lg" })
             </div>
         </div>
     </div>

@@ -36,13 +36,18 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         // Get course by course code
         public Course GetCourseByCourseCode(int programId, string courseCode)
         {
-            return context.Courses.Where(c => c.ProgramId == programId && c.CourseCode == courseCode && c.IsDelete == false).FirstOrDefault();
+            return context.Courses.Where(c => 
+                c.ProgramId == programId && 
+                c.CourseCode == courseCode && 
+                c.IsDelete == false).FirstOrDefault();
         }
 
         // Get courses of program
         public IEnumerable<Course> GetCoursesOfProgram(int programId)
         {
-            return context.Courses.Where(c => c.ProgramId == programId && c.IsDelete == false).OrderBy(o => o.CourseCode).ToList();
+            return context.Courses.Where(c => 
+                c.ProgramId == programId && 
+                c.IsDelete == false).OrderBy(o => o.CourseCode).ToList();
         }
 
         // Get deleted courses
