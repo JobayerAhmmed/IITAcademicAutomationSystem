@@ -1,18 +1,26 @@
-﻿@model IITAcademicAutomationSystem.Models.ProfileViewModel
+﻿@model IITAcademicAutomationSystem.Models.UserProfileEditViewModel
 
 @{
-    ViewBag.Title = "User Profile";
+    ViewBag.Title = "Update User Profile Confirmed";
 }
 
 <section class="content-header">
     <h1>
-        User profile
+        The profile has been successfully updated.
     </h1>
     <ol class="breadcrumb">
         <li>
-            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
-        <li class="active">Profile</li>
+        <li>
+            @Html.ActionLink("Profile", "UserProfile", "Account", new { area = "", id=Model.Id }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Update", "UserProfileEdit", "Account", new { area = "", id = Model.Id }, null)
+        </li>
+        <li class="active">
+            Update Confirmed
+        </li>
     </ol>
 </section>
 <hr />
@@ -40,6 +48,14 @@
                         </tr>
                         <tr>
                             <td>
+                                Status
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.Status)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 Email
                             </td>
                             <td>
@@ -48,25 +64,27 @@
                         </tr>
                         <tr>
                             <td>
-                                Phone
+                                Contact No.
                             </td>
                             <td>
                                 @Html.DisplayFor(model => model.PhoneNumber)
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                IIT Profile
-                            </td>
-                            <td>
-                                <a href="@Model.ProfileLink" class="btn btn-default btn-flat">Visit</a>
-                            </td>
-                        </tr>
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <tr>
+                                <td>
+                                    IIT Profile
+                                </td>
+                                <td>
+                                    <a href="@Model.ProfileLink" target="_blank" class="btn btn-default btn-flat">Visit</a>
+                                </td>
+                            </tr>
+                        }
                     </table>
                 </div>
                 <div class="box-footer text-center">
-                    @Html.ActionLink("Back", "Index", "Base", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
-                    @Html.ActionLink("Edit", "Edit", "Manage", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+                    @Html.ActionLink("Back to Profile", "UserProfile", "Account", new { area = "", id=Model.Id }, new { @class = "btn btn-primary btn-flat" })
                 </div>
             </div>
         </div>

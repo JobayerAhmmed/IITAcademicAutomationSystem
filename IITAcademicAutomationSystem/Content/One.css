@@ -5,12 +5,18 @@
     padding-left: 10px;
     padding-right: 10px;
 }
+
 .bg-one-aqua {
   background-color:#499FC8 !important;
   color: #fff;
 }
 .login{
     max-width: 380px;
+    padding: 30px 10px 40px;
+    margin: 0 auto;
+}
+.login-sm {
+    max-width: 500px;
     padding: 30px 10px 40px;
     margin: 0 auto;
 }

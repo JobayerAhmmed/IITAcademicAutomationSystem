@@ -48,8 +48,16 @@
       <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Excel, Version=2.1.2.3, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.2.1.2.3\lib\net45\Excel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FoolproofValidation, Version=0.9.5851.39121, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Foolproof.0.9.4518\lib\net45\FoolproofValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -238,12 +246,6 @@
     <Compile Include="Areas\One\Controllers\CourseController.cs" />
     <Compile Include="Areas\One\Controllers\ProgramController.cs" />
     <Compile Include="Areas\One\Models\CourseCreateViewModel.cs" />
-    <Compile Include="Areas\Two\Controllers\AcademicCalendarManagementController.cs" />
-    <Compile Include="Areas\Two\Controllers\AttendanceManagementController.cs" />
-    <Compile Include="Areas\Two\Controllers\NoticeManagementController.cs" />
-    <Compile Include="Areas\Two\Controllers\ResultManagementController.cs" />
-    <Compile Include="Areas\Two\Controllers\RoutineManagementController.cs" />
-    <Compile Include="Areas\Two\Controllers\UtilityController.cs" />
     <Compile Include="Areas\Two\RepoImpl\AcademicFileRepoImpl.cs" />
     <Compile Include="Areas\Two\RepoImpl\AttendanceRepoImpl.cs" />
     <Compile Include="Areas\Two\RepoImpl\MarksDistributionRepoImpl.cs" />
@@ -278,9 +280,7 @@
     <Compile Include="Areas\Two\ResponseDto\HeadResDto.cs" />
     <Compile Include="Areas\Two\ResponseDto\MarksResDto.cs" />
     <Compile Include="Areas\Two\ResponseDto\NoticeResDto.cs" />
-    <Compile Include="Areas\Two\ResponseDto\ResultResDto.cs" />
     <Compile Include="Areas\Two\ResponseDto\RoutineResDto.cs" />
-    <Compile Include="Areas\Two\ResponseDto\StudentPromotionResDto.cs" />
     <Compile Include="Areas\Two\ResponseDto\SubHeadResDto.cs" />
     <Compile Include="Areas\Two\ServiceImpl\AcademicCalendarManagementSerImpl.cs" />
     <Compile Include="Areas\Two\ServiceImpl\AttendanceManagementSerImpl.cs" />
@@ -302,14 +302,6 @@
     <Compile Include="Migrations\201610311321215_SemesterNoStringToInt.cs" />
     <Compile Include="Migrations\201610311321215_SemesterNoStringToInt.Designer.cs">
       <DependentUpon>201610311321215_SemesterNoStringToInt.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611011727338_SemesterNo_to_integer.cs" />
-    <Compile Include="Migrations\201611011727338_SemesterNo_to_integer.Designer.cs">
-      <DependentUpon>201611011727338_SemesterNo_to_integer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611011751043_Initial.cs" />
-    <Compile Include="Migrations\201611011751043_Initial.Designer.cs">
-      <DependentUpon>201611011751043_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AcademicFile.cs" />
     <Compile Include="Models\Attendance.cs" />
@@ -386,9 +378,6 @@
     <Compile Include="Models\Semester.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentCourse.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -416,13 +405,11 @@
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\EditGivenMarks.Controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\FinalSubmission.Controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\GiveMarks.Controller.js" />
-    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\StudentPromotion.Controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewAllFinalSubmission.Controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewGivenMarks_s.Controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewGivenMarks_t.Controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewMarksDistribution_student.controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewMarksDistribution_teacher.Controller.js" />
-    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewResult.Controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Directive\ProgramSemesterCourseDirective.html" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Directive\ProgramSemesterCourseDirective.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Factory\Result.Factory.js" />
@@ -487,60 +474,21 @@
     <Content Include="Areas\One\Views\User\TeacherRegister.cshtml" />
     <Content Include="Areas\One\Views\User\RegisterConfirmed.cshtml" />
     <Content Include="Views\Shared\CheckBoxListItem.cshtml" />
+    <Content Include="Areas\One\Content\Student\Student-Info.xlsx" />
     <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\1400b2a6-ad05-406d-8382-731d4ffd9894.pdf" />
     <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\2a116dbc-2b90-4963-9928-24be13e6cbed.pdf" />
     <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\859236ef-adbd-474f-a595-bb42400bdd5c.pdf" />
     <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\a353d838-b2a7-4997-8e97-ab00342c8c9a.pdf" />
     <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\e373d52a-9aa4-44af-9bb4-9063b099ec7e.pdf" />
     <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\edccdb57-f869-4feb-bb38-ea1f8995e1f2.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\2611d452-828f-4643-b145-67f84adecc5b.pdf" />
     <Content Include="Areas\Two\AcademicFiles\Notice\2d9e793d-012c-457e-9a58-40f9657c9d8e.pdf" />
     <Content Include="Areas\Two\AcademicFiles\Notice\3f17e861-053c-4667-ad40-fb799245a65d.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\52263004-282a-4d47-b1d6-7078869261f9.pdf" />
     <Content Include="Areas\Two\AcademicFiles\Notice\856aadd0-16ee-4971-88ac-7f7e92acf27a.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\a0c24623-82c4-4635-8b4f-ad33e8bb934d.pdf" />
     <Content Include="Areas\Two\AcademicFiles\Notice\a6e61377-5aef-46d9-b488-c09813c15e69.pdf" />
     <Content Include="Areas\Two\AcademicFiles\Notice\ba13ac05-bfe1-4d9f-b744-ac2dc0a339a7.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\e0fa9663-8250-4eb0-9855-2365b27f4e53.pdf" />
     <Content Include="Areas\Two\AcademicFiles\Notice\e7d8ff38-4238-4243-ab1d-a85a57f10ded.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Routine\1dcb2550-f3c5-41c5-ae0c-a28f5c768093.pdf" />
     <Content Include="Areas\Two\AcademicFiles\Routine\aaec490a-eb0f-48a0-abd9-51023d3c4087.pdf" />
     <Content Include="Areas\Two\AcademicFiles\Routine\eeca4dfd-a472-4333-bae8-94db3cb71205.pdf" />
-    <Content Include="Areas\Two\Views\AcademicCalendarManagement\EditOrDeleteAcademicCalendar.cshtml" />
-    <Content Include="Areas\Two\Views\AcademicCalendarManagement\UploadAcademicCalendar.cshtml" />
-    <Content Include="Areas\Two\Views\AcademicCalendarManagement\ViewAcademicCalendar_s.cshtml" />
-    <Content Include="Areas\Two\Views\AcademicCalendarManagement\ViewAcademicCalendar_tp.cshtml" />
-    <Content Include="Areas\Two\Views\AttendanceManagement\EditAttendance.cshtml" />
-    <Content Include="Areas\Two\Views\AttendanceManagement\GiveAttendance.cshtml" />
-    <Content Include="Areas\Two\Views\AttendanceManagement\ViewAttendanceCourseWise.cshtml" />
-    <Content Include="Areas\Two\Views\AttendanceManagement\ViewAttendanceIndividual.cshtml" />
-    <Content Include="Areas\Two\Views\NoticeManagement\EditOrDeleteNotice.cshtml" />
-    <Content Include="Areas\Two\Views\NoticeManagement\UploadNotice.cshtml" />
-    <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice.cshtml" />
-    <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice_s.cshtml" />
-    <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice_tp.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\CreateOrViewHead.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\CreateOrViewSubHead.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\DistributeMarks.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\EditDistributedMarks.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\EditGivenMarks.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\FinalSubmission.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\GiveMarks.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\StudentPromotion.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewAllFinalSubmission.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewDistributedMarks_s.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewDistributedMarks_t.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewGivenMarks_s.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewGivenMarks_t.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewResult.cshtml" />
-    <Content Include="Areas\Two\Views\RoutineManagement\EditOrDeleteRoutine.cshtml" />
-    <Content Include="Areas\Two\Views\RoutineManagement\UploadRoutine.cshtml" />
-    <Content Include="Areas\Two\Views\RoutineManagement\ViewRoutine_s.cshtml" />
-    <Content Include="Areas\Two\Views\RoutineManagement\ViewRoutine_tp.cshtml" />
-    <Content Include="Areas\Two\Views\Utility\ShowPdf.cshtml" />
-    <Content Include="Areas\Two\Views\Utility\ShowPdf_an.cshtml" />
-    <Content Include="Areas\Two\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Two\Views\Shared\_Layout.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -581,10 +529,6 @@
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
@@ -595,10 +539,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_SideMenuPartial.cshtml" />
     <Content Include="Views\Account\RegisterConfirmed.cshtml" />
-    <Content Include="Views\Account\ResetPasswordFailed.cshtml" />
     <Content Include="Views\Account\ForgotPasswordFailed.cshtml" />
     <Content Include="Views\Account\EmailNotConfirmed.cshtml" />
-    <Content Include="Views\Manage\ViewProfile.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\Role\CreateConfirmed.cshtml" />
@@ -619,11 +561,23 @@
     <Content Include="Views\Account\TeacherSetRoleConfirmed.cshtml" />
     <Content Include="Views\Account\ResetEmail.cshtml" />
     <Content Include="Views\Account\ResetEmailConfirmed.cshtml" />
+    <Content Include="Views\Account\UserProfile.cshtml" />
+    <Content Include="Views\Account\UserProfileEdit.cshtml" />
+    <Content Include="Views\Account\UserProfileEditConfirmed.cshtml" />
+    <Content Include="Views\Manage\ChangePasswordConfirmed.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\ResetPasswordFailed.cshtml" />
+    <Content Include="Views\Account\StudentRegister.cshtml" />
+    <Content Include="Views\Account\StudentRegisterConfirmed.cshtml" />
+    <Content Include="Views\Account\StudentIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\One\Content\UserImage\" />
+    <Folder Include="Areas\Two\Controllers\" />
     <Folder Include="Areas\Two\Models\" />
+    <Folder Include="Areas\Two\Views\Shared\" />
     <Folder Include="Content\bootstrap\" />
     <Folder Include="Content\dist\" />
     <Folder Include="Content\font-awesome\" />
@@ -670,12 +624,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610311321215_SemesterNoStringToInt.resx">
       <DependentUpon>201610311321215_SemesterNoStringToInt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611011727338_SemesterNo_to_integer.resx">
-      <DependentUpon>201611011727338_SemesterNo_to_integer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611011751043_Initial.resx">
-      <DependentUpon>201611011751043_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

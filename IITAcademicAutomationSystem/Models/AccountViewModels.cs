@@ -7,6 +7,48 @@ using System.Web.Mvc;
 
 namespace IITAcademicAutomationSystem.Models
 {
+    public class StudentRegisterViewModel
+    {
+        public int ProgramId { get; set; }
+        public string ProgramName { get; set; }
+        public int BatchId { get; set; }
+        public int BatchNo { get; set; }
+        public string StudentFile { get; set; }
+    }
+
+    public class StudentRegisterConfirmedViewModel
+    {
+        public int ProgramId { get; set; }
+        public string ProgramName { get; set; }
+        public int BatchId { get; set; }
+        public int BatchNo { get; set; }
+        public List<string> Names { get; set; }
+        public List<string> Rolls { get; set; }
+        public List<string> Emails { get; set; }
+        public List<string> Messages { get; set; }
+
+        public StudentRegisterConfirmedViewModel()
+        {
+            Names = new List<string>();
+            Rolls = new List<string>();
+            Emails = new List<string>();
+            Messages = new List<string>();
+        }
+    }
+
+    public class StudentIndexViewModel
+    {
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string Roll { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string ImagePath { get; set; }
+        public string ProgramName { get; set; }
+        public int BatchNo { get; set; }
+
+    }
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Please enter name.")]
@@ -162,7 +204,44 @@ namespace IITAcademicAutomationSystem.Models
         public bool RememberMe { get; set; }
     }
 
-    
+    public class UserProfileViewModel
+    {
+        public string Id { get; set; }
+        public string FullName { get; set; }
+        public string Designation { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string ProfileLink { get; set; }
+        public string ImagePath { get; set; }
+        public string Status { get; set; }
+    }
+
+    public class UserProfileEditViewModel
+    {
+        public string Id { get; set; }
+
+        [Required(ErrorMessage = "Please enter name.")]
+        [StringLength(100, ErrorMessage = "Name must be at least 5 characters long.", MinimumLength = 5)]
+        [RegularExpression(@"([a-zA-Z][a-zA-Z\.\'\-\s]+)", ErrorMessage = "Please enter valid name.")]
+        [Display(Name = "Name")]
+        public string FullName { get; set; }
+
+        [StringLength(50, ErrorMessage = "Designation must be at list 6 characters long.", MinimumLength = 6)]
+        [RegularExpression(@"([a-zA-Z0-9 ,\.\&\'\-]+)", ErrorMessage = "Designation seems to incorrect.")]
+        public string Designation { get; set; }
+
+        public string Status { get; set; }
+
+        public string Email { get; set; }
+
+        [StringLength(14, ErrorMessage = "Please enter valid phone number.", MinimumLength = 3)]
+        [RegularExpression(@"(\+?[0-9]+)", ErrorMessage = "Phone number can only contains digits and a plus symbol.")]
+        public string PhoneNumber { get; set; }
+
+        public string ProfileLink { get; set; }
+
+        public string ImagePath { get; set; }
+    }
 
     public class ForgotPasswordViewModel
     {

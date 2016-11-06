@@ -1,0 +1,93 @@
+﻿@model IITAcademicAutomationSystem.Models.StudentRegisterConfirmedViewModel
+
+@{
+    ViewBag.Title = "Admit Students Confirmation";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName + Model.BatchNo, "Details", "Batch",
+                new { area = "One", id = Model.BatchId }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Admit Students", "StudentRegister", "Account",
+                new { area = "", programId = Model.ProgramId, batchId = Model.BatchId }, null)
+        </li>
+        <li class="active">
+            Confirm
+        </li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-body">
+                    <table id="studentRegister" class="table table-responsive table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Roll</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rows = Model.Rolls.Count;
+                            }
+                            @for (int i = 0; i < rows; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Model.Rolls[i]
+                                    </td>
+                                    <td>
+                                        @Model.Names[i]
+                                    </td>
+                                    <td>
+                                        @Model.Emails[i]
+                                    </td>
+                                    <td>
+                                        @Model.Messages[i]
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    @Html.ActionLink("Back to Admit Students", "StudentRegister", "Account",
+                        new { area = "", programId = Model.ProgramId, batchId = Model.BatchId },
+                        new { @class="btn btn-primary btn-flat" })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/datatable")
+    <script>
+        $(function () {
+            $("#studentRegister").DataTable({
+                "paging": false,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true
+            });
+        });
+    </script>
+}

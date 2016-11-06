@@ -10,6 +10,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
     public interface ISemesterRepository
     {
         Semester GetSemesterById(int id);
+        Semester GetFirstSemester(int programId);
     }
     public class SemesterRepository : ISemesterRepository
     {
@@ -23,6 +24,10 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         public Semester GetSemesterById(int id)
         {
             return context.Semesters.Find(id);
+        }
+        public Semester GetFirstSemester(int programId)
+        {
+            return context.Semesters.Where(s => s.ProgramId == programId).FirstOrDefault();
         }
     }
 }

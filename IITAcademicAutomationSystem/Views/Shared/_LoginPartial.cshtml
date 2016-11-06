@@ -21,7 +21,7 @@
                 {
                     @Html.AntiForgeryToken()
                     <div class="pull-left">
-                        @Html.ActionLink("Profile", "ViewProfile", "Manage", routeValues: null,
+                        @Html.ActionLink("Profile", "UserProfile", "Account", new { area = "", id=Model.Id },
                             htmlAttributes: new { title = "Manage", @class = "btn btn-default btn-flat" })
                     </div>
                     <div class="pull-right">

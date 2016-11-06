@@ -10,6 +10,8 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
     public interface IStudentRepository
     {
         Student GetStudentById(int id);
+        IEnumerable<Student> GetAllStudents();
+        void CreateStudent(Student student);
     }
     public class StudentRepository : IStudentRepository
     {
@@ -23,6 +25,14 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         public Student GetStudentById(int id)
         {
             return context.Students.Find(id);
+        }
+        public IEnumerable<Student> GetAllStudents()
+        {
+            return context.Students.ToList();
+        }
+        public void CreateStudent(Student student)
+        {
+            context.Students.Add(student);
         }
     }
 }

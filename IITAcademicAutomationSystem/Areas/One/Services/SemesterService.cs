@@ -11,6 +11,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
     public interface ISemesterService
     {
         Semester ViewSemester(int id);
+        Semester GetFirstSemester(int programId);
         void Dispose();
     }
     public class SemesterService : ISemesterService
@@ -29,7 +30,10 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             return unitOfWork.SemesterRepository.GetSemesterById(id);
         }
 
-
+        public Semester GetFirstSemester(int programId)
+        {
+            return unitOfWork.SemesterRepository.GetFirstSemester(programId);
+        }
         public void Dispose()
         {
             unitOfWork.Dispose();

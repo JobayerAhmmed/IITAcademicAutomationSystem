@@ -79,29 +79,10 @@ namespace IITAcademicAutomationSystem.Controllers
             return View(model);
         }
 
-        // View Profile
-        public ActionResult ViewProfile()
-        {
-            //var userId = User.Identity.GetUserId();
-            //var user = userService.ViewUser(userId);
-
-            //var profile = new ProfileViewModel
-            //{
-            //    FullName = user.FullName,
-            //    Designation = user.Designation,
-            //    Email = user.Email,
-            //    PhoneNumber = user.PhoneNumber,
-            //    ImagePath = user.ImagePath,
-            //    ProfileLink = user.ProfileLink
-            //};
-
-            return View();
-        }
-
-        //
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
+            ViewBag.Id = User.Identity.GetUserId();
             return View();
         }
 
@@ -123,9 +104,11 @@ namespace IITAcademicAutomationSystem.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                ViewBag.Id = user.Id;
+                return View("ChangePasswordConfirmed");
             }
             AddErrors(result);
+            ViewBag.Id = User.Identity.GetUserId();
             return View(model);
         }
 
