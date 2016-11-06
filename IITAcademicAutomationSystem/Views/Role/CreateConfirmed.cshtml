@@ -8,12 +8,15 @@
     <h1>Role Creation Successful</h1>
     <ol class="breadcrumb">
         <li>
-            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li>
             @Html.ActionLink("Roles", "Index", "Role", new { area = "" }, null);
         </li>
-        <li class="active">Create</li>
+        <li>
+            @Html.ActionLink("Create", "Create", "Role", new { area = "" }, null);
+        </li>
+        <li class="active">Confirmed</li>
     </ol>
 </section>
 <hr />
@@ -38,9 +41,10 @@
         </div>
         <div class="panel-footer panel-footer-sm">
             <div class="form-group">
-                @Html.ActionLink("Back to Roles", "Index", "Role", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
-                @Html.ActionLink("Edit", "Edit", "Role", new { area = "", id = Model.Id }, new { @class = "btn btn-primary btn-flat" })
+                @Html.ActionLink("Back to Roles", "Index", "Role", new { area = "" },
+                    new { @class = "btn btn-primary btn-flat" })
             </div>
         </div>
     </div>
 </section>
+

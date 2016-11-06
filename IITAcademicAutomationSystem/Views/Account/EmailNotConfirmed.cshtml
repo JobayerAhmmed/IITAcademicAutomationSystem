@@ -1,35 +1,18 @@
 ﻿@{
-    ViewBag.Title = "Log In";
+    ViewBag.Title = "IIT Academic Automation System";
 }
 
-<section class="content-header">
-    <h1>
-        Email is not confirmed
-    </h1>
-    <ol class="breadcrumb">
-        <li>
-            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
-        </li>
-        <li class="active">
-            Log In
-        </li>
-    </ol>
-</section>
-<hr />
-<section class="content">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-8">
-            <div class="box box-primary">
-                <div class="box-body with-border">
-                    Email is not confirmed for this account. Please check your email and confirm your account.
-                </div>
-                <div class="box-footer text-center">
-                    @Html.ActionLink("Back to Log In", "Login", "Account", new { area = "" },
+<div class="login">
+    <div id="loginForm" class="panel panel-success login-form">
+        <div class="panel-heading login-heading">
+            Email Confirmation
+        </div>
+        <div class="panel-body login-body">
+            Email is not confirmed for this account. Please check your email and confirm your account.
+        </div>
+        <div class="panel-footer login-footer text-center">
+            @Html.ActionLink("Back to Log In", "Login", "Account", new { area = "" },
                         htmlAttributes: new { id = "loginLink", @class = "btn btn-primary btn-flat" })
-                </div>
-            </div>
         </div>
     </div>
-</section>
-
-
+</div>

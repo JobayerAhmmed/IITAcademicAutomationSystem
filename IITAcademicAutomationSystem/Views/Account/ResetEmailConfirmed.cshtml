@@ -13,8 +13,11 @@
         <li>
             @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
         </li>
+        <li>
+            @Html.ActionLink("Change Email", "ResetEmail", "Account", new { area = "", id = ViewBag.UserId }, null)
+        </li>
         <li class="active">
-            Change Email
+            Confirmed
         </li>
     </ol>
 </section>

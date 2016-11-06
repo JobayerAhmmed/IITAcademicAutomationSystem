@@ -12,6 +12,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
     {
         Program ViewProgram(int id);
         IEnumerable<Program> GetPrograms();
+        void Dispose();
     }
     public class ProgramService : IProgramService
     {
@@ -31,6 +32,10 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         public IEnumerable<Program> GetPrograms()
         {
             return unitOfWork.ProgramRepository.GetPrograms();
+        }
+        public void Dispose()
+        {
+            unitOfWork.Dispose();
         }
     }
 }

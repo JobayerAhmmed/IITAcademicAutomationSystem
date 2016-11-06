@@ -49,6 +49,29 @@ namespace IITAcademicAutomationSystem.Models
         public int BatchNo { get; set; }
 
     }
+
+    public class StudentDetailsViewModel
+    {
+        public string FullName { get; set; }
+        public string Designation { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string ImagePath { get; set; }
+        public string Status { get; set; }
+        public string ProgramName { get; set; }
+        public int BatchNoOriginal { get; set; }
+        public int BatchNoCurrent { get; set; }
+        public int SemesterNo { get; set; }
+        public string OriginalRoll { get; set; }
+        public string CurrentRoll { get; set; }
+        public string RegistrationNo { get; set; }
+        public string AdmissionSession { get; set; }
+        public string CurrentSession { get; set; }
+        public string GuardianPhone { get; set; }
+        public string CurrentAddress { get; set; }
+        public string PermanentAddress { get; set; }
+    }
+
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Please enter name.")]
@@ -82,6 +105,19 @@ namespace IITAcademicAutomationSystem.Models
         [StringLength(14, ErrorMessage = "Please enter valid phone number.", MinimumLength = 3)]
         [RegularExpression(@"(\+?[0-9]+)", ErrorMessage = "Phone number can only contains digits and a plus symbol.")]
         public string PhoneNumber { get; set; }
+        public string ImagePath { get; set; }
+    }
+
+    public class OtherIndexViewModel
+    {
+        public string Id { get; set; }
+        public string FullName { get; set; }
+        public string Designation { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string ImagePath { get; set; }
+        public string Status { get; set; }
+        public IEnumerable<IdentityRole> Roles { get; set; }
     }
 
     public class TeacherRegisterViewModel
@@ -214,6 +250,18 @@ namespace IITAcademicAutomationSystem.Models
         public string ProfileLink { get; set; }
         public string ImagePath { get; set; }
         public string Status { get; set; }
+        public string ProgramName { get; set; }
+        public int BatchNoOriginal { get; set; }
+        public int BatchNoCurrent { get; set; }
+        public int SemesterNo { get; set; }
+        public string OriginalRoll { get; set; }
+        public string CurrentRoll { get; set; }
+        public string RegistrationNo { get; set; }
+        public string AdmissionSession { get; set; }
+        public string CurrentSession { get; set; }
+        public string GuardianPhone { get; set; }
+        public string CurrentAddress { get; set; }
+        public string PermanentAddress { get; set; }
     }
 
     public class UserProfileEditViewModel
@@ -238,9 +286,30 @@ namespace IITAcademicAutomationSystem.Models
         [RegularExpression(@"(\+?[0-9]+)", ErrorMessage = "Phone number can only contains digits and a plus symbol.")]
         public string PhoneNumber { get; set; }
 
+        [StringLength(300, ErrorMessage = "URL should not exceed 300 characters")]
         public string ProfileLink { get; set; }
 
         public string ImagePath { get; set; }
+
+        public string ProgramName { get; set; }
+        public int BatchNoOriginal { get; set; }
+        public int BatchNoCurrent { get; set; }
+        public int SemesterNo { get; set; }
+        public string OriginalRoll { get; set; }
+        public string CurrentRoll { get; set; }
+        public string RegistrationNo { get; set; }
+        public string AdmissionSession { get; set; }
+        public string CurrentSession { get; set; }
+
+        [StringLength(14, ErrorMessage = "Please enter valid phone number.", MinimumLength = 3)]
+        [RegularExpression(@"(\+?[0-9]+)", ErrorMessage = "Phone number can only contains digits and a plus symbol.")]
+        public string GuardianPhone { get; set; }
+
+        [StringLength(300, ErrorMessage = "Address should not exceed 300 characters.")]
+        public string CurrentAddress { get; set; }
+
+        [StringLength(300, ErrorMessage = "Address should not exceed 300 characters.")]
+        public string PermanentAddress { get; set; }
     }
 
     public class ForgotPasswordViewModel

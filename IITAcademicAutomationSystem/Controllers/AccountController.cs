@@ -83,8 +83,7 @@ namespace IITAcademicAutomationSystem.Controllers
             }
         }
 
-        //
-        // GET: /Account/Login
+        // Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -92,8 +91,7 @@ namespace IITAcademicAutomationSystem.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Login
+        // POST: Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -152,41 +150,102 @@ namespace IITAcademicAutomationSystem.Controllers
             //return PartialView("_LoginPartial");
             return null;
         }
+        public ActionResult SideMenu()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var menu = new SideMenuViewModel();
+                menu.Programs = programService.GetPrograms();
+                return PartialView("_SideMenuPartial", menu);
+            }
+            return null;
+        }
+
+        // LogOff
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Login", "Account");
+        }
 
         public ActionResult UserProfile(string id)
         {
             var user = UserManager.FindById(id);
-            var userProfile = new UserProfileViewModel
-            {
-                Id = user.Id,
-                FullName = user.FullName,
-                Designation = user.Designation,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                ProfileLink = user.ProfileLink,
-                ImagePath = user.ImagePath,
-                Status = user.Status
-            };
+            var model = new UserProfileViewModel();
 
-            return View(userProfile);
+            model.Id = user.Id;
+            model.FullName = user.FullName;
+            model.Designation = user.Designation;
+            model.Email = user.Email;
+            model.PhoneNumber = user.PhoneNumber;
+            model.ProfileLink = user.ProfileLink;
+            model.ImagePath = user.ImagePath;
+            model.Status = user.Status;
+
+            if (User.IsInRole("Student"))
+            {
+                var student = studentService.GetStudentByUserId(id);
+                var program = programService.ViewProgram(student.ProgramId);
+                var semester = semesterService.ViewSemester(student.SemesterId);
+                var batchCurrent = batchService.ViewBatch(student.BatchIdCurrent);
+                var batchOriginal = batchService.ViewBatch(student.BatchIdOriginal);
+
+                model.AdmissionSession = student.AdmissionSession;
+                model.BatchNoCurrent = batchCurrent.BatchNo;
+                model.BatchNoOriginal = batchOriginal.BatchNo;
+                model.CurrentAddress = student.CurrentAddress;
+                model.CurrentRoll = student.CurrentRoll;
+                model.CurrentSession = student.CurrentSession;
+                model.GuardianPhone = student.GuardianPhone;
+                model.OriginalRoll = student.OriginalRoll;
+                model.PermanentAddress = student.PermanentAddress;
+                model.ProgramName = program.ProgramName;
+                model.RegistrationNo = student.RegistrationNo;
+                model.SemesterNo = semester.SemesterNo;
+            }
+
+            return View(model);
         }
 
         public ActionResult UserProfileEdit(string id)
         {
             var user = UserManager.FindById(id);
-            var userDetails = new UserProfileEditViewModel
-            {
-                Id = user.Id,
-                FullName = user.FullName,
-                Designation = user.Designation,
-                Status = user.Status,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                ProfileLink = user.ProfileLink,
-                ImagePath = user.ImagePath
-            };
+            var model = new UserProfileEditViewModel();
 
-            return View(userDetails);
+            model.Id = user.Id;
+            model.FullName = user.FullName;
+            model.Designation = user.Designation;
+            model.Email = user.Email;
+            model.PhoneNumber = user.PhoneNumber;
+            model.ProfileLink = user.ProfileLink;
+            model.ImagePath = user.ImagePath;
+            model.Status = user.Status;
+
+            if (User.IsInRole("Student"))
+            {
+                var student = studentService.GetStudentByUserId(id);
+                var program = programService.ViewProgram(student.ProgramId);
+                var semester = semesterService.ViewSemester(student.SemesterId);
+                var batchCurrent = batchService.ViewBatch(student.BatchIdCurrent);
+                var batchOriginal = batchService.ViewBatch(student.BatchIdOriginal);
+
+                model.AdmissionSession = student.AdmissionSession;
+                model.BatchNoCurrent = batchCurrent.BatchNo;
+                model.BatchNoOriginal = batchOriginal.BatchNo;
+                model.CurrentAddress = student.CurrentAddress;
+                model.CurrentRoll = student.CurrentRoll;
+                model.CurrentSession = student.CurrentSession;
+                model.GuardianPhone = student.GuardianPhone;
+                model.OriginalRoll = student.OriginalRoll;
+                model.PermanentAddress = student.PermanentAddress;
+                model.ProgramName = program.ProgramName;
+                model.RegistrationNo = student.RegistrationNo;
+                model.SemesterNo = semester.SemesterNo;
+            }
+
+            return View(model);
         }
 
         [HttpPost]
@@ -211,12 +270,26 @@ namespace IITAcademicAutomationSystem.Controllers
             {
                 ApplicationUser user = UserManager.FindById(model.Id);
 
-                user.FullName = model.FullName;
                 user.Designation = model.Designation;
-                user.Status = model.Status;
                 user.PhoneNumber = model.PhoneNumber;
                 user.ProfileLink = model.ProfileLink;
                 user.ImagePath = fileName;
+
+                if (User.IsInRole("Student"))
+                {
+                    Student student = studentService.GetStudentByUserId(model.Id);
+                    student.GuardianPhone = model.GuardianPhone;
+                    student.CurrentAddress = model.CurrentAddress;
+                    student.PermanentAddress = model.PermanentAddress;
+
+                    if(!studentService.EditStudent(student))
+                    {
+                        ModelState.AddModelError("", "Unable to save student, please try again.");
+                        return View(model);
+                    }
+                }
+
+                model.ImagePath = fileName;
 
                 IdentityResult result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
@@ -229,94 +302,18 @@ namespace IITAcademicAutomationSystem.Controllers
             return View(model);
         }
 
-        public ActionResult SideMenu()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var menu = new SideMenuViewModel();
-                menu.Programs = programService.GetPrograms();
-                return PartialView("_SideMenuPartial", menu);
-            }
-            return null;   
-        }
-
-        //
-        // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Login", "Account");
-        }
-
-
-        //
-        // GET: /Account/Register
+        // Register
         [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
-        //
-        // POST: /Account/Register
+        // POST: Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser
-                {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    FullName = model.FullName,
-                    Designation = model.Designation,
-                    PhoneNumber = model.PhoneNumber
-                };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
-                    // Send an email with this link
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action(
-                        "ConfirmEmail", "Account",
-                        new { userId = user.Id, code = code },
-                        protocol: Request.Url.Scheme);
-
-                    await UserManager.SendEmailAsync(user.Id,
-                        "Confirm your account",
-                        "<h1>IIT Academic Automation System</h1><hr>" +
-                        "<h3>Hello Mr. " + user.FullName + "</h3>" +
-                        "<p>An account has been created for you using the email \"" + user.Email +
-                        "\" in the IIT Academic Automation System.<p>" +
-                        "Please <a href=\"" + callbackUrl + "\">confirm your account.</a>");
-
-                    return View("DisplayEmail");
-                    //return RedirectToAction("Index", "Base", new { area = "" });
-                }
-                AddErrors(result);
-            }
-
-            return View(model);
-        }
-
-        // Register Teacher
-        [AllowAnonymous]
-        public ActionResult TeacherRegister()
-        {
-            return View();
-        }
-
-        // POST: Register Teacher
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> TeacherRegister(TeacherRegisterViewModel model, HttpPostedFileBase file)
+        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase file)
         {
             string fileName = "";
 
@@ -341,7 +338,6 @@ namespace IITAcademicAutomationSystem.Controllers
                     FullName = model.FullName,
                     Designation = model.Designation,
                     PhoneNumber = model.PhoneNumber,
-                    ProfileLink = model.ProfileLink,
                     ImagePath = fileName,
                     Status = "On Duty"
                 };
@@ -349,8 +345,6 @@ namespace IITAcademicAutomationSystem.Controllers
                 if (result.Succeeded)
                 {
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    // Add to Teacher role
-                    await UserManager.AddToRoleAsync(user.Id, "Teacher");
 
                     // Send an email with this link
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -367,8 +361,7 @@ namespace IITAcademicAutomationSystem.Controllers
                         "\" in the IIT Academic Automation System.<p>" +
                         "Please <a href=\"" + callbackUrl + "\">confirm your account.</a>");
 
-                    return View("TeacherRegisterConfirmed");
-                    //return RedirectToAction("Index", "Base", new { area = "" });
+                    return View("RegisterConfirmed");
                 }
                 AddErrors(result);
             }
@@ -381,9 +374,6 @@ namespace IITAcademicAutomationSystem.Controllers
         {
             var program = programService.ViewProgram(programId);
             var batch = batchService.ViewBatch(batchId);
-            //var dir = new DirectoryInfo(Server.MapPath("~/Areas/One/Content/Student/"));
-            //FileInfo[] files = dir.GetFiles("*.*");
-            //var file = files.First();
             var model = new StudentRegisterViewModel()
             {
                 ProgramId = programId,
@@ -460,6 +450,7 @@ namespace IITAcademicAutomationSystem.Controllers
                         user.Email = row[columns[4].ColumnName].ToString();
                         user.UserName = user.Email;
                         user.PhoneNumber = row[columns[5].ColumnName].ToString();
+                        user.Status = "Active";
 
                         student.ProgramId = model.ProgramId;
                         student.BatchIdOriginal = model.BatchId;
@@ -572,37 +563,6 @@ namespace IITAcademicAutomationSystem.Controllers
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
 
-        // Teacher Index
-        public ActionResult TeacherIndex()
-        {
-            //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>());
-            var teacherRoleId = roleService.GetRoleByName("Teacher").Id;
-
-            var teachers = UserManager.Users.Where(u => u.Roles.Any(r => r.RoleId == teacherRoleId)
-                && u.IsDelete == false).OrderBy(o => o.FullName).ToList();
-
-            IList<TeacherIndexViewModel> teachersToView = new List<TeacherIndexViewModel>();
-            TeacherIndexViewModel teacherIndexViewModel = new TeacherIndexViewModel();
- 
-            foreach (var item in teachers)
-            {
-                teacherIndexViewModel.Id = item.Id;
-                teacherIndexViewModel.FullName = item.FullName;
-                teacherIndexViewModel.Designation = item.Designation;
-                teacherIndexViewModel.Email = item.Email;
-                teacherIndexViewModel.PhoneNumber = item.PhoneNumber;
-                teacherIndexViewModel.ProfileLink = item.ProfileLink;
-                teacherIndexViewModel.ImagePath = item.ImagePath;
-                teacherIndexViewModel.Status = item.Status;
-                teacherIndexViewModel.Roles = userService.GetUserRoles(item.Id);
-
-                teachersToView.Add(teacherIndexViewModel);
-                teacherIndexViewModel = new TeacherIndexViewModel();
-            }
-
-            return View(teachersToView);
-        }
-
         // Student Index
         public ActionResult StudentIndex()
         {
@@ -629,6 +589,140 @@ namespace IITAcademicAutomationSystem.Controllers
             }
 
             return View(studentsToView);
+        }
+
+        // Student Details
+        public ActionResult StudentDetails(int id)
+        {
+            var student = studentService.ViewStudent(id);
+            var user = UserManager.FindById(student.UserId);
+            var program = programService.ViewProgram(student.ProgramId);
+            var batchCurrent = batchService.ViewBatch(student.BatchIdCurrent);
+            var batchOriginal = batchService.ViewBatch(student.BatchIdOriginal);
+            var semester = semesterService.ViewSemester(student.SemesterId);
+
+            StudentDetailsViewModel model = new StudentDetailsViewModel();
+            model.AdmissionSession = student.AdmissionSession;
+            model.BatchNoCurrent = batchCurrent.BatchNo;
+            model.BatchNoOriginal = batchOriginal.BatchNo;
+            model.CurrentAddress = student.CurrentAddress;
+            model.CurrentRoll = student.CurrentRoll;
+            model.CurrentSession = student.CurrentSession;
+            model.Designation = user.Designation;
+            model.Email = user.Email;
+            model.FullName = user.FullName;
+            model.GuardianPhone = student.GuardianPhone;
+            model.ImagePath = user.ImagePath;
+            model.OriginalRoll = student.OriginalRoll;
+            model.PermanentAddress = student.PermanentAddress;
+            model.PhoneNumber = user.PhoneNumber;
+            model.ProgramName = program.ProgramName;
+            model.RegistrationNo = student.RegistrationNo;
+            model.SemesterNo = semester.SemesterNo;
+            model.Status = user.Status;
+
+            return View(model);
+        }
+
+        // Register Teacher
+        [AllowAnonymous]
+        public ActionResult TeacherRegister()
+        {
+            return View();
+        }
+
+        // POST: Register Teacher
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> TeacherRegister(TeacherRegisterViewModel model, HttpPostedFileBase file)
+        {
+            string fileName = "";
+
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.ContentType.Contains("image"))
+                {
+                    fileName = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png";
+                    file.SaveAs(HttpContext.Server.MapPath("~/Areas/One/Content/UserImage/")
+                        + fileName);
+                }
+                else
+                    ModelState.AddModelError("ImagePath", "Unsupported image format");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    Designation = model.Designation,
+                    PhoneNumber = model.PhoneNumber,
+                    ProfileLink = model.ProfileLink,
+                    ImagePath = fileName,
+                    Status = "On Duty"
+                };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    // Add to Teacher role
+                    await UserManager.AddToRoleAsync(user.Id, "Teacher");
+
+                    // Send an email with this link
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail", "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: Request.Url.Scheme);
+
+                    await UserManager.SendEmailAsync(user.Id,
+                        "Confirm your account",
+                        "<h1>IIT Academic Automation System</h1><hr>" +
+                        "<h3>Hello Mr. " + user.FullName + "</h3>" +
+                        "<p>An account has been created for you using the email \"" + user.Email +
+                        "\" in the IIT Academic Automation System.<p>" +
+                        "Please <a href=\"" + callbackUrl + "\">confirm your account.</a>");
+
+                    return View("TeacherRegisterConfirmed");
+                    //return RedirectToAction("Index", "Base", new { area = "" });
+                }
+                AddErrors(result);
+            }
+
+            return View(model);
+        }
+
+        // Teacher Index
+        public ActionResult TeacherIndex()
+        {
+            var teacherRoleId = roleService.GetRoleByName("Teacher").Id;
+
+            var teachers = UserManager.Users.Where(u => u.Roles.Any(r => r.RoleId == teacherRoleId)
+                && u.IsDelete == false).OrderBy(o => o.FullName).ToList();
+
+            IList<TeacherIndexViewModel> teachersToView = new List<TeacherIndexViewModel>();
+            TeacherIndexViewModel teacherIndexViewModel = new TeacherIndexViewModel();
+ 
+            foreach (var item in teachers)
+            {
+                teacherIndexViewModel.Id = item.Id;
+                teacherIndexViewModel.FullName = item.FullName;
+                teacherIndexViewModel.Designation = item.Designation;
+                teacherIndexViewModel.Email = item.Email;
+                teacherIndexViewModel.PhoneNumber = item.PhoneNumber;
+                teacherIndexViewModel.ProfileLink = item.ProfileLink;
+                teacherIndexViewModel.ImagePath = item.ImagePath;
+                teacherIndexViewModel.Status = item.Status;
+                teacherIndexViewModel.Roles = userService.GetUserRoles(item.Id);
+
+                teachersToView.Add(teacherIndexViewModel);
+                teacherIndexViewModel = new TeacherIndexViewModel();
+            }
+
+            return View(teachersToView);
         }
 
         // Teacher All Index
@@ -678,41 +772,6 @@ namespace IITAcademicAutomationSystem.Controllers
             };
 
             return View(teacherDetails);
-        }
-
-        // Delete Teacher
-        public ActionResult TeacherDelete(string id)
-        {
-            var teacher = UserManager.FindById(id);
-            var teacherDetails = new TeacherDetailsViewModel
-            {
-                Id = teacher.Id,
-                FullName = teacher.FullName,
-                Designation = teacher.Designation,
-                Email = teacher.Email,
-                PhoneNumber = teacher.PhoneNumber,
-                ProfileLink = teacher.ProfileLink,
-                ImagePath = teacher.ImagePath,
-                Status = teacher.Status
-            };
-
-            return View(teacherDetails);
-        }
-
-        // POST: Delete Teacher
-        [HttpPost, ActionName("TeacherDelete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> TeacherDeletePost(TeacherDetailsViewModel model)
-        {
-            ApplicationUser user = UserManager.FindById(model.Id);
-            user.IsDelete = true;
-            IdentityResult result = await UserManager.UpdateAsync(user);
-            if (result.Succeeded)
-            {
-                return View("TeacherDeleteConfirmed");
-            }
-            AddErrors(result);
-            return View("TeacherDelete", model);
         }
 
         // Teacher Edit
@@ -775,7 +834,43 @@ namespace IITAcademicAutomationSystem.Controllers
             return View(model);
         }
 
-        // Set Role
+        // Delete Teacher
+        public ActionResult TeacherDelete(string id)
+        {
+            var teacher = UserManager.FindById(id);
+            var teacherDetails = new TeacherDetailsViewModel
+            {
+                Id = teacher.Id,
+                FullName = teacher.FullName,
+                Designation = teacher.Designation,
+                Email = teacher.Email,
+                PhoneNumber = teacher.PhoneNumber,
+                ProfileLink = teacher.ProfileLink,
+                ImagePath = teacher.ImagePath,
+                Status = teacher.Status
+            };
+
+            return View(teacherDetails);
+        }
+
+        // POST: Delete Teacher
+        [HttpPost, ActionName("TeacherDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> TeacherDeletePost(TeacherDetailsViewModel model)
+        {
+            ApplicationUser user = UserManager.FindById(model.Id);
+            user.IsDelete = true;
+            IdentityResult result = await UserManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                ViewBag.UserId = user.Id;
+                return View("TeacherDeleteConfirmed");
+            }
+            AddErrors(result);
+            return View("TeacherDelete", model);
+        }
+
+        // Teacher Set Role
         public ActionResult TeacherSetRole(string id)
         {
             var user = UserManager.FindById(id);
@@ -790,6 +885,10 @@ namespace IITAcademicAutomationSystem.Controllers
             var checkBoxListItems = new List<CheckBoxListItem>();
             foreach (var role in allRoles)
             {
+                if (role.Name == "Student")
+                {
+                    continue;
+                }
                 checkBoxListItems.Add(new CheckBoxListItem()
                 {
                     Value = role.Name,
@@ -802,6 +901,7 @@ namespace IITAcademicAutomationSystem.Controllers
             return View(model);
         }
 
+        // POST: Teacher Set Role
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult TeacherSetRole(SetRoleViewModel model)
@@ -829,6 +929,200 @@ namespace IITAcademicAutomationSystem.Controllers
             }
 
             return View("TeacherSetRoleConfirmed", model);
+        }
+
+        // User Index
+        public ActionResult OtherIndex()
+        {
+            var teacherRoleId = roleService.GetRoleByName("Teacher").Id;
+            var studentRoleId = roleService.GetRoleByName("Student").Id;
+
+            var users = UserManager.Users.Where(u =>
+                u.IsDelete == false).OrderBy(o => o.FullName).ToList();
+
+            List<ApplicationUser> persedUsers = new List<ApplicationUser>();
+            foreach (var user in users)
+            {
+                if (user.Roles.Any(r => r.RoleId == teacherRoleId || r.RoleId == studentRoleId))
+                {
+                    continue;
+                }
+                persedUsers.Add(user);
+            }
+
+            IList<OtherIndexViewModel> usersToView = new List<OtherIndexViewModel>();
+            OtherIndexViewModel model = new OtherIndexViewModel();
+
+            foreach (var item in persedUsers)
+            {
+                model.Id = item.Id;
+                model.FullName = item.FullName;
+                model.Designation = item.Designation;
+                model.Email = item.Email;
+                model.PhoneNumber = item.PhoneNumber;
+                model.ImagePath = item.ImagePath;
+                model.Status = item.Status;
+                model.Roles = userService.GetUserRoles(item.Id);
+
+                usersToView.Add(model);
+                model = new OtherIndexViewModel();
+            }
+
+            return View(usersToView);
+        }
+
+        // User Delete
+        public ActionResult UserDelete(string id)
+        {
+            var teacher = UserManager.FindById(id);
+            var teacherDetails = new TeacherDetailsViewModel
+            {
+                Id = teacher.Id,
+                FullName = teacher.FullName,
+                Designation = teacher.Designation,
+                Email = teacher.Email,
+                PhoneNumber = teacher.PhoneNumber,
+                ImagePath = teacher.ImagePath,
+                Status = teacher.Status
+            };
+
+            return View(teacherDetails);
+        }
+
+        // POST: Delete User
+        [HttpPost, ActionName("UserDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UserDeletePost(TeacherDetailsViewModel model)
+        {
+            ApplicationUser user = UserManager.FindById(model.Id);
+            user.IsDelete = true;
+            IdentityResult result = await UserManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                ViewBag.UserId = user.Id;
+                return View("UserDeleteConfirmed");
+            }
+            AddErrors(result);
+            return View("UserDelete", model);
+        }
+
+        // User Edit
+        public ActionResult UserEdit(string id)
+        {
+            var teacher = UserManager.FindById(id);
+            var teacherDetails = new TeacherEditViewModel
+            {
+                Id = teacher.Id,
+                FullName = teacher.FullName,
+                Designation = teacher.Designation,
+                Status = teacher.Status,
+                Email = teacher.Email,
+                PhoneNumber = teacher.PhoneNumber,
+                ImagePath = teacher.ImagePath
+            };
+
+            return View(teacherDetails);
+        }
+
+        // POST: User Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UserEdit(TeacherEditViewModel model, HttpPostedFileBase file)
+        {
+            string fileName = model.ImagePath;
+
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.ContentType.Contains("image"))
+                {
+                    fileName = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png";
+                    file.SaveAs(HttpContext.Server.MapPath("~/Areas/One/Content/UserImage/")
+                        + fileName);
+                }
+                else
+                    ModelState.AddModelError("ImagePath", "Unsupported image format");
+            }
+
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = UserManager.FindById(model.Id);
+
+                user.FullName = model.FullName;
+                user.Designation = model.Designation;
+                user.Status = model.Status;
+                user.PhoneNumber = model.PhoneNumber;
+                user.ImagePath = fileName;
+
+                IdentityResult result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return View("UserEditConfirmed", model);
+                }
+                AddErrors(result);
+            }
+
+            return View(model);
+        }
+
+        // User Set Role
+        public ActionResult OtherSetRole(string id)
+        {
+            var user = UserManager.FindById(id);
+            var userRoles = userService.GetUserRoles(id);
+            var allRoles = roleService.ViewRoles();
+
+            SetRoleViewModel model = new SetRoleViewModel();
+            model.Id = id;
+            model.FullName = user.FullName;
+            model.Designation = user.Designation;
+
+            var checkBoxListItems = new List<CheckBoxListItem>();
+            foreach (var role in allRoles)
+            {
+                if (role.Name == "Student")
+                {
+                    continue;
+                }
+                checkBoxListItems.Add(new CheckBoxListItem()
+                {
+                    Value = role.Name,
+                    Text = role.Name,
+                    IsChecked = userRoles.Where(x => x.Name == role.Name).Any()
+                });
+            }
+            model.Roles = checkBoxListItems;
+
+            return View(model);
+        }
+
+        // POST: User Set Role
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult OtherSetRole(SetRoleViewModel model)
+        {
+            var teacher = UserManager.FindById(model.Id);
+            var teacherRoles = UserManager.GetRoles(teacher.Id);
+            foreach (var role in teacherRoles)
+            {
+                UserManager.RemoveFromRole(teacher.Id, role);
+            }
+
+            IdentityResult result;
+            foreach (var role in model.Roles)
+            {
+                if (role.IsChecked)
+                {
+                    result = UserManager.AddToRole(teacher.Id, role.Value);
+
+                    if (result.Succeeded)
+                        continue;
+
+                    AddErrors(result);
+                    return View(model);
+                }
+            }
+
+            return View("OtherSetRoleConfirmed", model);
         }
 
         // ForgotPassword
@@ -897,6 +1191,7 @@ namespace IITAcademicAutomationSystem.Controllers
                 var user = await UserManager.FindByIdAsync(model.Id);
                 user.UserName = model.Email;
                 user.Email = model.Email;
+                user.EmailConfirmed = false;
 
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
@@ -916,7 +1211,56 @@ namespace IITAcademicAutomationSystem.Controllers
                         "\".<p>" +
                         "Please <a href=\"" + callbackUrl + "\">confirm your email.</a>");
 
+                    ViewBag.UserId = user.Id;
                     return View("ResetEmailConfirmed");
+                }
+                AddErrors(result);
+            }
+            return View(model);
+        }
+
+        // Reset Email
+        public ActionResult ResetEmailUser(string id)
+        {
+            ResetEmailViewModel model = new ResetEmailViewModel()
+            {
+                Id = id
+            };
+            return View(model);
+        }
+
+        // POST: Reset Email
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetEmailUser(ResetEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByIdAsync(model.Id);
+                user.UserName = model.Email;
+                user.Email = model.Email;
+                user.EmailConfirmed = false;
+
+                var result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    // Send an email with this link
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail", "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: Request.Url.Scheme);
+
+                    await UserManager.SendEmailAsync(user.Id,
+                        "Confirm your email",
+                        "<h1>IIT Academic Automation System</h1><hr>" +
+                        "<h3>Hello Mr. " + user.FullName + "</h3>" +
+                        "<p>The email address for your account in the IIT Academic Automation System has been changed to \"" + user.Email +
+                        "\".<p>" +
+                        "Please <a href=\"" + callbackUrl + "\">confirm your email.</a>");
+
+                    ViewBag.UserId = user.Id;
+                    return View("ResetEmailConfirmedForUser");
                 }
                 AddErrors(result);
             }

@@ -53,6 +53,7 @@ namespace IITAcademicAutomationSystem
                 user.FullName = "Institute of Information Technology";
                 user.Designation = "University of Dhaka";
                 user.EmailConfirmed = true;
+                user.LockoutEnabled = true;
 
                 string userPWD = "iit123";
 

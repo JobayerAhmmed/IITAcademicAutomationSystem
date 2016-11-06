@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Teacher Delete Confirmed";
+    ViewBag.Title = "Delete Confirmed";
 }
 
 <section class="content-header">
@@ -11,10 +11,13 @@
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li>
-            @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
+                @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Delete", "TeacherDelete", "Account", new { area = "", id = ViewBag.UserId }, null)
         </li>
         <li class="active">
-            Delete Confirmed
+            Confirmed
         </li>
     </ol>
 </section>
@@ -27,7 +30,8 @@
                     The account has been deleted successfully.
                 </div>
                 <div class="box-footer">
-                    @Html.ActionLink("Back to Teachers", "TeacherIndex", "Account", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
+                        @Html.ActionLink("Back to Teachers", "TeacherIndex", "Account", new { area = "" },
+                                    new { @class = "btn btn-danger btn-flat" })
                 </div>
             </div>
         </div>

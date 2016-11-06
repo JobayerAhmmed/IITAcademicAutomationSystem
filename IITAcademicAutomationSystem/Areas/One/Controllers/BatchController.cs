@@ -3,6 +3,8 @@ using IITAcademicAutomationSystem.Areas.One.Models;
 using IITAcademicAutomationSystem.Areas.One.Services;
 using IITAcademicAutomationSystem.DAL;
 using IITAcademicAutomationSystem.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,12 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
 {
     public class BatchController : Controller
     {
+        private ApplicationUserManager _userManager;
         private IProgramService programService;
         private IBatchService batchService;
         private ISemesterService semesterService;
         private IUserService userService;
+        private IStudentService studentService;
         private IMapper Mapper;
         public BatchController()
         {
@@ -24,6 +28,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             batchService = new BatchService(ModelState, new UnitOfWork());
             semesterService = new SemesterService(ModelState, new UnitOfWork());
             userService = new UserService(ModelState, new UnitOfWork());
+            studentService = new StudentService(ModelState, new UnitOfWork());
             Mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
         }
         public BatchController(IBatchService batchService)
@@ -32,7 +37,20 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             programService = new ProgramService(ModelState, new UnitOfWork());
             semesterService = new SemesterService(ModelState, new UnitOfWork());
             userService = new UserService(ModelState, new UnitOfWork());
+            studentService = new StudentService(ModelState, new UnitOfWork());
             Mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
         }
 
         // Index
@@ -40,30 +58,28 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         {
             IEnumerable<Batch> batches = batchService.ViewActiveBatches(programId);
             Program program = programService.ViewProgram(programId);
+            IEnumerable<Semester> semesters = semesterService.GetSemestersOfProgram(programId);
 
-            if (batches == null)
-                return HttpNotFound();
-
-            IList<BatchIndexViewModel> batchesToView = new List<BatchIndexViewModel>();
-
-            //IEnumerable<BatchIndexViewModel> batchesToView =
-                //Mapper.Map<IEnumerable<Batch>, IEnumerable<BatchIndexViewModel>>(batches);
+            IList<BatchIndexViewModel> model = new List<BatchIndexViewModel>();
+            BatchIndexViewModel batchIndexViewModel = new BatchIndexViewModel();
+            Semester currentSemester;
 
             foreach (var item in batches)
             {
-                batchesToView.Add(new BatchIndexViewModel()
-                {
-                    Id = item.Id,
-                    ProgramId = item.ProgramId,
-                    ProgramName = program.ProgramName,
-                    BatchNo = item.BatchNo
-                });
+                currentSemester = semesterService.ViewSemester(item.SemesterIdCurrent);
+                batchIndexViewModel.Id = item.Id;
+                batchIndexViewModel.BatchNo = item.BatchNo;
+                batchIndexViewModel.SemesterNoCurrent = currentSemester.SemesterNo;
+                batchIndexViewModel.Semesters = semesters;
+
+                model.Add(batchIndexViewModel);
+                batchIndexViewModel = new BatchIndexViewModel();
             }
 
             ViewBag.ProgramId = programId;
             ViewBag.ProgramName = program.ProgramName;
 
-            return View(batchesToView);
+            return View(model);
         }
 
         // IndexPassed
@@ -77,16 +93,11 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
 
             IList<BatchIndexViewModel> batchesToView = new List<BatchIndexViewModel>();
 
-            //IEnumerable<BatchIndexViewModel> batchesToView =
-            //Mapper.Map<IEnumerable<Batch>, IEnumerable<BatchIndexViewModel>>(batches);
-
             foreach (var item in batches)
             {
                 batchesToView.Add(new BatchIndexViewModel()
                 {
                     Id = item.Id,
-                    ProgramId = item.ProgramId,
-                    ProgramName = program.ProgramName,
                     BatchNo = item.BatchNo
                 });
             }
@@ -122,10 +133,12 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProgramId,ProgramName,BatchNo")]BatchCreateViewModel batchCreateVM)
         {
+            var firstSemester = semesterService.GetFirstSemester(batchCreateVM.ProgramId);
             Batch batchToCreate = new Batch()
             {
                 ProgramId = batchCreateVM.ProgramId,
                 BatchNo = batchCreateVM.BatchNo,
+                SemesterIdCurrent = firstSemester.Id,
                 BatchStatus = "Active"
             };
 
@@ -164,46 +177,72 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // View current students of batch
-        public ActionResult IndexCurrentStudents(int batchId)
+        public ActionResult IndexCurrentStudents(int id)
         {
-            Batch batch = batchService.ViewBatch(batchId);
+            Batch batch = batchService.ViewBatch(id);
             Program program = programService.ViewProgram(batch.ProgramId);
 
-            IEnumerable<Student> students = batchService.ViewCurrentStudentsOfBatch(batchId);
-            IList<BatchStudent> currentStudents = new List<BatchStudent>();
-            BatchStudent bcs;
+            IEnumerable<Student> students = batchService.ViewCurrentStudentsOfBatch(id);
 
-            foreach (var student in students)
+            IList<StudentIndexViewModel> studentsToView = new List<StudentIndexViewModel>();
+            StudentIndexViewModel studentIndexViewModel = new StudentIndexViewModel();
+            ApplicationUser user;
+
+            foreach (var item in students)
             {
-                bcs = new BatchStudent()
-                {
-                    StudentId = student.Id,
-                    UserId = student.UserId,
-                    SemesterIdCurrent = student.SemesterId,
-                    Roll = student.CurrentRoll,
-                    FullName = userService.ViewUser(student.UserId).FullName
-                };
-                currentStudents.Add(bcs);
+                user = UserManager.FindById(item.UserId);
+
+                studentIndexViewModel.Id = item.Id;
+                studentIndexViewModel.UserId = item.UserId;
+                studentIndexViewModel.Roll = item.CurrentRoll;
+                studentIndexViewModel.FullName = user.FullName;
+                studentIndexViewModel.Email = user.Email;
+                studentIndexViewModel.PhoneNumber = user.PhoneNumber;
+                studentIndexViewModel.ImagePath = user.ImagePath;
+
+                studentsToView.Add(studentIndexViewModel);
+                studentIndexViewModel = new StudentIndexViewModel();
             }
-            BatchStudentsViewModel batchStudentsVM = new BatchStudentsViewModel()
-            {
-                ProgramId = program.Id,
-                ProgramName = program.ProgramName,
-                BatchId = batchId,
-                BatchNo = batch.BatchNo,
-                Students = currentStudents
-            };
 
-            return View(batchStudentsVM);
+            ViewBag.ProgramId = program.Id;
+            ViewBag.ProgramName = program.ProgramName;
+            ViewBag.BatchId = batch.Id;
+            ViewBag.BatchNo = batch.BatchNo;
+
+            return View(studentsToView);
+
+            //IList<BatchStudent> currentStudents = new List<BatchStudent>();
+            //BatchStudent bcs;
+
+            //foreach (var student in students)
+            //{
+            //    bcs = new BatchStudent()
+            //    {
+            //        StudentId = student.Id,
+            //        UserId = student.UserId,
+            //        SemesterIdCurrent = student.SemesterId,
+            //        Roll = student.CurrentRoll,
+            //        FullName = userService.ViewUser(student.UserId).FullName
+            //    };
+            //    currentStudents.Add(bcs);
+            //}
+            //BatchStudentsViewModel batchStudentsVM = new BatchStudentsViewModel()
+            //{
+            //    ProgramId = program.Id,
+            //    ProgramName = program.ProgramName,
+            //    BatchId = batchId,
+            //    BatchNo = batch.BatchNo,
+            //    Students = currentStudents
+            //};
         }
 
         // View admitted students of batch
-        public ActionResult IndexAdmittedStudents(int batchId)
+        public ActionResult IndexAdmittedStudents(int id)
         {
-            Batch batch = batchService.ViewBatch(batchId);
+            Batch batch = batchService.ViewBatch(id);
             Program program = programService.ViewProgram(batch.ProgramId);
 
-            IEnumerable<Student> students = batchService.ViewAdmittedStudentsOfBatch(batchId);
+            IEnumerable<Student> students = batchService.ViewAdmittedStudentsOfBatch(id);
             IList<BatchStudent> admittedStudents = new List<BatchStudent>();
             BatchStudent bcs;
 
@@ -223,12 +262,47 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             {
                 ProgramId = program.Id,
                 ProgramName = program.ProgramName,
-                BatchId = batchId,
+                BatchId = id,
                 BatchNo = batch.BatchNo,
                 Students = admittedStudents
             };
 
             return View(batchStudentsVM);
+        }
+
+        // Current Student Details
+        public ActionResult CurrentStudentDetails(int id)
+        {
+            var student = studentService.ViewStudent(id);
+            var user = UserManager.FindById(student.UserId);
+            var program = programService.ViewProgram(student.ProgramId);
+            var batchCurrent = batchService.ViewBatch(student.BatchIdCurrent);
+            var batchOriginal = batchService.ViewBatch(student.BatchIdOriginal);
+            var semester = semesterService.ViewSemester(student.SemesterId);
+
+            StudentDetailsViewModel model = new StudentDetailsViewModel();
+            model.AdmissionSession = student.AdmissionSession;
+            model.BatchNoCurrent = batchCurrent.BatchNo;
+            model.BatchNoOriginal = batchOriginal.BatchNo;
+            model.CurrentAddress = student.CurrentAddress;
+            model.CurrentRoll = student.CurrentRoll;
+            model.CurrentSession = student.CurrentSession;
+            model.Designation = user.Designation;
+            model.Email = user.Email;
+            model.FullName = user.FullName;
+            model.GuardianPhone = student.GuardianPhone;
+            model.ImagePath = user.ImagePath;
+            model.OriginalRoll = student.OriginalRoll;
+            model.PermanentAddress = student.PermanentAddress;
+            model.PhoneNumber = user.PhoneNumber;
+            model.ProgramName = program.ProgramName;
+            model.RegistrationNo = student.RegistrationNo;
+            model.SemesterNo = semester.SemesterNo;
+            model.Status = user.Status;
+
+            ViewBag.ProgramId = program.Id;
+            ViewBag.BatchId = batchCurrent.Id;
+            return View(model);
         }
 
         // Batch Exist

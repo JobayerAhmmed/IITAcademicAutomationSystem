@@ -1,0 +1,46 @@
+﻿@model IITAcademicAutomationSystem.Models.SetRoleViewModel
+
+@{
+    ViewBag.Title = "Role Assign to User Confirmed";
+}
+
+<section class="content-header">
+    <h1>
+        Role Assign to User Confirmed
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink("Users", "OtherIndex", "Account", new { area = "" }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Set Role", "OtherSetRole", "Account", new { area = "", id = Model.Id }, null)
+        </li>
+        <li class="active">
+            Confirmed
+        </li>
+    </ol>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3>
+                        @Model.FullName <small>@Model.Designation</small>
+                    </h3>
+                </div>
+                <div class="box-body">
+                    Roles have been successfully assigned.
+                </div>
+                <div class="box-footer text-center">
+                    @Html.ActionLink("Back to Users", "OtherIndex", "Account", new { area = "" },
+                        new { @class = "btn btn-primary btn-flat" })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

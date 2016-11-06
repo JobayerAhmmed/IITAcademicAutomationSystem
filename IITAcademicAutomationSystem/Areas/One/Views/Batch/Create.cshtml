@@ -6,15 +6,14 @@
 
 <section class="content-header">
     <h1>
-        Create batch
+        Create Batch
     </h1>
     <ol class="breadcrumb">
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
-        <li><a href="#">@Model.ProgramName</a></li>
         <li>
-            @Html.ActionLink("Batches", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
         </li>
         <li class="active">
             Create
@@ -39,10 +38,10 @@
                         <div class="form-group">
                             <div class="row edit">
                                 <div class="col-xs-12 col-sm-4">
-                                    @Html.LabelFor(model => model.ProgramName, "Program name", htmlAttributes: new { @class = "" })
+                                    @Html.LabelFor(model => model.ProgramName, "Program Name", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.EditorFor(model => model.ProgramName, new { htmlAttributes = new { @class = "form-control", disabled="" } })
+                                    @Html.EditorFor(model => model.ProgramName, new { htmlAttributes = new { @class = "form-control", disabled = "" } })
                                 </div>
                             </div>
                         </div>
@@ -50,7 +49,7 @@
                         <div class="form-group">
                             <div class="row edit">
                                 <div class="col-xs-12 col-sm-4">
-                                    @Html.LabelFor(model => model.BatchNo, "Batch no.", htmlAttributes: new { @class = "" })
+                                    @Html.LabelFor(model => model.BatchNo, "Batch No.", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
                                     @Html.TextBoxFor(model => model.BatchNo, new { htmlAttributes = new { @class = "form-control" } })
@@ -63,8 +62,10 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-xs-12 text-center">
-                                    <input type="submit" value="Confirm create" class="btn btn-primary" />
-                                    @Html.ActionLink("Cancel", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, new { @class = "btn btn-primary" })
+                                    <input type="submit" value="Confirm Create" class="btn btn-primary btn-flat" />
+                                    @Html.ActionLink("Cancel", "Index", "Batch",
+                                        new { area = "One", programId = Model.ProgramId },
+                                        new { @class = "btn btn-danger btn-flat" })
                                 </div>
                             </div>
                         </div>
@@ -77,5 +78,4 @@
 
 @section Scripts {
     @Scripts.Render("~/jqueryval")
-    @Scripts.Render("~/foolproof")
 }

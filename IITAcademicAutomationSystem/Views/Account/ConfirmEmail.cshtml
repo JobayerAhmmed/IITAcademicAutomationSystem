@@ -1,18 +1,18 @@
 ﻿@{
-    ViewBag.Title = "Confirm Email";
+    ViewBag.Title = "IIT Academic Automation System";
 }
 
-<section class="content">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-8">
-            <div class="box box-default">
-                <div class="box-body">
-                    Thank you for confirming your email address. Please log in to continue.
-                </div>
-                <div class="box-footer text-center">
-                    @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-primary btn-flat" })
-                </div>
-            </div>
+<div class="login">
+    <div id="loginForm" class="panel panel-success login-form">
+        <div class="panel-heading login-heading">
+            Email Confirmation
+        </div>
+        <div class="panel-body login-body">
+            Thank you for confirming your email address. Please log in to continue.
+        </div>
+        <div class="panel-footer login-footer text-center">
+            @Html.ActionLink("Log in", "Login", "Account", routeValues: null,
+                htmlAttributes: new { id = "loginLink", @class = "btn btn-primary btn-flat" })
         </div>
     </div>
-</section>
+</div>

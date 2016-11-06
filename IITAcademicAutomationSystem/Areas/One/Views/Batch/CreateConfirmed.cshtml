@@ -12,12 +12,14 @@
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
-        <li><a href="#">@Model.ProgramName</a></li>
         <li>
-            @Html.ActionLink("Batches", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Create", "Create", "Batch", new { area = "One", programId = Model.ProgramId }, null)
         </li>
         <li class="active">
-            Create
+            Confirmed
         </li>
     </ol>
 </section>
@@ -48,9 +50,13 @@
                     </table>
                 </div>
                 <div class="box-footer text-center">
-                    @Html.ActionLink("Back to batches", "Index", "Batch", new { area = "One", programId = Model.ProgramId }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Back to Batches", "Index", "Batch",
+                        new { area = "One", programId = Model.ProgramId },
+                        new { @class = "btn btn-primary btn-flat" })
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+

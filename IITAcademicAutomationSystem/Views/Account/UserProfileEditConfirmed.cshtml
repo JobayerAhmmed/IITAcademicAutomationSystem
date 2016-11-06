@@ -19,72 +19,104 @@
             @Html.ActionLink("Update", "UserProfileEdit", "Account", new { area = "", id = Model.Id }, null)
         </li>
         <li class="active">
-            Update Confirmed
+            Confirmed
         </li>
     </ol>
 </section>
-<hr />
+
 <section class="content">
     <div class="row">
         <div class="col-xs-12 col-sm-10 col-md-6">
-            <div class="box box-default">
-                <div class="box-body with-border">
-                    <table class="table table-hover table-responsive table-bordered">
-                        <tr>
-                            <td>
-                                Name
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => model.FullName)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Designation
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => model.Designation)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Status
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => model.Status)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Email
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => model.Email)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Contact No.
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => model.PhoneNumber)
-                            </td>
-                        </tr>
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img src="@Url.Content("~/Areas/One/Content/UserImage/" + @Model.ImagePath)"
+                         class="profile-user-img img-responsive img-circle"
+                         alt="User Image" />
+                    <h3 class="profile-username text-center">@Model.FullName</h3>
+                    <p class="text-muted text-center">@Model.Designation</p>
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            Status
+                            <b class="pull-right">@Model.Status</b>
+                        </li>
+                        <li class="list-group-item">
+                            Email
+                            <b class="pull-right">@Model.Email</b>
+                        </li>
+                        <li class="list-group-item">
+                            Contact No.
+                            <b class="pull-right">@Model.PhoneNumber</b>
+                        </li>
                         @if (User.IsInRole("Teacher"))
                         {
-                            <tr>
-                                <td>
-                                    IIT Profile
-                                </td>
-                                <td>
-                                    <a href="@Model.ProfileLink" target="_blank" class="btn btn-default btn-flat">Visit</a>
-                                </td>
-                            </tr>
+                            <li class="list-group-item">
+                                IIT Profile
+                                <span class="pull-right">
+                                    <a href="@Model.ProfileLink" target="_blank" class="">Visit</a>
+                                </span>
+                            </li>
                         }
-                    </table>
+                        @if (User.IsInRole("Student"))
+                        {
+                            <li class="list-group-item">
+                                Program
+                                <b class="pull-right">@Model.ProgramName</b>
+                            </li>
+                            <li class="list-group-item">
+                                Admission Batch No.
+                                <b class="pull-right">@Model.ProgramName @Model.BatchNoOriginal</b>
+                            </li>
+                            <li class="list-group-item">
+                                Current Batch No.
+                                <b class="pull-right">@Model.ProgramName @Model.BatchNoCurrent</b>
+                            </li>
+                            <li class="list-group-item">
+                                Current Semester No.
+                                <b class="pull-right">Semester @Model.SemesterNo</b>
+                            </li>
+                            <li class="list-group-item">
+                                Admission Roll
+                                <b class="pull-right">@Model.OriginalRoll</b>
+                            </li>
+                            <li class="list-group-item">
+                                Current Roll
+                                <b class="pull-right">@Model.CurrentRoll</b>
+                            </li>
+                            <li class="list-group-item">
+                                Registration No.
+                                <b class="pull-right">@Model.RegistrationNo</b>
+                            </li>
+                            <li class="list-group-item">
+                                Admission Session
+                                <b class="pull-right">@Model.AdmissionSession</b>
+                            </li>
+                            <li class="list-group-item">
+                                Current Session
+                                <b class="pull-right">@Model.CurrentSession</b>
+                            </li>
+                            <li class="list-group-item">
+                                Guardian Phone
+                                <b class="pull-right">@Model.GuardianPhone</b>
+                            </li>
+                            <li class="list-group-item">
+                                Current Address
+                                <b class="pull-right">@Model.CurrentAddress</b>
+                            </li>
+                            <li class="list-group-item">
+                                Permanent Address
+                                <b class="pull-right">@Model.PermanentAddress</b>
+                            </li>
+                        }
+
+                        <li class="list-group-item text-center">
+                            <span>
+                                @Html.ActionLink("Change Password", "ChangePassword", "Manage", new { area = "" }, null)
+                            </span>
+                        </li>
+                    </ul>
                 </div>
                 <div class="box-footer text-center">
-                    @Html.ActionLink("Back to Profile", "UserProfile", "Account", new { area = "", id=Model.Id }, new { @class = "btn btn-primary btn-flat" })
+                    @Html.ActionLink("Back to Profile", "UserProfile", "Account", new { area = "", id = Model.Id }, new { @class = "btn btn-primary btn-flat" })
                 </div>
             </div>
         </div>

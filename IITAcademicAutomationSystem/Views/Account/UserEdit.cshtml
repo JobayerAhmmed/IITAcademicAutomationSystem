@@ -1,0 +1,130 @@
+﻿@model IITAcademicAutomationSystem.Models.TeacherEditViewModel
+
+@{
+    ViewBag.Title = "Update Profile";
+}
+
+<section class="content-header">
+    <h1>
+        <small>Profile of</small> @Model.FullName
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink("Users", "OtherIndex", "Account", new { area = "" }, null)
+        </li>
+        <li class="active">
+            Edit
+        </li>
+    </ol>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8">
+            <div class="box box-default">
+                @using (Html.BeginForm("UserEdit", "Account", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                {
+                    <div class="box-body with-border">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.Email)
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.FullName, "Name", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.Designation, "Designation", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.DropDownListFor(model => model.Status, new SelectList(
+                                        new List<Object>
+                                        {
+                                            new { value = "On Duty", text = "On Duty"},
+                                            new { value = "Retired", text = "Retired"}
+                                        }, "value", "text", Model.Status), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", disabled = "" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.PhoneNumber, "Contact No.", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.ImagePath, "Profile Picture", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.ImagePath)
+                                    <input id="ImagePath" name="file" type="file" />
+                                    @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <input type="submit" value="Save" class="btn btn-primary btn-flat" />
+                                    @Html.ActionLink("Cancel", "OtherIndex", "Account", new { area = "" },
+                                            new { @class = "btn btn-danger btn-flat" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/jqueryval")
+}

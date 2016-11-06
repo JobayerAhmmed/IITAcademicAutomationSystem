@@ -23,6 +23,9 @@ namespace IITAcademicAutomationSystem.DAL
         private IBatchRepository batchRepository;
         private ISemesterRepository semesterRepository;
         private ICourseRepository courseRepository;
+        private ICourseSemesterRepository courseSemesterRepository;
+        private IStudentCourseRepository studentCourseRepository;
+        private IStudentSemesterRepository studentSemesterRepository;
 
         public IUserRepository UserRepository
         {
@@ -99,6 +102,40 @@ namespace IITAcademicAutomationSystem.DAL
                     courseRepository = new CourseRepository(context);
                 }
                 return courseRepository;
+            }
+        }
+        public ICourseSemesterRepository CourseSemesterRepository
+        {
+            get
+            {
+                if (courseSemesterRepository == null)
+                {
+                    courseSemesterRepository = new CourseSemesterRepository(context);
+                }
+                return courseSemesterRepository;
+            }
+        }
+        public IStudentCourseRepository StudentCourseRepository
+        {
+            get
+            {
+                if (studentCourseRepository == null)
+                {
+                    studentCourseRepository = new StudentCourseRepository(context);
+                }
+                return studentCourseRepository;
+            }
+        }
+
+        public IStudentSemesterRepository StudentSemesterRepository
+        {
+            get
+            {
+                if (studentSemesterRepository == null)
+                {
+                    studentSemesterRepository = new StudentSemesterRepository(context);
+                }
+                return studentSemesterRepository;
             }
         }
         

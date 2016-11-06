@@ -12,8 +12,7 @@
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
-        <li><a href="#">@ViewBag.ProgramName</a></li>
-        <li class="active">Batches</li>
+        <li class="active">@ViewBag.ProgramName</li>
     </ol>
 </section>
 <section class="content">
@@ -22,25 +21,53 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title pull-right">
-                        @Html.ActionLink("Create batch", "Create", "Batch", new { area = "One", programId = ViewBag.ProgramId }, null) | 
-                        @Html.ActionLink("View previous batches", "IndexPassed", "Batch", new { area = "One", programId = ViewBag.ProgramId }, null)
+                        @Html.ActionLink("Create Batch", "Create", "Batch",
+                            new { area = "One", programId = ViewBag.ProgramId },
+                            new { @class = "btn btn-default btn-flat" })
+                        @Html.ActionLink("Previous Batches", "IndexPassed", "Batch",
+                            new { area = "One", programId = ViewBag.ProgramId },
+                            new { @class = "btn btn-default btn-flat" })
+                        @Html.ActionLink("Courses", "Index", "Course",
+                            new { area = "One", programId = ViewBag.ProgramId },
+                            new { @class = "btn btn-default btn-flat" })
                     </h3>
                 </div>
                 <div class="box-body">
                     <table id="batchIndex" class="table table-responsive table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>
-                                    Batches
-                                </th>
+                                <th class="text-center">Batch</th>
+                                <th class="text-center">Semester</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td class="text-center">
+                                        @Html.ActionLink((string)ViewBag.ProgramName + " " + item.BatchNo, "Details", "Batch",
+                                            new { area = "One", id = item.Id },
+                                            new { @class="btn btn-default btn-flat btn-lg" })
+                                    </td>
+
                                     <td>
-                                        @Html.ActionLink(item.ProgramName + " " + item.BatchNo, "Details", "Batch", new { area = "One", id = item.Id }, null)
+                                        <div class="btn-group btn-group-justified">
+                                            @foreach (var semester in item.Semesters)
+                                            {
+                                                if (semester.SemesterNo == item.SemesterNoCurrent)
+                                                {
+                                                    @Html.ActionLink("Semester " + semester.SemesterNo, "Index", "Semester",
+                                                new { area = "One", batchId = item.Id, semesterId = semester.Id },
+                                                new { @class = "btn btn-primary btn-flat" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.ActionLink("Semester " + semester.SemesterNo, "Index", "Semester",
+                                                new { area = "One", batchId = item.Id, semesterId = semester.Id },
+                                                new { @class = "btn btn-default btn-flat" })
+                                                }
+                                            }
+                                        </div>
                                     </td>
                                 </tr>
                             }

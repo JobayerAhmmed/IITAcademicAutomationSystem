@@ -1,7 +1,7 @@
 ﻿@model IITAcademicAutomationSystem.Models.TeacherEditViewModel
 
 @{
-    ViewBag.Title = "Update Teacher Profile Confirmed";
+    ViewBag.Title = "Update Profile Confirmed";
 }
 
 <section class="content-header">
@@ -13,13 +13,13 @@
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li>
-            @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
+                @Html.ActionLink("Teachers", "TeacherIndex", "Account", new { area = "" }, null)
         </li>
         <li>
             @Html.ActionLink("Edit", "TeacherEdit", "Account", new { area = "", id = Model.Id }, null)
         </li>
         <li class="active">
-            Edit Confirmed
+            Confirmed
         </li>
     </ol>
 </section>
@@ -81,10 +81,11 @@
                     </table>
                 </div>
                 <div class="box-footer text-center">
-                    @Html.ActionLink("Back to Teachers", "TeacherIndex", "Account", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
-                    @Html.ActionLink("Edit", "TeacherEdit", "Account", new { area = "", id = Model.Id }, new { @class = "btn btn-primary btn-flat" })
+                        @Html.ActionLink("Back to Teachers", "TeacherIndex", "Account",
+                            new { area = "" }, new { @class = "btn btn-primary btn-flat" })
                 </div>
             </div>
         </div>
     </div>
 </section>
+

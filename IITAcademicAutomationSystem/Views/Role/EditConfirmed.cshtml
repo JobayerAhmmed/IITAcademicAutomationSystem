@@ -8,15 +8,15 @@
     <h1>Changes have been saved successfully</h1>
     <ol class="breadcrumb">
         <li>
-            @Html.ActionLink(" Home", "Index", "Base", new { area = "" }, new { @class = "fa fa-home" })
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li>
-            @Html.ActionLink("Roles", "Index", "Role", new { area = "" }, null);
+            @Html.ActionLink("Roles", "Index", "Role", new { area = "" }, null)
         </li>
         <li>
-            @Html.ActionLink(Model.Name, "Details", "Role", new { area = "", id = Model.Id }, null)
+            @Html.ActionLink("Edit", "Edit", "Role", new { area = "", id = Model.Id }, null)
         </li>
-        <li class="active">Edit</li>
+        <li class="active">Confirmed</li>
     </ol>
 </section>
 <section class="content">
@@ -40,9 +40,10 @@
         </div>
         <div class="panel-footer panel-footer-sm">
             <div class="form-group">
-                @Html.ActionLink("Back to Roles", "Index", "Role", new { area = "" }, new { @class = "btn btn-primary btn-flat" })
-                @Html.ActionLink("Edit", "Edit", "Role", new { area = "", id = Model.Id }, new { @class = "btn btn-primary btn-flat" })
+                @Html.ActionLink("Back to Roles", "Index", "Role", new { area = "" },
+                    new { @class = "btn btn-primary btn-flat" })
             </div>
         </div>
     </div>
 </section>
+

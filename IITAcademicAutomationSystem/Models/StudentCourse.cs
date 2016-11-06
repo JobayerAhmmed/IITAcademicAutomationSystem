@@ -12,5 +12,6 @@ namespace IITAcademicAutomationSystem.Models
         public int SemesterId { get; set; }
         public int StudentId { get; set; }
         public int CourseId { get; set; }
+        public double GradePoint { get; set; }
     }
 }
