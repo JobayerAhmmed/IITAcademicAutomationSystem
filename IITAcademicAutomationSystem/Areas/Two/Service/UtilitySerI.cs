@@ -31,6 +31,13 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
 
         BatchResDto[] getBatchesOfAProgram(int programId);
 
-        
+        void savePassFailInfoOfAStudnet(int semesterId, int batchId, int studentId,double GPA);
+        void editPassFailInfoOfAStudnet(int semesterId, int batchId, int studentId, double GPA);
+        int checkIfPassedFailInfoIsSaved(int semesterId, int batchId, int studentId);
+        void saveCourseWiseGPAOfAStudent(int semesterId, int batchId,int courseId ,int studentId, double GPA);
+        void editCourseWiseGPAOfAStudent(int semesterId, int batchId, int courseId, int studentId, double GPA);
+        int checkIfCourseWiseGPAIsSaved(int semesterId, int batchId, int courseId, int studentId);
+
+
     }
 }

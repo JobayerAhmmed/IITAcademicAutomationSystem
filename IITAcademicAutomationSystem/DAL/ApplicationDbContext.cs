@@ -29,12 +29,12 @@ namespace IITAcademicAutomationSystem.DAL
         public DbSet<StudentSemester> StudentSemesters { get; set; }
 
 
-        //public DbSet<Marks> Marks { get; set; }
-        //public DbSet<MarksDistribution> MarksDistributions { get; set; }
-        //public DbSet<MarksHead> MarksHeads { get; set; }
-        //public DbSet<MarksSubHead> MarksSubHeads { get; set; }
-        //public DbSet<AcademicFile> AcademicFiles { get; set; }
-        //public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<Marks> Marks { get; set; }
+        public DbSet<MarksDistribution> MarksDistributions { get; set; }
+        public DbSet<MarksHead> MarksHeads { get; set; }
+        public DbSet<MarksSubHead> MarksSubHeads { get; set; }
+        public DbSet<AcademicFile> AcademicFiles { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

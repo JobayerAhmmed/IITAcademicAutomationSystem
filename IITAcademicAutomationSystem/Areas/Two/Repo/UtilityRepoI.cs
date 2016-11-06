@@ -21,6 +21,11 @@ namespace IITAcademicAutomationSystem.Areas.Two.Repo
         Batch getBatch(int programId, int semesterId);
         List<Batch> getBatchesOfAProgram(int programId);
 
-        
+        void savePassFailInfoOfAStudnet(StudentSemester studentSemester);
+        void editPassFailInfoOfAStudnet(StudentSemester studentSemester);
+        int checkIfPassedFailInfoIsSaved(int semesterId, int batchId, int studentId);
+        void saveCourseWiseGPAOfAStudent(StudentCourse studentCourse);
+        void editCourseWiseGPAOfAStudent(StudentCourse studentCourse);
+        int checkIfCourseWiseGPAIsSaved(int semesterId, int batchId, int courseId, int studentId);
     }
 }

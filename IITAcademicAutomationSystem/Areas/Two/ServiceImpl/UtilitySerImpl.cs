@@ -583,6 +583,102 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        
+        public void savePassFailInfoOfAStudnet(int semesterId, int batchId, int studentId, double GPA)
+        {
+            try
+            {
+                StudentSemester studentSemester=new StudentSemester();
+                studentSemester.SemesterId = semesterId;
+                studentSemester.BatchId = batchId;
+                studentSemester.StudentId = studentId;
+                studentSemester.GPA = GPA;
+
+                utilityRepository.savePassFailInfoOfAStudnet(studentSemester);
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void editPassFailInfoOfAStudnet(int semesterId, int batchId, int studentId, double GPA)
+        {
+            try
+            {
+                StudentSemester studentSemester = new StudentSemester();
+                studentSemester.SemesterId = batchId;
+                studentSemester.BatchId = semesterId;
+                studentSemester.StudentId = studentId;
+                studentSemester.GPA = GPA;
+
+                utilityRepository.editPassFailInfoOfAStudnet(studentSemester);
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public int checkIfPassedFailInfoIsSaved(int semesterId, int batchId, int studentId)
+        {
+            try
+            {
+                return utilityRepository.checkIfPassedFailInfoIsSaved(semesterId, batchId, studentId);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void saveCourseWiseGPAOfAStudent(int semesterId, int batchId, int courseId, int studentId, double GPA)
+        {
+            try
+            {
+                StudentCourse studentCourse=new StudentCourse();
+                studentCourse.SemesterId = semesterId;
+                studentCourse.BatchId = batchId;
+                studentCourse.CourseId = courseId;
+                studentCourse.StudentId = studentId;
+                studentCourse.GradePoint = GPA;
+                utilityRepository.saveCourseWiseGPAOfAStudent(studentCourse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public void editCourseWiseGPAOfAStudent(int semesterId, int batchId, int courseId, int studentId, double GPA)
+        {
+            try
+            {
+                StudentCourse studentCourse = new StudentCourse();
+                studentCourse.SemesterId = semesterId;
+                studentCourse.BatchId = batchId;
+                studentCourse.CourseId = courseId;
+                studentCourse.StudentId = studentId;
+                studentCourse.GradePoint = GPA;
+                utilityRepository.editCourseWiseGPAOfAStudent(studentCourse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public int checkIfCourseWiseGPAIsSaved(int semesterId, int batchId, int courseId, int studentId)
+        {
+            try
+            {
+                return utilityRepository.checkIfCourseWiseGPAIsSaved(semesterId, batchId, courseId, studentId);
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

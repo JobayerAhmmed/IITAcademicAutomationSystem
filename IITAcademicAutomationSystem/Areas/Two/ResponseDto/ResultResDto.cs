@@ -36,6 +36,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ResponseDto
 
     public class IndividualCourseResultResDto
     {
+        public int courseId { get; set; }
         public string courseName { get; set; }
         public double GPA { get; set; }
 
