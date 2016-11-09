@@ -1,6 +1,7 @@
 ﻿using IITAcademicAutomationSystem.Areas.Two.Service;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using IITAcademicAutomationSystem.Areas.Two.RequestDto;
@@ -914,7 +915,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                     }
                 }
 
-                studentResultListAllSemester = processGPAOfEachSemester(studentResultListAllSemester);// 
+                studentResultListAllSemester = processGPAOfEachSemester(studentResultListAllSemester, programId,semesterId, batchId);// 
                 responseToReturn = processFinalResult(latestSemesterResult, studentResultListAllSemester);
 
                 return setAllValuesToTwoDecimal(responseToReturn);
@@ -960,7 +961,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                         var courseTemp = courseList.ElementAt(courseCount);
 
                         double totalMarksOfCourse = countMarksOfACourse(programId, semesterId, batchId, courseTemp.id, studentTemp.id);
-
+                        individualCourseResultResDto.courseId = courseTemp.id;
                         individualCourseResultResDto.courseName = courseTemp.name;
                         if (totalMarksOfCourse != -1 && totalMarksOfCourse != -2)
                         {
@@ -1168,7 +1169,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        private List<AllStudentsResultResDto> processGPAOfEachSemester(List<AllStudentsResultResDto> allSemesterResultList)
+        private List<AllStudentsResultResDto> processGPAOfEachSemester(List<AllStudentsResultResDto> allSemesterResultList,int programId,int semesterId,int batchId)
         {
             for (int semesterResultCount = 0; semesterResultCount < allSemesterResultList.Count; semesterResultCount++)//loop ..for all result of all semester from last semester to previous semesters
             {
@@ -1191,11 +1192,29 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
                         SummationOfGPAOfAllCourses = SummationOfGPAOfAllCourses + individualCourseResult.GPA;//counting summation of GPA of all courses of a semester
                         courseNoFlag++;
+
+                        int ifCourseWiseCGPAGiven = utilityService.checkIfCourseWiseGPAIsSaved(semesterId, batchId,
+                            individualCourseResult.courseId, individualStudentResult.id);
+
+                        //next two if else for saving result info in db for promotion
+                        if (ifCourseWiseCGPAGiven==-1)
+                            utilityService.saveCourseWiseGPAOfAStudent(semesterId, batchId, individualCourseResult.courseId, individualStudentResult.id,individualCourseResult.GPA);
+                        else if (ifCourseWiseCGPAGiven == 0)
+                            utilityService.editCourseWiseGPAOfAStudent(semesterId, batchId, individualCourseResult.courseId, individualStudentResult.id, individualCourseResult.GPA);
+
                     }
 
                     double GPATemp = SummationOfGPAOfAllCourses/courseNoFlag;
-
                     allSemesterResultList.ElementAt(semesterResultCount).results[studentCount].GPA = GPATemp;
+                    //next two if else for saving result info in db for promotion
+                    int ifPassedFailedInfoGiven = utilityService.checkIfPassedFailInfoIsSaved(semesterId, batchId,
+                        individualStudentResult.id);
+
+                    if (ifPassedFailedInfoGiven==-1)
+                        utilityService.savePassFailInfoOfAStudnet(semesterId, batchId, individualStudentResult.id, GPATemp);
+                    else if (ifPassedFailedInfoGiven == 0)
+                        utilityService.editPassFailInfoOfAStudnet(semesterId, batchId, individualStudentResult.id, GPATemp);
+
                 }
             }
             return allSemesterResultList;
@@ -1255,6 +1274,21 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
             return result;
         }
+
+        /*private void savingResultToDb(List<AllStudentsResultResDto> allSemesterResultList)
+        {
+            for (int semesterCounter = 0; semesterCounter < allSemesterResultList.Count; semesterCounter++)
+            {
+                var semesterResult = allSemesterResultList.ElementAt(semesterCounter);
+
+                for (int studentCounter = 0; studentCounter < semesterResult.results.Length; studentCounter++)
+                {
+                    var individualStudentResult = semesterResult.results[studentCounter];
+
+
+                }
+            }
+        }*/
 
     }
 }

@@ -216,5 +216,109 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
                 throw e;
             }
         }
+
+        public void savePassFailInfoOfAStudnet(StudentSemester studentSemester)
+        {
+            try
+            {
+                db.StudentSemesters.Add(studentSemester);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void editPassFailInfoOfAStudnet(StudentSemester studentSemester)
+        {
+            try
+            {
+                var query = (from StudentSemester in db.StudentSemesters where StudentSemester.SemesterId == studentSemester.StudentId && StudentSemester.BatchId == studentSemester.BatchId && StudentSemester.StudentId == studentSemester.StudentId select StudentSemester).FirstOrDefault();
+
+                if (query != null)
+                {
+                    query.GPA = studentSemester.GPA;
+                    db.Entry(query).CurrentValues.SetValues(query);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public int checkIfPassedFailInfoIsSaved(int semesterId, int batchId, int studentId)
+        {
+            try
+            {
+                var query = (from StudentSemester in db.StudentSemesters where StudentSemester.SemesterId == semesterId && StudentSemester.BatchId == batchId && StudentSemester.StudentId == studentId select StudentSemester).FirstOrDefault();
+                if (query == null)
+                    return -1; //has to be created
+                if (query.GPA == 0 || query.GPA == 0.00)
+                    return 0; //has to be edited
+                if (query != null)
+                    return 1; //nothing to do
+                return
+                    2; //this path will never reach
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void saveCourseWiseGPAOfAStudent(StudentCourse studentCourse)
+        {
+            try
+            {
+                db.StudentCourses.Add(studentCourse);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void editCourseWiseGPAOfAStudent(StudentCourse studentCourse)
+        {
+            try
+            {
+                var query = (from StudentCourse in db.StudentCourses where StudentCourse.SemesterId == studentCourse.SemesterId  && StudentCourse.BatchId == studentCourse.BatchId && StudentCourse.CourseId == studentCourse.CourseId && StudentCourse.StudentId == studentCourse.StudentId select StudentCourse).FirstOrDefault();
+
+                if (query != null)
+                {
+                    query.GradePoint = studentCourse.GradePoint;
+                    db.Entry(query).CurrentValues.SetValues(query);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public int checkIfCourseWiseGPAIsSaved(int semesterId, int batchId, int courseId, int studentId)
+        {
+            try
+            {
+                var query = (from StudentCourse in db.StudentCourses where StudentCourse.SemesterId == semesterId && StudentCourse.CourseId==courseId && StudentCourse.BatchId == batchId && StudentCourse.StudentId == studentId select StudentCourse).FirstOrDefault();
+                if (query == null)
+                    return -1; //has to be created
+                if(query.GradePoint==0 || query.GradePoint == 0.00)
+                    return 0; //has to be edited
+                if (query != null)
+                    return 1; //nothing to do
+                return
+                    2; //this path will never reach
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }
