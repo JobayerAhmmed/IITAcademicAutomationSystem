@@ -106,6 +106,120 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             return View(model);
         }
 
+        // Course Students
+        public ActionResult CourseStudents(int batchId, int semesterId, int courseId)
+        {
+            var semester = semesterService.ViewSemester(semesterId);
+            var batch = batchService.ViewBatch(batchId);
+            var program = programService.ViewProgram(batch.ProgramId);
+            var course = courseService.ViewCourse(courseId);
+
+            IEnumerable<Student> students = semesterService.GetCourseStudents(batchId, semesterId, courseId);
+
+            List<StudentIndexViewModel> studentsToView = new List<StudentIndexViewModel>();
+            StudentIndexViewModel studentIndexViewModel = new StudentIndexViewModel();
+            ApplicationUser user;
+
+            foreach (var item in students)
+            {
+                user = userService.ViewUser(item.UserId);
+
+                studentIndexViewModel.Id = item.Id;
+                studentIndexViewModel.UserId = item.UserId;
+                studentIndexViewModel.Roll = item.CurrentRoll;
+                studentIndexViewModel.FullName = user.FullName;
+                studentIndexViewModel.Email = user.Email;
+                studentIndexViewModel.PhoneNumber = user.PhoneNumber;
+                studentIndexViewModel.ImagePath = user.ImagePath;
+
+                studentsToView.Add(studentIndexViewModel);
+                studentIndexViewModel = new StudentIndexViewModel();
+            }
+
+            SemesterIndexViewModel model = new SemesterIndexViewModel();
+            model.ProgramId = program.Id;
+            model.ProgramName = program.ProgramName;
+            model.BatchId = batchId;
+            model.BatchNo = batch.BatchNo;
+            model.SemesterId = semesterId;
+            model.SemesterNo = semester.SemesterNo;
+            model.Students = studentsToView.OrderBy(s => s.Roll);
+
+            ViewBag.CourseId = course.Id;
+            ViewBag.CourseCode = course.CourseCode;
+
+            return View(model);
+        }
+
+        // Add Student to Course
+        public ActionResult AddStudentToCourse(int batchId, int semesterId, int courseId)
+        {
+            var batch = batchService.ViewBatch(batchId);
+            var semester = semesterService.ViewSemester(semesterId);
+            var program = programService.ViewProgram(batch.ProgramId);
+            var course = courseService.ViewCourse(courseId);
+
+            var eligibleStudents = semesterService.GetEligibleStudentsForCourse(batchId, semesterId, courseId);
+
+            SemesterAddStudentViewModel model = new SemesterAddStudentViewModel();
+            model.ProgramId = program.Id;
+            model.ProgramName = program.ProgramName;
+            model.BatchId = batchId;
+            model.BatchNo = batch.BatchNo;
+            model.SemesterId = semesterId;
+            model.SemesterNo = semester.SemesterNo;
+
+            var checkBoxListItems = new List<CheckBoxListItem>();
+            ApplicationUser user;
+            foreach (var student in eligibleStudents)
+            {
+                user = userService.ViewUser(student.UserId);
+                checkBoxListItems.Add(new CheckBoxListItem()
+                {
+                    Value = (student.Id).ToString(),
+                    Text = student.CurrentRoll + " - " + user.FullName,
+                    IsChecked = false
+                });
+            }
+            model.Students = checkBoxListItems;
+
+            ViewBag.CourseId = courseId;
+            ViewBag.CourseCode = course.CourseCode;
+
+            return View(model);
+        }
+
+        // POST: Add student to course
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddStudentToCourse(SemesterAddStudentViewModel model, int courseId)
+        {
+            StudentCourse studentCourse;
+            bool result;
+            foreach (var student in model.Students)
+            {
+                if (student.IsChecked)
+                {
+                    studentCourse = new StudentCourse()
+                    {
+                        SemesterId = model.SemesterId,
+                        CourseId = courseId,
+                        BatchId = model.BatchId,
+                        StudentId = Convert.ToInt32(student.Value)
+                    };
+                    result = semesterService.AddStudentToStudentCourse(studentCourse);
+
+                    if (result)
+                        continue;
+
+                    return View(model);
+                }
+            }
+
+            return RedirectToAction("CourseStudents", "Semester",
+                new { area = "One", batchId = model.BatchId, semesterId = model.SemesterId, courseId = courseId });
+        }
+
         // Semester Courses
         public ActionResult SemesterCourses(int batchId, int semesterId)
         {

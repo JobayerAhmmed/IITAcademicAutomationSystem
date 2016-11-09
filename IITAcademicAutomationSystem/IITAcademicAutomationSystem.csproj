@@ -406,6 +406,8 @@
     <Content Include="Areas\One\Views\Semester\SemesterStudents.cshtml" />
     <Content Include="Areas\One\Views\Semester\SemesterCourses.cshtml" />
     <Content Include="Areas\One\Views\Semester\SemesterTeachers.cshtml" />
+    <Content Include="Areas\One\Views\Semester\CourseStudents.cshtml" />
+    <Content Include="Areas\One\Views\Semester\AddStudentToCourse.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

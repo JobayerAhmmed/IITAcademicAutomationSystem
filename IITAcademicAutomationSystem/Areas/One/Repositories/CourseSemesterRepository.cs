@@ -41,6 +41,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         public IEnumerable<CourseSemester> GetSemesterTeachers(int batchId, int semesterId)
         {
             return context.CourseSemesters.Where(t =>
+                t.TeacherId != null &&
                 t.BatchId == batchId &&
                 t.SemesterId == semesterId).GroupBy(t => t.TeacherId).Select(t => t.FirstOrDefault()).ToList();
         }

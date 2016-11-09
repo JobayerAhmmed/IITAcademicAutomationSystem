@@ -210,30 +210,6 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             ViewBag.BatchNo = batch.BatchNo;
 
             return View(studentsToView);
-
-            //IList<BatchStudent> currentStudents = new List<BatchStudent>();
-            //BatchStudent bcs;
-
-            //foreach (var student in students)
-            //{
-            //    bcs = new BatchStudent()
-            //    {
-            //        StudentId = student.Id,
-            //        UserId = student.UserId,
-            //        SemesterIdCurrent = student.SemesterId,
-            //        Roll = student.CurrentRoll,
-            //        FullName = userService.ViewUser(student.UserId).FullName
-            //    };
-            //    currentStudents.Add(bcs);
-            //}
-            //BatchStudentsViewModel batchStudentsVM = new BatchStudentsViewModel()
-            //{
-            //    ProgramId = program.Id,
-            //    ProgramName = program.ProgramName,
-            //    BatchId = batchId,
-            //    BatchNo = batch.BatchNo,
-            //    Students = currentStudents
-            //};
         }
 
         // View admitted students of batch

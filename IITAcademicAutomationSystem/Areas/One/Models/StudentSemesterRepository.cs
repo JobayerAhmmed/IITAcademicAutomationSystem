@@ -21,7 +21,6 @@ namespace IITAcademicAutomationSystem.Areas.One.Models
         {
             this.context = context;
         }
-
         public StudentSemester GetStudentSemester(int batchId, int semesterId, int studentId)
         {
             return context.StudentSemesters.Where(s =>
