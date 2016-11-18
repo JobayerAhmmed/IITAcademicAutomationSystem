@@ -43,6 +43,7 @@
                   .then(
                          function (d) {
                              if (d.Status == "OK") {
+                                 console.log(d);
                                  $scope.selection.attendanceInfo = d.Data;
                                  inatializeAllStudentPresencePercentage();
                              }

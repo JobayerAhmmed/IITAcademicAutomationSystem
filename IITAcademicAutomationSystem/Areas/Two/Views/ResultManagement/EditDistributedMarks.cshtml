@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    ViewBag.Title = "Update Distributed Marks";
+}
 <script src='~/Areas/Two/Library/angular.min.js'></script>
 
 <script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
@@ -11,9 +13,6 @@
     <div>
         <div ng-app="examinationManagement_module" ng-controller="editDistributedMarks_controller">
             <div ng-cloak>
-                {{flag}}
-                <br/>
-                {{selected}}
                 <br/>
                 <div>
                     <div ng-if="message.content!=''">
@@ -60,20 +59,27 @@
                         <div>
                             <div ng-show="selected.program.name && selected.semester.name && selected.course.name">
                                 <div ng-if="flag.isMarksAlreadyDistributed===false">
-                                    <h3>Marks is not Distributed</h3>
+                                    <div class="alert alert-info">
+                                        <h3>Marks is not Distributed</h3>
+                                    </div>
                                 </div>
                                 <div ng-if="flag.isFinallySubmitted">
-                                    <h3>Marks is Finally Submitted</h3>
+                                    <div class="alert alert-info">
+                                        <h3>Marks is Finally Submitted</h3>
+                                    </div>
                                 </div>
                                 <div ng-if="flag.isMarksAlreadyDistributed===true">
                                     <div ng-show="flag.isMarksAlreadyDistributed===true && flag.showDistributedMark===true">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <div ng-if="flag.isFinallySubmitted!=true">
-                                                    <div><b>Head Number</b>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <input type="number" class="form-control" ng-change="whenHeadNumberChanged()" ng-model="selected.distribution.number.changed" min="{{selected.distribution.number.original}}" max="10">
+                                                <div class="col-sm-4">
+                                                    <div ng-if="flag.isFinallySubmitted!=true">
+                                                        <div>
+                                                            <b>Head Number</b>
+                                                        </div>
+                                                        <div>
+                                                            <input type="number" class="form-control" ng-change="whenHeadNumberChanged()" ng-model="selected.distribution.number.changed" min="{{selected.distribution.number.original}}" max="10">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

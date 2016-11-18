@@ -45,7 +45,13 @@
                     </div>
                     <br/>
                     <div ng-if="flag.isAllMarksFinallySybmitted==false">
-                        <h3>All Courses Marks Are Not Finally Submitted</h3>
+                        <div class="col-sm-12">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <h3>All Courses Marks Are Not Finally Submitted</h3>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div ng-if="flag.isAllMarksFinallySybmitted==true">
@@ -60,51 +66,54 @@
                             <br/>
                             <div class="row">
                                 <div id="printArea">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-4">
-                                                <h3>{{"Program : "+selection.resultInfo.programName+" "}}</h3>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <h3>{{"Semster : "+selection.resultInfo.semesterName+" "}}</h3>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <h3>{{selected.batch.name}}</h3>
+                                    <div class="box">
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <h3>{{"Program : "+selection.resultInfo.programName+" "}}</h3>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <h3>{{"Semster : "+selection.resultInfo.semesterName+" "}}</h3>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <h3>{{selected.batch.name}}</h3>
+                                                </div>
                                             </div>
                                         </div>
+                                        <br />
+                                        <table border="1" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Class Roll</th>
+                                                    <th>Exam Roll</th>
+                                                    <th ng-repeat="course in selection.resultInfo.courses">{{course}}</th>
+                                                    <th>GPA</th>
+                                                    <th>CGPA</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="info in selection.resultInfo.results  | filter:search">
+                                                    <td>{{info.studentName}}</td>
+                                                    <td>{{info.classRoll}}</td>
+                                                    <td>{{info.examRoll}}</td>
+                                                    <td ng-repeat="result in info.result">
+                                                        <p ng-if="result.GPA!=-1">{{result.GPA}}</p>
+                                                    </td>
+                                                    <td>{{info.GPA}}</td>
+                                                    <td>{{info.CGPA}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <br/>
-                                    <table border="1" class="table table-bordered">
-                                        <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Class Roll</th>
-                                            <th>Exam Roll</th>
-                                            <th ng-repeat="course in selection.resultInfo.courses">{{course}}</th>
-                                            <th>GPA</th>
-                                            <th>CGPA</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr ng-repeat="info in selection.resultInfo.results  | filter:search">
-                                            <td>{{info.studentName}}</td>
-                                            <td>{{info.classRoll}}</td>
-                                            <td>{{info.examRoll}}</td>
-                                            <td ng-repeat="result in info.result">
-                                                <p ng-if="result.GPA!=-1">{{result.GPA}}</p>
-                                            </td>
-                                            <td>{{info.GPA}}</td>
-                                            <td>{{info.CGPA}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="col-sm-4">
-                                        <input type="button" class="btn btn-primary" value="Print/Download" ng-click="printIt()">
+                                    <div>
+                                        <input type="button" class="btn btn-primary" value="Download" ng-click="printIt()">
                                     </div>
                                 </div>
                             </div>

@@ -112,6 +112,7 @@
             }
 
             var getRoutines = function () {
+                console.log("getRoutine");
                 RoutineService.getRoutines_tp($scope.selected.program.id, $scope.selected.semester.id)
                    .then(
                           function (d) {

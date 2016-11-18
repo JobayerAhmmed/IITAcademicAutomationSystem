@@ -30,7 +30,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
         {
             try
             {
-                return 10;
+                return 4;
             }
             catch (Exception e)
             {

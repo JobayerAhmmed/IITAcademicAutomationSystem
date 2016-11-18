@@ -40,6 +40,7 @@
             return $http.get('/Two/RoutineManagement/getRoutines_tp?programId=' + programId + "&semesterId=" + semesterId)
                     .then(
                             function (response) {
+                                console.log(response);
                                 return response.data;
                             },
                             function (errResponse) {

@@ -1,4 +1,7 @@
-﻿<script src='~/Areas/Two/Library/angular.min.js'></script>
+﻿@{
+    ViewBag.Title = "All Heads Marks Status";
+}
+<script src='~/Areas/Two/Library/angular.min.js'></script>
 
 <script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
 <script src="~/Areas/Two/Scripts/ExamManagement/Module/ExaminationManagement.module.js" type="text/javascript"></script>
@@ -11,13 +14,6 @@
     <div>
         <div ng-app="examinationManagement_module" ng-controller="finalSubmission_controller">
             <div ng-cloak>
-                {{selection}}
-                <br />
-                <br />
-                {{selected}}
-                <br />
-                <br />
-                {{flag}}
                 <div ng-if="message.content!=''">
                     <div class="{{message.color}}">{{message.content}}</div>
                 </div>
@@ -52,43 +48,54 @@
                 <br />
                 <div ng-if="selected.program.id && selected.semester.id && selected.course.id && selection.courseMarksInfo.headMarksInfo.length!=0 ">
                     <div ng-show="selection.courseMarksInfo.headMarksInfo.length==0">
-                        <h1>Marks Are Not Distributed Yet</h1>
+                        <div class="col-sm-12">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <h1>Marks Are Not Distributed Yet</h1>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                         <div ng-show="selection.courseMarksInfo.headMarksInfo.length!=0">
                             <div class="row">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Head Name</th>
-                                                <th>Marks Given/Not Given</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="headMarks in selection.courseMarksInfo.headMarksInfo">
-                                                {{headMarks}}
-                                                <td><b>{{headMarks.name}}</b></td>
-                                                <td>
-                                                    <div class="bg-success">
-                                                        <div ng-if="headMarks.isMarksGiven">Marks Is Given</div>
-                                                    </div>
-                                                    <div class="bg-danger">
-                                                        <div ng-if="!headMarks.isMarksGiven">Marks Is Not Given</div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div ng-if="selection.courseMarksInfo.ifAlreadyFinallySubmitted==false">
-                                <div>
-                                    <span><input type="button" class="btn btn-info" value="Final Submit" ng-click="whenFinalSubmissionBauttonIsClicked()" ng-disabled="!flag.ifMarksOfAllHeadsAreGiven"></span>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <div class="box">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Head Name</th>
+                                                            <th>Marks Given/Not Given</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="headMarks in selection.courseMarksInfo.headMarksInfo">
+                                                            {{headMarks}}
+                                                            <td><b>{{headMarks.name}}</b></td>
+                                                            <td>
+                                                                <div class="bg-success">
+                                                                    <div ng-if="headMarks.isMarksGiven">Marks Is Given</div>
+                                                                </div>
+                                                                <div class="bg-danger">
+                                                                    <div ng-if="!headMarks.isMarksGiven">Marks Is Not Given</div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div ng-if="selection.courseMarksInfo.ifAlreadyFinallySubmitted==true">
-                                <div>
-                                    <h3>Already Submitted</h3>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-12">
+                                        <div class="alert alert-info">
+                                            <h3>Already Submitted</h3>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>                        

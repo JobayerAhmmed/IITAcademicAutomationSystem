@@ -1,4 +1,7 @@
-﻿<script src='~/Areas/Two/Library/angular.min.js'></script>
+﻿@{
+    ViewBag.Title = "View Distributed Marks";
+}
+<script src='~/Areas/Two/Library/angular.min.js'></script>
 
 <script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
 <script src="~/Areas/Two/Scripts/ExamManagement/Module/ExaminationManagement.module.js" type="text/javascript"></script>
@@ -52,7 +55,7 @@
                         </br>
                         <div>
                             <div ng-show="selected.program.name && selected.semester.name && selected.course.name">
-                                <div>
+                                <div class="box">
                                     <div ng-if="flag.isMarksAlreadyDistributed===false">
                                         <h3>Marks is Not Distributed Yet</h3>
                                     </div>

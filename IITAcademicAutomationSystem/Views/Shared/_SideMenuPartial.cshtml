@@ -148,7 +148,242 @@
                     <span>Role</span>
                 </a>
             </li>
+            
+            <li class="active"><a href="@Url.Action("GiveAttendance", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Give Attendance</a></li>
 
+         @*Teacher*@
+        <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Exam</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("CreateOrViewHead", "ResultManagement", new { area = "two" })"><i class="fa fa-circle-o"></i> Create/View Head</a></li>
+                    <li class="active"><a href="@Url.Action("CreateOrViewSubHead", "ResultManagement", new { area = "two" })"><i class="fa fa-circle-o"></i> Create/View Sub-head</a></li>
+                    <li><a href="@Url.Action("DistributeMarks", "ResultManagement", new { area = "two" })"><i class="fa fa-circle-o"></i> Distribute Marks</a></li>
+                    <li class="active"><a href="@Url.Action("EditDistributedMarks", "ResultManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Edit Distributed Marks</a></li>
+                    <li class="active"><a href="@Url.Action("ViewDistributedMarks_t", "ResultManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Distributed Marks</a></li>
+                    <li class="active"><a href="@Url.Action("GiveMarks", "ResultManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Give/Edit Marks</a></li>
+                    <li><a href="@Url.Action("ViewGivenMarks_t", "ResultManagement", new { area = "two" })"><i class="fa fa-circle-o"></i> View Marks</a></li>
+                    <li class="active"><a href="@Url.Action("FinalSubmission", "ResultManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Final Submit</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Attendance</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("GiveAttendance", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Give Attendance</a></li>
+                    <li class="active"><a href="@Url.Action("EditAttendance", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i>Edit Attendance </a></li>
+                    <li class="active"><a href="@Url.Action("ViewAttendanceCourseWise", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Attendance Report</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Notice </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("ViewNotice_tp", "NoticeManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Notice</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Academic Calendar </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("ViewAcademicCalendar_tp", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Academic Calendar</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Routine </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("ViewRoutine_tp", "RoutineManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Routine</a></li>
+                </ul>
+            </li>
+            
+            
+        @*Program Officer*@
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Notice </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("UploadNotice", "NoticeManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Upload Notice</a></li>
+                    <li class="active"><a href="@Url.Action("ViewNotice_tp", "NoticeManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Notice</a></li>
+                    <li class="active"><a href="@Url.Action("EditOrDeleteNotice", "NoticeManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Edit/Delete Notice</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Academic Calendar </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("UploadacAdemicCalendar", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Upload Academic Calendar</a></li>
+                    <li class="active"><a href="@Url.Action("ViewAcademicCalendar_tp", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Academic Calendar</a></li>
+                    <li class="active"><a href="@Url.Action("EditOrDeleteAcademicCalendar", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Delete Academic Calendar</a></li>
+                </ul>
+            </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-folder"></i>
+                <span>Routine </span>
+                <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+            </a>
+            <ul class="treeview-menu">
+                <li class="active"><a href="@Url.Action("UploadRoutine", "RoutineManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Upload Routine</a></li>
+                <li class="active"><a href="@Url.Action("ViewRoutine_tp", "RoutineManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Routine</a></li>
+                <li class="active"><a href="@Url.Action("EditOrDeleteRoutine", "RoutineManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Delete Routine</a></li>
+            </ul>
+        </li>
+            
+            
+            
+        @*Student*@
+            
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Exam </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("ViewDistributedMarks_s", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Distributed Marks</a></li>
+                    <li><a href="@Url.Action("ViewGivenMarks_s", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Marks</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Attendance </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("viewattendanceindividual", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Attendance Report</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Notice </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("ViewNotice_s", "NoticeManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Notice</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Academic Calendar </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("ViewAcademicCalendar_s", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Academic Calendar</a></li>
+                </ul>
+            </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-folder"></i>
+                <span>Routine </span>
+                <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+            </a>
+            <ul class="treeview-menu">
+                <li class="active"><a href="@Url.Action("ViewRoutine_s", "RoutineManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Routine</a></li>
+            </ul>
+        </li>
+            
+        @*batch coordinator*@
+            <li>
+                <a href="@Url.Action("ViewAllFinalSubmission","ResultManagement",
+                        new { area = "Two", programId = Model.Programs.Single(p => p.ProgramName == "BSSE").Id })">
+                    <i class="ion ion-social-buffer"></i>
+                    <span>All Final Submission</span>
+                </a>
+            </li>
+        <li>
+            <a href="@Url.Action("ViewResult", "ResultManagement",
+                         new { area = "Two", programId = Model.Programs.Single(p => p.ProgramName == "MSSE").Id })">
+                <i class="ion ion-social-buffer"></i>
+                <span>View Result</span>
+            </a>
+        </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Notice </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("ViewNotice_tp", "NoticeManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Notice</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Academic Calendar </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("ViewAcademicCalendar_tp", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Academic Calendar</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>Routine</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("ViewRoutine_tp", "RoutineManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Routine</a></li>
+                </ul>
+            </li>
         </ul>
     </section>
 </aside>

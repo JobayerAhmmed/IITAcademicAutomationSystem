@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "View GivenMarks";
+    ViewBag.Title = "View Marks";
 }
 <script src='~/Areas/Two/Library/angular.min.js'></script>
 
@@ -14,16 +14,11 @@
     <div>
         <div ng-app="examinationManagement_module" ng-controller="viewGivenMarks_controller">
             <div ng-cloak>
-                {{selected}}
-                <br/>
-                <br />
-                {{selection}}
                 <div>
                     <div ng-if="message.content!=''">
                         <div class="{{message.color}}">{{message.content}}</div>
                     </div>
                 </div>
-
                 <div>
                     <div class="row">
                         <div class="col-sm-12">
@@ -41,7 +36,7 @@
                 </div>
                 <br/>
                 <div ng-show="selected.course.name && selection.marksInfo.heads">
-                    <div>
+                    <div class="box">
                         <table class="table table-bordered">
                             <thead>
                             <tr>

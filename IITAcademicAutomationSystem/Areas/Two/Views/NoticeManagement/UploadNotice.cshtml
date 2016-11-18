@@ -55,13 +55,13 @@
                         <div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-12">
                                         <b>Upload Notice</b>
                                         <div>
                                             <div class="btn btn-primary btn-sm">
                                                 <input type="file" name="file" accept="application/pdf" onchange="angular.element(this).scope().selectFileforUpload(this.files)" />
                                             </div>
-                                            <span class="error" ng-show="(f1.file.$dirty || IsFormSubmitted) && f1.file.$error.required">Notice required!</span>
+                                            <span class="error" style="color: red" ng-show="(f1.file.$dirty || IsFormSubmitted) && f1.file.$error.required">Notice required!</span>
                                             <span class="error" style="color: red">{{FileInvalidMessage}}</span>
                                         </div>
                                     </div>

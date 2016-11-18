@@ -23,36 +23,112 @@
                 courses:[],
                 marksInfo:[]
             }
+            $scope.flag= {
+                
+            }
 
             $scope.message = {
                 content: "",
                 color: ""
             }
 
-            $scope.whenProgramIsSelected=function() {
-                getSemesters();
-                $scope.selected.semester={};
-                $scope.selected.batch={};
-                $scope.selected.course={}
+            $scope.whenProgramIsSelected = function () {
+                $scope.selected = {
+                    program: $scope.selected.program,
+                    semester: {
+                    },
+                    batch: {
+                    },
+                    course: {
+                    },
 
-                $scope.selection.courses=[];
-                $scope.selection.marksInfo=[];
+                }
+
+                $scope.selection = {
+                    programs: $scope.selection.programs,
+                    semesters: [],
+                    courses: [],
+                    marksInfo: []
+                }
+                $scope.flag = {
+
+                }
+                getSemesters();
+                
             }
 
             
 
             $scope.whenSemesterIsSelected = function () {
-                getBatch();
-                getCourses();
-                $scope.selected.course={}
-                $scope.selection.marksInfo=[];
+                $scope.selected = {
+                    program: $scope.selected.program,
+                    semester: $scope.selected.semester,
+                    batch: $scope.selected.batch,
+                    course: {
+                    },
+
+                }
+
+                $scope.selection = {
+                    programs: $scope.selection.programs,
+                    semesters: $scope.selection.semesters,
+                    courses: [],
+                    marksInfo: []
+                }
+                $scope.flag = {
+                }
+                if ($scope.selected.program.id && $scope.selected.semester.id) {
+                    getBatch();
+                    getCourses();
+                }
+                
+               
             }
 
            
+            var checkIfAllMarksOfAllSubHeadsAreGiven = function () {
+                var count = 0;
+                for (var i = 0; i < $scope.selection.courseMarksInfo.headMarksInfo.length; i++) {
+                    if ($scope.selection.courseMarksInfo.headMarksInfo[i].isMarksGiven === false) {
+                        $scope.flag.ifMarksOfAllHeadsAreGiven = false;
+                        break;
+                    }
+                    else {
+                        count++;
+                    }
+                }
+                if (count == $scope.selection.courseMarksInfo.headMarksInfo.length) {
+                    $scope.flag.ifMarksOfAllHeadsAreGiven = true;
+                }
+            }
 
+            $scope.whenFinalSubmissionBauttonIsClicked = function () {
+                var r = confirm("Sure ?..After confirming you can not enter/edit any marks in this course");
+                if (r == true) {
+                    finallySubmitMarks();
+                }
+            }
 
-            $scope.whenCourseIsSelected=function(){
+            $scope.whenCourseIsSelected = function () {
+                $scope.selected = {
+                    program: $scope.selected.program,
+                    semester: $scope.selected.semester,
+                    batch: $scope.selected.batch,
+                    course: $scope.selected.course,
+
+                }
+
+                $scope.selection = {
+                    programs: $scope.selection.programs,
+                    semesters: $scope.selection.semesters,
+                    courses: $scope.selection.courses,
+                    marksInfo: []
+                }
+                $scope.flag = {
+
+                }
                 getGivenMarksOfAllStudentOfACourse();
+                getCourseMarksInfo();
             }
 
             var showNotification = function (message, status) {
@@ -70,6 +146,7 @@
                             content: "",
                             color: ""
                         }
+                        getCourseMarksInfo();
                     });
                 }, 3000);
             }
@@ -133,6 +210,7 @@
                           function (d) {
                               if (d.Status == "OK") {
                                   $scope.selection.courses = d.Data.courses;
+                                  
                               }
                               else if (d.Status == "ERROR") {
                                   showNotification(d.Message, d.Status);
@@ -160,6 +238,42 @@
                                showNotification('Error While Fetching Courses','ERROR');
                            }
                    );
+            }
+
+            var getCourseMarksInfo = function () {
+                ResultService.getCourseMarksInfo($scope.selected.program.id, $scope.selected.semester.id, $scope.selected.batch.id, $scope.selected.course.id)
+                   .then(
+                          function (d) {
+                              if (d.Status == "OK") {
+                                  $scope.selection.courseMarksInfo = d.Data;
+                                  console.log(d.Data);
+                                  checkIfAllMarksOfAllSubHeadsAreGiven();
+                              }
+                              else if (d.Status == "ERROR") {
+                                  showNotification(d.Message, d.Status);
+                              }
+                          },
+                           function (errResponse) {
+                               showNotification('Error While Fetching Courses', 'ERROR');
+                           }
+                   );
+            }
+
+            var finallySubmitMarks = function () {
+                ResultService.finallySubmitOfACourse($scope.selected.program.id, $scope.selected.semester.id, $scope.selected.batch.id, $scope.selected.course.id)
+	              .then(
+                       function (d) {
+                           if (d.Status == "OK") {
+                               showNotification(d.Message, d.Status);
+                               $scope.flag = {};
+                           }
+                           else if (d.Status == "ERROR") {
+                               showNotification(d.Message, d.Status);
+                           }
+                       },
+			            function (errResponse) {
+			                showNotification('Error while Adding Subhead', 'ERROR');
+			            });
             }
 
 

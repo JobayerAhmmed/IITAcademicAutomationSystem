@@ -155,20 +155,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
 
         
 
-        /*public List<MarksDistribution> getDistributedMarksByProgramSemesterCourse(int programId, int semesterId, int courseId)
-        {
-            try
-            {
-                var query = from MarksDistribution in db.MarksDistributions where MarksDistribution.programId == programId && MarksDistribution.semesterId == semesterId && MarksDistribution.courseId == courseId select MarksDistribution;
-                var marksDistribution = query.ToList();
-
-                return marksDistribution;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }*/
+        
 
 
     }

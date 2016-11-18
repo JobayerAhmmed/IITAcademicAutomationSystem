@@ -1,6 +1,6 @@
 ﻿
 @{
-ViewBag.Title = "ViewAttendanceIndividual";
+ViewBag.Title = "View Attendance";
 }
 
 <script src='~/Areas/Two/Library/angular.min.js'></script>
@@ -17,34 +17,35 @@ ViewBag.Title = "ViewAttendanceIndividual";
         <div ng-app="attendanceManagement_module" ng-controller="viewAttendenceIndividual_controller">
             <div ng-cloak>
                 <div class="control-label col-sm-14">
-                    <div class="table-responsive">
-                        <div ng-repeat="attendanceOfACourse in selection.attendanceInfo.attendanceOfAllCourses">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Course Name</th>
-                                        <th ng-repeat="class in attendanceOfACourse.attendances">{{"Class No: "+class.classNo}}{{" Date: "+class.date}}</th>
-                                        <th>Percentage</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <td>{{attendanceOfACourse.courseName}}</td>
-                                <td ng-repeat="attendance in attendanceOfACourse.attendances">
-                                    <span>
-                                        <h3 style="display: block; width: 100%;" class="label label-success" ng-if="attendance.isPresent">Present</h3>
-                                        <h3 style="display: block; width: 100%;" class="label label-danger" ng-if="!attendance.isPresent">Absent</h3>
-                                    </span>
-                                </td>
-                                <td ng-if="attendanceOfACourse.presencePercentage!='NaN'">{{attendanceOfACourse.presencePercentage+" %"}}</td>
-                                </tbody>
-                            </table>
+                    <div class="box">
+                        <div class="table-responsive">
+                            <div ng-repeat="attendanceOfACourse in selection.attendanceInfo.attendanceOfAllCourses">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Course Name</th>
+                                            <th ng-repeat="class in attendanceOfACourse.attendances">{{"Class No: "+class.classNo}}{{" Date: "+class.date}}</th>
+                                            <th>Percentage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <td>{{attendanceOfACourse.courseName}}</td>
+                                    <td ng-repeat="attendance in attendanceOfACourse.attendances">
+                                        <span>
+                                            <h3 style="display: block; width: 100%;" class="label label-success" ng-if="attendance.isPresent">Present</h3>
+                                            <h3 style="display: block; width: 100%;" class="label label-danger" ng-if="!attendance.isPresent">Absent</h3>
+                                        </span>
+                                    </td>
+                                    <td ng-if="attendanceOfACourse.presencePercentage!='NaN'">{{attendanceOfACourse.presencePercentage+" %"}}</td>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-                
         </div>
     </div>
 </div>
-</div>
+
 
