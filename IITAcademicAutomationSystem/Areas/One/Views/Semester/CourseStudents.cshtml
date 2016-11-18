@@ -1,12 +1,12 @@
 ﻿@model IITAcademicAutomationSystem.Areas.One.Models.SemesterIndexViewModel
 
 @{
-    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo + " - Semester " + Model.SemesterNo;
+    ViewBag.Title = ViewBag.CourseCode + " - Students";
 }
 
 <section class="content-header">
     <h1>
-        @ViewBag.Title <small>Offered Courses</small>
+        @ViewBag.Title <small>Enrolled Students</small>
     </h1>
     <ol class="breadcrumb">
         <li>
@@ -21,7 +21,11 @@
                 "Index", "Semester",
                 new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
         </li>
-        <li class="active">Courses</li>
+        <li>
+            @Html.ActionLink("Courses", "SemesterCourses", "Semester",
+                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
+        </li>
+        <li class="active">Students</li>
     </ol>
 
 </section>
@@ -29,42 +33,48 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
+                <div class="box-header text-right">
+                    @Html.ActionLink("Add Students", "AddStudentToCourse", "Semester",
+                        new
+                        {
+                            area = "One",
+                            batchId = Model.BatchId,
+                            semesterId = Model.SemesterId,
+                            courseId = ViewBag.CourseId
+                        },
+                        new { @class = "btn btn-success btn-flat btn-lg" })
+                </div>
                 <div class="box-body">
-                    <table id="semesterCourses" class="table table-responsive table-bordered table-hover">
+                    <table id="courseStudents" class="table table-responsive table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th class="text-center">Course Code</th>
-                                <th>Course Title</th>
+                                <th class="text-center">Roll</th>
+                                <th>Name</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.Courses)
+                            @foreach (var item in Model.Students)
                             {
                                 <tr>
                                     <td>
-                                        @item.CourseCode
+                                        <span>
+                                            <img src="@Url.Content("~/Areas/One/Content/UserImage/" + @item.ImagePath)"
+                                                 class="img-responsive img-rounded img-sm"
+                                                 alt="" />
+                                            &nbsp;&nbsp;
+                                            @item.Roll
+                                        </span>
                                     </td>
                                     <td>
-                                        @item.CourseTitle
+                                        @item.FullName
                                     </td>
                                     <td class="text-center">
                                         <div class="btn-group">
-                                            @Html.ActionLink("Students", "CourseStudents", "Semester",
-                                                    new
-                                                    {
-                                                        area = "One",
-                                                        batchId = Model.BatchId,
-                                                        semesterId = Model.SemesterId,
-                                                        courseId = item.Id
-                                                    },
-                                                    new { @class = "btn btn-primary btn-flat" })
-                                            @Html.ActionLink("Teachers", "", "",
-                                                    new { area = "One" },
-                                                    new { @class = "btn btn-primary btn-flat" })
                                             @Html.ActionLink("Details", "", "",
                                                     new { area = "One" },
                                                     new { @class = "btn btn-primary btn-flat" })
+
                                         </div>
                                     </td>
                                 </tr>
@@ -73,7 +83,7 @@
                     </table>
                 </div>
                 <div class="box-footer">
-                    @Html.ActionLink("Back to Semester", "Index", "Semester",
+                    @Html.ActionLink("Back to Courses", "SemesterCourses", "Semester",
                         new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
                         new { @class = "btn btn-primary btn-flat btn-lg" })
                 </div>
@@ -86,7 +96,7 @@
     @Scripts.Render("~/datatable")
     <script>
         $(function () {
-            $("#semesterCourses").DataTable({
+            $("#courseStudents").DataTable({
                 "paging": false,
                 "lengthChange": false,
                 "searching": false,

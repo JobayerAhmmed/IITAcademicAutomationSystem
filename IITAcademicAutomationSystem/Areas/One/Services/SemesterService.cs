@@ -15,10 +15,13 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         Semester GetFirstSemester(int programId);
         IEnumerable<Semester> GetSemestersOfProgram(int programId);
         IEnumerable<Student> GetEligibleStudentsForSemester(int batchId, int semesterId);
+        IEnumerable<Student> GetEligibleStudentsForCourse(int batchId, int semesterId, int courseId);
         bool AddStudentToStudentSemester(StudentSemester studentSemester);
+        bool AddStudentToStudentCourse(StudentCourse studentCourse);
         bool RemoveStudentFromStudentSemester(StudentSemester studentSemester);
         IEnumerable<Course> GetSemesterCourses(int batchId, int semesterId);
         IEnumerable<Student> GetSemesterStudents(int batchId, int semesterId);
+        IEnumerable<Student> GetCourseStudents(int batchId, int semesterId, int courseId);
         IEnumerable<ApplicationUser> GetSemesterTeachers(int batchId, int semesterId);
         bool AddCourseToSemester(CourseSemester courseSemester);
         bool RemoveCourseFromSemester(CourseSemester courseSemester);
@@ -158,6 +161,88 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             }
         }
 
+        public IEnumerable<Student> GetEligibleStudentsForCourse(int batchId, int semesterId, int courseId)
+        {
+            var course = unitOfWork.CourseRepository.GetCourseById(courseId);
+            var semesterStudents = GetSemesterStudents(batchId, semesterId);
+
+            // If there is no dependent course, then return the semester students
+            if (course.DependentCourseId1 == 0 && course.DependentCourseId2 == 0)
+            {
+                return semesterStudents;
+            }
+
+            // Check whether the students has passed the dependent courses
+            // First check in current batch for dependent courses
+            // If not found, then check in previous batch
+            // If not found, then check in previous previous batch
+
+            Batch batch = unitOfWork.BatchRepository.GetBatchById(batchId);
+            Batch previousBatch = null;
+            Batch previousPreviousBatch = null;
+
+            if (batch.BatchNo > 1)
+                previousBatch = unitOfWork.BatchRepository.GetBatchByBatchNo(batch.ProgramId, batch.BatchNo - 1);
+            if(batch.BatchNo > 2)
+                previousPreviousBatch = unitOfWork.BatchRepository.GetBatchByBatchNo(batch.ProgramId, batch.BatchNo - 2);
+
+            List<Student> students = new List<Student>();
+            Course dependentCourse1 = unitOfWork.CourseRepository.GetCourseById(course.DependentCourseId1);
+            Course dependentCourse2 = null;
+
+            if (course.DependentCourseId2 != 0)
+                dependentCourse2 = unitOfWork.CourseRepository.GetCourseById(course.DependentCourseId2);
+
+            bool flag;
+            StudentCourse studentCourse1 = null;
+            StudentCourse studentCourse2 = null;
+
+            foreach (var student in semesterStudents)
+            {
+                studentCourse1 =
+                    unitOfWork.StudentCourseRepository.GetStudentCourse(batchId, student.Id, dependentCourse1.Id);
+                if(studentCourse1 == null && previousBatch != null)
+                {
+                    studentCourse1 =
+                        unitOfWork.StudentCourseRepository.GetStudentCourse(previousBatch.Id, student.Id, dependentCourse1.Id);
+                }
+                if (studentCourse1 == null && previousPreviousBatch != null)
+                {
+                    studentCourse1 =
+                        unitOfWork.StudentCourseRepository.GetStudentCourse(previousPreviousBatch.Id, student.Id, dependentCourse1.Id);
+                }
+
+                if (dependentCourse2 != null)
+                {
+                    studentCourse2 =
+                        unitOfWork.StudentCourseRepository.GetStudentCourse(batchId, student.Id, dependentCourse2.Id);
+                    if (studentCourse2 == null && previousBatch != null)
+                    {
+                        studentCourse2 =
+                            unitOfWork.StudentCourseRepository.GetStudentCourse(previousBatch.Id, student.Id, dependentCourse2.Id);
+                    }
+                    if (studentCourse2 == null && previousPreviousBatch != null)
+                    {
+                        studentCourse2 =
+                            unitOfWork.StudentCourseRepository.GetStudentCourse(previousPreviousBatch.Id, student.Id, dependentCourse2.Id);
+                    }
+                }
+
+                flag = false;
+
+                if (studentCourse1 != null && studentCourse1.GradePoint >= 2.00)
+                    flag = true;
+
+                if (studentCourse2 != null && studentCourse2.GradePoint >= 2.00)
+                    flag = true;
+
+                if (flag)
+                    students.Add(student);
+            }
+
+            return students;
+        }
+
         public IEnumerable<Student> GetSemesterStudents(int batchId, int semesterId)
         {
             var studentSemesters = 
@@ -169,6 +254,19 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             }
             return students;
         }
+
+        public IEnumerable<Student> GetCourseStudents(int batchId, int semesterId, int courseId)
+        {
+            var courseStudents =
+                unitOfWork.StudentCourseRepository.GetCourseStudents(batchId, semesterId, courseId);
+            List<Student> students = new List<Student>();
+            foreach (var item in courseStudents)
+            {
+                students.Add(unitOfWork.StudentRepository.GetStudentById(item.StudentId));
+            }
+            return students;
+        }
+
         public IEnumerable<ApplicationUser> GetSemesterTeachers(int batchId, int semesterId)
         {
             var courseSemesterEntities =
@@ -184,12 +282,26 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             return teachers;
         }
 
-
         public bool AddStudentToStudentSemester(StudentSemester studentSemester)
         {
             try
             {
                 unitOfWork.StudentSemesterRepository.AddStudentSemester(studentSemester);
+                unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                modelState.AddModelError("", "Unable to save, please try again.");
+                return false;
+            }
+        }
+
+        public bool AddStudentToStudentCourse(StudentCourse studentCourse)
+        {
+            try
+            {
+                unitOfWork.StudentCourseRepository.AddStudentCourse(studentCourse);
                 unitOfWork.Save();
                 return true;
             }
