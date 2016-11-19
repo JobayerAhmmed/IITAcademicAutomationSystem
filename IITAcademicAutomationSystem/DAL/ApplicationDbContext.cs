@@ -49,13 +49,16 @@ namespace IITAcademicAutomationSystem.DAL
             //modelBuilder.Entity<ApplicationRole>().HasKey<int>(r => r.Id);
             //modelBuilder.Entity<ApplicationUserRole>().HasKey(r => new { r.RoleId, r.UserId });
 
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
             modelBuilder.Entity<ApplicationUser>().ToTable("User");
             modelBuilder.Entity<IdentityRole>().ToTable("Role");
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole");
             modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaim");
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin");
 
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            //modelBuilder.Entity<Program>().ToTable("dbo.Program");
+
         }
 
         public static ApplicationDbContext Create()

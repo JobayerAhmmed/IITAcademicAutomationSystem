@@ -12,6 +12,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
     public interface IBatchService
     {
         bool CreateBatch(Batch batch);
+        bool EditBatch(Batch batch);
         IEnumerable<Batch> ViewActiveBatches(int programId);
         IEnumerable<Batch> ViewPassedBatches(int programId);
         IEnumerable<Student> ViewCurrentStudentsOfBatch(int batchId);
@@ -48,6 +49,22 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
                 return false;
             }
             return true;
+        }
+
+        // Edit batch
+        public bool EditBatch(Batch batch)
+        {
+            try
+            {
+                unitOfWork.BatchRepository.EditBatch(batch);
+                unitOfWork.Save();
+                return true;
+            }
+            catch (DataException)
+            {
+                modelState.AddModelError("", "Unable to save, try again.");
+                return false;
+            }
         }
 
         // View batch

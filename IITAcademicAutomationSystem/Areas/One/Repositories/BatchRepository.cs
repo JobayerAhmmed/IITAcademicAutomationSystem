@@ -18,6 +18,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         Batch GetBatchByBatchNo(int programId, int batchNo);
         Batch GetPreviousBatch(int programId);
         void CreateBatch(Batch batch);
+        void EditBatch(Batch batch);
     }
     public class BatchRepository : IBatchRepository
     {
@@ -64,5 +65,10 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         {
             context.Batches.Add(batch);
         }
+        public void EditBatch(Batch batch)
+        {
+            context.Entry(batch).State = EntityState.Modified;
+        }
+
     }
 }

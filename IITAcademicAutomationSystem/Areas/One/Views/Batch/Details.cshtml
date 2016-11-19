@@ -32,7 +32,7 @@
             <div class="small-box bg-one-aqua">
                 <div class="inner">
                     <h3>@Model.CurrentStudent</h3>
-                    <p>Current students</p>
+                    <p>Current Students</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-ios-people-outline"></i>
@@ -44,7 +44,7 @@
             <div class="small-box bg-teal">
                 <div class="inner">
                     <h3>@Model.AdmittedStudent</h3>
-                    <p>Admitted students</p>
+                    <p>Admitted Students</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-ios-people-outline"></i>
@@ -56,12 +56,17 @@
             <div class="small-box bg-yellow">
                 <div class="inner">
                     <h3>@Model.CurrentSemesterNo</h3>
-                    <p>Current semester</p>
+                    <p>Current Semester</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-ios-gear-outline"></i>
                 </div>
-                <a href="#" class="small-box-footer">Update <i class="fa fa-arrow-circle-right"></i></a>
+                <a href='@Url.Action("UpdateCurrentSemester", "Batch", new
+                    {
+                        area = "One",
+                        batchId = Model.Id
+                    })'
+                class="small-box-footer">Update <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <div class="col-lg-3 col-xs-6">
@@ -70,7 +75,7 @@
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3>@Model.Status</h3>
-                        <p>Batch status</p>
+                        <p>Batch Status</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-checkmark"></i>

@@ -442,6 +442,10 @@ namespace IITAcademicAutomationSystem.Controllers
 
                     foreach (DataRow row in dataTable.Rows)
                     {
+                        if (IsRowEmpty(row))
+                        {
+                            continue;
+                        }
                         var user = new ApplicationUser();
                         var student = new Student();
 
@@ -529,6 +533,24 @@ namespace IITAcademicAutomationSystem.Controllers
             }
 
             return View(model);
+        }
+        protected bool IsRowEmpty(DataRow dr)
+        {
+            if (dr == null)
+            {
+                return true;
+            }
+            else
+            {
+                foreach (var value in dr.ItemArray)
+                {
+                    if (value.ToString() != "")
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
         protected string ValidateStudent(ApplicationUser user, Student student)
         {

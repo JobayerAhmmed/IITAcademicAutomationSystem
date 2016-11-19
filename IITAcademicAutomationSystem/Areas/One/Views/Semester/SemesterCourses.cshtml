@@ -59,8 +59,14 @@
                                                         courseId = item.Id
                                                     },
                                                     new { @class = "btn btn-primary btn-flat" })
-                                            @Html.ActionLink("Teachers", "", "",
-                                                    new { area = "One" },
+                                            @Html.ActionLink("Teachers", "CourseTeachers", "Semester",
+                                                    new
+                                                    {
+                                                        area = "One",
+                                                        batchId = Model.BatchId,
+                                                        semesterId = Model.SemesterId,
+                                                        courseId = item.Id
+                                                    },
                                                     new { @class = "btn btn-primary btn-flat" })
                                             @Html.ActionLink("Details", "", "",
                                                     new { area = "One" },

@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -99,17 +100,15 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -150,6 +149,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -221,6 +221,7 @@
     <Compile Include="Areas\One\Controllers\UserController.cs" />
     <Compile Include="Areas\One\CustomFilters.cs" />
     <Compile Include="Areas\One\FoolproofCustomValidations.cs" />
+    <Compile Include="Areas\One\Models\AddCourseTeacherViewModel.cs" />
     <Compile Include="Areas\One\Models\BatchCreateViewModel.cs" />
     <Compile Include="Areas\One\Models\BatchStudentsViewModel.cs" />
     <Compile Include="Areas\One\Models\BatchDetailsViewModel.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="Areas\One\Models\CourseDetailsViewModel.cs" />
     <Compile Include="Areas\One\Models\CourseEditViewModel.cs" />
     <Compile Include="Areas\One\Models\CourseIndexViewModel.cs" />
+    <Compile Include="Areas\One\Models\CourseTeacherViewModel.cs" />
     <Compile Include="Areas\One\Models\RoleCreateViewModel.cs" />
     <Compile Include="Areas\One\Models\RoleDetailsViewModel.cs" />
     <Compile Include="Areas\One\Models\RoleEditViewModel.cs" />
@@ -237,6 +239,7 @@
     <Compile Include="Areas\One\Models\SemesterCourseAllocationViewModel.cs" />
     <Compile Include="Areas\One\Models\SemesterIndexViewModel.cs" />
     <Compile Include="Areas\One\Models\StudentSemesterRepository.cs" />
+    <Compile Include="Areas\One\Models\UpdateCurrentSemesterViewModel.cs" />
     <Compile Include="Areas\One\Repositories\BatchRepository.cs" />
     <Compile Include="Areas\One\Repositories\CourseSemesterRepository.cs" />
     <Compile Include="Areas\One\Repositories\RoleRepository.cs" />
@@ -311,10 +314,11 @@
     <Compile Include="Areas\Two\Service\UtilitySerI.cs" />
     <Compile Include="Areas\Two\TwoAreaRegistration.cs" />
     <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="Migrations\201611062012205_Initial.cs" />
-    <Compile Include="Migrations\201611062012205_Initial.Designer.cs">
-      <DependentUpon>201611062012205_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201611130606201_Initial.cs" />
+    <Compile Include="Migrations\201611130606201_Initial.Designer.cs">
+      <DependentUpon>201611130606201_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicFile.cs" />
     <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\Marks.cs" />
@@ -337,7 +341,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Batch.cs" />
     <Compile Include="Models\Course.cs" />
@@ -354,6 +357,25 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\1400b2a6-ad05-406d-8382-731d4ffd9894.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\2a116dbc-2b90-4963-9928-24be13e6cbed.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\859236ef-adbd-474f-a595-bb42400bdd5c.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\a353d838-b2a7-4997-8e97-ab00342c8c9a.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\e373d52a-9aa4-44af-9bb4-9063b099ec7e.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\edccdb57-f869-4feb-bb38-ea1f8995e1f2.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\2611d452-828f-4643-b145-67f84adecc5b.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\2d9e793d-012c-457e-9a58-40f9657c9d8e.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\3f17e861-053c-4667-ad40-fb799245a65d.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\52263004-282a-4d47-b1d6-7078869261f9.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\856aadd0-16ee-4971-88ac-7f7e92acf27a.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\a0c24623-82c4-4635-8b4f-ad33e8bb934d.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\a6e61377-5aef-46d9-b488-c09813c15e69.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\ba13ac05-bfe1-4d9f-b744-ac2dc0a339a7.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\e0fa9663-8250-4eb0-9855-2365b27f4e53.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Notice\e7d8ff38-4238-4243-ab1d-a85a57f10ded.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Routine\1dcb2550-f3c5-41c5-ae0c-a28f5c768093.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Routine\aaec490a-eb0f-48a0-abd9-51023d3c4087.pdf" />
+    <Content Include="Areas\Two\AcademicFiles\Routine\eeca4dfd-a472-4333-bae8-94db3cb71205.pdf" />
     <Content Include="Areas\Two\Library\angular.min.js" />
     <Content Include="Areas\Two\Library\bootstrap.min.css" />
     <Content Include="Areas\Two\Library\bootstrap.min.js" />
@@ -404,6 +426,42 @@
     <Content Include="Areas\Two\Scripts\Utility\Controller\ViewOrDownloadPdf.Controller.js" />
     <Content Include="Areas\Two\Scripts\Utility\Factory\Utility.Factory.js" />
     <Content Include="Areas\Two\Scripts\Utility\Module\Utility.module.js" />
+    <Content Include="Areas\Two\Views\AcademicCalendarManagement\EditOrDeleteAcademicCalendar.cshtml" />
+    <Content Include="Areas\Two\Views\AcademicCalendarManagement\UploadAcademicCalendar.cshtml" />
+    <Content Include="Areas\Two\Views\AcademicCalendarManagement\ViewAcademicCalendar_s.cshtml" />
+    <Content Include="Areas\Two\Views\AcademicCalendarManagement\ViewAcademicCalendar_tp.cshtml" />
+    <Content Include="Areas\Two\Views\AttendanceManagement\EditAttendance.cshtml" />
+    <Content Include="Areas\Two\Views\AttendanceManagement\GiveAttendance.cshtml" />
+    <Content Include="Areas\Two\Views\AttendanceManagement\ViewAttendanceCourseWise.cshtml" />
+    <Content Include="Areas\Two\Views\AttendanceManagement\ViewAttendanceIndividual.cshtml" />
+    <Content Include="Areas\Two\Views\NoticeManagement\EditOrDeleteNotice.cshtml" />
+    <Content Include="Areas\Two\Views\NoticeManagement\UploadNotice.cshtml" />
+    <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice.cshtml" />
+    <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice_s.cshtml" />
+    <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice_tp.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\CreateOrViewHead.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\CreateOrViewSubHead.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\DistributeMarks.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\EditDistributedMarks.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\EditGivenMarks.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\FinalSubmission.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\GiveMarks.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\StudentPromotion.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\ViewAllFinalSubmission.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\ViewDistributedMarks_s.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\ViewDistributedMarks_t.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\ViewGivenMarks_s.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\ViewGivenMarks_t.cshtml" />
+    <Content Include="Areas\Two\Views\ResultManagement\ViewResult.cshtml" />
+    <Content Include="Areas\Two\Views\RoutineManagement\EditOrDeleteRoutine.cshtml" />
+    <Content Include="Areas\Two\Views\RoutineManagement\UploadRoutine.cshtml" />
+    <Content Include="Areas\Two\Views\RoutineManagement\ViewRoutine_s.cshtml" />
+    <Content Include="Areas\Two\Views\RoutineManagement\ViewRoutine_tp.cshtml" />
+    <Content Include="Areas\Two\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Two\Views\Utility\ShowPdf.cshtml" />
+    <Content Include="Areas\Two\Views\Utility\ShowPdf_an.cshtml" />
+    <Content Include="Areas\Two\Views\web.config" />
+    <Content Include="Areas\Two\Views\_ViewStart.cshtml" />
     <Content Include="Client Scripts\mvcfoolproof.unobtrusive.js" />
     <Content Include="Client Scripts\mvcfoolproof.unobtrusive.min.js" />
     <Content Include="Client Scripts\MvcFoolproofJQueryValidation.js" />
@@ -457,61 +515,14 @@
     <Content Include="Areas\One\Views\Semester\SemesterStudents.cshtml" />
     <Content Include="Areas\One\Views\Semester\SemesterCourses.cshtml" />
     <Content Include="Areas\One\Views\Semester\SemesterTeachers.cshtml" />
-    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\1400b2a6-ad05-406d-8382-731d4ffd9894.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\2a116dbc-2b90-4963-9928-24be13e6cbed.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\859236ef-adbd-474f-a595-bb42400bdd5c.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\a353d838-b2a7-4997-8e97-ab00342c8c9a.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\e373d52a-9aa4-44af-9bb4-9063b099ec7e.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\edccdb57-f869-4feb-bb38-ea1f8995e1f2.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\2611d452-828f-4643-b145-67f84adecc5b.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\2d9e793d-012c-457e-9a58-40f9657c9d8e.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\3f17e861-053c-4667-ad40-fb799245a65d.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\52263004-282a-4d47-b1d6-7078869261f9.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\856aadd0-16ee-4971-88ac-7f7e92acf27a.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\a0c24623-82c4-4635-8b4f-ad33e8bb934d.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\a6e61377-5aef-46d9-b488-c09813c15e69.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\ba13ac05-bfe1-4d9f-b744-ac2dc0a339a7.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\e0fa9663-8250-4eb0-9855-2365b27f4e53.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Notice\e7d8ff38-4238-4243-ab1d-a85a57f10ded.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Routine\1dcb2550-f3c5-41c5-ae0c-a28f5c768093.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Routine\aaec490a-eb0f-48a0-abd9-51023d3c4087.pdf" />
-    <Content Include="Areas\Two\AcademicFiles\Routine\eeca4dfd-a472-4333-bae8-94db3cb71205.pdf" />
-    <Content Include="Areas\Two\Views\AcademicCalendarManagement\EditOrDeleteAcademicCalendar.cshtml" />
-    <Content Include="Areas\Two\Views\AcademicCalendarManagement\UploadAcademicCalendar.cshtml" />
-    <Content Include="Areas\Two\Views\AcademicCalendarManagement\ViewAcademicCalendar_s.cshtml" />
-    <Content Include="Areas\Two\Views\AcademicCalendarManagement\ViewAcademicCalendar_tp.cshtml" />
-    <Content Include="Areas\Two\Views\AttendanceManagement\EditAttendance.cshtml" />
-    <Content Include="Areas\Two\Views\AttendanceManagement\GiveAttendance.cshtml" />
-    <Content Include="Areas\Two\Views\AttendanceManagement\ViewAttendanceCourseWise.cshtml" />
-    <Content Include="Areas\Two\Views\AttendanceManagement\ViewAttendanceIndividual.cshtml" />
-    <Content Include="Areas\Two\Views\NoticeManagement\EditOrDeleteNotice.cshtml" />
-    <Content Include="Areas\Two\Views\NoticeManagement\UploadNotice.cshtml" />
-    <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice.cshtml" />
-    <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice_s.cshtml" />
-    <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice_tp.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\CreateOrViewHead.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\CreateOrViewSubHead.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\DistributeMarks.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\EditDistributedMarks.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\EditGivenMarks.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\FinalSubmission.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\GiveMarks.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\StudentPromotion.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewAllFinalSubmission.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewDistributedMarks_s.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewDistributedMarks_t.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewGivenMarks_s.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewGivenMarks_t.cshtml" />
-    <Content Include="Areas\Two\Views\ResultManagement\ViewResult.cshtml" />
-    <Content Include="Areas\Two\Views\RoutineManagement\EditOrDeleteRoutine.cshtml" />
-    <Content Include="Areas\Two\Views\RoutineManagement\UploadRoutine.cshtml" />
-    <Content Include="Areas\Two\Views\RoutineManagement\ViewRoutine_s.cshtml" />
-    <Content Include="Areas\Two\Views\RoutineManagement\ViewRoutine_tp.cshtml" />
-    <Content Include="Areas\Two\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Two\Views\Utility\ShowPdf.cshtml" />
-    <Content Include="Areas\Two\Views\Utility\ShowPdf_an.cshtml" />
-    <Content Include="Areas\Two\Views\web.config" />
-    <Content Include="Areas\Two\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\One\Views\Semester\RemoveStudentFromCourse.cshtml" />
+    <Content Include="Areas\One\Views\Semester\AddStudentToCourse.cshtml" />
+    <Content Include="Areas\One\Views\Semester\CourseStudents.cshtml" />
+    <Content Include="Areas\One\Views\Semester\CourseTeachers.cshtml" />
+    <Content Include="Areas\One\Views\Semester\AddTeacherToCourse.cshtml" />
+    <Content Include="Areas\One\Views\Semester\RemoveTeacherFromCourse.cshtml" />
+    <Content Include="Areas\One\Views\Batch\AdmittedStudentDetails.cshtml" />
+    <Content Include="Areas\One\Views\Batch\UpdateCurrentSemester.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -620,8 +631,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611062012205_Initial.resx">
-      <DependentUpon>201611062012205_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611130606201_Initial.resx">
+      <DependentUpon>201611130606201_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

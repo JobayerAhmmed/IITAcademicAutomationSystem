@@ -13,7 +13,9 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         IEnumerable<StudentCourse> GetStudentCoursesOfStudent(int batchId, int semesterId, int studentId);
         IEnumerable<StudentCourse> GetCourseStudents(int batchId, int semesterId, int courseId);
         StudentCourse GetStudentCourse(int batchId, int studentId, int courseId);
+        StudentCourse GetStudentCourse(int batchId, int semesterId, int studentId, int courseId);
         void AddStudentCourse(StudentCourse studentCourse);
+        void RemoveStudentCourse(StudentCourse studentCourse);
     }
     public class StudentCourseRepository : IStudentCourseRepository
     {
@@ -50,10 +52,21 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
                 s.StudentId == studentId &&
                 s.CourseId == courseId).FirstOrDefault();
         }
+        public StudentCourse GetStudentCourse(int batchId, int semesterId, int studentId, int courseId)
+        {
+            return context.StudentCourses.Where(s =>
+                s.BatchId == batchId &&
+                s.SemesterId == semesterId &&
+                s.StudentId == studentId &&
+                s.CourseId == courseId).FirstOrDefault();
+        }
         public void AddStudentCourse(StudentCourse studentCourse)
         {
             context.StudentCourses.Add(studentCourse);
         }
-
+        public void RemoveStudentCourse(StudentCourse studentCourse)
+        {
+            context.StudentCourses.Remove(studentCourse);
+        }
     }
 }

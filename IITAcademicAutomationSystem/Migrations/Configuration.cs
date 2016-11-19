@@ -1,6 +1,5 @@
 namespace IITAcademicAutomationSystem.Migrations
 {
-    using Microsoft.AspNet.Identity;
     using Models;
     using System;
     using System.Collections.Generic;
@@ -15,7 +14,6 @@ namespace IITAcademicAutomationSystem.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        // Seed method runs every time update-database
         protected override void Seed(IITAcademicAutomationSystem.DAL.ApplicationDbContext context)
         {
             var programs = new List<Program>
@@ -54,7 +52,7 @@ namespace IITAcademicAutomationSystem.Migrations
             };
             semesters.ForEach(s => context.Semesters.AddOrUpdate(p => new { p.ProgramId, p.SemesterNo }, s));
             context.SaveChanges();
-
+            /*
             var batches = new List<Batch>
             {
                 new Batch {
@@ -171,7 +169,7 @@ namespace IITAcademicAutomationSystem.Migrations
                 }
             };
             batches.ForEach(b => context.Batches.AddOrUpdate(n => new { n.ProgramId, n.BatchNo }, b));
-            context.SaveChanges();
+            context.SaveChanges();*/
 
             var courses = new List<Course>
             {
@@ -422,9 +420,9 @@ namespace IITAcademicAutomationSystem.Migrations
                     CreditLab = 2
                 }
             };
-            courses.ForEach(c => context.Courses.AddOrUpdate(s => new { s.ProgramId, s.CourseCode, s.IsDelete}, c));
+            courses.ForEach(c => context.Courses.AddOrUpdate(s => new { s.ProgramId, s.CourseCode, s.IsDelete }, c));
             context.SaveChanges();
-
+            /*
             var users = new List<ApplicationUser>
             {
                 // 10 students of BSSE 01
@@ -1048,7 +1046,7 @@ namespace IITAcademicAutomationSystem.Migrations
                 }
             };
             students.ForEach(s => context.Students.AddOrUpdate(p => p.UserId, s));
-            context.SaveChanges();
+            context.SaveChanges();*/
 
             /*
             // CourseSemester

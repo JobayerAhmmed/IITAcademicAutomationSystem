@@ -13,7 +13,7 @@ namespace IITAcademicAutomationSystem.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201611062012205_Initial"; }
+            get { return "201611130606201_Initial"; }
         }
         
         string IMigrationMetadata.Source

@@ -17,14 +17,18 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         IEnumerable<Student> GetEligibleStudentsForSemester(int batchId, int semesterId);
         IEnumerable<Student> GetEligibleStudentsForCourse(int batchId, int semesterId, int courseId);
         bool AddStudentToStudentSemester(StudentSemester studentSemester);
-        bool AddStudentToStudentCourse(StudentCourse studentCourse);
         bool RemoveStudentFromStudentSemester(StudentSemester studentSemester);
+        bool AddStudentToStudentCourse(StudentCourse studentCourse);
+        bool RemoveStudentFromStudentCourse(StudentCourse studentCourse);
         IEnumerable<Course> GetSemesterCourses(int batchId, int semesterId);
         IEnumerable<Student> GetSemesterStudents(int batchId, int semesterId);
         IEnumerable<Student> GetCourseStudents(int batchId, int semesterId, int courseId);
+        IEnumerable<ApplicationUser> GetCourseTeachers(int batchId, int semesterId, int courseId);
         IEnumerable<ApplicationUser> GetSemesterTeachers(int batchId, int semesterId);
         bool AddCourseToSemester(CourseSemester courseSemester);
         bool RemoveCourseFromSemester(CourseSemester courseSemester);
+        bool AddTeacherToCourseSemester(CourseSemester courseSemester);
+        bool RemoveTeacherFromCourseSemester(CourseSemester courseSemester);
         IEnumerable<Course> GetUnallocatedCoursesOfBatch(int batchId);
         void Dispose();
     }
@@ -166,10 +170,22 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             var course = unitOfWork.CourseRepository.GetCourseById(courseId);
             var semesterStudents = GetSemesterStudents(batchId, semesterId);
 
+            var addedStudents = GetCourseStudents(batchId, semesterId, courseId);
+
+            List<Student> remainStudents = new List<Student>();
+            foreach (var student in semesterStudents)
+            {
+                if (addedStudents.Contains(student))
+                {
+                    continue;
+                }
+                remainStudents.Add(student);
+            }
+
             // If there is no dependent course, then return the semester students
             if (course.DependentCourseId1 == 0 && course.DependentCourseId2 == 0)
             {
-                return semesterStudents;
+                return remainStudents;
             }
 
             // Check whether the students has passed the dependent courses
@@ -197,15 +213,20 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             StudentCourse studentCourse1 = null;
             StudentCourse studentCourse2 = null;
 
-            foreach (var student in semesterStudents)
+            foreach (var student in remainStudents)
             {
+                // check student course in current batch
                 studentCourse1 =
                     unitOfWork.StudentCourseRepository.GetStudentCourse(batchId, student.Id, dependentCourse1.Id);
-                if(studentCourse1 == null && previousBatch != null)
+
+                // check student course in previous batch
+                if (studentCourse1 == null && previousBatch != null)
                 {
                     studentCourse1 =
                         unitOfWork.StudentCourseRepository.GetStudentCourse(previousBatch.Id, student.Id, dependentCourse1.Id);
                 }
+
+                // check student course in previous previous batch
                 if (studentCourse1 == null && previousPreviousBatch != null)
                 {
                     studentCourse1 =
@@ -231,10 +252,11 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
                 flag = false;
 
                 if (studentCourse1 != null && studentCourse1.GradePoint >= 2.00)
+                {
                     flag = true;
-
-                if (studentCourse2 != null && studentCourse2.GradePoint >= 2.00)
-                    flag = true;
+                    if (studentCourse2 != null && studentCourse2.GradePoint < 2.00)
+                        flag = false;
+                }
 
                 if (flag)
                     students.Add(student);
@@ -267,6 +289,18 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             return students;
         }
 
+        public IEnumerable<ApplicationUser> GetCourseTeachers(int batchId, int semesterId, int courseId)
+        {
+            var courseSemesterTeachers =
+                unitOfWork.CourseSemesterRepository.GetCourseTeachers(batchId, semesterId, courseId);
+            List<ApplicationUser> teachers = new List<ApplicationUser>();
+            foreach (var item in courseSemesterTeachers)
+            {
+                teachers.Add(unitOfWork.UserRepository.GetUserById(item.TeacherId));
+            }
+            return teachers;
+        }
+
         public IEnumerable<ApplicationUser> GetSemesterTeachers(int batchId, int semesterId)
         {
             var courseSemesterEntities =
@@ -297,21 +331,6 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             }
         }
 
-        public bool AddStudentToStudentCourse(StudentCourse studentCourse)
-        {
-            try
-            {
-                unitOfWork.StudentCourseRepository.AddStudentCourse(studentCourse);
-                unitOfWork.Save();
-                return true;
-            }
-            catch (Exception)
-            {
-                modelState.AddModelError("", "Unable to save, please try again.");
-                return false;
-            }
-        }
-
         public bool RemoveStudentFromStudentSemester(StudentSemester studentSemester)
         {
             StudentSemester studentSemesterToRemove =
@@ -328,6 +347,126 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
                 modelState.AddModelError("", "Unable to save, try again.");
                 return false;
             }
+        }
+
+        public bool AddStudentToStudentCourse(StudentCourse studentCourse)
+        {
+            try
+            {
+                unitOfWork.StudentCourseRepository.AddStudentCourse(studentCourse);
+                unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                modelState.AddModelError("", "Unable to save, please try again.");
+                return false;
+            }
+        }
+
+        public bool RemoveStudentFromStudentCourse(StudentCourse studentCourse)
+        {
+            StudentCourse studentCourseToRemove =
+                unitOfWork.StudentCourseRepository.GetStudentCourse(
+                    studentCourse.BatchId, studentCourse.SemesterId,
+                    studentCourse.StudentId, studentCourse.CourseId);
+            try
+            {
+                unitOfWork.StudentCourseRepository.RemoveStudentCourse(studentCourseToRemove);
+                unitOfWork.Save();
+                return true;
+            }
+            catch (DataException)
+            {
+                modelState.AddModelError("", "Unable to save, try again.");
+                return false;
+            }
+        }
+
+        public bool AddTeacherToCourseSemester(CourseSemester courseSemester)
+        {
+            CourseSemester existed = unitOfWork.CourseSemesterRepository.GetCourseSemester(
+                courseSemester.BatchId, courseSemester.SemesterId, courseSemester.CourseId);
+
+            if (existed == null)
+            {
+                modelState.AddModelError("", "Unable to save, please try again.");
+                return false;
+            }
+
+            // if teacher not set, set teacher
+            if (existed.TeacherId == null)
+            {
+                existed.TeacherId = courseSemester.TeacherId;
+                try
+                {
+                    unitOfWork.CourseSemesterRepository.EditCourseSemester(existed);
+                    unitOfWork.Save();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    modelState.AddModelError("", "Unable to save, please try again.");
+                    return false;
+                }
+            }
+            // if teacher is set, add new entry in course semester
+            else
+            {
+                try
+                {
+                    unitOfWork.CourseSemesterRepository.CreateCourseSemester(courseSemester);
+                    unitOfWork.Save();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    modelState.AddModelError("", "Unable to save, please try again.");
+                    return false;
+                }
+            }
+        }
+
+        public bool RemoveTeacherFromCourseSemester(CourseSemester courseSemester)
+        {
+            CourseSemester courseSemesterToRemove = unitOfWork.CourseSemesterRepository.GetCourseSemester(
+                courseSemester.BatchId, courseSemester.SemesterId,
+                courseSemester.CourseId, courseSemester.TeacherId);
+
+            var courseSemesters = unitOfWork.CourseSemesterRepository.GetCourseSemestersOfCourse(
+                courseSemester.BatchId, courseSemester.SemesterId, courseSemester.CourseId);
+
+            // If number of entry is 1, make teacherid null
+            if (courseSemesters.Count() == 1)
+            {
+                courseSemesterToRemove.TeacherId = null;
+                try
+                {
+                    unitOfWork.CourseSemesterRepository.EditCourseSemester(courseSemesterToRemove);
+                    unitOfWork.Save();
+                    return true;
+                }
+                catch (DataException)
+                {
+                    modelState.AddModelError("", "Unable to save, try again.");
+                    return false;
+                }
+            }
+            else if (courseSemesters.Count() > 1)
+            {
+                try
+                {
+                    unitOfWork.CourseSemesterRepository.DeleteCourseSemester(courseSemesterToRemove);
+                    unitOfWork.Save();
+                    return true;
+                }
+                catch (DataException)
+                {
+                    modelState.AddModelError("", "Unable to save, try again.");
+                    return false;
+                }
+            }
+            return false;
         }
 
         public IEnumerable<Course> GetSemesterCourses(int batchId, int semesterId)

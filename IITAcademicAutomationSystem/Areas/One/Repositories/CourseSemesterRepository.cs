@@ -9,9 +9,15 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
 {
     public interface ICourseSemesterRepository
     {
+        void CreateCourseSemester(CourseSemester courseSemester);
+        void EditCourseSemester(CourseSemester courseSemester);
+        void DeleteCourseSemester(CourseSemester courseSemester);
         CourseSemester GetCourseSemester(int batchId, int semesterId, int courseId);
+        CourseSemester GetCourseSemester(int batchId, int semesterId, int courseId, string teacherId);
+        IEnumerable<CourseSemester> GetCourseSemestersOfCourse(int batchId, int semesterId, int courseId);
         IEnumerable<CourseSemester> GetSemesterCourses(int batchId, int semesterId);
         IEnumerable<CourseSemester> GetSemesterTeachers(int batchId, int semesterId);
+        IEnumerable<CourseSemester> GetCourseTeachers(int batchId, int semesterId, int courseId);
         IEnumerable<CourseSemester> GetAllocatedCourseSemesterOfBatch(int batchId);
         void AddCourseToSemester(CourseSemester courseSemester);
         void RemoveCourseFromSemester(CourseSemester courseSemester);
@@ -31,7 +37,21 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
                 c.SemesterId == semesterId &&
                 c.CourseId == courseId).FirstOrDefault();
         }
-
+        public CourseSemester GetCourseSemester(int batchId, int semesterId, int courseId, string teacherId)
+        {
+            return context.CourseSemesters.Where(c =>
+                c.BatchId == batchId &&
+                c.SemesterId == semesterId &&
+                c.CourseId == courseId && 
+                c.TeacherId == teacherId).FirstOrDefault();
+        }
+        public IEnumerable<CourseSemester> GetCourseSemestersOfCourse(int batchId, int semesterId, int courseId)
+        {
+            return context.CourseSemesters.Where(c =>
+                c.BatchId == batchId &&
+                c.SemesterId == semesterId &&
+                c.CourseId == courseId).ToList();
+        }
         public IEnumerable<CourseSemester> GetSemesterCourses(int batchId, int semesterId)
         {
             return context.CourseSemesters.Where(c => 
@@ -45,7 +65,14 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
                 t.BatchId == batchId &&
                 t.SemesterId == semesterId).GroupBy(t => t.TeacherId).Select(t => t.FirstOrDefault()).ToList();
         }
-
+        public IEnumerable<CourseSemester> GetCourseTeachers(int batchId, int semesterId, int courseId)
+        {
+            return context.CourseSemesters.Where(t =>
+                t.TeacherId != null &&
+                t.BatchId == batchId &&
+                t.SemesterId == semesterId &&
+                t.CourseId == courseId).ToList();
+        }
         public IEnumerable<CourseSemester> GetAllocatedCourseSemesterOfBatch(int batchId)
         {
             return context.CourseSemesters.Where(c => c.BatchId == batchId).ToList();
@@ -55,6 +82,18 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
             context.CourseSemesters.Add(courseSemester);
         }
         public void RemoveCourseFromSemester(CourseSemester courseSemester)
+        {
+            context.CourseSemesters.Remove(courseSemester);
+        }
+        public void CreateCourseSemester(CourseSemester courseSemester)
+        {
+                context.CourseSemesters.Add(courseSemester);
+        }
+        public void EditCourseSemester(CourseSemester courseSemester)
+        {
+            context.Entry(courseSemester).State = System.Data.Entity.EntityState.Modified;
+        }
+        public void DeleteCourseSemester(CourseSemester courseSemester)
         {
             context.CourseSemesters.Remove(courseSemester);
         }

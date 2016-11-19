@@ -113,7 +113,9 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         {
             Program program = programService.ViewProgram(programId);
             Batch previousBatch = batchService.GetPreviousBatch(programId);
-            int batchNo = previousBatch.BatchNo;
+            int batchNo = 0;
+            if (previousBatch != null)
+                batchNo = previousBatch.BatchNo;
 
             BatchCreateViewModel batchCreateVM = new BatchCreateViewModel()
             {
@@ -219,31 +221,86 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             Program program = programService.ViewProgram(batch.ProgramId);
 
             IEnumerable<Student> students = batchService.ViewAdmittedStudentsOfBatch(id);
-            IList<BatchStudent> admittedStudents = new List<BatchStudent>();
-            BatchStudent bcs;
 
-            foreach (var student in students)
+            IList<StudentIndexViewModel> studentsToView = new List<StudentIndexViewModel>();
+            StudentIndexViewModel studentIndexViewModel = new StudentIndexViewModel();
+            ApplicationUser user;
+
+            foreach (var item in students)
             {
-                bcs = new BatchStudent()
-                {
-                    StudentId = student.Id,
-                    UserId = student.UserId,
-                    SemesterIdCurrent = student.SemesterId,
-                    Roll = student.CurrentRoll,
-                    FullName = userService.ViewUser(student.UserId).FullName
-                };
-                admittedStudents.Add(bcs);
+                user = UserManager.FindById(item.UserId);
+
+                studentIndexViewModel.Id = item.Id;
+                studentIndexViewModel.UserId = item.UserId;
+                studentIndexViewModel.Roll = item.CurrentRoll;
+                studentIndexViewModel.FullName = user.FullName;
+                studentIndexViewModel.Email = user.Email;
+                studentIndexViewModel.PhoneNumber = user.PhoneNumber;
+                studentIndexViewModel.ImagePath = user.ImagePath;
+
+                studentsToView.Add(studentIndexViewModel);
+                studentIndexViewModel = new StudentIndexViewModel();
             }
-            BatchStudentsViewModel batchStudentsVM = new BatchStudentsViewModel()
-            {
-                ProgramId = program.Id,
-                ProgramName = program.ProgramName,
-                BatchId = id,
-                BatchNo = batch.BatchNo,
-                Students = admittedStudents
-            };
 
-            return View(batchStudentsVM);
+            ViewBag.ProgramId = program.Id;
+            ViewBag.ProgramName = program.ProgramName;
+            ViewBag.BatchId = batch.Id;
+            ViewBag.BatchNo = batch.BatchNo;
+
+            return View(studentsToView);
+        }
+
+        // Update current semester
+        public ActionResult UpdateCurrentSemester(int batchId)
+        {
+            Batch batch = batchService.ViewBatch(batchId);
+            Program program = programService.ViewProgram(batch.ProgramId);
+            Semester currentSemester = semesterService.ViewSemester(batch.SemesterIdCurrent);
+
+            UpdateCurrentSemesterViewModel model = new UpdateCurrentSemesterViewModel();
+            model.ProgramId = program.Id;
+            model.ProgramName = program.ProgramName;
+            model.BatchId = batchId;
+            model.BatchNo = batch.BatchNo;
+            model.SemesterIdCurrent = currentSemester.Id;
+            model.CurrentSemesterNo = currentSemester.SemesterNo;
+
+            var semesters = semesterService.GetSemestersOfProgram(program.Id);
+            model.Semesters = semesters;
+
+            return View(model);
+        }
+
+        // POST: update current sememster
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateCurrentSemester(UpdateCurrentSemesterViewModel model)
+        {
+            Batch batchToUpdate = batchService.ViewBatch(model.BatchId);
+
+            if (batchToUpdate.SemesterIdCurrent == model.SemesterIdUpdated)
+            {
+                return RedirectToAction("Details", "Batch",
+                    new { area = "One", id = model.BatchId });
+            }
+
+            batchToUpdate.SemesterIdCurrent = model.SemesterIdUpdated;
+            if (batchService.EditBatch(batchToUpdate))
+            {
+                // Update students current semester
+                var students = batchService.ViewCurrentStudentsOfBatch(model.BatchId);
+                foreach (var student in students)
+                {
+                    student.SemesterId = model.SemesterIdUpdated;
+                    if (!studentService.EditStudent(student))
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return RedirectToAction("Details", "Batch",
+                new { area = "One", id = model.BatchId });
         }
 
         // Current Student Details
@@ -278,6 +335,41 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
 
             ViewBag.ProgramId = program.Id;
             ViewBag.BatchId = batchCurrent.Id;
+            return View(model);
+        }
+
+        // Admitted Student Details
+        public ActionResult AdmittedStudentDetails(int id)
+        {
+            var student = studentService.ViewStudent(id);
+            var user = UserManager.FindById(student.UserId);
+            var program = programService.ViewProgram(student.ProgramId);
+            var batchCurrent = batchService.ViewBatch(student.BatchIdCurrent);
+            var batchOriginal = batchService.ViewBatch(student.BatchIdOriginal);
+            var semester = semesterService.ViewSemester(student.SemesterId);
+
+            StudentDetailsViewModel model = new StudentDetailsViewModel();
+            model.AdmissionSession = student.AdmissionSession;
+            model.BatchNoCurrent = batchCurrent.BatchNo;
+            model.BatchNoOriginal = batchOriginal.BatchNo;
+            model.CurrentAddress = student.CurrentAddress;
+            model.CurrentRoll = student.CurrentRoll;
+            model.CurrentSession = student.CurrentSession;
+            model.Designation = user.Designation;
+            model.Email = user.Email;
+            model.FullName = user.FullName;
+            model.GuardianPhone = student.GuardianPhone;
+            model.ImagePath = user.ImagePath;
+            model.OriginalRoll = student.OriginalRoll;
+            model.PermanentAddress = student.PermanentAddress;
+            model.PhoneNumber = user.PhoneNumber;
+            model.ProgramName = program.ProgramName;
+            model.RegistrationNo = student.RegistrationNo;
+            model.SemesterNo = semester.SemesterNo;
+            model.Status = user.Status;
+
+            ViewBag.ProgramId = program.Id;
+            ViewBag.BatchId = batchOriginal.Id;
             return View(model);
         }
 

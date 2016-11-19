@@ -1,12 +1,12 @@
-﻿@model IITAcademicAutomationSystem.Areas.One.Models.SemesterIndexViewModel
+﻿@model IITAcademicAutomationSystem.Areas.One.Models.CourseTeacherViewModel
 
 @{
-    ViewBag.Title = ViewBag.CourseCode + " - Students";
+    ViewBag.Title = Model.CourseCode + " - Teachers";
 }
 
 <section class="content-header">
     <h1>
-        @ViewBag.Title <small>Enrolled Students</small>
+        @ViewBag.Title
     </h1>
     <ol class="breadcrumb">
         <li>
@@ -25,45 +25,45 @@
             @Html.ActionLink("Courses", "SemesterCourses", "Semester",
                         new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
         </li>
-        <li class="active">Students</li>
+        <li class="active">Teachers</li>
     </ol>
-
 </section>
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
                 <div class="box-header text-right">
-                    @Html.ActionLink("Add Students", "AddStudentToCourse", "Semester",
+                    @Html.ActionLink("Add Teacher", "AddTeacherToCourse", "Semester",
                         new
                         {
                             area = "One",
                             batchId = Model.BatchId,
                             semesterId = Model.SemesterId,
-                            courseId = ViewBag.CourseId
+                            courseId = Model.CourseId
                         },
                         new { @class = "btn btn-success btn-flat btn-lg" })
-                    @Html.ActionLink("Remove Students", "RemoveStudentFromCourse", "Semester",
+                    @Html.ActionLink("Remove Teacher", "RemoveTeacherFromCourse", "Semester",
                         new
                         {
                             area = "One",
                             batchId = Model.BatchId,
                             semesterId = Model.SemesterId,
-                            courseId = ViewBag.CourseId
+                            courseId = Model.CourseId
                         },
                         new { @class = "btn btn-success btn-flat btn-lg" })
                 </div>
                 <div class="box-body">
-                    <table id="courseStudents" class="table table-responsive table-bordered table-hover">
+                    <table id="courseTeachers" class="table table-responsive table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th class="text-center">Roll</th>
-                                <th>Name</th>
+                                <th class="text-center">Name</th>
+                                <th>Designation</th>
+                                <th>Email</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.Students)
+                            @foreach (var item in Model.Teachers)
                             {
                                 <tr>
                                     <td>
@@ -72,11 +72,14 @@
                                                  class="img-responsive img-rounded img-sm"
                                                  alt="" />
                                             &nbsp;&nbsp;
-                                            @item.Roll
+                                            @item.FullName
                                         </span>
                                     </td>
                                     <td>
-                                        @item.FullName
+                                        @item.Designation
+                                    </td>
+                                    <td>
+                                        @item.Email
                                     </td>
                                     <td class="text-center">
                                         <div class="btn-group">
@@ -105,7 +108,7 @@
     @Scripts.Render("~/datatable")
     <script>
         $(function () {
-            $("#courseStudents").DataTable({
+            $("#courseTeachers").DataTable({
                 "paging": false,
                 "lengthChange": false,
                 "searching": false,
