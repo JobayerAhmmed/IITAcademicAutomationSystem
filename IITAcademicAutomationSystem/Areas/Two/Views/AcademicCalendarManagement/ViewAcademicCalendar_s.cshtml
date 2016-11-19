@@ -13,24 +13,32 @@
     <div>
         <div ng-app="academicCalendarManagement_module" ng-controller="viewAcademicCalendar_controller">
             <div ng-cloak>
+                <br/>
                 <div ng-if="message.content!=''">
                     <div class="{{message.color}}">{{message.content}}</div>
                 </div>
                 <div>
                     <div>
                         <div ng-if="flag.isAcademicCalendarUploaded==false">
-                            <h3>Academic Calendar Is Not Uploaded Yet</h3>
+                            <div class="col-sm-12">
+                                <div class="col-sm-12">
+                                    <div class="alert alert-info">
+                                        <h3>Academic Calendar Is Not Uploaded Yet</h3>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div ng-if="flag.isAcademicCalendarUploaded==true">
                             <div class="row">
-                                <div>
-                                    <div class="embed-responsive embed-responsive-16by9">
-                                        <iframe class="embed-responsive-item" src="{{selected.path}}" />
+                                <div class="col-sm-12">
+                                    <div class="col-sm-12">
+                                        <input type="button" value="View Academic Calendar" class="btn btn-primary" ng-click="viewAcademicCalendarFile(selection.files.academicCalendar.path)"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>

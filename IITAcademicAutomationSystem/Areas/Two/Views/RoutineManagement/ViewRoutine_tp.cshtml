@@ -1,5 +1,6 @@
 ﻿@{
-ViewBag.Title = "View Routine";
+    ViewBag.Title = "View Routine";
+    ViewBag.Title = "View Routine";
 }
 
 <script src='~/Areas/Two/Library/angular.min.js'></script>
@@ -41,12 +42,21 @@ ViewBag.Title = "View Routine";
                 <br />
                 <div ng-if="selected.program.id && selected.semester.id">
                     <div ng-if="flag.isRoutineUploaded==false">
-                        <h3>Routine Is Not Uploaded Yet</h3>
+                        <div class="col-sm-12">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <h3>Routine Is Not Uploaded Yet</h3>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    
                     <div ng-if="flag.isRoutineUploaded==true">
                         <div class="row">
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <iframe class="embed-responsive-item" src="{{selected.path}}" />
+                            <div class="col-sm-12">
+                                <div class="col-sm-12">
+                                    <input type="button" value="View Routine" class="btn btn-primary" ng-click="viewRoutineFile(selection.files.routine.path)" />
+                                </div>                            
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 ﻿(
     function () {
-    	angular.module("academicCalendarManagement_module").controller("viewAcademicCalendar_controller", ["$scope", "AcademicCalendar_Service", "Utility_Service", function ($scope, AcademicCalendarService, UtilityService) {
+        angular.module("academicCalendarManagement_module").controller("viewAcademicCalendar_controller", ["$scope", "AcademicCalendar_Service", "Utility_Service", "$window", function ($scope, AcademicCalendarService, UtilityService,$window) {
 
 
 
@@ -26,7 +26,10 @@
     			content: "",
     			color: ""
     		}
-
+    		$scope.viewAcademicCalendarFile = function (filePath) {
+    		    var completeFilePath = 'ViewAcademicCalendar?filePath=' + filePath;
+    		    $window.open(completeFilePath, "_blank");
+    		}
 
     		
     		var createPath = function () {

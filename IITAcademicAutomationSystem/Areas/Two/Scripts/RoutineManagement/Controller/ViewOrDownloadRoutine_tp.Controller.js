@@ -1,6 +1,6 @@
 ﻿(
     function () {
-        angular.module("routineManagement_module").controller("viewRoutine_controller", ["$scope", "Routine_Service", "Utility_Service", function ($scope, RoutineService, UtilityService) {
+        angular.module("routineManagement_module").controller("viewRoutine_controller", ["$scope", "Routine_Service", "Utility_Service", "$window", function ($scope, RoutineService, UtilityService, $window) {
 
            
 
@@ -45,6 +45,11 @@
 
             $scope.whenSemesterIsSelected = function () {
                 getRoutines();
+            }
+
+            $scope.viewRoutineFile = function (filePath) {
+                var completeFilePath = 'ViewRoutine?filePath=' + filePath;
+                $window.open(completeFilePath, "_blank");
             }
 
             var createPath = function () {
@@ -112,6 +117,7 @@
             }
 
             var getRoutines = function () {
+                console.log("getRoutine");
                 RoutineService.getRoutines_tp($scope.selected.program.id, $scope.selected.semester.id)
                    .then(
                           function (d) {

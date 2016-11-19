@@ -1,6 +1,6 @@
 ﻿
 @{
-ViewBag.Title = "ViewAllFinalSubmission";
+ViewBag.Title = "All Final Submission";
 }
 <script src='~/Areas/Two/Library/angular.min.js'></script>
 
@@ -15,13 +15,6 @@ ViewBag.Title = "ViewAllFinalSubmission";
     <div>
         <div ng-app="examinationManagement_module" ng-controller="viewAllFinalSubmission_controller">
             <div ng-cloak>
-                {{selection}}
-                <br />
-                <br />
-                {{selected}}
-                <br />
-                <br />
-                {{flag}}
                 <div ng-if="message.content!=''">
                     <div class="{{message.color}}">{{message.content}}</div>
                 </div>
@@ -48,33 +41,41 @@ ViewBag.Title = "ViewAllFinalSubmission";
                 <br />
                 <div ng-if="selected.program.id && selected.semester.id">
                     <div class="row">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Course Name</th>
-                                        <th>Is Finally Submitted</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="course in selection.courseFinalSubmissionInfo">
-                                        {{headMarks}}
-                                        <td><b>{{course.courseName}}</b></td>
-                                        <td>
-                                            <div class="bg-success">
-                                                <div ng-if="course.isFinallySubmitted">Finally Submitted</div>
-                                            </div>
-                                            <div class="bg-danger">
-                                                <div ng-if="!course.isFinallySubmitted">Not Finally Submitted</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="col-sm-12">
+                            <div class="col-sm-12">
+                                <div class="box">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course Name</th>
+                                                    <th>Is Finally Submitted</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="course in selection.courseFinalSubmissionInfo">
+                                                    {{headMarks}}
+                                                    <td><b>{{course.courseName}}</b></td>
+                                                    <td>
+                                                        <div class="bg-success">
+                                                            <div ng-if="course.isFinallySubmitted">Finally Submitted</div>
+                                                        </div>
+                                                        <div class="bg-danger">
+                                                            <div ng-if="!course.isFinallySubmitted">Not Finally Submitted</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <span><input type="button" class="btn btn-info" value="View Result" ng-click="goToProcessResult()" ng-disabled="!flag.isAllCoursesFinallySubmitted"></span>
+                    <div class="col-sm-12">
+                        <div>
+                            <span><input type="button" class="btn btn-primary" value="View Result" ng-click="goToProcessResult()" ng-disabled="!flag.isAllCoursesFinallySubmitted"></span>
+                        </div>
                     </div>
                 </div>
             </div>

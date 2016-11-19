@@ -189,16 +189,16 @@
             $scope.ChechFileValid = function (file) {
                 var isValid = false;
                 if ($scope.SelectedFileForUpload != null) {
-                    if ((file.type == 'application/pdf') && file.size <= (512 * 1024 * 1000 )) {
+                    if ((file.type == 'application/pdf') && file.size <= (1024 * 1024 * 5 )) {
                         $scope.FileInvalidMessage = "";
                         isValid = true;
                     }
                     else {
-                        $scope.FileInvalidMessage = "Selected file is Invalid. (only file type PDF and 5 Mb size allowed)";
+                        $scope.FileInvalidMessage = "Only file type PDF and 5 Mb size allowed";
                     }
                 }
                 else {
-                    $scope.FileInvalidMessage = "Academic Calendar Required!";
+                    $scope.FileInvalidMessage = "Only file type PDF and 5 Mb size allowed";
                 }
                 $scope.IsFileValid = isValid;
             };

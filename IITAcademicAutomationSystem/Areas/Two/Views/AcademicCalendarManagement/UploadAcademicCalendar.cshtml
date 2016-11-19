@@ -58,19 +58,18 @@
                             <div ng-show="flag.showUploadForm">
                                 <div ng-show="flag.isAcademicCalendarAlreadyUploaded==false">
                                     <form novalidate name="f1" ng-submit="SaveFile()">
-                                        <div style="color: red">{{Message}}</div>
                                         <div>
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <div class="col-sm-4">
+                                                    <div class="col-sm-12">
                                                         <div>
                                                             <b>Upload Academic Calendar</b>
                                                             <div>
                                                                 <div class="btn btn-primary btn-sm">
-                                                                    <input type="file" name="file" accept="application/pdf" onchange="angular.element(this).scope().selectFileforUpload(this.files)" required />
+                                                                    <input type="file" name="file" accept="application/pdf" onchange="angular.element(this).scope().selectFileforUpload(this.files)"/>
                                                                 </div>
-                                                                <span class="error" ng-show="(f1.file.$dirty || IsFormSubmitted) && f1.file.$error.required">Image required!</span>
-                                                                <span class="error">{{FileInvalidMessage}}</span>
+                                                                <span class="error" style="color: red" ng-show="(f1.file.$dirty || IsFormSubmitted) && f1.file.$error.required">Academic Calendar Required!</span>
+                                                                <span class="error" style="color: red">{{FileInvalidMessage}}</span>
                                                             </div>
                                                         </div>
                                                     </div>

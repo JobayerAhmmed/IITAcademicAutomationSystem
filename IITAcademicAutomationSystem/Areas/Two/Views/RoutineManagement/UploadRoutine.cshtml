@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    ViewBag.Title = "Upload Routine";
+}
 <script src="~/Areas/Two/Library/jquery-2.0.2.min.js"></script>
 <script src='~/Areas/Two/Library/angular.min.js'></script>
 
@@ -46,18 +48,17 @@
                     <div ng-show="flag.showUploadForm">
                         <div ng-show="flag.isRoutineAlreadyUploaded==false">
                             <form novalidate name="f1" ng-submit="SaveFile()">
-                                <div style="color: red">{{Message}}</div>
                                 <div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-12">
                                                 <b>Upload Routine : </b>
                                                 <div>
                                                     <div class="btn btn-primary btn-sm">
-                                                        <input type="file" name="file" accept="application/pdf" onchange="angular.element(this).scope().selectFileforUpload(this.files)" required />
+                                                        <input type="file" name="file" accept="application/pdf" onchange="angular.element(this).scope().selectFileforUpload(this.files)"/>
                                                     </div>
-                                                    <span class="error" ng-show="(f1.file.$dirty || IsFormSubmitted) && f1.file.$error.required">Image required!</span>
-                                                    <span class="error">{{FileInvalidMessage}}</span>
+                                                    <span class="error" style="color: red" ng-show="(f1.file.$dirty || IsFormSubmitted) && f1.file.$error.required">Routine required!</span>
+                                                    <span class="error" style="color: red">{{FileInvalidMessage}}</span>
                                                 </div>
                                             </div>
                                         </div>

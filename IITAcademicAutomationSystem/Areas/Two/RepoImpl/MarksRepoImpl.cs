@@ -139,15 +139,6 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
                 }
 
                 return uniqueSubHeadList;
-                /*var query= from n in db.Marks join c in db.MarksSubHeads on n.subheadId equals c.Id
-                       where n.marksDistributionId == distributionId
-                       select new MarksSubHead {
-                           Id=c.Id,
-                           headId=c.headId,
-                           name=c.name
-                         };
-
-                return query.ToList();*/
 
             }
             catch(Exception e)

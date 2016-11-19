@@ -322,7 +322,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
             try
             {
                 resultManagementSerI.saveEditedMarks(saveEditedMarksResDto);
-                return new JsonResult { Data = new { Status = "OK", Message = "Marks Have been Edited Successfully" } };
+                return new JsonResult { Data = new { Status = "OK", Message = "Marks Have been Given Successfully" } };
             }
             catch (Exception e)
             {

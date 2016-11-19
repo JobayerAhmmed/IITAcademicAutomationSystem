@@ -107,6 +107,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
             {
                 var data = routineService.checkIfRoutineUploaded(programId, semesterId);
                 Object response = new { Status = "OK", Data = data };
+
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

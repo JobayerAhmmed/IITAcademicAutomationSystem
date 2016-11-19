@@ -59,54 +59,63 @@ ViewBag.Title = "GiveAttendance";
                                 </div>
                             </div>
                         </div>
-
                         <br />
-                            
                         <div ng-show="selected.program.name && selected.semester.name && selected.course.name">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="col-sm-6">
-                                        <b>Today's Class Number {{selected.currentClass.classNo}}</b>
+                            <div class="box" style="height: 40px">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-6">
+                                            <b>Today's Class Number {{selected.currentClass.classNo}}</b>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <b class="col-sm-2">Date</b>
+                                            <b class="col-sm-4">
+                                                {{selected.currentClass.date}}
+                                            </b>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <b class="col-sm-2">Date</b>
-                                        <b class="col-sm-4">
-                                            {{selected.currentClass.date}}
-                                        </b>
-                                    </div>
-                                </div>                                    
+                                </div>
                             </div>
                             <br/>
                             <div class="row">
                                 <div class="table-responsive" ng-if="selection.attendanceInfo.length!=0">
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <th>Present/Absent</th>
-                                            <th>Class Roll</th>
-                                            <th>Name</th>
-                                            <th>Status</th>
-                                        </tr>
-                                        <tr ng-repeat="student in selection.attendanceInfo">
-                                            {{row}}
-                                            <td ng-click="inputAttendanceIndividual($index)"><input type="checkbox" ng-model="selection.attendanceInfo[$index].isPresent" /></td>
-                                            <td>
-                                                {{student.classRoll}}
-                                            </td>
-                                            <td>
-                                                {{student.name}}
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    <h3 style="display: block; width: 100%;" class="label label-success" ng-if="selection.attendanceInfo[$index].isPresent">Present</h3>
-                                                    <h3 style="display: block; width: 100%;" class="label label-danger" ng-if="!selection.attendanceInfo[$index].isPresent">Absent</h3>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <div>
-                                        <span><input type="button" class="btn btn-info" value="Prsent All" ng-click="presentAllStudent()"></span>
-                                        <span><input type="button" class="btn btn-info" value="Absent All" ng-click="absentAllStudent()"></span>
-                                        <span><input type="button" class="btn btn-info" value="Submit" ng-click="submitAttendence()"></span>
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-12">
+                                            <div class="box">
+                                                <table class="table table-bordered">
+                                                    <tr>
+                                                        <th>Present/Absent</th>
+                                                        <th>Class Roll</th>
+                                                        <th>Name</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                    <tr ng-repeat="student in selection.attendanceInfo">
+                                                        {{row}}
+                                                        <td ng-click="inputAttendanceIndividual($index)"><input type="checkbox" ng-model="selection.attendanceInfo[$index].isPresent" /></td>
+                                                        <td>
+                                                            {{student.classRoll}}
+                                                        </td>
+                                                        <td>
+                                                            {{student.name}}
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                <h3 style="display: block; width: 100%;" class="label label-success" ng-if="selection.attendanceInfo[$index].isPresent">Present</h3>
+                                                                <h3 style="display: block; width: 100%;" class="label label-danger" ng-if="!selection.attendanceInfo[$index].isPresent">Absent</h3>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-12">
+                                            <span><input type="button" class="btn btn-primary" value="Prsent All" ng-click="presentAllStudent()"></span>
+                                            <span><input type="button" class="btn btn-primary" value="Absent All" ng-click="absentAllStudent()"></span>
+                                            <span><input type="button"  class="btn btn-primary pull-right" value="Submit" ng-click="submitAttendence()"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

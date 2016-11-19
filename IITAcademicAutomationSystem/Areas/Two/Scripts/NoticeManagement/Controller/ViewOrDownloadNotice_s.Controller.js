@@ -1,6 +1,6 @@
 ﻿(
     function () {
-    	angular.module("noticeManagement_module").controller("viewNotice_controller", ["$scope", "Notice_Service", "Utility_Service", function ($scope, NoticeService, UtilityService) {
+        angular.module("noticeManagement_module").controller("viewNotice_controller", ["$scope", "Notice_Service", "Utility_Service", "$window", function ($scope, NoticeService, UtilityService,$window) {
 
 
 
@@ -26,8 +26,8 @@
     		
 
     		$scope.viewNoticeFile = function (filePath) {
-    		    console.log(filePath);
-    		    window.location = 'ViewNotice?filePath=' + filePath;
+    		    var completeFilePath = 'ViewNotice?filePath=' + filePath;
+    		    $window.open(completeFilePath, "_blank");
     		}
     		
 
