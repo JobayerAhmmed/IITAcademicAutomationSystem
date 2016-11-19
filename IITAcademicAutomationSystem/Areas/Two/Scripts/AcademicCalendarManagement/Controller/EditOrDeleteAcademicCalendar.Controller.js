@@ -1,6 +1,6 @@
 ﻿(
     function () {
-    	angular.module("academicCalendarManagement_module").controller("editOrDeleteAcademicCalendar_controller", ["$scope", "AcademicCalendar_Service", "Utility_Service", function ($scope, AcademicCalendarService, UtilityService) {
+        angular.module("academicCalendarManagement_module").controller("editOrDeleteAcademicCalendar_controller", ["$scope", "AcademicCalendar_Service", "Utility_Service", "$window", function ($scope, AcademicCalendarService, UtilityService, $window) {
 
     	    
 
@@ -26,6 +26,11 @@
     		$scope.flag = {
     		    disableSubmitButton: true,
     		    isEditButtonClicked: false,
+    		}
+
+    		$scope.viewAcademicCalendarFile = function (filePath) {
+		        var completeFilePath = 'ViewAcademicCalendar?filePath=' + filePath;
+    		    $window.open(completeFilePath, "_blank");
     		}
 
     		$scope.constant = {

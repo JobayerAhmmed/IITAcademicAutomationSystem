@@ -2,33 +2,29 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <script src='~/Areas/Two/Library/angular.min.js'></script>
-
     <script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
-    <script src="~/Areas/Two/Scripts/NoticeManagement/Module/NoticeManagement.module.js" type="text/javascript"></script>
-    <script src="~/Areas/Two/Scripts/NoticeManagement/Controller/viewNotice.Controller.js" type="text/javascript"></script>
-    <script src="~/Areas/Two/Scripts/NoticeManagement/Factory/NoticeManagement.Factory.js" type="text/javascript"></script>
+    <script src="~/Areas/Two/Scripts/AcademicCalendarManagement/Module/AcademicCalendarManagement.module.js" type="text/javascript"></script>
+    <script src="~/Areas/Two/Scripts/AcademicCalendarManagement/Controller/viewAcademicCalendar.Controller.js" type="text/javascript"></script>
+    <script src="~/Areas/Two/Scripts/AcademicCalendarManagement/Factory/AcademicCalendarManagement.Factory.js" type="text/javascript"></script>
     <script src="~/Areas/Two/Scripts/Utility/Factory/Utility.Factory.js" type="text/javascript"></script>
-
     <meta name="viewport" content="width=device-width"/>
-    <title>View Notice</title>
+    <title>View AcademicCalendar</title>
 </head>
 <body>
 <div>
     <div class="container-fluid">
         <div>
-            <div ng-app="noticeManagement_module" ng-controller="viewNotice_controller">
+            <div ng-app="academicCalendarManagement_module" ng-controller="viewAcademicCalendar_controller">
                 <div ng-cloak>
                     <div>
                         <div class="row">
                             <div>
                                 <div>
-                                    <iframe src="{{selected.fileFath}}" style="position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" />
+                                    <iframe  src="{{selected.fileFath}}" style="position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" />
                                 </div>
                             </div>
                         </div>
@@ -37,6 +33,6 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
 </body>
 </html>

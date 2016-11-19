@@ -43,7 +43,7 @@
 
                 <br />
                 <div ng-show="selected.program.id && selected.semester.id">
-                    <div>
+                    <div class="box">
                         <div ng-if="flag.isEditButtonClicked==false && selection.files.notices.length!=0">
                             <div class="table-responsive">
                                 <table class="table table-bordered">
@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                             <div>
-                                <span><input type="button" class="btn btn-success" value="Save" ng-click="whenSaveEditIsClicked()" ng-disabled="flag.disableSubmitButton"></span>
+                                <span><input type="button" class="btn btn-primary" value="Update" ng-click="whenSaveEditIsClicked()" ng-disabled="flag.disableSubmitButton"></span>
                                 <span><input type="button" class="btn btn-danger" value="Cancel" ng-click="whenCancelEditIsClicked()"></span>
                             </div>
                         </div>

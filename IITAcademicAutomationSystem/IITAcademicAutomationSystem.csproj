@@ -360,6 +360,7 @@
     <Content Include="Areas\Two\Library\jquery-2.0.2.min.js" />
     <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Controller\EditOrDeleteAcademicCalendar.Controller.js" />
     <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Controller\UploadAcademicCalendar.Controller.js" />
+    <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Controller\ViewAcademicCalendar.Controller.js" />
     <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Controller\ViewOrDownloadAcademicCalendar_s.Controller.js" />
     <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Controller\ViewOrDownloadAcademicCalendar_tp.Controller.js" />
     <Content Include="Areas\Two\Scripts\AcademicCalendarManagement\Factory\AcademicCalendarManagement.Factory.js" />
@@ -397,6 +398,7 @@
     <Content Include="Areas\Two\Scripts\NoticeManagement\Module\NoticeManagement.module.js" />
     <Content Include="Areas\Two\Scripts\RoutineManagement\Controller\EditOrDeleteRoutine.Controller.js" />
     <Content Include="Areas\Two\Scripts\RoutineManagement\Controller\UploadRoutine.Controller.js" />
+    <Content Include="Areas\Two\Scripts\RoutineManagement\Controller\ViewRoutine.Controller.js" />
     <Content Include="Areas\Two\Scripts\RoutineManagement\Controller\ViewOrDownloadRoutine_s.Controller.js" />
     <Content Include="Areas\Two\Scripts\RoutineManagement\Controller\ViewOrDownloadRoutine_tp.Controller.js" />
     <Content Include="Areas\Two\Scripts\RoutineManagement\Factory\RoutineManagement.Factory.js" />
@@ -486,7 +488,6 @@
     <Content Include="Areas\Two\Views\AttendanceManagement\ViewAttendanceIndividual.cshtml" />
     <Content Include="Areas\Two\Views\NoticeManagement\EditOrDeleteNotice.cshtml" />
     <Content Include="Areas\Two\Views\NoticeManagement\UploadNotice.cshtml" />
-    <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice.cshtml" />
     <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice_s.cshtml" />
     <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice_tp.cshtml" />
     <Content Include="Areas\Two\Views\ResultManagement\CreateOrViewHead.cshtml" />
@@ -512,6 +513,9 @@
     <Content Include="Areas\Two\Views\Utility\ShowPdf_an.cshtml" />
     <Content Include="Areas\Two\Views\web.config" />
     <Content Include="Areas\Two\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Two\Views\AcademicCalendarManagement\ViewAcademicCalendar.cshtml" />
+    <Content Include="Areas\Two\Views\NoticeManagement\ViewNotice.cshtml" />
+    <Content Include="Areas\Two\Views\RoutineManagement\ViewRoutine.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

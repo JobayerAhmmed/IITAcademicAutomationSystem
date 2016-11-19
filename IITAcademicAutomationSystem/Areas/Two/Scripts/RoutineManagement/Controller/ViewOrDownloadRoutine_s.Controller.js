@@ -1,6 +1,6 @@
 ﻿(
     function () {
-    	angular.module("routineManagement_module").controller("viewRoutine_controller", ["$scope", "Routine_Service", "Utility_Service", function ($scope, RoutineService, UtilityService) {
+        angular.module("routineManagement_module").controller("viewRoutine_controller", ["$scope", "Routine_Service", "Utility_Service", "$window", function ($scope, RoutineService, UtilityService,$window) {
 
 
 
@@ -27,7 +27,10 @@
     			color: ""
     		}
 
-
+    		$scope.viewRoutineFile = function (filePath) {
+    		    var completeFilePath = 'ViewRoutine?filePath=' + filePath;
+    		    $window.open(completeFilePath, "_blank");
+    		}
     		
     		var createPath = function () {
     		    if ($scope.selection.files.routine == null || $scope.selection.files.routine == undefined)
