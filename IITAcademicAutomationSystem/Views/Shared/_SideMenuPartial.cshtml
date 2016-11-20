@@ -175,8 +175,8 @@
                     }
                     @if (User.IsInRole("Admin") || User.IsInRole("Batch Coordinator"))
                     {
-                        <li><a href="@Url.Action("ViewAllFinalSubmission", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Create/View Head</a></li>
-                        <li class="active"><a href="@Url.Action("CreateOrViewSubHead", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Create/View Sub-head</a></li>
+                        <li><a href="@Url.Action("ViewAllFinalSubmission", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Final Submission</a></li>
+                        <li class="active"><a href="@Url.Action("ViewResult", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> VIew Result</a></li>
                     }
                     @if (User.IsInRole("Admin") || User.IsInRole("Student"))
                     {
@@ -244,7 +244,7 @@
         }
 
         @*NAcademic Calendar*@
-        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Program Officer"))
+        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
         {
             <li class="treeview">
                 <a href="#">
@@ -274,7 +274,7 @@
         }
 
         @*Routine*@
-        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Program Officer"))
+        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
         {
             <li class="treeview">
                 <a href="#">

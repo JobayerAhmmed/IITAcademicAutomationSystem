@@ -109,10 +109,12 @@
             }
 
             var getPrograms = function () {
-                UtilityService.getPrograms()
+                debugger;
+                UtilityService.getAllPrograms()
                    .then(
                           function (d) {
                               if (d.Status == "OK") {
+                                  
                                   $scope.selection.programs = d.Data.programs;
                               }
                               else if (d.Status == "ERROR") {
@@ -126,7 +128,7 @@
             }
 
             var getSemesters = function () {
-                UtilityService.getSemesters($scope.selected.program.id)
+                UtilityService.getSemestersOfAProgram($scope.selected.program.id)
                    .then(
                           function (d) {
                               if (d.Status == "OK") {
