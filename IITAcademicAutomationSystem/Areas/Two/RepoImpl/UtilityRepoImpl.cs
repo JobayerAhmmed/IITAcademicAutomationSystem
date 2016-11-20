@@ -32,11 +32,11 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
             try
             {
                 
-                var query = from CourseSemester  in db.CourseSemesters
+                var query = (from CourseSemester  in db.CourseSemesters
                             join Semester in db.Semesters on CourseSemester.SemesterId equals Semester.Id
                             join Program in db.Programs on Semester.ProgramId equals Program.Id
                             where CourseSemester.TeacherId==teacherId 
-                            select Program;
+                            select Program).Distinct();
                 return query.ToList();
                
             }
@@ -76,10 +76,10 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
         {   
             try
             {
-                var query = from CourseSemester in db.CourseSemesters
+                var query = (from CourseSemester in db.CourseSemesters
                             join Semester in db.Semesters on CourseSemester.SemesterId equals Semester.Id
                             where CourseSemester.TeacherId == teacherId && Semester.ProgramId == programId
-                            select Semester;
+                            select Semester).Distinct();
                 return query.ToList();
             }
             catch(Exception e)
@@ -180,7 +180,12 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
         {
             try
             {
-                var query = (from StudentSemester in db.StudentSemesters where StudentSemester.SemesterId == studentSemester.StudentId && StudentSemester.BatchId == studentSemester.BatchId && StudentSemester.StudentId == studentSemester.StudentId select StudentSemester).FirstOrDefault();
+                bool temp = checkIfAStudentHasFailedACourseInASemester(studentSemester.StudentId,
+                    studentSemester.SemesterId, studentSemester.BatchId);
+                if (temp == true)
+                    studentSemester.GPA = 0.00;
+   
+                var query = (from StudentSemester in db.StudentSemesters where StudentSemester.SemesterId == studentSemester.SemesterId && StudentSemester.BatchId == studentSemester.BatchId && StudentSemester.StudentId == studentSemester.StudentId select StudentSemester).FirstOrDefault();
 
                 if (query != null)
                 {
@@ -276,6 +281,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
                             where StudentCourse.StudentId == studentId && StudentCourse.SemesterId == semesterId
                             && StudentCourse.BatchId == batchId
                             select Course;
+                var v = query;
 
                 return query.ToList();
             }
@@ -445,6 +451,16 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
             {
                 throw e;
             }
+        }
+
+        private bool checkIfAStudentHasFailedACourseInASemester(int studentId, int semesterId,int batchId)
+        {
+            var query = (from StudentCourse in db.StudentCourses where StudentCourse.StudentId == studentId && StudentCourse.SemesterId == semesterId && StudentCourse.BatchId == batchId &&  StudentCourse.GradePoint == 0.00 select StudentCourse).FirstOrDefault();
+
+            if (query != null)
+                return true;
+            else
+                return false;
         }
     }
 }

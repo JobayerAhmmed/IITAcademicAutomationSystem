@@ -321,7 +321,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 int studentId = utilityService.getStudentIdByUserId(userId);
-                var data = resultManagementSerI.getGivenMarks_s(courseId, studentId);
+                var data = resultManagementSerI.getGivenMarks_s(studentId,courseId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }

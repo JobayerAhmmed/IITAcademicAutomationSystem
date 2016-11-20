@@ -984,6 +984,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                     eachStudentResult.result = courseResultList.ToArray();
 
                     eachStudentResultList.Add(eachStudentResult);
+
                 }
                 var programTemp = utilityRepository.getProgramByProgramId(programId);
                 responseToReturn.programId = programTemp.Id;
@@ -991,9 +992,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 var semesterTemp = utilityRepository.getSemesterBySemesterId(semesterId);
                 responseToReturn.semesterId = semesterTemp.Id;
                 responseToReturn.semesterName = semesterTemp.SemesterNo;
-
-                responseToReturn.batchId = 4;//these has to be chaged
-                responseToReturn.batchName = "";
+                var batchTemp = utilityRepository.getBatch(programTemp.Id, semesterTemp.Id);
+                responseToReturn.batchId = batchTemp.Id;
+                responseToReturn.batchName = "Batch: "+ batchTemp.BatchNo;
 
                 List<String> courseToResponse = new List<String>();
 

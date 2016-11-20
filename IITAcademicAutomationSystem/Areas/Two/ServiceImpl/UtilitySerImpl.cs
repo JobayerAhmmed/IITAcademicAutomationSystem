@@ -241,10 +241,12 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 {
                     var tempStudent = studentListFromRepo.ElementAt(i);
                     StudentResDto student = new StudentResDto();
-                    student.id = student.id;
-                    student.classRoll = student.classRoll;
-                    student.name = student.name;
-                    student.examRoll = student.examRoll;
+                    student.id = tempStudent.Id;
+                    //var temp1 = utilityRepository.getStudentByStudentId(studentTemp.id);
+                    var studentUser = utilityRepository.getUserByUserId(tempStudent.UserId);
+                    student.classRoll = tempStudent.CurrentRoll;
+                    student.name = studentUser.FullName;
+                    student.examRoll = "";
                     studentList.Add(student);
 
                 }
