@@ -1,19 +1,46 @@
 ﻿using IITAcademicAutomationSystem.Areas.Two.RequestDto;
 using IITAcademicAutomationSystem.Areas.Two.Service;
 using IITAcademicAutomationSystem.Areas.Two.ServiceImpl;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace IITAcademicAutomationSystem.Areas.Two.Controllers
 {
     public class RoutineManagementController : Controller
     {
         RoutineManagementSerI routineService = new RoutineManagementSerImpl();
+        private UtilitySerI utilityService = new UtilitySerImpl();
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
 
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         // GET: Two/Routine
         public ActionResult Index()
         {
@@ -72,8 +99,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
                     // string imagePath = roorPath+"/" + fileName;
                     string imagePath = fileName;
                     uploadRoutineReqDto.path = imagePath;
-
-                    routineService.uploadRoutine(uploadRoutineReqDto);
+                    string uploaderId = User.Identity.GetUserId();
+                    routineService.uploadRoutine(uploadRoutineReqDto, uploaderId);
 
                 }
                 return new JsonResult { Data = new { Status = "OK", Message = "Routine has been Uploaded Successfully" } };
@@ -122,7 +149,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             try
             {
-                var data = routineService.getRoutines_student();
+                var userId = User.Identity.GetUserId();
+                int studentId = utilityService.getStudentIdByUserId(userId);
+                var data = routineService.getRoutines_student(studentId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }

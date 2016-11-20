@@ -15,18 +15,18 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
         GetHeadsResDto getAllHeads();
         void createSubHead(AddSubHeadRequestDto addSubHeadRequestDto);
         GetSubHeadsResDto getSubHeads(int headId);
-        void distributeMarks(DistributeMarksFinalReqDto distributeMarksFinalReqDto);
+        void distributeMarks(DistributeMarksFinalReqDto distributeMarksFinalReqDto, string teacherId);
         GetDistributedMarksResDto getDistributedMarks(int programId, int semesterId,int batchId, int courseId);
         GetDistributedMarksPartialResDto getDistributedMarksPartially(int programId, int semesterId,int batchId, int courseId);
         bool checkIfMarksIsDistributedForACourse(int programId, int semesterId,int batchId, int courseId);
-        void editDistributedMarks(EditedDistributeMarksReqDto editedDistributeMarksReqDto);
-        void saveGivenMarks(GiveMarksReqDto giveMarksReqDto);
+        void editDistributedMarks(EditedDistributeMarksReqDto editedDistributeMarksReqDto, string teacherId);
+        void saveGivenMarks(GiveMarksReqDto giveMarksReqDto, string teacherId);
         GetGivenMarksResto getGivenMarks_t(int programId,int semesterId,int batchId,int courseId);
-        GetGivenMarksResto getGivenMarks_s(int courseId);
+        GetGivenMarksResto getGivenMarks_s(int studentId,int courseId);
         bool checkIfMarksIsGiven(int programId, int semesterId, int batchId, int courseId, int headId, int subheadId);
 
         GetGivenMarksToEditResDto getGivenMarks(int programId, int semesterId, int batchId, int courseId,int headId,int subheadId);
-        void saveEditedMarks(SaveEditedMarksResDto saveEditedMarksResDto);
+        void saveEditedMarks(SaveEditedMarksResDto saveEditedMarksResDto,string teacherId);
 
         AllHeadsMarksStatusOfACourseGivingInfoResDto getHeadsMarksGivingInfoOfACourse(int programId, int semesterId, int batchId, int courseId);
         void submitFinally(int programId, int semesterId, int batchId, int courseId);

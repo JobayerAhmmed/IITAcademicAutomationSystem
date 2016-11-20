@@ -9,9 +9,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
 {
     interface NoticeManagementSerI
     {
-        void uploadNotice(UploadNoticeReqDto uploadNoticeReqDto);
+        void uploadNotice(UploadNoticeReqDto uploadNoticeReqDto,string uploaderId);
         NoticeAllResDto getNotices_teacherProgramOfficer(int programId,int semesterId);
-        NoticeAllResDto getNotices_student();
+        NoticeAllResDto getNotices_student(int studentId);
         void editNotice(EditNoticeReqDto editNoticeReqDto);
         void deleteNotice(int noticeId);
     }

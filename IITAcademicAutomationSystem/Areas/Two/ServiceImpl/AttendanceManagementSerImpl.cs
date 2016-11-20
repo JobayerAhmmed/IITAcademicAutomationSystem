@@ -111,7 +111,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public void saveAttendance(GiveAttendanceResDto giveAttendanceResDto)
+        public void saveAttendance(GiveAttendanceResDto giveAttendanceResDto,string teacherId)
         {
             Attendance[] attendanceListToSave = new Attendance[giveAttendanceResDto.attendances.Length];
             try
@@ -126,7 +126,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                     attendance.class_no = giveAttendanceResDto.classNo;
                     attendance.classDate = giveAttendanceResDto.classDate;
                     attendance .studentId= giveAttendanceResDto.attendances[i].studentId;
-                    attendance.teacherId = ""+utilityService.getIdOfLoggedInTeacher();
+                    attendance.teacherId = teacherId;
                     attendance.is_present = giveAttendanceResDto.attendances[i].isPresent;
 
                     attendanceListToSave[i] = attendance;
@@ -289,13 +289,13 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             return allAttendanceHistoryOfAStudent;
         }
 
-        public AllCourseAttendanceHistoryOfAStudentResDto getAttendanceOfAStudentOfAllCourses()
+        public AllCourseAttendanceHistoryOfAStudentResDto getAttendanceOfAStudentOfAllCourses(int studentId)
         {
             AllCourseAttendanceHistoryOfAStudentResDto responseToReturn=new AllCourseAttendanceHistoryOfAStudentResDto();
             try
             {
 
-                int studentId = utilityService.getIdOfLoggedInStudent();
+                
                 StudentFullInfoResDto student = utilityService.getStudentByStudentId(studentId);
 
                 responseToReturn.program = student.programName;
