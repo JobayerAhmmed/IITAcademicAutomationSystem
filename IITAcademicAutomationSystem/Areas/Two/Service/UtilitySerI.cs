@@ -38,6 +38,6 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
         void editCourseWiseGPAOfAStudent(int semesterId, int batchId, int courseId, int studentId, double GPA);
         int checkIfCourseWiseGPAIsSaved(int semesterId, int batchId, int courseId, int studentId);
         int getStudentIdByUserId(string userId);
-        SemesterResDto[] getSemestersOfABatchCoordinator(string batchCoordinaorId, int semesterId);
+        SemesterResDto[] getSemestersOfABatchCoordinator(string batchCoordinaorId, int programId);
     }
 }

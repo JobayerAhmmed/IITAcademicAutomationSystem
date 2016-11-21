@@ -335,6 +335,10 @@
     <Compile Include="Migrations\201611200527527_BatchCoordinator.Designer.cs">
       <DependentUpon>201611200527527_BatchCoordinator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611210540507_BatchCoOrdinaotrAdding.cs" />
+    <Compile Include="Migrations\201611210540507_BatchCoOrdinaotrAdding.Designer.cs">
+      <DependentUpon>201611210540507_BatchCoOrdinaotrAdding.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicFile.cs" />
     <Compile Include="Models\Attendance.cs" />
@@ -669,6 +673,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611200527527_BatchCoordinator.resx">
       <DependentUpon>201611200527527_BatchCoordinator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611210540507_BatchCoOrdinaotrAdding.resx">
+      <DependentUpon>201611210540507_BatchCoOrdinaotrAdding.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

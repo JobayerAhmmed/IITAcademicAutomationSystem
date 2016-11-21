@@ -463,11 +463,26 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
                 return false;
         }
 
-        public List<Semester> getSemestersOfABatchCoordinator(string batchCoordinatorId, int semesterId)
+        public List<Semester> getSemestersOfABatchCoordinator(string batchCoordinatorId, int programId)
         {
             try
             {
-                return null;
+                var query = (from BatchCoordinator in db.BatchCoordinators
+                             join Semester in db.Semesters on BatchCoordinator.SemesterId equals Semester.Id
+                             where BatchCoordinator.TeacherId == batchCoordinatorId &&
+                                    BatchCoordinator.StartDate == BatchCoordinator.EndDate
+                             select Semester);
+
+                var semesterList= query.ToList();
+                List<Semester> semestersToReturn=new List<Semester>();
+                for (int i = 0; i < semesterList.Count; i++)
+                {
+                    if(semesterList.ElementAt(i).ProgramId==programId)
+                        semestersToReturn.Add(semesterList.ElementAt(i));
+                }
+
+                return semestersToReturn;
+
             }
             catch (Exception e)
             {

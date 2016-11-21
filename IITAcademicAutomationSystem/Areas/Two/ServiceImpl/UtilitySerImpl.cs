@@ -532,11 +532,11 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public SemesterResDto[] getSemestersOfABatchCoordinator(string batchCoordinaorId,int semesterId)
+        public SemesterResDto[] getSemestersOfABatchCoordinator(string batchCoordinaorId,int programId)
         {
             try
             {
-                List<Semester> semesterListFromRepo = utilityRepository.getSemestersOfABatchCoordinator(batchCoordinaorId, semesterId);
+                List<Semester> semesterListFromRepo = utilityRepository.getSemestersOfABatchCoordinator(batchCoordinaorId, programId);
                 List< SemesterResDto > semesterToReturn=new List<SemesterResDto>();
                 for (int i = 0; i < semesterListFromRepo.Count; i++)
                 {

@@ -39,6 +39,6 @@ namespace IITAcademicAutomationSystem.Areas.Two.Repo
         ApplicationUser getUserByUserId(string userId);
         Course getCourseByCourseId(int courseId);
         List<Course> getAllCoursesOfASemester(int programId, int semesterId, int batchId);
-        List<Semester> getSemestersOfABatchCoordinator(string batchCoordinatorId,int semesterId);
+        List<Semester> getSemestersOfABatchCoordinator(string batchCoordinatorId,int programId);
     }
 }
