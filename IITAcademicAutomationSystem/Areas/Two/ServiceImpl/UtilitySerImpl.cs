@@ -446,8 +446,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             try
             {
                 StudentSemester studentSemester = new StudentSemester();
-                studentSemester.SemesterId = batchId;
-                studentSemester.BatchId = semesterId;
+                studentSemester.SemesterId = semesterId;
+                studentSemester.BatchId = batchId; 
                 studentSemester.StudentId = studentId;
                 studentSemester.GPA = GPA;
 

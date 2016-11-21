@@ -96,10 +96,16 @@
                                                 <td class="text-center">{{info.studentName}}</td>
                                                 <td class="text-center">{{info.classRoll}}</td>
                                                 <td class="text-center" ng-repeat="result in info.result">
-                                                    <p ng-if="result.GPA!=-1">{{result.GPA}}</p>
+                                                    <p ng-if="result.GPA!=-1 && result.GPA!=0">{{result.GPA}}</p>
+                                                    <p ng-if="result.GPA==0">F</p>
                                                 </td>
-                                                <td class="text-center">{{info.GPA}}</td>
-                                                <td class="text-center">{{info.CGPA}}</td>
+                                                <td class="text-center">
+                                                    <P ng-if="info.GPA!=0">{{info.GPA}}</P>
+                                                    <P ng-if="info.GPA==0">F</P>
+                                                </td>
+                                                <td class="text-center">
+                                                    <P ng-if="info.CGPA!=0">{{info.CGPA}}</P>
+                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -116,10 +122,7 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-
             </div>
         </div>
     </div>

@@ -112,7 +112,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
         {
             try
             {
-                var query = (from Batch in db.Batches where Batch.ProgramId == programId && Batch.SemesterIdCurrent == semesterId select Batch).FirstOrDefault();
+                var query = (from Batch in db.Batches where Batch.ProgramId == programId && Batch.SemesterIdCurrent == semesterId && Batch.BatchStatus == "Active" select Batch).FirstOrDefault();
                 return query;
             }
             catch (Exception e)

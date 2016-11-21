@@ -379,6 +379,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\IIT.mdf" />
+    <Content Include="App_Data\IIT_log.ldf">
+      <DependentUpon>IIT.mdf</DependentUpon>
+    </Content>
     <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\1400b2a6-ad05-406d-8382-731d4ffd9894.pdf" />
     <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\2a116dbc-2b90-4963-9928-24be13e6cbed.pdf" />
     <Content Include="Areas\Two\AcademicFiles\AcademicCalendar\859236ef-adbd-474f-a595-bb42400bdd5c.pdf" />
@@ -655,7 +659,6 @@
     <Content Include="Views\Account\TeacherCourses.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Areas\One\Content\CourseContent\" />
     <Folder Include="Areas\One\Content\UserImage\" />
     <Folder Include="Areas\Two\Models\" />
