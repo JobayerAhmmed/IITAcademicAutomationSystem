@@ -29,7 +29,7 @@
                                     <div>
                                         <select class="form-control" ng-change="whenSemesterIsSelected()" ng-model="selected.semester" ng-options="semester as semester.name for semester in selection.semesters"></select>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             @*<div class="col-sm-4">
@@ -46,7 +46,7 @@
                     <div ng-if="flag.isAllMarksFinallySybmitted==false">
                         <div class="col-sm-12">
                             <div class="col-sm-12">
-                                <div class="alert alert-info">
+                                <div class="alert alert-success">
                                     <h3>All Courses Marks Are Not Finally Submitted</h3>
                                 </div>
                             </div>
@@ -80,27 +80,27 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <br />
+                                        <br/>
                                         <table border="1" class="table table-bordered">
                                             <thead>
-                                                <tr>
-                                                    <th class="text-center">Name</th>
-                                                    <th class="text-center">Class Roll</th>
-                                                    <th class="text-center" ng-repeat="course in selection.resultInfo.courses">{{course}}</th>
-                                                    <th class="text-center">GPA</th>
-                                                    <th class="text-center">CGPA</th>
-                                                </tr>
+                                            <tr>
+                                                <th class="text-center">Name</th>
+                                                <th class="text-center">Class Roll</th>
+                                                <th class="text-center" ng-repeat="course in selection.resultInfo.courses">{{course}}</th>
+                                                <th class="text-center">GPA</th>
+                                                <th class="text-center">CGPA</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="info in selection.resultInfo.results  | filter:search">
-                                                    <td class="text-center">{{info.studentName}}</td>
-                                                    <td class="text-center">{{info.classRoll}}</td>
-                                                    <td class="text-center" ng-repeat="result in info.result">
-                                                        <p ng-if="result.GPA!=-1">{{result.GPA}}</p>
-                                                    </td>
-                                                    <td class="text-center">{{info.GPA}}</td>
-                                                    <td class="text-center">{{info.CGPA}}</td>
-                                                </tr>
+                                            <tr ng-repeat="info in selection.resultInfo.results  | filter:search">
+                                                <td class="text-center">{{info.studentName}}</td>
+                                                <td class="text-center">{{info.classRoll}}</td>
+                                                <td class="text-center" ng-repeat="result in info.result">
+                                                    <p ng-if="result.GPA!=-1">{{result.GPA}}</p>
+                                                </td>
+                                                <td class="text-center">{{info.GPA}}</td>
+                                                <td class="text-center">{{info.CGPA}}</td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -119,7 +119,7 @@
 
 
                 </div>
-                
+
             </div>
         </div>
     </div>

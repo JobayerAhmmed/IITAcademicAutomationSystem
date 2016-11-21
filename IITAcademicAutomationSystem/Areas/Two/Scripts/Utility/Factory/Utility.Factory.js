@@ -115,6 +115,7 @@
             return $http.get('/Utility/getSemestersOfABatchCoOrdinator?programId=' + programId)
                     .then(
                             function (response) {
+                                console.log(response.data);
                                 return response.data;
                             },
                             function (errResponse) {

@@ -538,7 +538,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             {
                 List<Semester> semesterListFromRepo = utilityRepository.getSemestersOfABatchCoordinator(batchCoordinaorId, programId);
                 List< SemesterResDto > semesterToReturn=new List<SemesterResDto>();
-                for (int i = 0; i < semesterListFromRepo.Count; i++)
+               for (int i = 0; i < semesterListFromRepo.Count; i++)
                 {
                     SemesterResDto tempSemester = new SemesterResDto();
                     tempSemester.id = semesterListFromRepo.ElementAt(i).Id;

@@ -59,12 +59,12 @@
                         <div>
                             <div ng-show="selected.program.name && selected.semester.name && selected.course.name">
                                 <div ng-if="flag.isMarksAlreadyDistributed===false">
-                                    <div class="alert alert-info">
+                                    <div class="alert alert-success">
                                         <h3>Marks is not Distributed</h3>
                                     </div>
                                 </div>
                                 <div ng-if="flag.isFinallySubmitted">
-                                    <div class="alert alert-info">
+                                    <div class="alert alert-success">
                                         <h3>Marks is Finally Submitted</h3>
                                     </div>
                                 </div>
@@ -134,9 +134,15 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="control-label col-sm-2">
-                                                <input type="button" class="btn btn-primary" value="Save" ng-disabled="flag.disableSaveButton || flag.isFinallySubmitted" ng-click="save()">
-                                                <input type="button" class="btn btn-primary" value="Cancel" ng-click="cancelDistribution()">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="col-sm-12">
+                                                        <div class="control-label col-sm-2">
+                                                            <input type="button" class="btn btn-primary" value="Save" ng-disabled="flag.disableSaveButton || flag.isFinallySubmitted" ng-click="save()">
+                                                            <input type="button" class="btn btn-primary" value="Cancel" ng-click="cancelDistribution()">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

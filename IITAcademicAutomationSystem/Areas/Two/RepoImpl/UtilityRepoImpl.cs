@@ -481,6 +481,10 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
                         semestersToReturn.Add(semesterList.ElementAt(i));
                 }
 
+               /* Semester tempSemester = new Semester();
+                tempSemester.Id = 1;
+                tempSemester.SemesterNo = 1;
+                semestersToReturn.Add(tempSemester);*/
                 return semestersToReturn;
 
             }

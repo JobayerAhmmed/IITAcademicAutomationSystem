@@ -83,11 +83,11 @@
                 }
 
                 if ($scope.selected.program.id && $scope.selected.semester.id)
-                    getBatches();;
+                    getBatches();
             }
 
 
-            $scope.whenBatchIsSelected = function () {
+            /*$scope.whenBatchIsSelected = function () {
                 $scope.selected = {
                     program: $scope.selected.program,
                     semester: $scope.selected.semester,
@@ -110,7 +110,7 @@
                 if ($scope.selected.program.id && $scope.selected.batch.id && $scope.selected.semester.id) {
                     checkIfAllCourseAreFinallySubmitted();
                 }
-            }
+            }*/
 
             
 
@@ -163,7 +163,7 @@
                    .then(
                           function (d) {
                               if (d.Status == "OK") {
-                                  $scope.selection.semesters = d.Data.semesters;
+                                  $scope.selection.semesters = d.Data;
                               }
                               else if (d.Status == "ERROR") {
                                   showNotification(d.Message, d.Status);
@@ -181,8 +181,9 @@
                     .then(
                           function (d) {
                               if (d.Status == "OK") {
-                                  $scope.selection.batches = d.Data;
-                                  console.log(d.Data)
+                                  $scope.selected.batch = d.Data;
+                                  console.log(d.Data);
+                                  checkIfAllCourseAreFinallySubmitted();
                               }
                               else if (d.Status == "ERROR") {
                                   showNotification(d.Message, d.Status);

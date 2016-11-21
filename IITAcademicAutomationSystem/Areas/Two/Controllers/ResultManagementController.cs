@@ -48,83 +48,96 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public ActionResult CreateOrViewHead()
         {
             return View();
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public ActionResult CreateOrViewSubHead()
         {
             return View();
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public ActionResult DistributeMarks()
         {
             return View();
         }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult ViewDistributedMarks_t()
         {
             return View();
         }
 
+        [Authorize(Roles = "Student")]
         public ActionResult ViewDistributedMarks_s()
         {
             return View();
         }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult EditDistributedMarks()
         {
             return View();
         }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult GiveMarks()
         {
             return View();
         }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult ViewGivenMarks_t()
         {
             return View();
         }
 
+        [Authorize(Roles = "Student")]
         public ActionResult ViewGivenMarks_s()
         {
             return View();
         }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult EditGivenMarks()
         {
             return View();
         }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult FinalSubmission()
         {
             return View();
         }
 
+        [Authorize(Roles = "Batch Coordinator")]
         public ActionResult ViewAllFinalSubmission()
         {
             return View();
         }
-
+        [Authorize(Roles = "Batch Coordinator")]
         public ActionResult ViewResult()
         {
             return View();
         }
 
-        public ActionResult StudentPromotion()
+        /*public ActionResult StudentPromotion()
         {
             return View();
-        }
+        }*/
 
 
         //..........................For HTTP service
 
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public JsonResult getAllHeads()
         {
             try
@@ -141,6 +154,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         public JsonResult createHead(AddHeadRequestDto addHeadRequestDto)
         {
             try
@@ -155,6 +169,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public JsonResult getSubHeads(int headId)
         {
             try
@@ -173,6 +188,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         public JsonResult createSubHead(AddSubHeadRequestDto addSubHeadRequestDto)
         {
             try
@@ -189,6 +205,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         public JsonResult distributeMarks(DistributeMarksFinalReqDto distributeMarksFinalReqDto)
         {
             try
@@ -204,6 +221,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher,Student")]
         public JsonResult checkIfMarksIsDistributedForACourse(int programId, int semesterId,int batchId, int courseId)
         {
             try
@@ -220,6 +238,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher,Student")]
         public JsonResult getDistributedMarks(int programId,int semesterId,int batchId,int courseId)
         {
             try
@@ -236,6 +255,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher,Student")]
         public JsonResult getDistributedMarksPartial(int programId, int semesterId,int batchId, int courseId)
         {
             try
@@ -253,6 +273,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         public JsonResult editDistributedMarks(EditedDistributeMarksReqDto editedDistributeMarksReqDto)
         {
             try
@@ -268,6 +289,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         public JsonResult giveMarks(GiveMarksReqDto giveMarksReqDto)
         {
             try
@@ -283,6 +305,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher,Student")]
         public JsonResult checkIfMarksIsGiven(int programId, int semesterId, int batchId, int courseId,int headId,int subHeadId)
         {
             try
@@ -299,6 +322,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public JsonResult getGivenMarks_t(int programId, int semesterId,int batchId, int courseId)
         {
             try
@@ -315,6 +339,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Student")]
         public JsonResult getGivenMarks_s(int courseId)
         {
             try
@@ -333,6 +358,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public JsonResult getGivenMarksForEditing(int programId, int semesterId, int batchId, int courseId,int headId,int subHeadId)
         {
             try
@@ -349,6 +375,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         public JsonResult saveEditedMarks(SaveEditedMarksResDto saveEditedMarksResDto)
         {
             try
@@ -364,6 +391,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher,Student")]
         public JsonResult getMarksGivingOfHeadsInfo(int programId, int semesterId, int batchId, int courseId)
         {
             try
@@ -382,6 +410,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         
 
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         public JsonResult submitFinally(int programId, int semesterId, int batchId, int courseId)
         {
             try
@@ -396,6 +425,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Batch Coordinator")]
         public JsonResult getFinalSubmissionInfoOfAllCourses(int programId, int semesterId, int batchId)
         {
             try
@@ -412,6 +442,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Batch Coordinator")]
         public JsonResult checkIfAllCourseAreFinallySubmitted(int programId, int semesterId, int batchId)
         {
             try
@@ -428,6 +459,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Batch Coordinator")]
         public JsonResult getResultTillCurrentSenester(int programId, int semesterId, int batchId)
         {
             try
@@ -443,7 +475,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
             }
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public JsonResult getPassFailInfoOfASemester(int programId, int semesterId, int batchId)
         {
             try
@@ -457,6 +489,6 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
                 Object response = new { Status = "ERROR", Message = "Error has Occured While Reading Distributed Marks Info" + e };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }
-        }
+        }*/
     }
 }

@@ -41,45 +41,47 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
                 _userManager = value;
             }
         }
-        // GET: Two/Routine
-        public ActionResult Index()
-        {
-            return View();
-        }
+
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public ActionResult UploadRoutine()
         {
             return View();
         }
 
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin")]
         public ActionResult ViewRoutine_tp()
         {
             return View();
         }
 
+        [Authorize(Roles = "Student,Admin")]
         public ActionResult ViewRoutine_s()
         {
             return View();
         }
 
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public ActionResult EditOrDeleteRoutine()
         {
             return View();
         }
 
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin,Student")]
         public ActionResult ViewRoutine(string filePath)
         {
             return View();
         }
 
-        public FilePathResult DownloadRoutine(string fileName)
+        /*public FilePathResult DownloadRoutine(string fileName)
         {
             string filePath = "~/Areas/Two/AcademicFiles/Routine/" + fileName;
             return File(filePath, "multipart/form-data", fileName);
-        }
+        }*/
 
         //.................http service...........
 
         [HttpPost]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public JsonResult AddRoutine(UploadRoutineReqDto uploadRoutineReqDto)
         {
             try
@@ -112,6 +114,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin")]
         public JsonResult getRoutines_tp(int programId, int semesterId)
         {
             try
@@ -128,6 +131,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin,Student")]
         public JsonResult checkIfRoutineUploaded(int programId, int semesterId)
         {
             try
@@ -145,6 +149,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Student,Admin")]
         public JsonResult getRoutines_s()
         {
             try
@@ -163,6 +168,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public JsonResult editRoutine(EditRoutineReqDto editRoutineReqDto)
         {
             try
@@ -177,6 +183,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public JsonResult deleteRoutine(int routineId)
         {
             try

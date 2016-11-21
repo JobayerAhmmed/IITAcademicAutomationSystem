@@ -554,6 +554,8 @@
     <Content Include="Areas\One\Views\Semester\SemesterStudentDetails.cshtml" />
     <Content Include="Areas\One\Views\CourseContent\IndexTeacher.cshtml" />
     <Content Include="Areas\One\Views\CourseContent\Upload.cshtml" />
+    <Content Include="Areas\Two\Views\AcademicCalendarManagement\ViewAcademicCalendar.cshtml" />
+    <Content Include="Areas\Two\Views\RoutineManagement\ViewRoutine.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
