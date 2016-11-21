@@ -27,16 +27,12 @@
 
             $scope.whenProgramIsSelected = function () {
                 getSemesters();
-
                 $scope.selected.semester = {};
                 $scope.selected.batch = {};
-
             }
 
             $scope.whenSemesterIsSelected = function () {
                 getBatch();
-                
-                
             }
 
 

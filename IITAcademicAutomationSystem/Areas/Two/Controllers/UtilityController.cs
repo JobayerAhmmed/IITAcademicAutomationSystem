@@ -226,5 +226,22 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpGet]
+        public JsonResult getBatchesOfABatchCoOrdinator(int programId)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                var data = utilityService.getBatchesOfABatchCoordinator(userId,programId);
+                Object response = new { Status = "OK", Data = data };
+                return this.Json(response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Object response = new { Status = "ERROR", Message = "Error has Occured While Fetching Studets" + e };
+                return this.Json(response, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

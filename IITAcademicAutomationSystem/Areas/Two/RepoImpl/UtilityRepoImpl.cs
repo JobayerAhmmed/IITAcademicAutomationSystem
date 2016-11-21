@@ -462,5 +462,17 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
             else
                 return false;
         }
+
+        public List<Batch> getBatchesOfBatchCoordinator(string batchCoordinatorId, int programId)
+        {
+            try
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

@@ -531,5 +531,27 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 throw e;
             }
         }
+
+        public BatchResDto[] getBatchesOfABatchCoordinator(string batchCoordinaorId,int programId)
+        {
+            try
+            {
+                List<Batch> batchListFromRepo = utilityRepository.getBatchesOfBatchCoordinator(batchCoordinaorId,programId);
+                List< BatchResDto > batchToReturn=new List<BatchResDto>();
+                for (int i = 0; i < batchListFromRepo.Count; i++)
+                {
+                    BatchResDto tempBatch = new BatchResDto();
+                    tempBatch.id = batchListFromRepo.ElementAt(i).Id;
+                    tempBatch.name = "Batch :"+batchListFromRepo.ElementAt(i).BatchNo;
+                    batchToReturn.Add(tempBatch);
+                }
+
+                return batchToReturn.ToArray();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

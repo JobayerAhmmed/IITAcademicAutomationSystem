@@ -56,29 +56,23 @@
                 $scope.flag = {
 
                 }
-
-
-
                 if ($scope.selected.program.id)
-                    getBatches();
-
-                
+                    getSemesters();
 
             }
 
-            $scope.whenBatchIsSelected = function () {
+            $scope.whenSemesterIsSelected = function () {
                 $scope.selected = {
                     program: $scope.selected.program,
-                    semester: {
-                    },
-                    batch: $scope.selected.batch
+                    semester: $scope.selected.semester,
+                    batch: {}
 
                 }
 
                 $scope.selection = {
                     programs: $scope.selection.programs,
-                    batches: $scope.selection.batches,
-                    semesters: [],
+                    batches: [],
+                    semesters: $scope.selection.semesters,
                     courses: [],
                     resultInfo: {
 
@@ -88,20 +82,16 @@
 
                 }
 
-                if ($scope.selected.program.id && $scope.selected.batch.id)
-                    getSemesters();
-
-                
-
+                if ($scope.selected.program.id && $scope.selected.semester.id)
+                    getBatches();;
             }
 
 
-            $scope.whenSemesterIsSelected = function () {
+            $scope.whenBatchIsSelected = function () {
                 $scope.selected = {
                     program: $scope.selected.program,
                     semester: $scope.selected.semester,
                     batch: $scope.selected.batch
-
                 }
 
                 $scope.selection = {
@@ -186,7 +176,7 @@
 
             }
 
-            var getBatches = function () {
+            var getBatches = function () {//getBatchesOfABatchCoOrdinator
                 UtilityService.getBatchesOfAProgram($scope.selected.program.id)
                    .then(
                           function (d) {
