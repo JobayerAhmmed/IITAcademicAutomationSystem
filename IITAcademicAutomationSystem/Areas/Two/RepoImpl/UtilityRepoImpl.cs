@@ -112,7 +112,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
         {
             try
             {
-                var query = (from Batch in db.Batches where Batch.ProgramId == programId && Batch.SemesterIdCurrent == semesterId select Batch).FirstOrDefault();
+                var query = (from Batch in db.Batches where Batch.ProgramId == programId && Batch.SemesterIdCurrent == semesterId && Batch.BatchStatus == "Active" select Batch).FirstOrDefault();
                 return query;
             }
             catch (Exception e)
@@ -461,6 +461,37 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
                 return true;
             else
                 return false;
+        }
+
+        public List<Semester> getSemestersOfABatchCoordinator(string batchCoordinatorId, int programId)
+        {
+            try
+            {
+                var query = (from BatchCoordinator in db.BatchCoordinators
+                             join Semester in db.Semesters on BatchCoordinator.SemesterId equals Semester.Id
+                             where BatchCoordinator.TeacherId == batchCoordinatorId &&
+                                    BatchCoordinator.StartDate == BatchCoordinator.EndDate
+                             select Semester);
+
+                var semesterList= query.ToList();
+                List<Semester> semestersToReturn=new List<Semester>();
+                for (int i = 0; i < semesterList.Count; i++)
+                {
+                    if(semesterList.ElementAt(i).ProgramId==programId)
+                        semestersToReturn.Add(semesterList.ElementAt(i));
+                }
+
+               /* Semester tempSemester = new Semester();
+                tempSemester.Id = 1;
+                tempSemester.SemesterNo = 1;
+                semestersToReturn.Add(tempSemester);*/
+                return semestersToReturn;
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

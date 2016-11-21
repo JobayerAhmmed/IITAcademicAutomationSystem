@@ -111,6 +111,18 @@
                             }
                     );
         },
+        getSemestersOfABatchCoOrdinator: function (programId) {
+            return $http.get('/Utility/getSemestersOfABatchCoOrdinator?programId=' + programId)
+                    .then(
+                            function (response) {
+                                console.log(response.data);
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                return $q.reject(errResponse);
+                            }
+                    );
+        },
         getCourses: function (programId, semesterId) {
             return $http.get('/Utility/getCoursesOfATeacherOfASemesterOfAProgram?programId=' + programId + "&semesterId=" + semesterId)
                     .then(

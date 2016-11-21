@@ -446,8 +446,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             try
             {
                 StudentSemester studentSemester = new StudentSemester();
-                studentSemester.SemesterId = batchId;
-                studentSemester.BatchId = semesterId;
+                studentSemester.SemesterId = semesterId;
+                studentSemester.BatchId = batchId; 
                 studentSemester.StudentId = studentId;
                 studentSemester.GPA = GPA;
 
@@ -525,6 +525,28 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             try
             {
                 return utilityRepository.getStudentIdByUserId(userId);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public SemesterResDto[] getSemestersOfABatchCoordinator(string batchCoordinaorId,int programId)
+        {
+            try
+            {
+                List<Semester> semesterListFromRepo = utilityRepository.getSemestersOfABatchCoordinator(batchCoordinaorId, programId);
+                List< SemesterResDto > semesterToReturn=new List<SemesterResDto>();
+               for (int i = 0; i < semesterListFromRepo.Count; i++)
+                {
+                    SemesterResDto tempSemester = new SemesterResDto();
+                    tempSemester.id = semesterListFromRepo.ElementAt(i).Id;
+                    tempSemester.name = "Semester :"+ semesterListFromRepo.ElementAt(i).SemesterNo;
+                    semesterToReturn.Add(tempSemester);
+                }
+
+                return semesterToReturn.ToArray();
             }
             catch (Exception e)
             {

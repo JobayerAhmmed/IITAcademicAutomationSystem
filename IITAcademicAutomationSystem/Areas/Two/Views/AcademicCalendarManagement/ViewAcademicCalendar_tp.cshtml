@@ -44,7 +44,13 @@
                     <br />
                     <div ng-if="selected.program.id && selected.semester.id">
                         <div ng-if="flag.isAcademicCalendarUploaded==false">
-                            <h3>Academic Calendar Is Not Uploaded Yet</h3>
+                            <div>
+                                <div>
+                                    <div class="alert alert-success">
+                                        <h3>Academic Calendar Is Not Uploaded Yet</h3>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div ng-if="flag.isAcademicCalendarUploaded==true">
                             <div class="row">

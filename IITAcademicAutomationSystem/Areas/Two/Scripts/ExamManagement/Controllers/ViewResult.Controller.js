@@ -56,29 +56,23 @@
                 $scope.flag = {
 
                 }
-
-
-
                 if ($scope.selected.program.id)
-                    getBatches();
-
-                
+                    getSemesters();
 
             }
 
-            $scope.whenBatchIsSelected = function () {
+            $scope.whenSemesterIsSelected = function () {
                 $scope.selected = {
                     program: $scope.selected.program,
-                    semester: {
-                    },
-                    batch: $scope.selected.batch
+                    semester: $scope.selected.semester,
+                    batch: {}
 
                 }
 
                 $scope.selection = {
                     programs: $scope.selection.programs,
-                    batches: $scope.selection.batches,
-                    semesters: [],
+                    batches: [],
+                    semesters: $scope.selection.semesters,
                     courses: [],
                     resultInfo: {
 
@@ -88,20 +82,16 @@
 
                 }
 
-                if ($scope.selected.program.id && $scope.selected.batch.id)
-                    getSemesters();
-
-                
-
+                if ($scope.selected.program.id && $scope.selected.semester.id)
+                    getBatches();
             }
 
 
-            $scope.whenSemesterIsSelected = function () {
+            /*$scope.whenBatchIsSelected = function () {
                 $scope.selected = {
                     program: $scope.selected.program,
                     semester: $scope.selected.semester,
                     batch: $scope.selected.batch
-
                 }
 
                 $scope.selection = {
@@ -120,7 +110,7 @@
                 if ($scope.selected.program.id && $scope.selected.batch.id && $scope.selected.semester.id) {
                     checkIfAllCourseAreFinallySubmitted();
                 }
-            }
+            }*/
 
             
 
@@ -169,11 +159,11 @@
             }
 
             var getSemesters = function () {
-                UtilityService.getSemestersOfAProgram($scope.selected.program.id)
+                UtilityService.getSemestersOfABatchCoOrdinator($scope.selected.program.id)
                    .then(
                           function (d) {
                               if (d.Status == "OK") {
-                                  $scope.selection.semesters = d.Data.semesters;
+                                  $scope.selection.semesters = d.Data;
                               }
                               else if (d.Status == "ERROR") {
                                   showNotification(d.Message, d.Status);
@@ -187,12 +177,13 @@
             }
 
             var getBatches = function () {
-                UtilityService.getBatchesOfAProgram($scope.selected.program.id)
-                   .then(
+                UtilityService.getBatch($scope.selected.program.id, $scope.selected.program.id)
+                    .then(
                           function (d) {
                               if (d.Status == "OK") {
-                                  $scope.selection.batches = d.Data;
-                                  console.log(d.Data)
+                                  $scope.selected.batch = d.Data;
+                                  console.log(d.Data);
+                                  checkIfAllCourseAreFinallySubmitted();
                               }
                               else if (d.Status == "ERROR") {
                                   showNotification(d.Message, d.Status);
@@ -244,322 +235,6 @@
                            }
                    );
             }
-            
-
-           var getResultOfABatch=function () {
-               return{
-                   program:"BSSE",
-                   semester:"8th",
-                   batch:"5th",
-                   courses:["CSE-801","CSE-802","CSE-803","CSE-808","CSE-809","CSE-8031","CSE-835"],
-                   results:[
-                       {
-                           studentName:"Ishmam 1",
-                           classRoll:"0523",
-                           examRoll:"001",
-                           result:[
-                               {
-                                   courseName:"CSE-801",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-802",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-803",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-808",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-809",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-831",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-835",
-                                   GPA:-1
-                               }
-                           ],
-
-                           GPA:3.2,
-                           CGPA:3.61
-                       },
-                       {
-                           studentName:"Ishmam 2",
-                           classRoll:"0523",
-                           examRoll:"001",
-                           result:[
-                               {
-                                   courseName:"CSE-801",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-802",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-803",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-808",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-809",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-831",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-835",
-                                   GPA:-1
-                               }
-                           ],
-
-                           GPA:3.2,
-                           CGPA:3.61
-                       },
-                       {
-                           studentName:"Ishmam 3",
-                           classRoll:"0523",
-                           examRoll:"001",
-                           result:[
-                               {
-                                   courseName:"CSE-801",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-802",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-803",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-808",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-809",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-831",
-                                   GPA:-1
-                               },
-                               {
-                                   courseName:"CSE-835",
-                                   GPA:3.5
-                               }
-                           ],
-
-                           GPA:3.2,
-                           CGPA:3.61
-                       },
-                       {
-                           studentName:"Ishmam 4",
-                           classRoll:"0523",
-                           examRoll:"001",
-                           result:[
-                               {
-                                   courseName:"CSE-801",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-802",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-803",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-808",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-809",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-831",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-835",
-                                   GPA:-1
-                               }
-                           ],
-
-                           GPA:3.2,
-                           CGPA:3.61
-                       },
-                       {
-                           studentName:"Ishmam 5",
-                           classRoll:"0523",
-                           examRoll:"001",
-                           result:[
-                               {
-                                   courseName:"CSE-801",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-802",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-803",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-808",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-809",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-831",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-835",
-                                   GPA:-1
-                               }
-                           ],
-
-                           GPA:3.2,
-                           CGPA:3.61
-                       },
-                       {
-                           studentName:"Ishmam 6",
-                           classRoll:"0523",
-                           examRoll:"001",
-                           result:[
-                               {
-                                   courseName:"CSE-801",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-802",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-803",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-808",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-809",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-831",
-                                   GPA:-1
-                               },
-                               {
-                                   courseName:"CSE-835",
-                                   GPA:3.5
-                               }
-                           ],
-
-                           GPA:3.2,
-                           CGPA:3.61
-                       },
-                       {
-                           studentName:"Ishmam 7",
-                           classRoll:"0523",
-                           examRoll:"001",
-                           result:[
-                               {
-                                   courseName:"CSE-801",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-802",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-803",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-808",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-809",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-831",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-835",
-                                   GPA:-1
-                               }
-                           ],
-
-                           GPA:3.2,
-                           CGPA:3.61
-                       },
-                       {
-                           studentName:"Ishmam 8",
-                           classRoll:"0523",
-                           examRoll:"001",
-                           result:[
-                               {
-                                   courseName:"CSE-801",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-802",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-803",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-808",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-809",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-831",
-                                   GPA:3.5
-                               },
-                               {
-                                   courseName:"CSE-835",
-                                   GPA:-1
-                               }
-                           ],
-
-                           GPA:3.2,
-                           CGPA:3.61
-                       }
-                   ]
-               }
-           }
 
 
             var inatializeThePagfunction=function(){

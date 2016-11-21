@@ -41,27 +41,26 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
                 _userManager = value;
             }
         }
-        // GET: Two/Attendance
-        public ActionResult Index()
-        {
-            return View();
-        }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult GiveAttendance()
         {
             return View();
         }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult EditAttendance()
         {
             return View();
         }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult ViewAttendanceCourseWise()
         {
             return View();
         }
 
+        [Authorize(Roles = "Student")]
         public ActionResult ViewAttendanceIndividual()
         {
             return View();
@@ -70,6 +69,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         //............................http services...................
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public JsonResult getLastClassNumber(int programId,int semesterId,int batchId,int courseId)
         {
             try
@@ -86,6 +86,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         public JsonResult saveAttendance(GiveAttendanceResDto giveAttendanceResDto)
         {
             try
@@ -101,6 +102,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public JsonResult getClassesNumbersAndDates(int programId, int semesterId, int batchId, int courseId)
         {
             try
@@ -117,6 +119,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public JsonResult getAttendancesForEditing(int programId, int semesterId, int batchId, int courseId,int classNo)
         {
             try
@@ -133,7 +136,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
          [HttpPost]
-         public JsonResult saveEditedAttendance(EditAttendanceReqDto editAttendanceReqDto)
+        [Authorize(Roles = "Teacher")]
+        public JsonResult saveEditedAttendance(EditAttendanceReqDto editAttendanceReqDto)
          {
              try
              {
@@ -147,6 +151,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
          }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public JsonResult getAttendancesCourseWise(int programId, int semesterId, int batchId, int courseId)
         {
             try
@@ -163,6 +168,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Student")]
         public JsonResult getAttendancesIndividual()
         {
             try

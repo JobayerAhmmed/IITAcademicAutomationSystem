@@ -43,45 +43,47 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
                 _userManager = value;
             }
         }
-        // GET: Two/AcademicCalendar
-        public ActionResult Index()
-        {
-            return View();
-        }
+
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public ActionResult UploadAcademicCalendar()
         {
             return View();
         }
 
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin")]
         public ActionResult ViewAcademicCalendar_tp()
         {
             return View();
         }
 
+        [Authorize(Roles = "Student,Admin")]
         public ActionResult ViewAcademicCalendar_s()
         {
             return View();
         }
 
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public ActionResult EditOrDeleteAcademicCalendar()
         {
             return View();
         }
 
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin,Student")]
         public ActionResult ViewAcademicCalendar(string filePath)
         {
             return View();
         }
 
-        public FilePathResult DownloadAcademicCalendar(string fileName)
+       /* public FilePathResult DownloadAcademicCalendar(string fileName)
         {
             string filePath = "~/Areas/Two/AcademicFiles/AcademicCalendar/" + fileName;
             return File(filePath, "multipart/form-data", fileName);
-        }
+        }*/
 
         //.................http service...........
 
         [HttpPost]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public JsonResult AddAcademicCalendar(UploadAcademicCalendarReqDto uploadAcademicCalendarReqDto)
         {
             try
@@ -115,6 +117,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin")]
         public JsonResult getAcademicCalendars_tp(int programId, int semesterId)//tp means teacherProgramofficer
         {
             try
@@ -131,6 +134,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin,Student")]
         public JsonResult checkIfAcademicCalendarUploaded(int programId,int semesterId)
         {
             try
@@ -147,6 +151,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Student,Admin")]
         public JsonResult getAcademicCalendars_s()
         {
             try
@@ -165,6 +170,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public JsonResult editAcademicCalendar(EditAcademicCalendarReqDto editAcademicCalendarReqDto)
         {
             try
@@ -179,6 +185,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public JsonResult deleteAcademicCalendar(int academicCalendarId)
         {
             try

@@ -1186,11 +1186,12 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                         individualStudentCoursesCount < individualStudentResult.result.Length;
                         individualStudentCoursesCount++)
                     {
+                        
                         var individualCourseResult = individualStudentResult.result[individualStudentCoursesCount];
 
                         if (individualCourseResult.GPA == -1) // if student does not have a course,its GPA is -1
                             continue;
-
+                        
                         SummationOfGPAOfAllCourses = SummationOfGPAOfAllCourses + individualCourseResult.GPA;//counting summation of GPA of all courses of a semester
                         courseNoFlag++;
 
@@ -1216,6 +1217,36 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                     else if (ifPassedFailedInfoGiven == 0)
                         utilityService.editPassFailInfoOfAStudnet(semesterId, batchId, individualStudentResult.id, GPATemp);
 
+                }
+            }
+            return setGPAAndCGPAZeroWhenFailedOneCourse(allSemesterResultList);
+        }
+
+        private List<AllStudentsResultResDto> setGPAAndCGPAZeroWhenFailedOneCourse(List<AllStudentsResultResDto> allSemesterResultList)
+        {
+            for (int semesterResultCount = 0; semesterResultCount < allSemesterResultList.Count; semesterResultCount++)//loop ..for all result of all semester from last semester to previous semesters
+            {
+                var allStudentResultTemp = allSemesterResultList.ElementAt(semesterResultCount);
+
+                for (int studentCount = 0; studentCount < allStudentResultTemp.results.Length; studentCount++)
+                {
+                    var individualStudentResult = allStudentResultTemp.results.ElementAt(studentCount);
+
+                    double SummationOfGPAOfAllCourses = 0.00;
+                    int courseNoFlag = 0;
+                    for (int individualStudentCoursesCount = 0;
+                        individualStudentCoursesCount < individualStudentResult.result.Length;
+                        individualStudentCoursesCount++)
+                    {
+                        var individualCourseResult = individualStudentResult.result[individualStudentCoursesCount];
+                        if (individualCourseResult.GPA == 0.00)
+                        {
+                            individualStudentResult.GPA = 0.00;
+                            individualStudentResult.CGPA = 0.00;
+                            break;
+                        }
+                        
+                    }
                 }
             }
             return allSemesterResultList;

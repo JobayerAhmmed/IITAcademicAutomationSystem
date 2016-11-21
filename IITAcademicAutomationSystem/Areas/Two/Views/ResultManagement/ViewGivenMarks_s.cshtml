@@ -40,26 +40,23 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Class Roll</th>
-                                <th>Exam Roll</th>
-                                <th ng-repeat=" head in selection.marksInfo.subHeads">
+                                <th class="text-center">Name</th>
+                                <th class="text-center">Class Roll</th>
+                                <th class="text-center" ng-repeat=" head in selection.marksInfo.subHeads">
                                     {{head.headName}}
                                 </th>
                             </tr>
                             <tr>
                                 <th></th>
                                 <th></th>
-                                <th></th>
-                                <th ng-repeat="subHead in selection.marksInfo.subHeads">{{subHead.name+" - "}}{{subHead.examMarks}}</th>
+                                <th class="text-center" ng-repeat="subHead in selection.marksInfo.subHeads">{{subHead.name+" - "}}{{subHead.examMarks}}</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr ng-repeat="student in selection.marksInfo.marksOfStudents">
-                                <td>{{student.studentName}}</td>
-                                <td>{{student.classRoll}}</td>
-                                <td>{{student.examRoll}}</td>
-                                <td ng-repeat="marks in student.marksOfAllSubHeads">{{marks.marks}}</td>
+                                <td class="text-center">{{student.studentName}}</td>
+                                <td class="text-center">{{student.classRoll}}</td>
+                                <td class="text-center" ng-repeat="marks in student.marksOfAllSubHeads">{{marks.marks}}</td>
                             </tr>
                             </tbody>
                         </table>

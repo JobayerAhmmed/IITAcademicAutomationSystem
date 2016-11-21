@@ -41,38 +41,37 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
                 _userManager = value;
             }
         }
-        // GET: Two/Notice
-        public ActionResult Index()
-        {
-            return View();
-        }
+
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public ActionResult UploadNotice()
         {
             return View();
         }
 
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin")]
         public ActionResult ViewNotice_tp(string path)
         {
             return View();
         }
-
+        [Authorize(Roles = "Student,Admin")]
         public ActionResult ViewNotice_s(string path)
         {
             return View();
         }
 
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public ActionResult EditOrDeleteNotice()
         {
             return View();
         }
-        
 
-        public FilePathResult DownloadNotice(string fileName)
+
+        /*public FilePathResult DownloadNotice(string fileName)
         {
             string filePath = "~/Areas/Two/AcademicFiles/Notice/"+ fileName;
             return File(filePath, "multipart/form-data", fileName);
-        }
-
+        }*/
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin,Student")]
         public ActionResult ViewNotice(string filePath)
         {
             return View();
@@ -81,6 +80,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         //.................http service...........
 
         [HttpPost]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public JsonResult AddNotice(UploadNoticeReqDto uploadNoticeReqDto)
         {
             try
@@ -115,6 +115,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin")]
         public JsonResult getNotices_tp(int programId, int semesterId)
         {
             try
@@ -131,6 +132,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Student,Admin")]
         public JsonResult getNotices_s()
         {
             try
@@ -149,6 +151,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public JsonResult editNotice(EditNoticeReqDto editNoticeReqDto)
         {
             try
@@ -163,6 +166,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Admin")]
         public JsonResult deleteNotice(int noticeId)
         {
             try

@@ -27,16 +27,12 @@
 
             $scope.whenProgramIsSelected = function () {
                 getSemesters();
-
                 $scope.selected.semester = {};
                 $scope.selected.batch = {};
-
             }
 
             $scope.whenSemesterIsSelected = function () {
                 getBatch();
-                
-                
             }
 
 
@@ -128,11 +124,11 @@
             }
 
             var getSemesters = function () {
-                UtilityService.getSemestersOfAProgram($scope.selected.program.id)
+                UtilityService.getSemestersOfABatchCoOrdinator($scope.selected.program.id)
                    .then(
                           function (d) {
                               if (d.Status == "OK") {
-                                  $scope.selection.semesters = d.Data.semesters;
+                                  $scope.selection.semesters = d.Data;
                               }
                               else if (d.Status == "ERROR") {
                                   showNotification(d.Message, d.Status);

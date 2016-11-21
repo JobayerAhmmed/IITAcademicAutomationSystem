@@ -21,31 +21,33 @@
                 <br />
                 <div ng-if="selection.files.length!=0">
                     <div ng-show="!flag.isViewNoticeCliked">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Uploading Date</th>
-                                        <th>Title</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="notice in selection.files.notices">
-                                        <td>{{notice.date}}</td>
-                                        <td>
-                                            <div>
-                                                <b>{{notice.title}}</b>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div>
-                                                <input type="button" value="View" class="btn btn-primary" ng-click="viewNoticeFile(notice.path)" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="box">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Uploading Date</th>
+                                            <th>Title</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="notice in selection.files.notices">
+                                            <td>{{notice.date}}</td>
+                                            <td>
+                                                <div>
+                                                    <b>{{notice.title}}</b>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <input type="button" value="View" class="btn btn-primary" ng-click="viewNoticeFile(notice.path)" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

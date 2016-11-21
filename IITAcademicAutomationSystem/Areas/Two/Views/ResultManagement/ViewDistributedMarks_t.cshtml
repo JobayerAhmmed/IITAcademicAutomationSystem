@@ -57,7 +57,13 @@
                             <div ng-show="selected.program.name && selected.semester.name && selected.course.name">
                                 <div class="box">
                                     <div ng-if="flag.isMarksAlreadyDistributed===false">
-                                        <h3>Marks is Not Distributed Yet</h3>
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-12">
+                                                <div class="alert alert-success">
+                                                    <h3>Marks is Not Distributed Yet</h3>
+                                                </div>
+                                             </div>
+                                        </div>
                                     </div>
                                     <div ng-if="flag.isMarksAlreadyDistributed===true">
                                         <div class="table-responsive">
@@ -82,9 +88,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                    
-
                             </div>
                         </div>
                     </div>

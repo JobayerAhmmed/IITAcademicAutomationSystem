@@ -40,25 +40,22 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
             }
         }
 
-        // GET: Two/Utility
-        public ActionResult Index()
-        {
-            return View();
-        }
 
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin,Student")]
         public ActionResult ShowPdf()
         {
             return View();
         }
 
-        public ActionResult ShowPdf_an()
+        /*public ActionResult ShowPdf_an()
         {
             return View();
-        }
+        }*/
 
         //.....................http service.............
 
         [HttpGet]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin,Student")]
         public JsonResult getAllPrograms()
         {
             try
@@ -75,6 +72,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher,Admin")]
         public JsonResult getProgramsOfATeacher()
         {
             try
@@ -92,6 +90,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin,Student")]
         public JsonResult getSemestersOfAProgram(int programId)
         {
             try
@@ -109,6 +108,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Teacher,Admin")]
         public JsonResult getSemestersOfATeacherOfAProgramr(int programId)
         {
             try
@@ -126,6 +126,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher,Admin")]
         public JsonResult getCoursesOfATeacherOfASemesterOfAProgram(int programId, int semesterId)
         {
             try
@@ -143,6 +144,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin,Student")]
         public JsonResult getBatchOfASemesterOfAProgram(int programId,int  semesterId)
         {            
             try
@@ -160,6 +162,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Student")]
         public JsonResult getProgramSemesterBatchOfLoggedInStudent()
         {
             try
@@ -178,6 +181,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher,Admin")]
         public JsonResult getStudentsOfACOurse(int programId, int semesterId, int batchId, int courseId)
         {
             try
@@ -194,6 +198,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher,Admin,Student")]
         public JsonResult getAllCoursesOfAStudent()
         {
             try
@@ -212,11 +217,30 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Program Officer Regular,Program Officer Evening,Teacher,Batch Coordinator,Admin,Student")]
         public JsonResult getBatches(int programId)
         {
             try
             {
                 var data = utilityService.getBatchesOfAProgram(programId);
+                Object response = new { Status = "OK", Data = data };
+                return this.Json(response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Object response = new { Status = "ERROR", Message = "Error has Occured While Fetching Studets" + e };
+                return this.Json(response, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Batch Coordinator,Admin")]
+        public JsonResult getSemestersOfABatchCoOrdinator(int programId)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                var data = utilityService.getSemestersOfABatchCoordinator(userId, programId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }
