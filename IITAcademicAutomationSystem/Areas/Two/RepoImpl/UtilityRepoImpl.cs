@@ -463,7 +463,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.RepoImpl
                 return false;
         }
 
-        public List<Batch> getBatchesOfBatchCoordinator(string batchCoordinatorId, int programId)
+        public List<Semester> getSemestersOfABatchCoordinator(string batchCoordinatorId, int semesterId)
         {
             try
             {

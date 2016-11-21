@@ -228,12 +228,12 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         }
 
         [HttpGet]
-        public JsonResult getBatchesOfABatchCoOrdinator(int programId)
+        public JsonResult getSemestersOfABatchCoOrdinator(int programId)
         {
             try
             {
                 var userId = User.Identity.GetUserId();
-                var data = utilityService.getBatchesOfABatchCoordinator(userId,programId);
+                var data = utilityService.getSemestersOfABatchCoordinator(userId, programId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }

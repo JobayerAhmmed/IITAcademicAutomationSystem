@@ -111,8 +111,8 @@
                             }
                     );
         },
-        getBatchesOfABatchCoOrdinator: function (programId) {
-            return $http.get('/Utility/getBatchesOfABatchCoOrdinator?programId=' + programId)
+        getSemestersOfABatchCoOrdinator: function (programId) {
+            return $http.get('/Utility/getSemestersOfABatchCoOrdinator?programId=' + programId)
                     .then(
                             function (response) {
                                 return response.data;

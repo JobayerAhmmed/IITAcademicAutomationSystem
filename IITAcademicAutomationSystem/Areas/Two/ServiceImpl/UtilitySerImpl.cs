@@ -532,21 +532,21 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public BatchResDto[] getBatchesOfABatchCoordinator(string batchCoordinaorId,int programId)
+        public SemesterResDto[] getSemestersOfABatchCoordinator(string batchCoordinaorId,int semesterId)
         {
             try
             {
-                List<Batch> batchListFromRepo = utilityRepository.getBatchesOfBatchCoordinator(batchCoordinaorId,programId);
-                List< BatchResDto > batchToReturn=new List<BatchResDto>();
-                for (int i = 0; i < batchListFromRepo.Count; i++)
+                List<Semester> semesterListFromRepo = utilityRepository.getSemestersOfABatchCoordinator(batchCoordinaorId, semesterId);
+                List< SemesterResDto > semesterToReturn=new List<SemesterResDto>();
+                for (int i = 0; i < semesterListFromRepo.Count; i++)
                 {
-                    BatchResDto tempBatch = new BatchResDto();
-                    tempBatch.id = batchListFromRepo.ElementAt(i).Id;
-                    tempBatch.name = "Batch :"+batchListFromRepo.ElementAt(i).BatchNo;
-                    batchToReturn.Add(tempBatch);
+                    SemesterResDto tempSemester = new SemesterResDto();
+                    tempSemester.id = semesterListFromRepo.ElementAt(i).Id;
+                    tempSemester.name = "Semester :"+ semesterListFromRepo.ElementAt(i).SemesterNo;
+                    semesterToReturn.Add(tempSemester);
                 }
 
-                return batchToReturn.ToArray();
+                return semesterToReturn.ToArray();
             }
             catch (Exception e)
             {
