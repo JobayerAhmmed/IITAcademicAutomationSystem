@@ -1,11 +1,6 @@
 ﻿using IITAcademicAutomationSystem.Areas.One.Models;
 using IITAcademicAutomationSystem.Areas.One.Repositories;
-using IITAcademicAutomationSystem.Models;
-//using IITAcademicAutomationSystem.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace IITAcademicAutomationSystem.DAL
 {
@@ -21,8 +16,10 @@ namespace IITAcademicAutomationSystem.DAL
         private IStudentRepository studentRepository;
         private IProgramRepository programRepository;
         private IBatchRepository batchRepository;
+        private IBatchCoordinatorRepository batchCoordinatorRepository;
         private ISemesterRepository semesterRepository;
         private ICourseRepository courseRepository;
+        private ICourseContentRepository courseContentRepository;
         private ICourseSemesterRepository courseSemesterRepository;
         private IStudentCourseRepository studentCourseRepository;
         private IStudentSemesterRepository studentSemesterRepository;
@@ -82,6 +79,17 @@ namespace IITAcademicAutomationSystem.DAL
                 return batchRepository;
             }
         }
+        public IBatchCoordinatorRepository BatchCoordinatorRepository
+        {
+            get
+            {
+                if (batchCoordinatorRepository == null)
+                {
+                    batchCoordinatorRepository = new BatchCoordinatorRepository(context);
+                }
+                return batchCoordinatorRepository;
+            }
+        }
         public ISemesterRepository SemesterRepository
         {
             get
@@ -102,6 +110,17 @@ namespace IITAcademicAutomationSystem.DAL
                     courseRepository = new CourseRepository(context);
                 }
                 return courseRepository;
+            }
+        }
+        public ICourseContentRepository CourseContentRepository
+        {
+            get
+            {
+                if (courseContentRepository == null)
+                {
+                    courseContentRepository = new CourseContentRepository(context);
+                }
+                return courseContentRepository;
             }
         }
         public ICourseSemesterRepository CourseSemesterRepository

@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace IITAcademicAutomationSystem.Areas.One.Models
+namespace IITAcademicAutomationSystem.Areas.One.Repositories
 {
     public interface IStudentSemesterRepository
     {
         StudentSemester GetStudentSemester(int batchId, int semesterId, int studentId);
         IEnumerable<StudentSemester> GetStudentSemestersForSemester(int batchId, int semesterId);
+        IEnumerable<StudentSemester> GetSemesterPassedStudents(int batchId, int semesterId);
+        IEnumerable<StudentSemester> GetSemesterFailedStudents(int batchId, int semesterId);
         void AddStudentSemester(StudentSemester studentSemester);
         void RemoveStudentSemester(StudentSemester studentSemester);
     }
@@ -32,6 +34,20 @@ namespace IITAcademicAutomationSystem.Areas.One.Models
         {
             return context.StudentSemesters.Where(s => s.BatchId == batchId && s.SemesterId == semesterId).ToList();
         }
+        public IEnumerable<StudentSemester> GetSemesterPassedStudents(int batchId, int semesterId)
+        {
+            return context.StudentSemesters.Where(s => 
+                s.BatchId == batchId && 
+                s.SemesterId == semesterId &&
+                s.GPA >= 2.00).ToList();
+        }
+        public IEnumerable<StudentSemester> GetSemesterFailedStudents(int batchId, int semesterId)
+        {
+            return context.StudentSemesters.Where(s =>
+                s.BatchId == batchId &&
+                s.SemesterId == semesterId &&
+                s.GPA < 2.00).ToList();
+        }
         public void AddStudentSemester(StudentSemester studentSemester)
         {
             context.StudentSemesters.Add(studentSemester);
@@ -40,6 +56,5 @@ namespace IITAcademicAutomationSystem.Areas.One.Models
         {
             context.StudentSemesters.Remove(studentSemester);
         }
-
     }
 }

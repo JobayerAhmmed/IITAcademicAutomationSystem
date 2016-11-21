@@ -66,9 +66,11 @@
                     </table>
                 </div>
                 <div class="box-footer text-center">
-                    @Html.ActionLink("Back", "Index", "Course", new { area = "One", programId = Model.ProgramId }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("Edit", "Edit", "Course", new { area = "One", id = Model.Id }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("Delete", "Delete", "Course", new { area = "One", id = Model.Id }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Back to Courses", "Index", "Course", new { area = "One", programId = Model.ProgramId },
+                   new { @class = "btn btn-primary btn-flat" })
+                    @Html.ActionLink("Edit Course", "Edit", "Course", new { area = "One", id = Model.Id },
+                   new { @class = "btn btn-primary btn-flat" })
+                    @*@Html.ActionLink("Delete", "Delete", "Course", new { area = "One", id = Model.Id }, new { @class = "btn btn-danger" })*@
                 </div>
             </div>
         </div>

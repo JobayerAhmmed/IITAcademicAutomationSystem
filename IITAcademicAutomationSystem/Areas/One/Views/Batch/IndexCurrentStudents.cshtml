@@ -39,10 +39,10 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Roll</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Action</th>
+                                <th class="text-center">Roll</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Phone</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,20 +58,31 @@
                                             @item.FullName
                                         </span>
                                     </td>
-                                    <td>@item.Roll</td>
-                                    <td>@item.Email</td>
-                                    <td>@item.PhoneNumber</td>
-                                    <td>
+                                    <td class="text-center">@item.Roll</td>
+                                    <td class="text-center">@item.Email</td>
+                                    <td class="text-center">@item.PhoneNumber</td>
+                                    <td class="text-center">
+                                        @Html.ActionLink("Change Email", "ResetEmailStudent", "Account",
+                                            new
+                                            {
+                                                area = "",
+                                                programId = ViewBag.ProgramId,
+                                                batchId = ViewBag.BatchId,
+                                                id = item.UserId
+                                            },
+                                            new { @class = "btn btn-primary btn-flat btn-sm" })
+                                        @Html.ActionLink("Edit", "StudentEdit", "Account",
+                                            new { area = "", studentId = item.Id },
+                                            new { @class = "btn btn-primary btn-flat btn-sm" })
                                         @Html.ActionLink("Details", "CurrentStudentDetails", "Batch",
                                             new { area = "One", id = item.Id },
                                             new { @class = "btn btn-primary btn-flat btn-sm" })
-                                        @*@Html.ActionLink("Change Email", "ResetEmail", "Account",
-                new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
-            @Html.ActionLink("Edit", "TeacherEdit", "Account",
-                new { area = "", id = item.Id }, new { @class = "btn btn-primary btn-flat btn-sm" })
+                                        @*
             @Html.ActionLink("Delete", "TeacherDelete", "Account",
                 new { area = "", id = item.Id }, new { @class = "btn btn-danger btn-flat btn-sm" })*@
                                     </td>
+
+
 
                                 </tr>
                             }

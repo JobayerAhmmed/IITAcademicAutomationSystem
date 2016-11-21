@@ -22,6 +22,9 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         bool RemoveStudentFromStudentCourse(StudentCourse studentCourse);
         IEnumerable<Course> GetSemesterCourses(int batchId, int semesterId);
         IEnumerable<Student> GetSemesterStudents(int batchId, int semesterId);
+        IEnumerable<Student> GetSemesterPassedStudents(int batchId, int semesterId);
+        IEnumerable<Student> GetSemesterFailedStudents(int batchId, int semesterId);
+        double GetSemesterGpaOfStudent(int batchId, int semesterId, int studentId);
         IEnumerable<Student> GetCourseStudents(int batchId, int semesterId, int courseId);
         IEnumerable<ApplicationUser> GetCourseTeachers(int batchId, int semesterId, int courseId);
         IEnumerable<ApplicationUser> GetSemesterTeachers(int batchId, int semesterId);
@@ -30,6 +33,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         bool AddTeacherToCourseSemester(CourseSemester courseSemester);
         bool RemoveTeacherFromCourseSemester(CourseSemester courseSemester);
         IEnumerable<Course> GetUnallocatedCoursesOfBatch(int batchId);
+        StudentSemester GetStudentSemester(int batchId, int semesterId, int studentId);
         void Dispose();
     }
     public class SemesterService : ISemesterService
@@ -64,6 +68,129 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             var semester = unitOfWork.SemesterRepository.GetSemesterById(semesterId);
             var program = unitOfWork.ProgramRepository.GetProgramById(batch.ProgramId);
 
+            List<Student> activeStudentsOfBatch = new List<Student>();
+            List<StudentSemester> addedStudentSemestersInSemester = new List<StudentSemester>();
+            List<Student> addedStudentsInSemester = new List<Student>();
+            List<Student> remainStudents = new List<Student>();
+            List<Student> eligibleStudents = new List<Student>();
+            Semester previousSemester = new Semester();
+
+            // for first semester, return active students of batch
+            if (semester.SemesterNo == 1)
+            {
+                activeStudentsOfBatch = unitOfWork.StudentRepository.GetActiveStudentsOfBatch(batchId).ToList();
+
+                addedStudentSemestersInSemester = 
+                    unitOfWork.StudentSemesterRepository.
+                        GetStudentSemestersForSemester(batchId, semesterId).ToList();
+
+                foreach (var studentSemester in addedStudentSemestersInSemester)
+                {
+                    addedStudentsInSemester.Add(
+                        unitOfWork.StudentRepository.GetStudentById(studentSemester.StudentId));
+                }
+
+                foreach (var student in activeStudentsOfBatch)
+                {
+                    if (addedStudentsInSemester.Contains(student))
+                    {
+                        continue;
+                    }
+                    remainStudents.Add(student);
+                }
+
+                return remainStudents;
+            }
+
+            else if (semester.SemesterNo > 1)
+            {
+                previousSemester = unitOfWork.SemesterRepository.
+                    GetSemesterBySemesterNo(program.Id, semester.SemesterNo - 1);
+
+                // student semesters of previous semester
+                IEnumerable<StudentSemester> studentSemestersOfPreviousSemester =
+                    unitOfWork.StudentSemesterRepository.
+                        GetStudentSemestersForSemester(batchId, previousSemester.Id);
+
+                // students of previous semester
+                List<Student> studentsOfPreviousSemester = new List<Student>();
+                foreach (var item in studentSemestersOfPreviousSemester)
+                {
+                    studentsOfPreviousSemester.Add(
+                        unitOfWork.StudentRepository.GetStudentById(item.StudentId));
+                }
+
+                // active students of previous semester
+                List<Student> activeStudentsOfPreviousSemester = new List<Student>();
+                foreach (var item in studentsOfPreviousSemester)
+                {
+                    var user = unitOfWork.UserRepository.GetUserById(item.UserId);
+                    if (user.Status == "Active")
+                    {
+                        activeStudentsOfPreviousSemester.Add(item);
+                    }
+                }
+
+                // added student semesters of semester
+                addedStudentSemestersInSemester =
+                    unitOfWork.StudentSemesterRepository.
+                        GetStudentSemestersForSemester(batchId, semesterId).ToList();
+
+                // added students of semester
+                foreach (var studentSemester in addedStudentSemestersInSemester)
+                {
+                    addedStudentsInSemester.Add(
+                        unitOfWork.StudentRepository.GetStudentById(studentSemester.StudentId));
+                }
+
+                // remain students of previous semester
+                foreach (var student in activeStudentsOfPreviousSemester)
+                {
+                    if (addedStudentsInSemester.Contains(student))
+                    {
+                        continue;
+                    }
+                    remainStudents.Add(student);
+                }
+
+                // for PGDIT and MIT, return remain students
+                if (program.ProgramName == "PGDIT" || program.ProgramName == "MIT")
+                {
+                    return remainStudents;
+                }
+
+                // for BSSE and MSSE, check for pass / fail in previous semester
+                else if (program.ProgramName == "BSSE" || program.ProgramName == "MSSE")
+                {
+                    // passed student semesters of previous semester
+                    IEnumerable<StudentSemester> passedStudentSemestersOfPreviousSemester =
+                        unitOfWork.StudentSemesterRepository.
+                            GetSemesterPassedStudents(batchId, previousSemester.Id);
+
+                    // passed students of previous semester
+                    List<Student> passedStudentsOfPreviousSemester = new List<Student>();
+                    foreach (var item in passedStudentSemestersOfPreviousSemester)
+                    {
+                        passedStudentsOfPreviousSemester.Add(
+                            unitOfWork.StudentRepository.GetStudentById(item.StudentId));
+                    }
+
+                    // eligible students for semester
+                    foreach (var item in remainStudents)
+                    {
+                        if (passedStudentsOfPreviousSemester.Contains(item))
+                        {
+                            eligibleStudents.Add(item);
+                        }
+                    }
+
+                    return eligibleStudents;
+                }
+            }
+
+            return eligibleStudents;
+
+            /*
             var activeStudentsOfBatch = unitOfWork.StudentRepository.GetActiveStudentsOfBatch(batchId);
 
             var addedStudentSemestersInSemester =
@@ -162,7 +289,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             else
             {
                 return remainStudents;
-            }
+            }*/
         }
 
         public IEnumerable<Student> GetEligibleStudentsForCourse(int batchId, int semesterId, int courseId)
@@ -275,6 +402,46 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
                 students.Add(unitOfWork.StudentRepository.GetStudentById(item.StudentId));
             }
             return students;
+        }
+
+        public IEnumerable<Student> GetSemesterPassedStudents(int batchId, int semesterId)
+        {
+            var studentSemesters =
+                unitOfWork.StudentSemesterRepository.GetSemesterPassedStudents(batchId, semesterId);
+            List<Student> students = new List<Student>();
+            foreach (var item in studentSemesters)
+            {
+                students.Add(unitOfWork.StudentRepository.GetStudentById(item.StudentId));
+            }
+            return students;
+        }
+
+        public IEnumerable<Student> GetSemesterFailedStudents(int batchId, int semesterId)
+        {
+            var batch = unitOfWork.BatchRepository.GetBatchById(batchId);
+            var semester = unitOfWork.SemesterRepository.GetSemesterById(semesterId);
+            var batchCurrentSemester = unitOfWork.SemesterRepository.GetSemesterById(batch.SemesterIdCurrent);
+
+            List<Student> students = new List<Student>();
+            List<StudentSemester> studentSemesters = new List<StudentSemester>();
+            if (semester.SemesterNo < batchCurrentSemester.SemesterNo)
+            {
+                studentSemesters = 
+                    unitOfWork.StudentSemesterRepository.GetSemesterFailedStudents(batchId, semesterId).ToList();
+
+                foreach (var item in studentSemesters)
+                {
+                    students.Add(unitOfWork.StudentRepository.GetStudentById(item.StudentId));
+                }
+            }
+            
+            return students;
+        }
+
+        public double GetSemesterGpaOfStudent(int batchId, int semesterId, int studentId)
+        {
+            StudentSemester data = unitOfWork.StudentSemesterRepository.GetStudentSemester(batchId, semesterId, studentId);
+            return data.GPA;
         }
 
         public IEnumerable<Student> GetCourseStudents(int batchId, int semesterId, int courseId)
@@ -545,6 +712,11 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             }
 
             return unallocatedCourses;
+        }
+
+        public StudentSemester GetStudentSemester(int batchId, int semesterId, int studentId)
+        {
+            return unitOfWork.StudentSemesterRepository.GetStudentSemester(batchId, semesterId, studentId);
         }
 
         public void Dispose()

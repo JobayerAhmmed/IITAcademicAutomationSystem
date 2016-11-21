@@ -1,0 +1,84 @@
+﻿@model IEnumerable<IITAcademicAutomationSystem.Areas.One.Models.TeacherCourseViewModel>
+
+@{
+    ViewBag.Title = "Teaching Courses";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li class="active">Teaching Courses</li>
+    </ol>
+
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-body">
+                    <table id="teachingCourses" class="table table-responsive table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Course</th>
+                                <th>Semester</th>
+                                <th>Batch</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.CourseCode - @item.CourseTitle
+                                    </td>
+                                    <td>
+                                        Semester @item.SemesterNo
+                                    </td>
+                                    <td>
+                                        @item.ProgramName @item.BatchNo
+                                    </td>
+                                    <td class="text-center">
+                                        @Html.ActionLink("Upload Content", "Upload", "CourseContent",
+                                            new { area = "One", courseId = item.CourseId },
+                                            new { @class="btn btn-primary btn-flat" })
+                                        @Html.ActionLink("Download Content", "IndexTeacher", "CourseContent",
+                                            new { area = "One", courseId = item.CourseId },
+                                            new { @class = "btn btn-primary btn-flat" })
+                                        @*@Html.ActionLink("Delete Content", "Delete", "CourseContent",
+                                            new { area = "One", courseId = item.CourseId },
+                                            new { @class = "btn btn-danger btn-flat" })*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/datatable")
+    <script>
+        $(function () {
+            $("#teachingCourses").DataTable({
+                "paging": false,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true
+            });
+        });
+    </script>
+}

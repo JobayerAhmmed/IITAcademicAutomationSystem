@@ -25,7 +25,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title pull-right">
                         @Html.ActionLink("Register New Teacher", "TeacherRegister", "Account", new { area = "" },
-                            new { @class="btn btn-default btn-flat" })
+                            new { @class="btn btn-success btn-lg btn-flat" })
                         @*@Html.ActionLink("View All Teachers", "TeacherAllIndex", "Account", new { area = "" }, null)*@
                     </h3>
 
@@ -78,15 +78,11 @@
                                         @Html.ActionLink("Edit", "TeacherEdit", "Account",
                                             new { area = "", id = item.Id },
                                             new { @class = "btn btn-primary btn-flat btn-xs" })
-                                        @Html.ActionLink("Delete", "TeacherDelete", "Account",
+                                        @*@Html.ActionLink("Delete", "TeacherDelete", "Account",
                                             new { area = "", id = item.Id },
-                                            new { @class = "btn btn-danger btn-flat btn-xs" })
+                                            new { @class = "btn btn-danger btn-flat btn-xs" })*@
                                     </td>
-
-
-
-
-                                </tr>
+                             </tr>
                             }
                         </tbody>
                     </table>

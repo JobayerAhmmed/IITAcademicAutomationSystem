@@ -27,13 +27,27 @@
 </section>
 <section class="content">
     <div class="row">
+        <div class="col-xs-12 text-right">
+            @Html.ActionLink("Passed Students", "SemesterPassedStudents", "Semester",
+                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                new { @class = "btn btn-success btn-flat" })
+            @Html.ActionLink("Failed Students", "SemesterFailedStudents", "Semester",
+                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                new { @class = "btn btn-success btn-flat" })
+            @Html.ActionLink("Assign Failed Students to New Batch", "AssignNewBatch", "Semester",
+                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                new { @class = "btn btn-success btn-flat" })
+        </div>
+    </div>
+    <br />
+    <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
                 <div class="box-body">
                     <table id="semesterStudents" class="table table-responsive table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th class="text-center">Roll</th>
+                                <th>Roll</th>
                                 <th>Name</th>
                                 <th class="text-center">Action</th>
                             </tr>
@@ -56,8 +70,14 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="btn-group">
-                                            @Html.ActionLink("Details", "", "",
-                                                    new { area = "One" },
+                                            @Html.ActionLink("Details", "SemesterStudentDetails", "Semester",
+                                                    new
+                                                    {
+                                                        area = "One",
+                                                        studentId = item.Id,
+                                                        batchId = Model.BatchId,
+                                                        semesterId = Model.SemesterId
+                                                    },
                                                     new { @class = "btn btn-primary btn-flat" })
 
                                         </div>

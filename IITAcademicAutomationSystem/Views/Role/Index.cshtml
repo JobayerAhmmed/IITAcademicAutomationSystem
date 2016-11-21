@@ -10,22 +10,25 @@
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
+        <li>
+            @Html.ActionLink("Users", "OtherIndex", "Account", new { area = "" }, null )
+        </li>
         <li class="active">Roles</li>
     </ol>
 </section>
 <section class="content">
-    <div class="panel panel-default panel-s">
-        <div class="panel-heading panel-heading-sm text-right">
+    <div class="panel panel-default">
+        @*<div class="panel-heading panel-heading-sm text-right">
             @Html.ActionLink("Create Role", "Create", "Role", new { area = "" },
                 new { @class = "btn btn-default btn-flat" })
-        </div>
+        </div>*@
         <div class="panel-body">
-            <table id="courseIndex" class="table table-responsive table-bordered table-hover">
+            <table id="courseIndex" class="table table-responsive table-bordered table-hover" style="max-width: 500px;">
                 <thead>
                     <tr>
                         <th>Role</th>
-                        <th class="text-center">Responsibility</th>
-                        <th class="text-center">Action</th>
+                        @*<th class="text-center">Responsibility</th>
+                        <th class="text-center">Action</th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -35,22 +38,22 @@
                             <td>
                                 @Html.DisplayFor(x => item.Name)
                             </td>
-                            <td class="text-center"></td>
+                            @*<td class="text-center"></td>
                             <td class="text-center">
                                 @Html.ActionLink("Details", "Details", "Role", new { area = "", id = item.Id },
                                     new { @class = "btn btn-primary btn-flat btn-sm" })
                                 @Html.ActionLink("Edit", "Edit", "Role", new { area = "", id = item.Id },
                                     new { @class = "btn btn-primary btn-flat btn-sm" })
-                            </td>
+                            </td>*@
 
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-        <div class="panel-footer panel-footer-sm">
+        <div class="panel-footer">
             <div class="form-group">
-                @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" },
+                @Html.ActionLink("Back to Users", "OtherIndex", "Account", new { area = "" },
                     new { @class = "btn btn-primary btn-flat" })
             </div>
         </div>

@@ -22,6 +22,7 @@ namespace IITAcademicAutomationSystem.DAL
         public DbSet<Program> Programs { get; set; }
         public DbSet<Semester> Semesters { get; set; }
         public DbSet<Batch> Batches { get; set; }
+        public DbSet<BatchCoordinator> BatchCoordinators { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseContent> CourseContents { get; set; }
         public DbSet<CourseSemester> CourseSemesters { get; set; }

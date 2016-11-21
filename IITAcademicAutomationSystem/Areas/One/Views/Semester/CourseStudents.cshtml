@@ -57,9 +57,8 @@
                     <table id="courseStudents" class="table table-responsive table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th class="text-center">Roll</th>
+                                <th>Roll</th>
                                 <th>Name</th>
-                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,14 +76,6 @@
                                     </td>
                                     <td>
                                         @item.FullName
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="btn-group">
-                                            @Html.ActionLink("Details", "", "",
-                                                    new { area = "One" },
-                                                    new { @class = "btn btn-primary btn-flat" })
-
-                                        </div>
                                     </td>
                                 </tr>
                             }

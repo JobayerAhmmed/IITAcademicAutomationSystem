@@ -33,6 +33,7 @@ namespace IITAcademicAutomationSystem.Controllers
         private IProgramService programService;
         private IBatchService batchService;
         private ISemesterService semesterService;
+        private ICourseService courseService;
         private IMapper Mapper;
 
         public AccountController()
@@ -43,6 +44,7 @@ namespace IITAcademicAutomationSystem.Controllers
             programService = new ProgramService(ModelState, new DAL.UnitOfWork());
             batchService = new BatchService(ModelState, new DAL.UnitOfWork());
             semesterService = new SemesterService(ModelState, new DAL.UnitOfWork());
+            courseService = new CourseService(ModelState, new DAL.UnitOfWork());
             Mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
         }
 
@@ -56,6 +58,7 @@ namespace IITAcademicAutomationSystem.Controllers
             programService = new ProgramService(ModelState, new DAL.UnitOfWork());
             batchService = new BatchService(ModelState, new DAL.UnitOfWork());
             semesterService = new SemesterService(ModelState, new DAL.UnitOfWork());
+            courseService = new CourseService(ModelState, new DAL.UnitOfWork());
             Mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
         }
 
@@ -168,6 +171,103 @@ namespace IITAcademicAutomationSystem.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login", "Account");
+        }
+
+        // Student Edit
+        public ActionResult StudentEdit(int studentId)
+        {
+            var student = studentService.ViewStudent(studentId);
+            var user = UserManager.FindById(student.UserId);
+            var model = new UserProfileEditViewModel();
+
+            var program = programService.ViewProgram(student.ProgramId);
+            var semester = semesterService.ViewSemester(student.SemesterId);
+            var batchCurrent = batchService.ViewBatch(student.BatchIdCurrent);
+            var batchOriginal = batchService.ViewBatch(student.BatchIdOriginal);
+
+            model.ProgramId = program.Id;
+            model.BatchId = batchCurrent.Id;
+            model.BatchNo = batchCurrent.BatchNo;
+
+            model.Id = user.Id;
+            model.StudentId = studentId;
+            model.FullName = user.FullName;
+            model.Designation = user.Designation;
+            model.Email = user.Email;
+            model.PhoneNumber = user.PhoneNumber;
+            model.ProfileLink = user.ProfileLink;
+            model.ImagePath = user.ImagePath;
+            model.Status = user.Status;
+
+            model.AdmissionSession = student.AdmissionSession;
+            model.BatchNoCurrent = batchCurrent.BatchNo;
+            model.BatchNoOriginal = batchOriginal.BatchNo;
+            model.CurrentAddress = student.CurrentAddress;
+            model.CurrentRoll = student.CurrentRoll;
+            model.CurrentSession = student.CurrentSession;
+            model.GuardianPhone = student.GuardianPhone;
+            model.OriginalRoll = student.OriginalRoll;
+            model.PermanentAddress = student.PermanentAddress;
+            model.ProgramName = program.ProgramName;
+            model.RegistrationNo = student.RegistrationNo;
+            model.SemesterNo = semester.SemesterNo;
+
+            return View(model);
+        }
+
+        // POST: 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> StudentEdit(UserProfileEditViewModel model, HttpPostedFileBase file)
+        {
+            string fileName = model.ImagePath;
+
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.ContentType.Contains("image"))
+                {
+                    fileName = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png";
+                    file.SaveAs(HttpContext.Server.MapPath("~/Areas/One/Content/UserImage/")
+                        + fileName);
+                }
+                else
+                    ModelState.AddModelError("ImagePath", "Unsupported image format");
+            }
+
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = UserManager.FindById(model.Id);
+
+                user.FullName = model.FullName;
+                user.PhoneNumber = model.PhoneNumber;
+                user.ImagePath = fileName;
+                user.Status = model.Status;
+
+                Student student = studentService.GetStudentByUserId(model.Id);
+                student.OriginalRoll = model.OriginalRoll;
+                student.CurrentRoll = model.CurrentRoll;
+                student.RegistrationNo = model.RegistrationNo;
+                student.AdmissionSession = model.AdmissionSession;
+                student.CurrentSession = model.CurrentSession;
+                student.GuardianPhone = model.GuardianPhone;
+                student.CurrentAddress = model.CurrentAddress;
+                student.PermanentAddress = model.PermanentAddress;
+
+                if (!studentService.EditStudent(student))
+                {
+                    ModelState.AddModelError("", "Unable to save student, please try again.");
+                    return View(model);
+                }
+
+                IdentityResult result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return View("StudentEditConfirmed", model);
+                }
+                AddErrors(result);
+            }
+
+            return View(model);
         }
 
         public ActionResult UserProfile(string id)
@@ -953,6 +1053,42 @@ namespace IITAcademicAutomationSystem.Controllers
             return View("TeacherSetRoleConfirmed", model);
         }
 
+        // Teacher courses
+        public ActionResult TeacherCourses()
+        {
+            string teacherId = User.Identity.GetUserId();
+            var courseSemesters = courseService.GetCourseSemestersOfTeacher(teacherId);
+            Course course;
+            Semester semester;
+            Batch batch;
+            Program program;
+
+            List<TeacherCourseViewModel> model = new List<TeacherCourseViewModel>();
+            TeacherCourseViewModel tc = new TeacherCourseViewModel();
+            foreach (var item in courseSemesters)
+            {
+                course = courseService.ViewCourse(item.CourseId);
+                semester = semesterService.ViewSemester(item.SemesterId);
+                batch = batchService.ViewBatch(item.BatchId);
+                program = programService.ViewProgram(batch.ProgramId);
+
+                tc.TeacherId = teacherId;
+                tc.CourseId = item.CourseId;
+                tc.SemesterId = item.SemesterId;
+                tc.BatchId = item.BatchId;
+                tc.CourseCode = course.CourseCode;
+                tc.CourseTitle = course.CourseTitle;
+                tc.SemesterNo = semester.SemesterNo;
+                tc.BatchNo = batch.BatchNo;
+                tc.ProgramName = program.ProgramName;
+
+                model.Add(tc);
+                tc = new TeacherCourseViewModel();
+            }
+
+            return View(model);
+        }
+
         // User Index
         public ActionResult OtherIndex()
         {
@@ -1286,6 +1422,67 @@ namespace IITAcademicAutomationSystem.Controllers
                 }
                 AddErrors(result);
             }
+            return View(model);
+        }
+
+        // Reset Email Student
+        public ActionResult ResetEmailStudent(int programId, int batchId, string id)
+        {
+            Program program = programService.ViewProgram(programId);
+            Batch batch = batchService.ViewBatch(batchId);
+
+            ResetEmailViewModel model = new ResetEmailViewModel();
+            model.Id = id;
+
+            model.ProgramId = programId;
+            model.ProgramName = program.ProgramName;
+            model.BatchId = batchId;
+            model.BatchNo = batch.BatchNo;
+
+            return View(model);
+        }
+
+        // POST: Reset Email Student
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetEmailStudent(ResetEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByIdAsync(model.Id);
+                user.UserName = model.Email;
+                user.Email = model.Email;
+                user.EmailConfirmed = false;
+
+                var result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    // Send an email with this link
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail", "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: Request.Url.Scheme);
+
+                    await UserManager.SendEmailAsync(user.Id,
+                        "Confirm your email",
+                        "<h1>IIT Academic Automation System</h1><hr>" +
+                        "<h3>Hello Mr. " + user.FullName + "</h3>" +
+                        "<p>The email address for your account in the IIT Academic Automation System has been changed to \"" + user.Email +
+                        "\".<p>" +
+                        "Please <a href=\"" + callbackUrl + "\">confirm your email.</a>");
+
+                    ViewBag.UserId = user.Id;
+                    ViewBag.ProgramId = model.ProgramId;
+                    ViewBag.ProgramName = model.ProgramName;
+                    ViewBag.BatchId = model.BatchId;
+                    ViewBag.BatchNo = model.BatchNo;
+
+                    return View("ResetEmailConfirmedForStudent");
+                }
+                AddErrors(result);
+            }
+            
             return View(model);
         }
 

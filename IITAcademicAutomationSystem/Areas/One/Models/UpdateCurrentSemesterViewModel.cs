@@ -27,10 +27,17 @@ namespace IITAcademicAutomationSystem.Areas.One.Models
                 var allSemesters = Semesters.Select(f => new SelectListItem
                 {
                     Value = f.Id.ToString(),
-                    Text = "Semester " + f.SemesterNo,
+                    Text = (f.SemesterNo == 100) ? "Passed" : "Semester " + f.SemesterNo,
                     //Selected = (SemesterIdCurrent == f.Id ) ? true : false
                     Selected = false
                 });
+
+                //allSemesters.Concat(new SelectListItem
+                //{
+                //    Value = "0",
+                //    Text = "Passed",
+                //    Selected = false
+                //});
                 return DefaultItem.Concat(allSemesters);
             }
         }
