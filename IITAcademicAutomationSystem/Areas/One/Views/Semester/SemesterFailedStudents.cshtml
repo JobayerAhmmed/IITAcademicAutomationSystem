@@ -1,0 +1,93 @@
+﻿@model IITAcademicAutomationSystem.Areas.One.Models.SemesterPassedStudentIndexViewModel
+
+@{
+    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo + " - Semester " + Model.SemesterNo;
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title <small>Failed Students</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch",
+                new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName + " " + Model.BatchNo + " - Semester " + Model.SemesterNo,
+                "Index", "Semester",
+                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Enrolled Students", "SemesterStudents", "Semester",
+                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
+        </li>
+        <li class="active">Failed Students</li>
+    </ol>
+
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-body">
+                    <table id="semesterFailedStudents" class="table table-responsive table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Roll</th>
+                                <th>Name</th>
+                                <th>GPA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Students)
+                            {
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <img src="@Url.Content("~/Areas/One/Content/UserImage/" + @item.ImagePath)"
+                                                 class="img-responsive img-rounded img-sm"
+                                                 alt="" />
+                                            &nbsp;&nbsp;
+                                            @item.Roll
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @item.FullName
+                                    </td>
+                                    <td>
+                                        @item.GPA
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    @Html.ActionLink("Back to Enrolled Students", "SemesterStudents", "Semester",
+                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                        new { @class = "btn btn-primary btn-flat btn-lg" })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/datatable")
+    <script>
+        $(function () {
+            $("#semesterFailedStudents").DataTable({
+                "paging": false,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true
+            });
+        });
+    </script>
+}

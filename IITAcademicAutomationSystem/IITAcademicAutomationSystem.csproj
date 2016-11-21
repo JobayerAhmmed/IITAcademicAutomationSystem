@@ -217,16 +217,22 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\One\AutoMapperConfig.cs" />
     <Compile Include="Areas\One\Controllers\BatchController.cs" />
+    <Compile Include="Areas\One\Controllers\CourseContentController.cs" />
     <Compile Include="Areas\One\Controllers\SemesterController.cs" />
     <Compile Include="Areas\One\Controllers\UserController.cs" />
     <Compile Include="Areas\One\CustomFilters.cs" />
     <Compile Include="Areas\One\FoolproofCustomValidations.cs" />
     <Compile Include="Areas\One\Models\AddCourseTeacherViewModel.cs" />
+    <Compile Include="Areas\One\Models\AddFailedStudentsNewBatchViewModel.cs" />
+    <Compile Include="Areas\One\Models\AssignCoordinatorViewModel.cs" />
+    <Compile Include="Areas\One\Models\BatchCoordinatorIndexViewModel.cs" />
+    <Compile Include="Areas\One\Models\BatchCoordinatorViewModel.cs" />
     <Compile Include="Areas\One\Models\BatchCreateViewModel.cs" />
     <Compile Include="Areas\One\Models\BatchStudentsViewModel.cs" />
     <Compile Include="Areas\One\Models\BatchDetailsViewModel.cs" />
     <Compile Include="Areas\One\Models\BatchIndexViewModel.cs" />
     <Compile Include="Areas\One\Models\CheckBoxListItem.cs" />
+    <Compile Include="Areas\One\Models\CourseContentViewModel.cs" />
     <Compile Include="Areas\One\Models\CourseDetailsViewModel.cs" />
     <Compile Include="Areas\One\Models\CourseEditViewModel.cs" />
     <Compile Include="Areas\One\Models\CourseIndexViewModel.cs" />
@@ -238,8 +244,14 @@
     <Compile Include="Areas\One\Models\SemesterAddStudentViewModel.cs" />
     <Compile Include="Areas\One\Models\SemesterCourseAllocationViewModel.cs" />
     <Compile Include="Areas\One\Models\SemesterIndexViewModel.cs" />
-    <Compile Include="Areas\One\Models\StudentSemesterRepository.cs" />
+    <Compile Include="Areas\One\Models\SemesterPassedStudentIndexViewModel.cs" />
+    <Compile Include="Areas\One\Models\SemesterStudentDetailsViewModel.cs" />
+    <Compile Include="Areas\One\Models\TeacherCourseViewModel.cs" />
+    <Compile Include="Areas\One\Repositories\CourseContentRepository.cs" />
+    <Compile Include="Areas\One\Repositories\StudentSemesterRepository.cs" />
+    <Compile Include="Areas\One\Models\UpdateBatchStatusViewModel.cs" />
     <Compile Include="Areas\One\Models\UpdateCurrentSemesterViewModel.cs" />
+    <Compile Include="Areas\One\Repositories\BatchCoordinatorRepository.cs" />
     <Compile Include="Areas\One\Repositories\BatchRepository.cs" />
     <Compile Include="Areas\One\Repositories\CourseSemesterRepository.cs" />
     <Compile Include="Areas\One\Repositories\RoleRepository.cs" />
@@ -248,6 +260,7 @@
     <Compile Include="Areas\One\Repositories\StudentRepository.cs" />
     <Compile Include="Areas\One\Repositories\UserRepository.cs" />
     <Compile Include="Areas\One\Services\BatchService.cs" />
+    <Compile Include="Areas\One\Services\CourseContentService.cs" />
     <Compile Include="Areas\One\Services\ProgramService.cs" />
     <Compile Include="Areas\One\Services\RoleService.cs" />
     <Compile Include="Areas\One\Services\SemesterService.cs" />
@@ -318,9 +331,14 @@
     <Compile Include="Migrations\201611130606201_Initial.Designer.cs">
       <DependentUpon>201611130606201_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611200527527_BatchCoordinator.cs" />
+    <Compile Include="Migrations\201611200527527_BatchCoordinator.Designer.cs">
+      <DependentUpon>201611200527527_BatchCoordinator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicFile.cs" />
     <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\BatchCoordinator.cs" />
     <Compile Include="Models\Marks.cs" />
     <Compile Include="Models\MarksDistribution.cs" />
     <Compile Include="Models\MarksHead.cs" />
@@ -523,6 +541,15 @@
     <Content Include="Areas\One\Views\Semester\RemoveTeacherFromCourse.cshtml" />
     <Content Include="Areas\One\Views\Batch\AdmittedStudentDetails.cshtml" />
     <Content Include="Areas\One\Views\Batch\UpdateCurrentSemester.cshtml" />
+    <Content Include="Areas\One\Views\Semester\SemesterPassedStudents.cshtml" />
+    <Content Include="Areas\One\Views\Semester\SemesterFailedStudents.cshtml" />
+    <Content Include="Areas\One\Views\Semester\AssignNewBatch.cshtml" />
+    <Content Include="Areas\One\Views\Batch\UpdateBatchStatus.cshtml" />
+    <Content Include="Areas\One\Views\Batch\BatchCoordinators.cshtml" />
+    <Content Include="Areas\One\Views\Batch\AssignCoordinator.cshtml" />
+    <Content Include="Areas\One\Views\Semester\SemesterStudentDetails.cshtml" />
+    <Content Include="Areas\One\Views\CourseContent\IndexTeacher.cshtml" />
+    <Content Include="Areas\One\Views\CourseContent\Upload.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -615,9 +642,15 @@
     <Content Include="Views\Account\UserEditConfirmed.cshtml" />
     <Content Include="Views\Account\UserDelete.cshtml" />
     <Content Include="Views\Account\UserDeleteConfirmed.cshtml" />
+    <Content Include="Views\Account\ResetEmailStudent.cshtml" />
+    <Content Include="Views\Account\ResetEmailConfirmedForStudent.cshtml" />
+    <Content Include="Views\Account\StudentEditConfirmed.cshtml" />
+    <Content Include="Views\Account\StudentEdit.cshtml" />
+    <Content Include="Views\Account\TeacherCourses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\One\Content\CourseContent\" />
     <Folder Include="Areas\One\Content\UserImage\" />
     <Folder Include="Areas\Two\Models\" />
     <Folder Include="Content\bootstrap\" />
@@ -633,6 +666,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611130606201_Initial.resx">
       <DependentUpon>201611130606201_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611200527527_BatchCoordinator.resx">
+      <DependentUpon>201611200527527_BatchCoordinator.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

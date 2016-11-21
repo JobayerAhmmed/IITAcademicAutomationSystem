@@ -21,6 +21,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         bool EditCourse(Course course);
         bool DeleteCourse(int id);
         Program GetProgramById(int programId);
+        IEnumerable<CourseSemester> GetCourseSemestersOfTeacher(string teacherId);
         void Dispose();
     }
     public class CourseService : ICourseService
@@ -163,6 +164,10 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         public Program GetProgramById(int programId)
         {
             return unitOfWork.ProgramRepository.GetProgramById(programId);
+        }
+        public IEnumerable<CourseSemester> GetCourseSemestersOfTeacher(string teacherId)
+        {
+            return unitOfWork.CourseSemesterRepository.GetCourseSemestersOfTeacher(teacherId);
         }
 
         public void Dispose()

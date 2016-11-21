@@ -232,6 +232,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
                 return Json(true, JsonRequestBehavior.AllowGet);
             return Json(false, JsonRequestBehavior.AllowGet);
         }
+
         protected override void Dispose(bool disposing)
         {
             courseService.Dispose();

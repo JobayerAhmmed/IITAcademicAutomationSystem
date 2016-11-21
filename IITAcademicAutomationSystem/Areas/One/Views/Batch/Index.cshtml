@@ -23,42 +23,41 @@
                     <h3 class="box-title pull-right">
                         @Html.ActionLink("Create Batch", "Create", "Batch",
                             new { area = "One", programId = ViewBag.ProgramId },
-                            new { @class = "btn btn-default btn-flat" })
-                        @Html.ActionLink("Previous Batches", "IndexPassed", "Batch",
+                            new { @class = "btn btn-success btn-lg btn-flat" })
+                        @*@Html.ActionLink("Previous Batches", "IndexPassed", "Batch",
                             new { area = "One", programId = ViewBag.ProgramId },
-                            new { @class = "btn btn-default btn-flat" })
+                            new { @class = "btn btn-default btn-flat" })*@
                         @Html.ActionLink("Courses", "Index", "Course",
                             new { area = "One", programId = ViewBag.ProgramId },
-                            new { @class = "btn btn-default btn-flat" })
+                            new { @class = "btn btn-success btn-lg btn-flat" })
                     </h3>
                 </div>
                 <div class="box-body">
                     <table id="batchIndex" class="table table-responsive table-bordered table-hover">
                         <thead>
-                            <tr>
-                                <th class="text-center">Batch</th>
-                                <th class="text-center">Semester</th>
+                            <tr class="row">
+                                <th class="col-md-3 text-center">Batch</th>
+                                <th class="col-md-9 text-center">Semester</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td class="text-center">
+                                <tr class="row">
+                                    <td class="col-md-3 text-center">
                                         @Html.ActionLink((string)ViewBag.ProgramName + " " + item.BatchNo, "Details", "Batch",
                                             new { area = "One", id = item.Id },
-                                            new { @class="btn btn-default btn-flat btn-lg" })
+                                            new { @class="btn btn-one btn-flat btn-block" })
                                     </td>
 
-                                    <td>
-                                        <div class="btn-group btn-group-justified">
+                                    <td class="col-md-9 text-center">
                                             @foreach (var semester in item.Semesters)
                                             {
-                                                if (semester.SemesterNo == item.SemesterNoCurrent)
+                                                if (item.Status == "Active" && semester.SemesterNo == item.SemesterNoCurrent)
                                                 {
                                                     @Html.ActionLink("Semester " + semester.SemesterNo, "Index", "Semester",
                                                 new { area = "One", batchId = item.Id, semesterId = semester.Id },
-                                                new { @class = "btn btn-primary btn-flat" })
+                                                new { @class = "btn btn-linkedin btn-flat" })
                                                 }
                                                 else
                                                 {
@@ -67,7 +66,6 @@
                                                 new { @class = "btn btn-default btn-flat" })
                                                 }
                                             }
-                                        </div>
                                     </td>
                                 </tr>
                             }

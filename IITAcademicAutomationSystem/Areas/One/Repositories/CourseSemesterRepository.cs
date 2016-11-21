@@ -15,6 +15,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         CourseSemester GetCourseSemester(int batchId, int semesterId, int courseId);
         CourseSemester GetCourseSemester(int batchId, int semesterId, int courseId, string teacherId);
         IEnumerable<CourseSemester> GetCourseSemestersOfCourse(int batchId, int semesterId, int courseId);
+        IEnumerable<CourseSemester> GetCourseSemestersOfTeacher(string teacherId);
         IEnumerable<CourseSemester> GetSemesterCourses(int batchId, int semesterId);
         IEnumerable<CourseSemester> GetSemesterTeachers(int batchId, int semesterId);
         IEnumerable<CourseSemester> GetCourseTeachers(int batchId, int semesterId, int courseId);
@@ -51,6 +52,15 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
                 c.BatchId == batchId &&
                 c.SemesterId == semesterId &&
                 c.CourseId == courseId).ToList();
+        }
+        public IEnumerable<CourseSemester> GetCourseSemestersOfTeacher(string teacherId)
+        {
+            var result = (from batch in context.Batches
+                          join cs in context.CourseSemesters
+                          on batch.Id equals cs.BatchId
+                          where batch.BatchStatus == "Active" && cs.TeacherId == teacherId
+                          select cs).ToList();
+            return result;
         }
         public IEnumerable<CourseSemester> GetSemesterCourses(int batchId, int semesterId)
         {

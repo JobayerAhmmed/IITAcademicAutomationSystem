@@ -50,6 +50,11 @@ namespace IITAcademicAutomationSystem.Models
 
     }
 
+    public class StudentResultViewModel : StudentIndexViewModel
+    {
+        public double GPA { get; set; }
+    }
+
     public class StudentDetailsViewModel
     {
         public string FullName { get; set; }
@@ -267,6 +272,7 @@ namespace IITAcademicAutomationSystem.Models
     public class UserProfileEditViewModel
     {
         public string Id { get; set; }
+        public int StudentId { get; set; }
 
         [Required(ErrorMessage = "Please enter name.")]
         [StringLength(100, ErrorMessage = "Name must be at least 5 characters long.", MinimumLength = 5)]
@@ -310,6 +316,10 @@ namespace IITAcademicAutomationSystem.Models
 
         [StringLength(300, ErrorMessage = "Address should not exceed 300 characters.")]
         public string PermanentAddress { get; set; }
+
+        public int ProgramId { get; set; }
+        public int BatchId { get; set; }
+        public int BatchNo { get; set; }
     }
 
     public class ForgotPasswordViewModel
@@ -333,6 +343,10 @@ namespace IITAcademicAutomationSystem.Models
         [Display(Name = "Confirm Email")]
         [System.ComponentModel.DataAnnotations.Compare("Email", ErrorMessage = "The email and confirm email do not match.")]
         public string ConfirmEmail { get; set; }
+        public int ProgramId { get; set; }
+        public string ProgramName { get; set; }
+        public int BatchId { get; set; }
+        public int BatchNo { get; set; }
     }
 
     public class ResetPasswordViewModel

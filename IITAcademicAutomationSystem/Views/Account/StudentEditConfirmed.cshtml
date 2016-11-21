@@ -1,0 +1,120 @@
+﻿@model IITAcademicAutomationSystem.Models.UserProfileEditViewModel
+
+@{
+    ViewBag.Title = "Student Edit Confirmed";
+}
+
+<section class="content-header">
+    <h1>
+        The account has been successfully updated.
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch",
+                new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName + " " + Model.BatchNo, "Details", "Batch",
+                new { area = "One", id = Model.BatchId }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Current Students", "IndexCurrentStudents", "Batch",
+                new { area = "One", id = Model.BatchId }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Edit", "StudentEdit", "Account",
+                new { area = "", studentId = Model.StudentId }, null)
+        </li>
+        <li class="active">
+            Confirmed
+        </li>
+</ol>
+
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-6">
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img src="@Url.Content("~/Areas/One/Content/UserImage/" + @Model.ImagePath)"
+                         class="profile-user-img img-responsive img-circle"
+                         alt="User Image" />
+                    <h3 class="profile-username text-center">@Model.FullName</h3>
+                    <p class="text-muted text-center">@Model.Designation</p>
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            Status
+                            <b class="pull-right">@Model.Status</b>
+                        </li>
+                        <li class="list-group-item">
+                            Email
+                            <b class="pull-right">@Model.Email</b>
+                        </li>
+                        <li class="list-group-item">
+                            Contact No.
+                            <b class="pull-right">@Model.PhoneNumber</b>
+                        </li>
+
+                        <li class="list-group-item">
+                            Program
+                            <b class="pull-right">@Model.ProgramName</b>
+                        </li>
+                        <li class="list-group-item">
+                            Admission Batch No.
+                            <b class="pull-right">@Model.ProgramName @Model.BatchNoOriginal</b>
+                        </li>
+                        <li class="list-group-item">
+                            Current Batch No.
+                            <b class="pull-right">@Model.ProgramName @Model.BatchNoCurrent</b>
+                        </li>
+                        <li class="list-group-item">
+                            Current Semester No.
+                            <b class="pull-right">Semester @Model.SemesterNo</b>
+                        </li>
+                        <li class="list-group-item">
+                            Admission Roll
+                            <b class="pull-right">@Model.OriginalRoll</b>
+                        </li>
+                        <li class="list-group-item">
+                            Current Roll
+                            <b class="pull-right">@Model.CurrentRoll</b>
+                        </li>
+                        <li class="list-group-item">
+                            Registration No.
+                            <b class="pull-right">@Model.RegistrationNo</b>
+                        </li>
+                        <li class="list-group-item">
+                            Admission Session
+                            <b class="pull-right">@Model.AdmissionSession</b>
+                        </li>
+                        <li class="list-group-item">
+                            Current Session
+                            <b class="pull-right">@Model.CurrentSession</b>
+                        </li>
+                        <li class="list-group-item">
+                            Guardian Phone
+                            <b class="pull-right">@Model.GuardianPhone</b>
+                        </li>
+                        <li class="list-group-item">
+                            Current Address
+                            <b class="pull-right">@Model.CurrentAddress</b>
+                        </li>
+                        <li class="list-group-item">
+                            Permanent Address
+                            <b class="pull-right">@Model.PermanentAddress</b>
+                        </li>
+                    </ul>
+                </div>
+                <div class="box-footer text-center">
+                    @Html.ActionLink("Back to Edit", "StudentEdit", "Account",
+                        new { area = "", studentId = Model.StudentId }, new { @class = "btn btn-primary btn-flat" })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

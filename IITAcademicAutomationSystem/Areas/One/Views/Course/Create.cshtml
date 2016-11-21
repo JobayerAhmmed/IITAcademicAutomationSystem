@@ -64,7 +64,7 @@
                                     @Html.LabelFor(model => model.CourseCredit, "Course credit", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.TextBoxFor(model => model.CourseCredit, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.CourseCredit, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.CourseCredit, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                     @Html.LabelFor(model => model.CreditTheory, "Credit theory", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.TextBoxFor(model => model.CreditTheory, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.CreditTheory, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.CreditTheory, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -88,13 +88,13 @@
                                     @Html.LabelFor(model => model.CreditLab, "Credit lab", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.TextBoxFor(model => model.CreditLab, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.CreditLab, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.CreditLab, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
                         <!--Only for PGDIT-->
-                        @if (ViewBag.ProgramName == "PGDIT") 
+                        @if (ViewBag.ProgramName == "PGDIT")
                         {
                             <div class="form-group">
                                 <div class="row edit">
@@ -120,14 +120,15 @@
                                 </div>
                             </div>
                         }
-                        
+
                     </div>
                     <div class="box-footer">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-xs-12 text-center">
-                                    <input type="submit" value="Create" class="btn btn-primary" />
-                                    @Html.ActionLink("Cancel", "Index", "Course", new { area = "One", programId = Model.ProgramId }, new { @class = "btn btn-primary" })
+                                    <input type="submit" value="Create Course" class="btn btn-primary btn-flat" />
+                                    @Html.ActionLink("Cancel", "Index", "Course", new { area = "One", programId = Model.ProgramId },
+                                        new { @class = "btn btn-danger btn-flat" })
                                 </div>
                             </div>
                         </div>
@@ -137,6 +138,7 @@
         </div>
     </div>
 </section>
+
 
 @section Scripts {
     @Scripts.Render("~/jqueryval")

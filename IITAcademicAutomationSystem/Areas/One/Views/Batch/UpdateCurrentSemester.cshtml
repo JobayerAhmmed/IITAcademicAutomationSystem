@@ -43,8 +43,8 @@
                                     @Html.LabelFor(model => model.SemesterIdCurrent, "Current Semester", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.EditorFor(model => model.SemesterIdCurrent,
-                                        new { htmlAttributes = new { @class = "form-control", disabled = "" } })
+                                    @Html.DisplayFor(model => model.SemesterIdCurrent,
+                                        new { htmlAttributes = new { @class = "form-control" } })
                                 </div>
                             </div>
                         </div>

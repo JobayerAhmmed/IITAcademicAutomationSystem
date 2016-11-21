@@ -35,7 +35,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Designation</th>
-                                <th class="text-center">Action</th>
+                                <th>Email</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,13 +54,8 @@
                                     <td>
                                         @item.Designation
                                     </td>
-                                    <td class="text-center">
-                                        <div class="btn-group">
-                                            @Html.ActionLink("Details", "", "",
-                                                    new { area = "One" },
-                                                    new { @class = "btn btn-primary btn-flat" })
-
-                                        </div>
+                                    <td>
+                                        @item.Email
                                     </td>
                                 </tr>
                             }

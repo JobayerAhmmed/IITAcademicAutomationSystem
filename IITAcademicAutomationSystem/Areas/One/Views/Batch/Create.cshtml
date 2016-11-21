@@ -52,7 +52,7 @@
                                     @Html.LabelFor(model => model.BatchNo, "Batch No.", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.TextBoxFor(model => model.BatchNo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.BatchNo, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.BatchNo, "", new { @class = "text-danger" })
                                 </div>
                             </div>

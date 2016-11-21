@@ -19,7 +19,13 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         IEnumerable<Student> ViewAdmittedStudentsOfBatch(int batchId);
         Batch ViewBatch(int id);
         Batch GetPreviousBatch(int programId);
+        IEnumerable<Batch> GetNextBatches(int batchId);
         bool BatchExist(int batchNo, int programId);
+        ApplicationUser GetBatchCoordinator(int batchId);
+        BatchCoordinator GetLastBatchCoordinator(int batchId);
+        IEnumerable<BatchCoordinator> GetBatchCoordinatorOfBatch(int batchId);
+        bool AssignCoordinator(BatchCoordinator coordinator);
+        bool EditBatchCoordinator(BatchCoordinator coordinator);
         void Dispose();
     }
     public class BatchService : IBatchService
@@ -103,6 +109,12 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             return unitOfWork.BatchRepository.GetPreviousBatch(programId);
         }
 
+        // Get next batches of a batch
+        public IEnumerable<Batch> GetNextBatches(int batchId)
+        {
+            return unitOfWork.BatchRepository.GetNextBatches(batchId);
+        }
+
         // Validate batch
         protected bool ValidateBatch(Batch batch)
         {
@@ -119,6 +131,53 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             return true;
         }
 
+        public ApplicationUser GetBatchCoordinator(int batchId)
+        {
+            BatchCoordinator coordinator = unitOfWork.BatchCoordinatorRepository.GetBatchCoordinator(batchId);
+            ApplicationUser user = null;
+            if (coordinator != null)
+            {
+                user = unitOfWork.UserRepository.GetUserById(coordinator.TeacherId);
+            }
+            return user;
+        }
+        public BatchCoordinator GetLastBatchCoordinator(int batchId)
+        {
+            return unitOfWork.BatchCoordinatorRepository.GetLastBatchCoordinator(batchId);
+        }
+
+        public IEnumerable<BatchCoordinator> GetBatchCoordinatorOfBatch(int batchId)
+        {
+            return unitOfWork.BatchCoordinatorRepository.GetBatchCoordinatorOfBatch(batchId);
+        }
+        public bool AssignCoordinator(BatchCoordinator coordinator)
+        {
+            try
+            {
+                unitOfWork.BatchCoordinatorRepository.Create(coordinator);
+                unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                modelState.AddModelError("", "Unable to save, try again.");
+                return false;
+            }
+        }
+        public bool EditBatchCoordinator(BatchCoordinator coordinator)
+        {
+            try
+            {
+                unitOfWork.BatchCoordinatorRepository.Edit(coordinator);
+                unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                modelState.AddModelError("", "Unable to save, try again.");
+                return false;
+            }
+        }
         public void Dispose()
         {
             unitOfWork.Dispose();

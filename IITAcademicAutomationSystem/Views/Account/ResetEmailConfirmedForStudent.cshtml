@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Change Email";
+}
+
+<section class="content-header">
+    <h1>
+        The email address has been successfully changed.
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink((string)ViewBag.ProgramName, "Index", "Batch",
+                new { area = "One", programId = ViewBag.ProgramId }, null)
+        </li>
+        <li>
+            @Html.ActionLink((string)ViewBag.ProgramName + " " + (int)ViewBag.BatchNo, "Details", "Batch",
+                new { area = "One", id = ViewBag.BatchId }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Current Students", "IndexCurrentStudents", "Batch",
+                new { area = "One", id = ViewBag.BatchId }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Change Email", "ResetEmailStudent", "Account",
+                new
+                {
+                    area = "",
+                    programId = ViewBag.ProgramId,
+                    batchId = ViewBag.BatchId,
+                    id = ViewBag.UserId
+                }, null)
+        </li>
+        <li class="active">
+            Confirmed
+        </li>
+    </ol>
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8">
+            <div class="box box-primary">
+                <div class="box-body with-border">
+                    A confirmation email has been sent.
+                </div>
+                <div class="box-footer text-center">
+                    @Html.ActionLink("Back to Current Students", "IndexCurrentStudents", "Batch",
+                        new { area = "One", id = ViewBag.BatchId }, new { @class = "btn btn-primary btn-flat" })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

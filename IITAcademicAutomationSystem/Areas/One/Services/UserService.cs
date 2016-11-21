@@ -12,7 +12,6 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
 {
     public interface IUserService
     {
-        IEnumerable<ApplicationUser> ViewActiveTeachers();
         ApplicationUser ViewUser(string userId);
         bool CreateUser(ApplicationUser user);
         bool UpdateUser(ApplicationUser user);
@@ -33,12 +32,6 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
             this.unitOfWork = unitOfWork;
         }
 
-        // View Active Teachers
-        public IEnumerable<ApplicationUser> ViewActiveTeachers()
-        {
-            return null;
-        }
-    
         // View User
         public ApplicationUser ViewUser(string userId)
         {

@@ -16,5 +16,6 @@ namespace IITAcademicAutomationSystem.Areas.One.Models
         public int SemesterIdCurrent { get; set; }
         public int CurrentSemesterNo { get; set; }
         public string Status { get; set; }
+        public string BatchCoordinator { get; set; }
     }
 }

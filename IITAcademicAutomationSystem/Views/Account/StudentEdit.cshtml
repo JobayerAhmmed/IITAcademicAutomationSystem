@@ -1,0 +1,279 @@
+﻿@model IITAcademicAutomationSystem.Models.UserProfileEditViewModel
+
+@{
+    ViewBag.Title = "Update Student Profile";
+}
+
+<section class="content-header">
+    <h1>
+        <small>Profile of</small> @Model.FullName
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch",
+                new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName + " " + Model.BatchNo, "Details", "Batch",
+                new { area = "One", id = Model.BatchId }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Current Students", "IndexCurrentStudents", "Batch",
+                new { area = "One", id = Model.BatchId }, null)
+        </li>
+        <li class="active">
+            Edit
+        </li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8">
+            <div class="box box-default">
+                @using (Html.BeginForm("StudentEdit", "Account", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                {
+                    <div class="box-body with-border">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.StudentId)
+                        @Html.HiddenFor(model => model.ProgramId)
+                        @Html.HiddenFor(model => model.ProgramName)
+                        @Html.HiddenFor(model => model.BatchId)
+                        @Html.HiddenFor(model => model.BatchNo)
+                        @Html.HiddenFor(model => model.Designation)
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.FullName, "Name", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.FullName)
+                                    @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.DropDownListFor(model => model.Status, new SelectList(
+                                        new List<Object>
+                                        {
+                                            new { value = "Active", text = "Active"},
+                                            new { value = "Alumni", text = "Alumni"},
+                                            new { value = "Dropped", text = "Dropped"}
+                                        }, "value", "text", Model.Status), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Status, "",
+                                        new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.Email)
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", disabled = "" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.PhoneNumber, "Contact No.", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.ProgramName, "Program", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.ProgramName)
+                                    @Html.EditorFor(model => model.ProgramName, new { htmlAttributes = new { @class = "form-control", disabled = "" } })
+                                    @Html.ValidationMessageFor(model => model.ProgramName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.BatchNoOriginal, "Admission Batch", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.BatchNoOriginal)
+                                    @Html.EditorFor(model => model.BatchNoOriginal, new { htmlAttributes = new { @class = "form-control", disabled = "" } })
+                                    @Html.ValidationMessageFor(model => model.BatchNoOriginal, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.BatchNoCurrent, "Current Batch", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.BatchNoCurrent)
+                                    @Html.EditorFor(model => model.BatchNoCurrent, new { htmlAttributes = new { @class = "form-control", disabled = "" } })
+                                    @Html.ValidationMessageFor(model => model.BatchNoCurrent, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.SemesterNo, "Semester", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.SemesterNo)
+                                    @Html.EditorFor(model => model.SemesterNo, new { htmlAttributes = new { @class = "form-control", disabled = "" } })
+                                    @Html.ValidationMessageFor(model => model.SemesterNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.OriginalRoll, "Admission Roll", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.OriginalRoll)
+                                    @Html.EditorFor(model => model.OriginalRoll, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.OriginalRoll, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.CurrentRoll, "Current Roll", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.CurrentRoll)
+                                    @Html.EditorFor(model => model.CurrentRoll, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CurrentRoll, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.RegistrationNo, "Registration No.", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.RegistrationNo)
+                                    @Html.EditorFor(model => model.RegistrationNo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.RegistrationNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.AdmissionSession, "Admission Session", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.AdmissionSession)
+                                    @Html.EditorFor(model => model.AdmissionSession, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.AdmissionSession, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.CurrentSession, "Current Session", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.CurrentSession)
+                                    @Html.EditorFor(model => model.CurrentSession, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CurrentSession, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.GuardianPhone, "Guardian Phone", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.GuardianPhone, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.GuardianPhone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.CurrentAddress, "Current Address", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.CurrentAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CurrentAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.PermanentAddress, "Permanent Address", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.PermanentAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PermanentAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.ImagePath, "Profile Picture", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.HiddenFor(model => model.ImagePath)
+                                    <input id="ImagePath" name="file" type="file" />
+                                    @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <input type="submit" value="Save" class="btn btn-primary btn-flat" />
+                                    @Html.ActionLink("Cancel", "IndexCurrentStudents", "Batch",
+                                        new { area = "One", id = Model.BatchId }, new { @class = "btn btn-danger btn-flat" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/jqueryval")
+}

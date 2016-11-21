@@ -11,6 +11,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Models
         public int Id { get; set; }
         public int BatchNo { get; set; }
         public int SemesterNoCurrent { get; set; }
+        public string Status { get; set; }
         public IEnumerable<Semester> Semesters { get; set; }
     }
 }

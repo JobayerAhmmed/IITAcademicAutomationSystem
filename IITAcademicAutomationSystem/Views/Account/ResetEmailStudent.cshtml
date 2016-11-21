@@ -1,0 +1,93 @@
+﻿@model IITAcademicAutomationSystem.Models.ResetEmailViewModel
+
+@{
+    ViewBag.Title = "Change Email";
+}
+
+<section class="content-header">
+    <h1>
+        Change Email
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch",
+                new { area = "One", programId = Model.ProgramId }, null)
+        </li>
+        <li>
+            @Html.ActionLink(Model.ProgramName + " " + Model.BatchNo, "Details", "Batch",
+                new { area = "One", id = Model.BatchId }, null)
+        </li>
+        <li>
+            @Html.ActionLink("Current Students", "IndexCurrentStudents", "Batch",
+                new { area = "One", id = Model.BatchId }, null)
+        </li>
+        <li class="active">
+            Change Email
+        </li>
+    </ol>
+
+</section>
+<hr />
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8">
+            <div class="box box-default">
+                @using (Html.BeginForm())
+                {
+                    <div class="box-body with-border">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.ProgramId)
+                        @Html.HiddenFor(model => model.ProgramName)
+                        @Html.HiddenFor(model => model.BatchId)
+                        @Html.HiddenFor(model => model.BatchNo)
+
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row edit">
+                                <div class="col-xs-12 col-sm-4">
+                                    @Html.LabelFor(model => model.ConfirmEmail, "Confirm Email", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    @Html.EditorFor(model => model.ConfirmEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.ConfirmEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <input type="submit" value="Submit" class="btn btn-primary btn-flat" />
+                                    @Html.ActionLink("Cancel", "IndexCurrentStudents", "Batch",
+                                            new { area = "One", id = Model.BatchId },
+                                            new { @class = "btn btn-danger btn-flat" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    @Scripts.Render("~/jqueryval")
+}

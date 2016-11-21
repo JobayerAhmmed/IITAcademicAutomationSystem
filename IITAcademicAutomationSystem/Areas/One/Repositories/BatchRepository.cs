@@ -17,6 +17,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         Batch GetBatchById(int batchId);
         Batch GetBatchByBatchNo(int programId, int batchNo);
         Batch GetPreviousBatch(int programId);
+        IEnumerable<Batch> GetNextBatches(int batchId);
         void CreateBatch(Batch batch);
         void EditBatch(Batch batch);
     }
@@ -29,7 +30,8 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         }
         public IEnumerable<Batch> GetActiveBatches(int programId)
         {
-            return context.Batches.Where(b => b.ProgramId == programId && b.BatchStatus == "Active").OrderBy(a => a.BatchNo).ToList();
+            return context.Batches.Where(b => b.ProgramId == programId).OrderByDescending(a => a.BatchNo).ToList();
+            //return context.Batches.Where(b => b.ProgramId == programId && b.BatchStatus == "Active").OrderBy(a => a.BatchNo).ToList();
         }
         public IEnumerable<Batch> GetPassedBatches(int programId)
         {
@@ -60,6 +62,13 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         public Batch GetPreviousBatch(int programId)
         {
             return context.Batches.Where(b => b.ProgramId == programId).OrderByDescending(a => a.BatchNo).FirstOrDefault();
+        }
+        public IEnumerable<Batch> GetNextBatches(int batchId)
+        {
+            Batch batch = context.Batches.Find(batchId);
+            return context.Batches.Where(b => 
+                b.ProgramId == batch.ProgramId &&
+                b.BatchNo > batch.BatchNo).ToList();
         }
         public void CreateBatch(Batch batch)
         {
