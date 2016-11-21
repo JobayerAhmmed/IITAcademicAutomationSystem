@@ -19,13 +19,19 @@
     </ol>
 </section>
 <section class="content">
-    <div class="row">
-        <div class="col-xs-12 text-right">
-            @Html.ActionLink("Admit Students", "StudentRegister", "Account",
+    @if (User.IsInRole("Admin") ||
+                                                        User.IsInRole("Program Officer Regular") ||
+                                                        User.IsInRole("Program Officer Evening"))
+    {
+        <div class="row">
+            <div class="col-xs-12 text-right">
+                @Html.ActionLink("Admit Students", "StudentRegister", "Account",
                 new { area = "", programId = Model.ProgramId, batchId = Model.Id },
                 new { @class = "btn btn-success btn-flat btn-lg" })
+            </div>
         </div>
-    </div>
+    }
+
     <hr />
     <div class="row">
         <div class="col-lg-3 col-xs-6">
@@ -61,12 +67,22 @@
                 <div class="icon">
                     <i class="ion ion-ios-gear-outline"></i>
                 </div>
-                <a href='@Url.Action("UpdateCurrentSemester", "Batch", new
+                @if (User.IsInRole("Admin") ||
+User.IsInRole("Program Officer Regular") ||
+User.IsInRole("Program Officer Evening"))
+                {
+                    <a href='@Url.Action("UpdateCurrentSemester", "Batch", new
                     {
                         area = "One",
                         batchId = Model.Id
                     })'
-                class="small-box-footer">Update <i class="fa fa-arrow-circle-right"></i></a>
+                       class="small-box-footer">Update<i class="fa fa-arrow-circle-right"></i></a>
+                }
+                else
+                {
+                    <a href="#" class="small-box-footer" style="cursor:default;">&nbsp;</a>
+                }
+
             </div>
         </div>
         <div class="col-lg-3 col-xs-6">
@@ -80,11 +96,21 @@
                     <div class="icon">
                         <i class="ion ion-checkmark"></i>
                     </div>
-                    <a href='@Url.Action("UpdateBatchStatus", "Batch", new
+                    @if (User.IsInRole("Admin") ||
+    User.IsInRole("Program Officer Regular") ||
+    User.IsInRole("Program Officer Evening"))
                     {
-                        area = "One",
-                        batchId = Model.Id
-                    })' class="small-box-footer">Update <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href='@Url.Action("UpdateBatchStatus", "Batch", new
+                        {
+                            area = "One",
+                            batchId = Model.Id
+                        })' class="small-box-footer">Update<i class="fa fa-arrow-circle-right"></i></a>
+                    }
+                    else
+                    {
+                        <a href="#" class="small-box-footer" style="cursor:default;">&nbsp;</a>
+                    }
+
                 </div>
             }
             else
@@ -97,11 +123,21 @@
                     <div class="icon">
                         <i class="ion ion-close"></i>
                     </div>
-                    <a href='@Url.Action("UpdateBatchStatus", "Batch", new
+
+                    @if (User.IsInRole("Admin") ||
+    User.IsInRole("Program Officer Regular") ||
+    User.IsInRole("Program Officer Evening"))
                     {
-                        area = "One",
-                        batchId = Model.Id
-                    })' class="small-box-footer">Update<i class="fa fa-arrow-circle-right"></i></a>
+                        <a href='@Url.Action("UpdateBatchStatus", "Batch", new
+                        {
+                            area = "One",
+                            batchId = Model.Id
+                        })' class="small-box-footer">Update<i class="fa fa-arrow-circle-right"></i></a>
+                    }
+                    else
+                    {
+                        <a href="#" class="small-box-footer" style="cursor:default;">&nbsp;</a>
+                    }
                 </div>
             }
         </div>

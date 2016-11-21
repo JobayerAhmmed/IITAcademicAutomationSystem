@@ -420,12 +420,12 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         {
             var batch = unitOfWork.BatchRepository.GetBatchById(batchId);
             var semester = unitOfWork.SemesterRepository.GetSemesterById(semesterId);
-            var batchCurrentSemester = unitOfWork.SemesterRepository.GetSemesterById(batch.SemesterIdCurrent);
+            //var batchCurrentSemester = unitOfWork.SemesterRepository.GetSemesterById(batch.SemesterIdCurrent);
 
             List<Student> students = new List<Student>();
             List<StudentSemester> studentSemesters = new List<StudentSemester>();
-            if (semester.SemesterNo < batchCurrentSemester.SemesterNo)
-            {
+            //if (semester.SemesterNo < batchCurrentSemester.SemesterNo)
+            //{
                 studentSemesters = 
                     unitOfWork.StudentSemesterRepository.GetSemesterFailedStudents(batchId, semesterId).ToList();
 
@@ -433,7 +433,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
                 {
                     students.Add(unitOfWork.StudentRepository.GetStudentById(item.StudentId));
                 }
-            }
+            //}
             
             return students;
         }

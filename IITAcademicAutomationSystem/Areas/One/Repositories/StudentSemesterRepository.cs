@@ -15,6 +15,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         IEnumerable<StudentSemester> GetSemesterFailedStudents(int batchId, int semesterId);
         void AddStudentSemester(StudentSemester studentSemester);
         void RemoveStudentSemester(StudentSemester studentSemester);
+        IEnumerable<StudentSemester> GetStudentBatches(int studentId);
     }
     public class StudentSemesterRepository : IStudentSemesterRepository
     {
@@ -55,6 +56,11 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         public void RemoveStudentSemester(StudentSemester studentSemester)
         {
             context.StudentSemesters.Remove(studentSemester);
+        }
+        public IEnumerable<StudentSemester> GetStudentBatches(int studentId)
+        {
+            return context.StudentSemesters.Where(s => s.StudentId == studentId).
+                GroupBy(s => s.BatchId).Select(s => s.FirstOrDefault()).ToList();
         }
     }
 }

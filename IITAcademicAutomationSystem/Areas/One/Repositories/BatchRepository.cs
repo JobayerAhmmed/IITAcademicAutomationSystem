@@ -78,6 +78,5 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         {
             context.Entry(batch).State = EntityState.Modified;
         }
-
     }
 }

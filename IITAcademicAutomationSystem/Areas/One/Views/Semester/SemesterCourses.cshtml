@@ -68,6 +68,15 @@
                                                         courseId = item.Id
                                                     },
                                                     new { @class = "btn btn-primary btn-flat" })
+                                            @Html.ActionLink("Contents", "IndexStudent", "CourseContent",
+                                                    new
+                                                    {
+                                                        area = "One",
+                                                        batchId = Model.BatchId,
+                                                        semesterId = Model.SemesterId,
+                                                        courseId = item.Id
+                                                    },
+                                                    new { @class = "btn btn-primary btn-flat" })
                                             @*@Html.ActionLink("Details", "", "",
                                                     new { area = "One" },
                                                     new { @class = "btn btn-primary btn-flat" })*@

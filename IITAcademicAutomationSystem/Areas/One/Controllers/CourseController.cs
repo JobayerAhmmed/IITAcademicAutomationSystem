@@ -24,6 +24,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         //GET: One/Course
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult Index(int programId)
         {
             IEnumerable<Course> courses = courseService.ViewCoursesOfProgram(programId);
@@ -42,6 +43,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // GET: One/Course/Create
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult Create(int programId)
         {
             Program program = courseService.GetProgramById(programId);
@@ -59,6 +61,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: One/Course/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult Create([Bind(Include = "ProgramId,CourseCode,CourseTitle,CourseCredit,CreditTheory,CreditLab,DependentCourseId1,DependentCourseId2")]
             CourseCreateViewModel courseCreateViewModel)
         {
@@ -90,6 +93,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // GET: One/Course/Edit/5
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult Edit(int id)
         {
             Course course = courseService.ViewCourse(id);
@@ -116,6 +120,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: One/Course/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult Edit([Bind(Include = "Id,ProgramId,CourseCode,CourseTitle,CourseCredit,CreditTheory,CreditLab,DependentCourseId1,DependentCourseId2,Courses")]
             CourseEditViewModel courseEditViewModel)
         {
@@ -153,6 +158,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         //GET: One/Course/Details/5
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult Details(int id)
         {
             Course course = courseService.ViewCourse(id);
@@ -178,6 +184,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
 
 
         // GET: One/Course/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             Course course = courseService.ViewCourse(id);
@@ -204,6 +211,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: One/Course/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(CourseDetailsViewModel course)
         {
             Program program = courseService.GetProgramById(course.ProgramId);

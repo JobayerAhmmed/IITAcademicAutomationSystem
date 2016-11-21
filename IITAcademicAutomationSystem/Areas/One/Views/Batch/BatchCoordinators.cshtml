@@ -27,15 +27,21 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
-                <div class="box-header text-right">
-                    @Html.ActionLink("Assign Coordinator", "AssignCoordinator", "Batch",
+@if (User.IsInRole("Admin") ||
+                        User.IsInRole("Program Officer Regular") ||
+                        User.IsInRole("Program Officer Evening"))
+{
+    <div class="box-header text-right">
+        @Html.ActionLink("Assign Coordinator", "AssignCoordinator", "Batch",
                         new
                         {
                             area = "One",
                             batchId = Model.BatchId
                         },
                         new { @class = "btn btn-success btn-flat btn-lg" })
-                </div>
+    </div>
+}
+                
                 <div class="box-body">
                     <table id="batchCoordinators" class="table table-responsive table-bordered table-hover">
                         <thead>

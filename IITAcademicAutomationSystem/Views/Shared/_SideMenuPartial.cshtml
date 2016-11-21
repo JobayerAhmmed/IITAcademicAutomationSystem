@@ -1,307 +1,270 @@
 ﻿@model IITAcademicAutomationSystem.Models.SideMenuViewModel
+@*
+    @if (User.IsInRole("Admin") ||
+        User.IsInRole("Program Officer Regular") ||
+        User.IsInRole("Program Officer Evening") ||
+        User.IsInRole("Batch Coordinator") ||
+        User.IsInRole("Teacher") ||
+        User.IsInRole("Student"))
+    {
 
+    }
+*@
 <aside class="main-sidebar">
     <section class="sidebar">
-        @*<div class="user-panel">
-            <div class="pull-left image">
-                <img src="~/Content/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-            </div>
-            <div class="pull-left info">
-                <p>Jobayer Ahmmed</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div>
-        </div>*@
-        <!-- search form (Optional) -->
-        @*<form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </span>
-            </div>
-        </form>*@
-
         <ul class="sidebar-menu">
-            <li class="header">PROGRAMS</li>
-            <li>
-                <a href="@Url.Action("Index","Batch", 
+            @if (User.IsInRole("Admin") ||
+                User.IsInRole("Program Officer Regular") ||
+                User.IsInRole("Program Officer Evening") ||
+                User.IsInRole("Batch Coordinator") ||
+                User.IsInRole("Teacher") ||
+                User.IsInRole("Student"))
+            {
+                <li class="header">PROGRAMS</li>
+                <li>
+                    <a href="@Url.Action("Index","Batch",
                         new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "BSSE").Id })">
-                    <i class="ion ion-social-buffer"></i>
-                    <span>BSSE</span>
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("Index", "Batch",
+                        <i class="ion ion-social-buffer"></i>
+                        <span>BSSE</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Batch",
                         new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "MSSE").Id })">
-                    <i class="ion ion-social-buffer"></i>
-                    <span>MSSE</span>
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("Index", "Batch",
+                        <i class="ion ion-social-buffer"></i>
+                        <span>MSSE</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Batch",
                         new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "PGDIT").Id })">
-                    <i class="ion ion-social-buffer"></i>
-                    <span>PGDIT</span>
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("Index", "Batch",
+                        <i class="ion ion-social-buffer"></i>
+                        <span>PGDIT</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Batch",
                         new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "MIT").Id })">
-                    <i class="ion ion-social-buffer"></i>
-                    <span>MIT</span>
-                </a>
-            </li>
-            @*<li class="treeview">
-                <a href="#">
-                    <i class="ion ion-social-buffer"></i> <span>BSSE</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li>
-                        @Html.ActionLink("Batches", "Index", "Batch", new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "BSSE").Id }, null)
-                    </li>
-                    <li>
-                        @Html.ActionLink("Courses", "Index", "Course", new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "BSSE").Id }, null)
-                    </li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="ion ion-social-buffer"></i> <span>MSSE</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li>
-                        @Html.ActionLink("Batches", "Index", "Batch", new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "MSSE").Id }, null)
-                    </li>
-                    <li>
-                        @Html.ActionLink("Courses", "Index", "Course", new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "MSSE").Id }, null)
-                    </li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="ion ion-social-buffer"></i> <span>PGDIT</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li>
-                        @Html.ActionLink("Batches", "Index", "Batch", new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "PGDIT").Id }, null)
-                    </li>
-                    <li>
-                        @Html.ActionLink("Courses", "Index", "Course", new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "PGDIT").Id }, null)
-                    </li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="ion ion-social-buffer"></i> <span>MIT</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li>
-                        @Html.ActionLink("Batches", "Index", "Batch", new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "MIT").Id }, null)
-                    </li>
-                    <li>
-                        @Html.ActionLink("Courses", "Index", "Course", new { area = "One", programId = Model.Programs.Single(p => p.ProgramName == "MIT").Id }, null)
-                    </li>
-                </ul>
-            </li>*@
+                        <i class="ion ion-social-buffer"></i>
+                        <span>MIT</span>
+                    </a>
+                </li>
+            }
+            
+            @if (User.IsInRole("Teacher"))
+            {
+                <li>
+                    <a href="@Url.Action("TeacherCourses", "Account",
+                                    new { area = ""})">
+                        <i class="ion ion-social-buffer"></i>
+                        <span>Teacher Courses</span>
+                    </a>
+                </li>
+            }
+
+            @*Exam*@
+            <li class="header"></li>
+            @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Batch Coordinator"))
+            {
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-folder"></i>
+                        <span>Exam</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                        {
+                            <li><a href="@Url.Action("CreateOrViewHead", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Create/View Head</a></li>
+                            <li class="active"><a href="@Url.Action("CreateOrViewSubHead", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Create/View Sub-head</a></li>
+                            <li><a href="@Url.Action("DistributeMarks", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Distribute Marks</a></li>
+                            <li class="active"><a href="@Url.Action("EditDistributedMarks", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Edit Distributed Marks</a></li>
+                            <li class="active"><a href="@Url.Action("ViewDistributedMarks_t", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Distributed Marks</a></li>
+                            <li class="active"><a href="@Url.Action("GiveMarks", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Give/Edit Marks</a></li>
+                            <li><a href="@Url.Action("ViewGivenMarks_t", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Marks</a></li>
+                            <li class="active"><a href="@Url.Action("FinalSubmission", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Final Submit</a></li>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Batch Coordinator"))
+                        {
+                            <li><a href="@Url.Action("ViewAllFinalSubmission", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Final Submission</a></li>
+                            <li class="active"><a href="@Url.Action("ViewResult", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> VIew Result</a></li>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Student"))
+                        {
+                            <li class="active"><a href="@Url.Action("ViewDistributedMarks_s", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Distributed Marks</a></li>
+                            <li><a href="@Url.Action("ViewGivenMarks_s", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Marks</a></li>
+
+                        }
+                    </ul>
+                </li>
+            }
+            @*Attendane*@
+            @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student"))
+            {
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-folder"></i>
+                        <span>Attendance</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                        {
+                            <li class="active"><a href="@Url.Action("GiveAttendance", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Give Attendance</a></li>
+                            <li class="active"><a href="@Url.Action("EditAttendance", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i>Edit Attendance</a></li>
+                            <li class="active"><a href="@Url.Action("ViewAttendanceCourseWise", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Attendance Report</a></li>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Student"))
+                        {
+                            <li class="active"><a href="@Url.Action("viewattendanceindividual", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Attendance Report</a></li>
+
+                        }
+                    </ul>
+                </li>
+            }
+            @*Notice*@
+            @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Batch Coordinator") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular"))
+            {
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-folder"></i>
+                        <span>Notice</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @if (User.IsInRole("Admin") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular"))
+                        {
+                            <li class="active"><a href="@Url.Action("UploadNotice", "NoticeManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Upload Notice</a></li>
+                            <li class="active"><a href="@Url.Action("EditOrDeleteNotice", "NoticeManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Edit/Delete Notice</a></li>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
+                        {
+                            <li class="active"><a href="@Url.Action("ViewNotice_tp", "NoticeManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Notice</a></li>
+
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Student"))
+                        {
+                            <li class="active"><a href="@Url.Action("ViewNotice_s", "NoticeManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Notice</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+
+            @*NAcademic Calendar*@
+            @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
+            {
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-folder"></i>
+                        <span>Academic Calendar</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @if (User.IsInRole("Admin") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular"))
+                        {
+                            <li class="active"><a href="@Url.Action("UploadacAdemicCalendar", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Upload Academic Calendar</a></li>
+                            <li class="active"><a href="@Url.Action("EditOrDeleteAcademicCalendar", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Delete Academic Calendar</a></li>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
+                        {
+                            <li class="active"><a href="@Url.Action("ViewAcademicCalendar_tp", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Academic Calendar</a></li>
+
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Student"))
+                        {
+                            <li class="active"><a href="@Url.Action("ViewAcademicCalendar_s", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Academic Calendar</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+
+            @*Routine*@
+            @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
+            {
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-folder"></i>
+                        <span>Routine</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @if (User.IsInRole("Admin") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular"))
+                        {
+                            <li class="active"><a href="@Url.Action("UploadRoutine", "RoutineManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Upload Routine</a></li>
+                            <li class="active"><a href="@Url.Action("EditOrDeleteRoutine", "RoutineManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Delete Routine</a></li>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
+                        {
+                            <li class="active"><a href="@Url.Action("ViewRoutine_tp", "RoutineManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Routine</a></li>
+
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("Student"))
+                        {
+                            <li class="active"><a href="@Url.Action("ViewRoutine_s", "RoutineManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Routine</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            
             <li class="header">USER</li>
-            <li>
-                <a href="@Url.Action("TeacherIndex", "Account", new { area = "" })">
-                    <i class="fa fa-user"></i>
-                    <span>Teachers</span>
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("StudentIndex", "Account", new { area = "" })">
-                    <i class="fa fa-user"></i>
-                    <span>Students</span>
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("OtherIndex", "Account", new { area = "" })">
-                    <i class="fa fa-user"></i>
-                    <span>Users</span>
-                </a>
-            </li>
+            @if (User.IsInRole("Admin") ||
+                User.IsInRole("Program Officer Regular") ||
+                User.IsInRole("Program Officer Evening") ||
+                User.IsInRole("Batch Coordinator") ||
+                User.IsInRole("Teacher") ||
+                User.IsInRole("Student"))
+            {
+                <li>
+                    <a href="@Url.Action("TeacherIndex", "Account", new { area = "" })">
+                        <i class="fa fa-user"></i>
+                        <span>Teachers</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("Admin") ||
+                User.IsInRole("Program Officer Regular") ||
+                User.IsInRole("Program Officer Evening") ||
+                User.IsInRole("Batch Coordinator") ||
+                User.IsInRole("Teacher"))
+            {
+                <li>
+                    <a href="@Url.Action("StudentIndex", "Account", new { area = "" })">
+                        <i class="fa fa-user"></i>
+                        <span>Students</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("Admin") ||
+                User.IsInRole("Program Officer Regular") ||
+                User.IsInRole("Program Officer Evening") ||
+                User.IsInRole("Batch Coordinator") ||
+                User.IsInRole("Teacher") ||
+                User.IsInRole("Student"))
+            {
+                <li>
+                    <a href="@Url.Action("OtherIndex", "Account", new { area = "" })">
+                        <i class="fa fa-user"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+            }
+
             @*<li>
-                <a href="@Url.Action("AllIndex", "Account", new { area = "" })">
-                    <i class="fa fa-user"></i>
-                    <span>All Users</span>
-                </a>
-            </li>*@
-            <li>
                 <a href="@Url.Action("Index", "Role", new { area = "" })">
                     <i class="fa fa-tasks"></i>
                     <span>Role</span>
                 </a>
-            </li>
-            
-
-        @*Exam*@
-        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Batch Coordinator"))
-        {
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-folder"></i>
-                    <span>Exam</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
-                    {
-                        <li><a href="@Url.Action("CreateOrViewHead", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Create/View Head</a></li>
-                        <li class="active"><a href="@Url.Action("CreateOrViewSubHead", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Create/View Sub-head</a></li>
-                        <li><a href="@Url.Action("DistributeMarks", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Distribute Marks</a></li>
-                        <li class="active"><a href="@Url.Action("EditDistributedMarks", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Edit Distributed Marks</a></li>
-                        <li class="active"><a href="@Url.Action("ViewDistributedMarks_t", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Distributed Marks</a></li>
-                        <li class="active"><a href="@Url.Action("GiveMarks", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Give/Edit Marks</a></li>
-                        <li><a href="@Url.Action("ViewGivenMarks_t", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Marks</a></li>
-                        <li class="active"><a href="@Url.Action("FinalSubmission", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Final Submit</a></li>
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Batch Coordinator"))
-                    {
-                        <li><a href="@Url.Action("ViewAllFinalSubmission", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Final Submission</a></li>
-                        <li class="active"><a href="@Url.Action("ViewResult", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> VIew Result</a></li>
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Student"))
-                    {
-                        <li class="active"><a href="@Url.Action("ViewDistributedMarks_s", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Distributed Marks</a></li>
-                        <li><a href="@Url.Action("ViewGivenMarks_s", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Marks</a></li>
-
-                    }
-                </ul>
-            </li>
-        }
-        @*Attendane*@
-        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student"))
-        {
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-folder"></i>
-                    <span>Attendance</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
-                    {
-                        <li class="active"><a href="@Url.Action("GiveAttendance", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Give Attendance</a></li>
-                        <li class="active"><a href="@Url.Action("EditAttendance", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i>Edit Attendance</a></li>
-                        <li class="active"><a href="@Url.Action("ViewAttendanceCourseWise", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Attendance Report</a></li>
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Student"))
-                    {
-                        <li class="active"><a href="@Url.Action("viewattendanceindividual", "AttendanceManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Attendance Report</a></li>
-
-                    }
-                </ul>
-            </li>
-        }
-        @*Notice*@
-        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Batch Coordinator") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular"))
-        {
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-folder"></i>
-                    <span>Notice</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @if (User.IsInRole("Admin") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular"))
-                    {
-                        <li class="active"><a href="@Url.Action("UploadNotice", "NoticeManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Upload Notice</a></li>
-                        <li class="active"><a href="@Url.Action("EditOrDeleteNotice", "NoticeManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Edit/Delete Notice</a></li>
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
-                    {
-                        <li class="active"><a href="@Url.Action("ViewNotice_tp", "NoticeManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Notice</a></li>
-
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Student"))
-                    {
-                        <li class="active"><a href="@Url.Action("ViewNotice_s", "NoticeManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Notice</a></li>
-                    }
-                </ul>
-            </li>
-        }
-
-        @*NAcademic Calendar*@
-        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
-        {
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-folder"></i>
-                    <span>Academic Calendar</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @if (User.IsInRole("Admin") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular"))
-                    {
-                        <li class="active"><a href="@Url.Action("UploadacAdemicCalendar", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Upload Academic Calendar</a></li>
-                        <li class="active"><a href="@Url.Action("EditOrDeleteAcademicCalendar", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Delete Academic Calendar</a></li>
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
-                    {
-                        <li class="active"><a href="@Url.Action("ViewAcademicCalendar_tp", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Academic Calendar</a></li>
-
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Student"))
-                    {
-                        <li class="active"><a href="@Url.Action("ViewAcademicCalendar_s", "AcademicCalendarManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Academic Calendar</a></li>
-                    }
-                </ul>
-            </li>
-        }
-
-        @*Routine*@
-        @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
-        {
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-folder"></i>
-                    <span>Routine</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @if (User.IsInRole("Admin") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular"))
-                    {
-                        <li class="active"><a href="@Url.Action("UploadRoutine", "RoutineManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  Upload Routine</a></li>
-                        <li class="active"><a href="@Url.Action("EditOrDeleteRoutine", "RoutineManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Delete Routine</a></li>
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Program Officer Evening") || User.IsInRole("Program Officer Regular") || User.IsInRole("Batch Coordinator"))
-                    {
-                        <li class="active"><a href="@Url.Action("ViewRoutine_tp", "RoutineManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Routine</a></li>
-
-                    }
-                    @if (User.IsInRole("Admin") || User.IsInRole("Student"))
-                    {
-                        <li class="active"><a href="@Url.Action("ViewRoutine_s", "RoutineManagement", new { area = "two" })"><i class="fa fa-circle-o"></i>  View Routine</a></li>
-                    }
-                </ul>
-            </li>
-        }
+            </li>*@
         </ul>
     </section>
 </aside>

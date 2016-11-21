@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-8">
             <div class="box box-default">
-                @using (Html.BeginForm("StudentEdit", "Account", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("StudentEdit", "Account", FormMethod.Post, new { role = "form", area = "", enctype = "multipart/form-data" }))
                 {
                     <div class="box-body with-border">
                         @Html.AntiForgeryToken()
@@ -52,7 +52,6 @@
                                     @Html.LabelFor(model => model.FullName, "Name", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.HiddenFor(model => model.FullName)
                                     @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
                                 </div>
@@ -155,7 +154,6 @@
                                     @Html.LabelFor(model => model.OriginalRoll, "Admission Roll", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.HiddenFor(model => model.OriginalRoll)
                                     @Html.EditorFor(model => model.OriginalRoll, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.OriginalRoll, "", new { @class = "text-danger" })
                                 </div>
@@ -167,7 +165,6 @@
                                     @Html.LabelFor(model => model.CurrentRoll, "Current Roll", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.HiddenFor(model => model.CurrentRoll)
                                     @Html.EditorFor(model => model.CurrentRoll, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.CurrentRoll, "", new { @class = "text-danger" })
                                 </div>
@@ -179,7 +176,6 @@
                                     @Html.LabelFor(model => model.RegistrationNo, "Registration No.", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.HiddenFor(model => model.RegistrationNo)
                                     @Html.EditorFor(model => model.RegistrationNo, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.RegistrationNo, "", new { @class = "text-danger" })
                                 </div>
@@ -191,7 +187,6 @@
                                     @Html.LabelFor(model => model.AdmissionSession, "Admission Session", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.HiddenFor(model => model.AdmissionSession)
                                     @Html.EditorFor(model => model.AdmissionSession, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.AdmissionSession, "", new { @class = "text-danger" })
                                 </div>
@@ -203,7 +198,6 @@
                                     @Html.LabelFor(model => model.CurrentSession, "Current Session", htmlAttributes: new { @class = "" })
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
-                                    @Html.HiddenFor(model => model.CurrentSession)
                                     @Html.EditorFor(model => model.CurrentSession, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.CurrentSession, "", new { @class = "text-danger" })
                                 </div>

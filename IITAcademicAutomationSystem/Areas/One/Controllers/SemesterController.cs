@@ -59,6 +59,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Index
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult Index(int batchId, int semesterId)
         {
             var semester = semesterService.ViewSemester(semesterId);
@@ -83,6 +84,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Semester Students
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult SemesterStudents(int batchId, int semesterId)
         {
             var semester = semesterService.ViewSemester(semesterId);
@@ -123,6 +125,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Semester Studet Details
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult SemesterStudentDetails(int studentId, int batchId, int semesterId)
         {
             var student = studentService.ViewStudent(studentId);
@@ -165,6 +168,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Semester Passed Students
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult SemesterPassedStudents(int batchId, int semesterId)
         {
             var semester = semesterService.ViewSemester(semesterId);
@@ -209,6 +213,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Semester failed Students
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult SemesterFailedStudents(int batchId, int semesterId)
         {
             var semester = semesterService.ViewSemester(semesterId);
@@ -253,6 +258,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Assign failed students to new batch
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AssignNewBatch(int batchId, int semesterId)
         {
             var batch = batchService.ViewBatch(batchId);
@@ -295,6 +301,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: Assign failed students to new batch
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AssignNewBatch(AddFailedStudentsNewBatchViewModel model)
         {
             StudentSemester studentSemester;
@@ -337,6 +344,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Semester Courses
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult SemesterCourses(int batchId, int semesterId)
         {
             var semester = semesterService.ViewSemester(semesterId);
@@ -357,8 +365,9 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
 
             return View(model);
         }
-        
+
         // Semester Teachers
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult SemesterTeachers(int batchId, int semesterId)
         {
             var semester = semesterService.ViewSemester(semesterId);
@@ -398,6 +407,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Add student to Semester
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AddStudentToSemester(int batchId, int semesterId)
         {
             var batch = batchService.ViewBatch(batchId);
@@ -434,6 +444,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: Add student to Semester
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AddStudentToSemester(SemesterAddStudentViewModel model)
         {
             StudentSemester studentSemester;
@@ -473,6 +484,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Remove Student from semester
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult RemoveStudentFromSemester(int batchId, int semesterId)
         {
             var batch = batchService.ViewBatch(batchId);
@@ -509,6 +521,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: Remove student from Semester
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult RemoveStudentFromSemester(SemesterAddStudentViewModel model)
         {
             StudentSemester studentSemester;
@@ -537,6 +550,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Allocate Courses to Semester
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AllocateCoursesToSemester(int batchId, int semesterId)
         {
             var batch = batchService.ViewBatch(batchId);
@@ -570,6 +584,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: Allocate Courses to Semester
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AllocateCoursesToSemester(SemesterCourseAllocationViewModel model)
         {
             CourseSemester courseSemester;
@@ -598,6 +613,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Remove Course from Semester
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult RemoveCourseFromSemester(int batchId, int semesterId)
         {
             var batch = batchService.ViewBatch(batchId);
@@ -632,6 +648,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: Remove Course from Semester
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult RemoveCourseFromSemester(SemesterCourseAllocationViewModel model)
         {
             CourseSemester courseSemester;
@@ -660,6 +677,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Course Students
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult CourseStudents(int batchId, int semesterId, int courseId)
         {
             var semester = semesterService.ViewSemester(semesterId);
@@ -705,6 +723,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Add Student to Course
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AddStudentToCourse(int batchId, int semesterId, int courseId)
         {
             var batch = batchService.ViewBatch(batchId);
@@ -745,6 +764,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: Add student to course
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AddStudentToCourse(SemesterAddStudentViewModel model, int courseId)
         {
             StudentCourse studentCourse;
@@ -774,6 +794,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Course Teachers
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult CourseTeachers(int batchId, int semesterId, int courseId)
         {
             var batch = batchService.ViewBatch(batchId);
@@ -813,6 +834,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Add Teacher to Course
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AddTeacherToCourse(int batchId, int semesterId, int courseId)
         {
             var batch = batchService.ViewBatch(batchId);
@@ -864,6 +886,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: Add teacher to course
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AddTeacherToCourse(AddCourseTeacherViewModel model)
         {
             CourseSemester courseSemester;
@@ -893,6 +916,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Remove Teacher from Course
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult RemoveTeacherFromCourse(int batchId, int semesterId, int courseId)
         {
             var batch = batchService.ViewBatch(batchId);
@@ -930,6 +954,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: Remove Teacher from Course
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult RemoveTeacherFromCourse(AddCourseTeacherViewModel model)
         {
             CourseSemester courseSemester;
@@ -959,6 +984,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Remove Student from Course
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult RemoveStudentFromCourse(int batchId, int semesterId, int courseId)
         {
             var batch = batchService.ViewBatch(batchId);
@@ -999,6 +1025,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: Remove student from Course
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult RemoveStudentFromCourse(SemesterAddStudentViewModel model, int courseId)
         {
             StudentCourse studentCourse;

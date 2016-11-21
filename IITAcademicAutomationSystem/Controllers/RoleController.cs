@@ -28,6 +28,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Index
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult Index()
         {
             IEnumerable<IdentityRole> roles = roleService.ViewRoles();
@@ -41,6 +42,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Details
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult Details(string id)
         {
             IdentityRole role = roleService.GetRoleById(id);
@@ -55,6 +57,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -63,6 +66,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(RoleCreateViewModel roleViewModel)
         {
             IdentityRole roleToCreate = new IdentityRole
@@ -87,6 +91,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Edit
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             IdentityRole role = roleService.GetRoleById(id);
@@ -101,6 +106,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(RoleEditViewModel model)
         {
             IdentityRole role = new IdentityRole
@@ -123,6 +129,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // RoleExist
+        [Authorize(Roles = "Admin")]
         public JsonResult RoleExist(string Name)
         {
             if (!roleService.RoleExist(Name))
@@ -131,6 +138,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Role Exist except Current
+        [Authorize(Roles = "Admin")]
         public JsonResult RoleExistExcept(string Name, string Id)
         {
             if (!roleService.RoleExistExcept(Name, Id))

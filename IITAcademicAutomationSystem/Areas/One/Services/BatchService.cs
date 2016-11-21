@@ -26,6 +26,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
         IEnumerable<BatchCoordinator> GetBatchCoordinatorOfBatch(int batchId);
         bool AssignCoordinator(BatchCoordinator coordinator);
         bool EditBatchCoordinator(BatchCoordinator coordinator);
+        IEnumerable<Batch> GetStudentBatches(int studentId);
         void Dispose();
     }
     public class BatchService : IBatchService
@@ -177,6 +178,17 @@ namespace IITAcademicAutomationSystem.Areas.One.Services
                 modelState.AddModelError("", "Unable to save, try again.");
                 return false;
             }
+        }
+        public IEnumerable<Batch> GetStudentBatches(int studentId)
+        {
+            IEnumerable<StudentSemester> batches = unitOfWork.StudentSemesterRepository.GetStudentBatches(studentId);
+            List<Batch> studentBatches = new List<Batch>();
+            foreach (var item in batches)
+            {
+                studentBatches.Add(unitOfWork.BatchRepository.GetBatchById(item.BatchId));
+            }
+
+            return studentBatches;
         }
         public void Dispose()
         {

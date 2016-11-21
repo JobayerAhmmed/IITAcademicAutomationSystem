@@ -34,9 +34,14 @@
             @Html.ActionLink("Failed Students", "SemesterFailedStudents", "Semester",
                 new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
                 new { @class = "btn btn-success btn-flat" })
+@if (User.IsInRole("Admin") ||
+            User.IsInRole("Program Officer Regular") ||
+            User.IsInRole("Program Officer Evening"))
+{
             @Html.ActionLink("Assign Failed Students to New Batch", "AssignNewBatch", "Semester",
-                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
-                new { @class = "btn btn-success btn-flat" })
+             new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+             new { @class = "btn btn-success btn-flat" })
+}
         </div>
     </div>
     <br />

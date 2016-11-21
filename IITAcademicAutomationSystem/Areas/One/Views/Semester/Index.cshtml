@@ -20,22 +20,28 @@
     </ol>
 </section>
 <section class="content">
-    <div class="row">
-        <div class="col-xs-12 text-right">
-            @Html.ActionLink("Add Student", "AddStudentToSemester", "Semester",
+    @if (User.IsInRole("Admin") ||
+                                                            User.IsInRole("Program Officer Regular") ||
+                                                            User.IsInRole("Program Officer Evening"))
+    {
+        <div class="row">
+            <div class="col-xs-12 text-right">
+                @Html.ActionLink("Add Student", "AddStudentToSemester", "Semester",
                                 new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
                                 new { @class = "btn btn-success btn-flat btn-lg" })
-            @Html.ActionLink("Remove Student", "RemoveStudentFromSemester", "Semester",
+                @Html.ActionLink("Remove Student", "RemoveStudentFromSemester", "Semester",
                                 new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
                                 new { @class = "btn btn-success btn-flat btn-lg" })
-            @Html.ActionLink("Add Course", "AllocateCoursesToSemester", "Semester",
+                @Html.ActionLink("Add Course", "AllocateCoursesToSemester", "Semester",
                                 new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
                                 new { @class = "btn btn-success btn-flat btn-lg" })
-            @Html.ActionLink("Remove Course", "RemoveCourseFromSemester", "Semester",
+                @Html.ActionLink("Remove Course", "RemoveCourseFromSemester", "Semester",
                                 new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
                                 new { @class = "btn btn-success btn-flat btn-lg" })
+            </div>
         </div>
-    </div>
+    }
+    
     <hr />
     <div class="row">
         <div class="col-lg-3 col-xs-6">
@@ -47,7 +53,7 @@
                 <div class="icon">
                     <i class="ion ion-ios-people-outline"></i>
                 </div>
-                <a href='@Url.Action("SemesterStudents", "Semester", 
+                <a href='@Url.Action("SemesterStudents", "Semester",
                         new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId })' class="small-box-footer">
                     View
                     <i class="fa fa-arrow-circle-right"></i>
@@ -63,8 +69,8 @@
                 <div class="icon">
                     <i class="ion ion-ios-people-outline"></i>
                 </div>
-                <a href='@Url.Action("SemesterCourses", "Semester", 
-                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId })' class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+                <a href='@Url.Action("SemesterCourses", "Semester",
+                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId })' class="small-box-footer">View<i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <div class="col-lg-3 col-xs-6">
@@ -76,8 +82,8 @@
                 <div class="icon">
                     <i class="ion ion-ios-gear-outline"></i>
                 </div>
-                <a href='@Url.Action("SemesterTeachers", "Semester", 
-                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId })' class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+                <a href='@Url.Action("SemesterTeachers", "Semester",
+                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId })' class="small-box-footer">View<i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>
@@ -153,3 +159,4 @@
             </div>
         </div>*@
 </section>
+

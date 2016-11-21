@@ -91,16 +91,16 @@ namespace IITAcademicAutomationSystem.Models
         [System.Web.Mvc.Remote("UserExist", "Account", ErrorMessage = "User already exists with this email.")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Please enter password.")]
-        [StringLength(100, ErrorMessage = "The password must be at least 6 characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
+        //[Required(ErrorMessage = "Please enter password.")]
+        //[StringLength(100, ErrorMessage = "The password must be at least 6 characters long.", MinimumLength = 6)]
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Password")]
+        //public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Confirm password")]
+        //[System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        //public string ConfirmPassword { get; set; }
 
         [StringLength(50, ErrorMessage = "Designation must be at list 6 characters long.", MinimumLength = 6)]
         [RegularExpression(@"([a-zA-Z0-9 ,\.\&\'\-]+)", ErrorMessage = "Designation seems to incorrect.")]
@@ -148,16 +148,16 @@ namespace IITAcademicAutomationSystem.Models
         [RegularExpression(@"(\+?[0-9]+)", ErrorMessage = "Phone number can only contains digits and a plus symbol.")]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Please enter password.")]
-        [StringLength(100, ErrorMessage = "The password must be at least 6 characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
+        //[Required(ErrorMessage = "Please enter password.")]
+        //[StringLength(100, ErrorMessage = "The password must be at least 6 characters long.", MinimumLength = 6)]
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Password")]
+        //public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Confirm password")]
+        //[System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        //public string ConfirmPassword { get; set; }
 
         public string ProfileLink { get; set; }
 

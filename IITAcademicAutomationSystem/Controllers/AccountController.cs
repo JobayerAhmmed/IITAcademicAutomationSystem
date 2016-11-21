@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -10,7 +8,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using IITAcademicAutomationSystem.Models;
 using IITAcademicAutomationSystem.Areas.One.Services;
-using Microsoft.AspNet.Identity.EntityFramework;
 using AutoMapper;
 using IITAcademicAutomationSystem.Areas.One;
 using System.Collections.Generic;
@@ -90,7 +87,12 @@ namespace IITAcademicAutomationSystem.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
+            if (User.Identity.IsAuthenticated)
+            {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                return RedirectToAction("Login", "Account", new { area = "", returnUrl = returnUrl });
+            }
+            ViewBag.ReturnUrl = null;
             return View();
         }
 
@@ -134,6 +136,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Warning: May give error
+        //[Authorize(Roles = "Admin, Batch Coordinator, Program Officer Evening, Program Officer Regular, Student, Teacher")]
         public ActionResult LoadProfile()
         {
             if (User.Identity.IsAuthenticated)
@@ -153,6 +156,8 @@ namespace IITAcademicAutomationSystem.Controllers
             //return PartialView("_LoginPartial");
             return null;
         }
+
+        //[Authorize(Roles = "Admin, Batch Coordinator, Program Officer Evening, Program Officer Regular, Student, Teacher")]
         public ActionResult SideMenu()
         {
             if (User.Identity.IsAuthenticated)
@@ -167,6 +172,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Batch Coordinator, Program Officer Evening, Program Officer Regular, Student, Teacher")]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -174,6 +180,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Student Edit
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult StudentEdit(int studentId)
         {
             var student = studentService.ViewStudent(studentId);
@@ -218,6 +225,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public async Task<ActionResult> StudentEdit(UserProfileEditViewModel model, HttpPostedFileBase file)
         {
             string fileName = model.ImagePath;
@@ -270,6 +278,7 @@ namespace IITAcademicAutomationSystem.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, Batch Coordinator, Program Officer Evening, Program Officer Regular, Student, Teacher")]
         public ActionResult UserProfile(string id)
         {
             var user = UserManager.FindById(id);
@@ -309,6 +318,7 @@ namespace IITAcademicAutomationSystem.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, Batch Coordinator, Program Officer Evening, Program Officer Regular, Student, Teacher")]
         public ActionResult UserProfileEdit(string id)
         {
             var user = UserManager.FindById(id);
@@ -350,6 +360,7 @@ namespace IITAcademicAutomationSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Batch Coordinator, Program Officer Evening, Program Officer Regular, Student, Teacher")]
         public async Task<ActionResult> UserProfileEdit(UserProfileEditViewModel model, HttpPostedFileBase file)
         {
             string fileName = model.ImagePath;
@@ -403,7 +414,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Register
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult Register()
         {
             return View();
@@ -413,6 +424,7 @@ namespace IITAcademicAutomationSystem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase file)
         {
             string fileName = "";
@@ -441,7 +453,7 @@ namespace IITAcademicAutomationSystem.Controllers
                     ImagePath = fileName,
                     Status = "On Duty"
                 };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await UserManager.CreateAsync(user, "iit123");
                 if (result.Succeeded)
                 {
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
@@ -470,6 +482,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Student Register
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult StudentRegister(int programId, int batchId)
         {
             var program = programService.ViewProgram(programId);
@@ -488,6 +501,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: Student Register
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public async Task<ActionResult> StudentRegister(StudentRegisterViewModel model, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
@@ -679,6 +693,8 @@ namespace IITAcademicAutomationSystem.Controllers
 
             return message;
         }
+
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public FileResult Download(string fileName)
         {
             return File("~/Areas/One/Content/Student/" + fileName,
@@ -686,6 +702,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Student Index
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Teacher")]
         public ActionResult StudentIndex()
         {
             var students = studentService.GetAllStudents();
@@ -714,6 +731,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Student Details
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Teacher")]
         public ActionResult StudentDetails(int id)
         {
             var student = studentService.ViewStudent(id);
@@ -747,7 +765,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Register Teacher
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult TeacherRegister()
         {
             return View();
@@ -755,8 +773,8 @@ namespace IITAcademicAutomationSystem.Controllers
 
         // POST: Register Teacher
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public async Task<ActionResult> TeacherRegister(TeacherRegisterViewModel model, HttpPostedFileBase file)
         {
             string fileName = "";
@@ -786,7 +804,7 @@ namespace IITAcademicAutomationSystem.Controllers
                     ImagePath = fileName,
                     Status = "On Duty"
                 };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await UserManager.CreateAsync(user, "iit123");
                 if (result.Succeeded)
                 {
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
@@ -818,6 +836,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Teacher Index
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult TeacherIndex()
         {
             var teacherRoleId = roleService.GetRoleByName("Teacher").Id;
@@ -848,6 +867,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Teacher All Index
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult TeacherAllIndex()
         {
             //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>());
@@ -878,6 +898,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Teacher Details
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult TeacherDetails(string id)
         {
             var teacher = UserManager.FindById(id);
@@ -897,6 +918,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Teacher Edit
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult TeacherEdit(string id)
         {
             var teacher = UserManager.FindById(id);
@@ -918,6 +940,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: Teacher Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public async Task<ActionResult> TeacherEdit(TeacherEditViewModel model, HttpPostedFileBase file)
         {
             string fileName = model.ImagePath;
@@ -957,6 +980,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Delete Teacher
+        [Authorize(Roles = "Admin")]
         public ActionResult TeacherDelete(string id)
         {
             var teacher = UserManager.FindById(id);
@@ -978,6 +1002,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: Delete Teacher
         [HttpPost, ActionName("TeacherDelete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> TeacherDeletePost(TeacherDetailsViewModel model)
         {
             ApplicationUser user = UserManager.FindById(model.Id);
@@ -993,6 +1018,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Teacher Set Role
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult TeacherSetRole(string id)
         {
             var user = UserManager.FindById(id);
@@ -1007,7 +1033,7 @@ namespace IITAcademicAutomationSystem.Controllers
             var checkBoxListItems = new List<CheckBoxListItem>();
             foreach (var role in allRoles)
             {
-                if (role.Name == "Student")
+                if (role.Name == "Student" || role.Name == "Batch Coordinator")
                 {
                     continue;
                 }
@@ -1026,6 +1052,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: Teacher Set Role
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult TeacherSetRole(SetRoleViewModel model)
         {
             var teacher = UserManager.FindById(model.Id);
@@ -1054,6 +1081,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Teacher courses
+        [Authorize(Roles = "Teacher")]
         public ActionResult TeacherCourses()
         {
             string teacherId = User.Identity.GetUserId();
@@ -1090,6 +1118,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // User Index
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult OtherIndex()
         {
             var teacherRoleId = roleService.GetRoleByName("Teacher").Id;
@@ -1130,6 +1159,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // User Delete
+        [Authorize(Roles = "Admin")]
         public ActionResult UserDelete(string id)
         {
             var teacher = UserManager.FindById(id);
@@ -1150,6 +1180,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: Delete User
         [HttpPost, ActionName("UserDelete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UserDeletePost(TeacherDetailsViewModel model)
         {
             ApplicationUser user = UserManager.FindById(model.Id);
@@ -1165,6 +1196,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // User Edit
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult UserEdit(string id)
         {
             var teacher = UserManager.FindById(id);
@@ -1185,6 +1217,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: User Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public async Task<ActionResult> UserEdit(TeacherEditViewModel model, HttpPostedFileBase file)
         {
             string fileName = model.ImagePath;
@@ -1223,6 +1256,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // User Set Role
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult OtherSetRole(string id)
         {
             var user = UserManager.FindById(id);
@@ -1237,7 +1271,7 @@ namespace IITAcademicAutomationSystem.Controllers
             var checkBoxListItems = new List<CheckBoxListItem>();
             foreach (var role in allRoles)
             {
-                if (role.Name == "Student")
+                if (role.Name == "Student" || role.Name == "Batch Coordinator")
                 {
                     continue;
                 }
@@ -1256,6 +1290,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: User Set Role
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult OtherSetRole(SetRoleViewModel model)
         {
             var teacher = UserManager.FindById(model.Id);
@@ -1330,6 +1365,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Reset Email
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult ResetEmail(string id)
         {
             ResetEmailViewModel model = new ResetEmailViewModel()
@@ -1342,6 +1378,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: Reset Email
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public async Task<ActionResult> ResetEmail(ResetEmailViewModel model)
         {
             if (ModelState.IsValid)
@@ -1378,6 +1415,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Reset Email
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult ResetEmailUser(string id)
         {
             ResetEmailViewModel model = new ResetEmailViewModel()
@@ -1390,6 +1428,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: Reset Email
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public async Task<ActionResult> ResetEmailUser(ResetEmailViewModel model)
         {
             if (ModelState.IsValid)
@@ -1426,6 +1465,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // Reset Email Student
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult ResetEmailStudent(int programId, int batchId, string id)
         {
             Program program = programService.ViewProgram(programId);
@@ -1445,6 +1485,7 @@ namespace IITAcademicAutomationSystem.Controllers
         // POST: Reset Email Student
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public async Task<ActionResult> ResetEmailStudent(ResetEmailViewModel model)
         {
             if (ModelState.IsValid)
@@ -1544,6 +1585,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // User exist
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public JsonResult UserExist(string Email)
         {
             if (!userService.UserExist(Email))

@@ -30,11 +30,17 @@
                                 new { area = "One", programId = ViewBag.ProgramId },
                                 new { @class = "btn btn-primary btn-flat" })
                         </span>
+                    @if (User.IsInRole("Admin") ||
+User.IsInRole("Program Officer Regular") ||
+User.IsInRole("Program Officer Evening"))
+                    {
                         <span class="pull-right">
                             @Html.ActionLink("Create Course", "Create", "Course",
                                 new { area = "One", programId = ViewBag.ProgramId },
                                 new { @class = "btn btn-success btn-lg btn-flat" })
                         </span>
+                    }
+                        
                 </div>
                 <div class="box-body">
                     <table id="courseIndex" class="table table-responsive table-bordered table-hover">

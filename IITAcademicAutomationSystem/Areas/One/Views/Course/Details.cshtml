@@ -68,8 +68,14 @@
                 <div class="box-footer text-center">
                     @Html.ActionLink("Back to Courses", "Index", "Course", new { area = "One", programId = Model.ProgramId },
                    new { @class = "btn btn-primary btn-flat" })
-                    @Html.ActionLink("Edit Course", "Edit", "Course", new { area = "One", id = Model.Id },
+                    @if (User.IsInRole("Admin") ||
+User.IsInRole("Program Officer Regular") ||
+User.IsInRole("Program Officer Evening"))
+                    {
+                        @Html.ActionLink("Edit Course", "Edit", "Course", new { area = "One", id = Model.Id },
                    new { @class = "btn btn-primary btn-flat" })
+                    }
+
                     @*@Html.ActionLink("Delete", "Delete", "Course", new { area = "One", id = Model.Id }, new { @class = "btn btn-danger" })*@
                 </div>
             </div>

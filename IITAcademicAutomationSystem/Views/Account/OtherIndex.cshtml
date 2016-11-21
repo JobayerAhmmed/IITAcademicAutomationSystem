@@ -22,15 +22,20 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
-                <div class="box-header with-border">
-                    <h3 class="box-title pull-right">
-                        @Html.ActionLink("Register New User", "Register", "Account", new { area = "" },
-                            new { @class= "btn btn-success btn-lg btn-flat" })
-                        @Html.ActionLink("User Roles", "Index", "Role", new { area = "" },
-                            new { @class = "btn btn-success btn-lg btn-flat" })
-                    </h3>
+@if (User.IsInRole("Admin") ||
+                                        User.IsInRole("Program Officer Regular") ||
+                                        User.IsInRole("Program Officer Evening"))
+{
+    <div class="box-header with-border">
+        <h3 class="box-title pull-right">
+            @Html.ActionLink("Register New User", "Register", "Account", new { area = "" },
+             new { @class = "btn btn-success btn-lg btn-flat" })
+            @Html.ActionLink("User Roles", "Index", "Role", new { area = "" },
+             new { @class = "btn btn-success btn-lg btn-flat" })
+        </h3>
 
-                </div>
+    </div>
+}
                 <div class="box-body">
                     <table id="otherIndex" class="table table-responsive table-bordered table-hover">
                         <thead>
@@ -41,7 +46,12 @@
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Role</th>
+@if (User.IsInRole("Admin") ||
+                                                            User.IsInRole("Program Officer Regular") ||
+                                                            User.IsInRole("Program Officer Evening"))
+{
                                 <th>Action</th>
+}
                             </tr>
                         </thead>
                         <tbody>
@@ -70,20 +80,26 @@
                                             </span>
                                         }
                                     </td>
-                                    <td>
-                                        @Html.ActionLink("Set Role", "OtherSetRole", "Account",
-                                            new { area = "", id = item.Id },
-                                            new { @class = "btn btn-primary btn-flat btn-xs" })
-                                        @Html.ActionLink("Change Email", "ResetEmailUser", "Account",
-                                            new { area = "", id = item.Id },
-                                            new { @class = "btn btn-primary btn-flat btn-xs" })
-                                        @Html.ActionLink("Edit", "UserEdit", "Account",
-                                            new { area = "", id = item.Id },
-                                            new { @class = "btn btn-primary btn-flat btn-xs" })
-                                        @*@Html.ActionLink("Delete", "UserDelete", "Account",
-                                            new { area = "", id = item.Id },
-                                            new { @class = "btn btn-danger btn-flat btn-xs" })*@
-                                    </td>
+@if (User.IsInRole("Admin") ||
+                                                User.IsInRole("Program Officer Regular") ||
+                                                User.IsInRole("Program Officer Evening"))
+{
+    <td>
+
+        @Html.ActionLink("Set Role", "OtherSetRole", "Account",
+             new { area = "", id = item.Id },
+             new { @class = "btn btn-primary btn-flat btn-xs" })
+        @Html.ActionLink("Change Email", "ResetEmailUser", "Account",
+             new { area = "", id = item.Id },
+             new { @class = "btn btn-primary btn-flat btn-xs" })
+        @Html.ActionLink("Edit", "UserEdit", "Account",
+             new { area = "", id = item.Id },
+             new { @class = "btn btn-primary btn-flat btn-xs" })
+        @*@Html.ActionLink("Delete", "UserDelete", "Account",
+            new { area = "", id = item.Id },
+            new { @class = "btn btn-danger btn-flat btn-xs" })*@
+    </td>
+}
                                 </tr>
                             }
                         </tbody>

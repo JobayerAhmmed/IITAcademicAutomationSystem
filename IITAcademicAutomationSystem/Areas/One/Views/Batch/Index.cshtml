@@ -21,12 +21,19 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title pull-right">
-                        @Html.ActionLink("Create Batch", "Create", "Batch",
+                        @if (User.IsInRole("Admin") ||
+                User.IsInRole("Program Officer Regular") ||
+                User.IsInRole("Program Officer Evening")
+                )
+                        {
+                            @Html.ActionLink("Create Batch", "Create", "Batch",
                             new { area = "One", programId = ViewBag.ProgramId },
                             new { @class = "btn btn-success btn-lg btn-flat" })
+                        }
+
                         @*@Html.ActionLink("Previous Batches", "IndexPassed", "Batch",
-                            new { area = "One", programId = ViewBag.ProgramId },
-                            new { @class = "btn btn-default btn-flat" })*@
+            new { area = "One", programId = ViewBag.ProgramId },
+            new { @class = "btn btn-default btn-flat" })*@
                         @Html.ActionLink("Courses", "Index", "Course",
                             new { area = "One", programId = ViewBag.ProgramId },
                             new { @class = "btn btn-success btn-lg btn-flat" })

@@ -58,9 +58,32 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Index
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Teacher, Student")]
         public ActionResult Index(int programId)
         {
             IEnumerable<Batch> batches = batchService.ViewActiveBatches(programId);
+            List<Batch> studentBatches = new List<Batch>();
+            List<Batch> remainBatches = new List<Batch>();
+
+            if (User.IsInRole("Student"))
+            {
+                var userId = User.Identity.GetUserId();
+                var student = studentService.GetStudentByUserId(userId);
+                studentBatches = batchService.GetStudentBatches(student.Id).ToList();
+
+                foreach (var item in studentBatches)
+                {
+                    remainBatches.Add(item);
+                }
+            }
+            else
+            {
+                foreach (var item in batches)
+                {
+                    remainBatches.Add(item);
+                }
+            }
+            
             Program program = programService.ViewProgram(programId);
             IEnumerable<Semester> semesters = semesterService.GetSemestersOfProgram(programId);
 
@@ -68,7 +91,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             BatchIndexViewModel batchIndexViewModel = new BatchIndexViewModel();
             Semester currentSemester;
 
-            foreach (var item in batches)
+            foreach (var item in remainBatches)
             {
                 currentSemester = semesterService.ViewSemester(item.SemesterIdCurrent);
                 batchIndexViewModel.Id = item.Id;
@@ -88,6 +111,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // IndexPassed
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Teacher")]
         public ActionResult IndexPassed(int programId)
         {
             IEnumerable<Batch> batches = batchService.ViewPassedBatches(programId);
@@ -114,6 +138,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Create
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult Create(int programId)
         {
             Program program = programService.ViewProgram(programId);
@@ -138,6 +163,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // Create POST
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult Create([Bind(Include = "ProgramId,ProgramName,BatchNo")]BatchCreateViewModel batchCreateVM)
         {
             var firstSemester = semesterService.GetFirstSemester(batchCreateVM.ProgramId);
@@ -159,6 +185,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
 
         // Details
         //[Authorize(Roles = "Program Officer Regular")]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult Details(int id)
         {
             Batch batch = batchService.ViewBatch(id);
@@ -194,6 +221,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // View current students of batch
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult IndexCurrentStudents(int id)
         {
             Batch batch = batchService.ViewBatch(id);
@@ -230,6 +258,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // View admitted students of batch
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult IndexAdmittedStudents(int id)
         {
             Batch batch = batchService.ViewBatch(id);
@@ -266,6 +295,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Update current semester
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult UpdateCurrentSemester(int batchId)
         {
             Batch batch = batchService.ViewBatch(batchId);
@@ -295,6 +325,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: update current sememster
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult UpdateCurrentSemester(UpdateCurrentSemesterViewModel model)
         {
             Batch batchToUpdate = batchService.ViewBatch(model.BatchId);
@@ -327,6 +358,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // update batch status
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult UpdateBatchStatus(int batchId)
         {
             Batch batch = batchService.ViewBatch(batchId);
@@ -352,6 +384,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: update batch status
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult UpdateBatchStatus(UpdateBatchStatusViewModel model)
         {
             Batch batchToUpdate = batchService.ViewBatch(model.BatchId);
@@ -370,6 +403,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Batch coordinators
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult BatchCoordinators(int id)
         {
             Batch batch = batchService.ViewBatch(id);
@@ -409,6 +443,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Assign batch coordinators
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AssignCoordinator(int batchId)
         {
             Batch batch = batchService.ViewBatch(batchId);
@@ -433,6 +468,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         // POST: Assign batch coordinator
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AssignCoordinator(AssignCoordinatorViewModel model)
         {
             if (model.CoordinatorId == "")
@@ -441,6 +477,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             }
 
             Batch batch = batchService.ViewBatch(model.BatchId);
+            var roleCoordinator = roleService.GetRoleByName("Batch Coordinator");
 
             BatchCoordinator coordinator = new BatchCoordinator();
             coordinator.BatchId = model.BatchId;
@@ -463,7 +500,8 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             if (result1)
             {
                 var result2 = batchService.AssignCoordinator(coordinator);
-                if (result2)
+                IdentityResult result3 = UserManager.AddToRole(model.CoordinatorId, roleCoordinator.Name);
+                if (result2 && result3.Succeeded)
                 {
                     return RedirectToAction("BatchCoordinators", "Batch", new { area = "One", id = model.BatchId });
                 }
@@ -489,6 +527,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Current Student Details
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult CurrentStudentDetails(int id)
         {
             var student = studentService.ViewStudent(id);
@@ -524,6 +563,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         }
 
         // Admitted Student Details
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult AdmittedStudentDetails(int id)
         {
             var student = studentService.ViewStudent(id);

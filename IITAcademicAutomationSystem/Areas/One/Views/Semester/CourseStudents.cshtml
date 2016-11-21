@@ -33,26 +33,31 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
+@if (User.IsInRole("Admin") ||
+                        User.IsInRole("Program Officer Regular") ||
+                        User.IsInRole("Program Officer Evening"))
+{
                 <div class="box-header text-right">
                     @Html.ActionLink("Add Students", "AddStudentToCourse", "Semester",
-                        new
-                        {
-                            area = "One",
-                            batchId = Model.BatchId,
-                            semesterId = Model.SemesterId,
-                            courseId = ViewBag.CourseId
-                        },
-                        new { @class = "btn btn-success btn-flat btn-lg" })
+             new
+             {
+                 area = "One",
+                 batchId = Model.BatchId,
+                 semesterId = Model.SemesterId,
+                 courseId = ViewBag.CourseId
+             },
+             new { @class = "btn btn-success btn-flat btn-lg" })
                     @Html.ActionLink("Remove Students", "RemoveStudentFromCourse", "Semester",
-                        new
-                        {
-                            area = "One",
-                            batchId = Model.BatchId,
-                            semesterId = Model.SemesterId,
-                            courseId = ViewBag.CourseId
-                        },
-                        new { @class = "btn btn-success btn-flat btn-lg" })
+             new
+             {
+                 area = "One",
+                 batchId = Model.BatchId,
+                 semesterId = Model.SemesterId,
+                 courseId = ViewBag.CourseId
+             },
+             new { @class = "btn btn-success btn-flat btn-lg" })
                 </div>
+}
                 <div class="box-body">
                     <table id="courseStudents" class="table table-responsive table-bordered table-hover">
                         <thead>

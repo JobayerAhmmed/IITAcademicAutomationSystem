@@ -35,7 +35,10 @@
                     </a>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            @Html.Action("LoadProfile", "Account", new { area = "" })
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @Html.Action("LoadProfile", "Account", new { area = "" })
+                            }
                         </ul>
                     </div>
                 </nav>

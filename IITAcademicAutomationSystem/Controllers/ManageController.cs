@@ -80,6 +80,7 @@ namespace IITAcademicAutomationSystem.Controllers
         }
 
         // GET: /Manage/ChangePassword
+        //[Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public ActionResult ChangePassword()
         {
             ViewBag.Id = User.Identity.GetUserId();

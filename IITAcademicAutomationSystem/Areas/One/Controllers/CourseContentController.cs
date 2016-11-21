@@ -15,27 +15,66 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
     {
         private ICourseContentService courseContentService;
         private ICourseService courseService;
-
+        private IBatchService batchService;
+        private ISemesterService semesterService;
+        private IProgramService programService;
 
         public CourseContentController()
         {
             courseContentService = new CourseContentService(ModelState, new DAL.UnitOfWork());
             courseService = new CourseService(ModelState, new DAL.UnitOfWork());
-
+            batchService = new BatchService(ModelState, new DAL.UnitOfWork());
+            semesterService = new SemesterService(ModelState, new DAL.UnitOfWork());
+            programService = new ProgramService(ModelState, new DAL.UnitOfWork());
         }
         public CourseContentController(ICourseContentService courseContentService)
         {
             this.courseContentService = courseContentService;
             courseService = new CourseService(ModelState, new DAL.UnitOfWork());
-
+            batchService = new BatchService(ModelState, new DAL.UnitOfWork());
+            semesterService = new SemesterService(ModelState, new DAL.UnitOfWork());
+            programService = new ProgramService(ModelState, new DAL.UnitOfWork());
         }
 
         // GET: One/CourseContent
-        public ActionResult IndexStudent(int courseId)
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
+        public ActionResult IndexStudent(int batchId, int semesterId, int courseId)
         {
-            return View();
+            var contents = courseContentService.GetCourseContents(courseId);
+            var course = courseService.ViewCourse(courseId);
+            var batch = batchService.ViewBatch(batchId);
+            var semester = semesterService.ViewSemester(semesterId);
+            var program = programService.ViewProgram(batch.ProgramId);
+
+            List<CourseContentViewModel> model = new List<CourseContentViewModel>();
+            CourseContentViewModel vm = new CourseContentViewModel();
+
+            foreach (var item in contents)
+            {
+                vm.Id = item.Id;
+                vm.CourseId = item.CourseId;
+                vm.ContentTitle = item.ContentTitle;
+                vm.ContentDescription = item.ContentDescription;
+                vm.UploadDate = item.UploadDate;
+                vm.FilePath = item.FilePath;
+
+                model.Add(vm);
+                vm = new CourseContentViewModel();
+            }
+
+            ViewBag.CourseCode = course.CourseCode;
+            ViewBag.CourseTitle = course.CourseTitle;
+            ViewBag.ProgramId = program.Id;
+            ViewBag.ProgramName = program.ProgramName;
+            ViewBag.BatchId = batchId;
+            ViewBag.BatchNo = batch.BatchNo;
+            ViewBag.SemesterId = semesterId;
+            ViewBag.SemesterNo = semester.SemesterNo;
+
+            return View(model);
         }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult IndexTeacher(int courseId)
         {
             var teacherId = User.Identity.GetUserId();
@@ -64,12 +103,14 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
         public FileResult Download(string fileName, string contentTitle)
         {
             return File("~/Areas/One/Content/CourseContent/" + fileName,
                 System.Net.Mime.MediaTypeNames.Application.Octet, contentTitle);
         }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult Upload(int courseId)
         {
             Course course = courseService.ViewCourse(courseId);
@@ -81,6 +122,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Upload(CourseContentViewModel model, HttpPostedFileBase file)
         {
             string fileName = "";
