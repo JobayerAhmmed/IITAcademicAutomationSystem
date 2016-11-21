@@ -77,7 +77,7 @@
             }
 
             var getCourses = function () {
-                UtilityService.getCourses($scope.selected.program.id, $scope.selected.semester.id)
+                UtilityService.getAllCoursesOfAStudent($scope.selected.program.id, $scope.selected.semester.id)
                    .then(
                           function (d) {
                               if (d.Status == "OK") {

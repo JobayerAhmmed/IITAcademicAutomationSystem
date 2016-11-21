@@ -1,11 +1,13 @@
 ﻿using IITAcademicAutomationSystem.Areas.Two.RequestDto;
 using IITAcademicAutomationSystem.Areas.Two.Service;
 using IITAcademicAutomationSystem.Areas.Two.ServiceImpl;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace IITAcademicAutomationSystem.Areas.Two.Controllers
 {
@@ -13,7 +15,32 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
     {
 
         private ResultManagementSerI resultManagementSerI=new ResultManagementSerImpl();
+        private UtilitySerI utilityService = new UtilitySerImpl();
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
 
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         // GET: Two/Result
         public ActionResult Index()
         {
@@ -166,7 +193,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             try
             {
-                resultManagementSerI.distributeMarks(distributeMarksFinalReqDto);
+                string teacherId = User.Identity.GetUserId();
+                resultManagementSerI.distributeMarks(distributeMarksFinalReqDto, teacherId);
                 return new JsonResult { Data = new { Status = "OK", Message = "Marks Have benn Distributed Successfully" } };
             }
             catch(Exception e)
@@ -229,7 +257,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             try
             {
-                resultManagementSerI.editDistributedMarks(editedDistributeMarksReqDto);
+                string teacherId = User.Identity.GetUserId();
+                resultManagementSerI.editDistributedMarks(editedDistributeMarksReqDto, teacherId);
                 return new JsonResult { Data = new { Status = "OK", Message = "Marks has been Edited Successfully" } };
             }
             catch (Exception e)
@@ -243,7 +272,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             try
             {
-                resultManagementSerI.saveGivenMarks(giveMarksReqDto);
+                string teacherId = User.Identity.GetUserId();
+                resultManagementSerI.saveGivenMarks(giveMarksReqDto, teacherId);
                 return new JsonResult { Data = new { Status = "OK", Message = "Marks Have been Saved Successfully" } };
             }
             catch (Exception e)
@@ -289,7 +319,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             try
             {
-                var data = resultManagementSerI.getGivenMarks_s(courseId);
+                var userId = User.Identity.GetUserId();
+                int studentId = utilityService.getStudentIdByUserId(userId);
+                var data = resultManagementSerI.getGivenMarks_s(studentId,courseId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }
@@ -321,7 +353,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             try
             {
-                resultManagementSerI.saveEditedMarks(saveEditedMarksResDto);
+                string teacherId = User.Identity.GetUserId();
+                resultManagementSerI.saveEditedMarks(saveEditedMarksResDto, teacherId);
                 return new JsonResult { Data = new { Status = "OK", Message = "Marks Have been Given Successfully" } };
             }
             catch (Exception e)

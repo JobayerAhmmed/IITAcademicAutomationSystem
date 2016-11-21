@@ -124,14 +124,14 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
         }
 
-        public void distributeMarks(DistributeMarksFinalReqDto distributeMarksFinalReqDto)
+        public void distributeMarks(DistributeMarksFinalReqDto distributeMarksFinalReqDto, string teacherId)
         {
 
 
 
             try
             {
-                List<MarksDistribution> marksDistributionToSave = processMarksDistribution(distributeMarksFinalReqDto);
+                List<MarksDistribution> marksDistributionToSave = processMarksDistribution(distributeMarksFinalReqDto, teacherId);
 
                 for (int i = 0; i < marksDistributionToSave.Count; i++)
                 {
@@ -144,7 +144,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        private List<MarksDistribution> processMarksDistribution(DistributeMarksFinalReqDto distributeMarksFinalReqDto)
+        private List<MarksDistribution> processMarksDistribution(DistributeMarksFinalReqDto distributeMarksFinalReqDto,string teacherId)
         {
             int headNumber = distributeMarksFinalReqDto.distribution.Length;
             List<MarksDistribution> marksDistributionToSave = new List<MarksDistribution>();
@@ -172,7 +172,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 marksDistribution.semesterId = distributeMarksFinalReqDto.semesterId;
                 marksDistribution.batchId = distributeMarksFinalReqDto.batchId;
                 marksDistribution.courseId = distributeMarksFinalReqDto.courseId;
-                marksDistribution.marksDistributorId = "" + utilityService.getIdOfLoggedInTeacher();//need to be changed
+                marksDistribution.marksDistributorId = teacherId;//need to be changed
 
                 marksDistributionToSave.Add(marksDistribution);
             }
@@ -244,7 +244,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public void editDistributedMarks(EditedDistributeMarksReqDto editedDistributeMarksReqDto)
+        public void editDistributedMarks(EditedDistributeMarksReqDto editedDistributeMarksReqDto, string teacherId)
         {
             try
             {
@@ -273,7 +273,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                         marksDistributionToSave.batchId = editedDistributeMarksReqDto.batchId;
                         marksDistributionToSave.courseId = editedDistributeMarksReqDto.courseId;
                         marksDistributionToSave.headId = editedDistributeMarksReqDto.distributions[i].headId;
-                        marksDistributionToSave.marksDistributorId = "" + utilityService.getIdOfLoggedInTeacher(); ;
+                        marksDistributionToSave.marksDistributorId = teacherId; ;
 
                         marksDistributionRepo.distributeMarks(marksDistributionToSave);
                     }
@@ -308,7 +308,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public void saveGivenMarks(GiveMarksReqDto giveMarksReqDto)
+        public void saveGivenMarks(GiveMarksReqDto giveMarksReqDto, string teacherId)
         {
             int marksLength = giveMarksReqDto.marks.Length;
             try
@@ -323,7 +323,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                     marks.marksDistributionId = giveMarksReqDto.marksDistributionId;
                     marks.subheadId = giveMarksReqDto.subHeadId;
                     marks.studentId = giveMarksReqDto.marks[i].studentId;
-                    marks.marksGiverId = "" + utilityService.getIdOfLoggedInTeacher();
+                    marks.marksGiverId = teacherId;
                     marksListToSave[i] = marks;
                 }
 
@@ -395,9 +395,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public GetGivenMarksResto getGivenMarks_s(int courseId)
+        public GetGivenMarksResto getGivenMarks_s(int studentId,int courseId)
         {
-            var studentId = utilityService.getIdOfLoggedInStudent();
+            
             var studentInfo = utilityService.getStudentByStudentId(studentId);
 
             int programId = studentInfo.programId;
@@ -709,7 +709,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public void saveEditedMarks(SaveEditedMarksResDto saveEditedMarksResDto)
+        public void saveEditedMarks(SaveEditedMarksResDto saveEditedMarksResDto,string teacherId)
         {
             try
             {
@@ -726,7 +726,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                         marksTemp.marksDistributionId = saveEditedMarksResDto.marksDistributionId;
                         marksTemp.subheadId = saveEditedMarksResDto.subheadId;
                         marksTemp.studentId = individualMarks.studentId;
-                        marksTemp.marksGiverId = "" + utilityService.getIdOfLoggedInTeacher();
+                        marksTemp.marksGiverId = teacherId;
                         marksToCreate.Add(marksTemp);
                         continue;
                     }
@@ -984,6 +984,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                     eachStudentResult.result = courseResultList.ToArray();
 
                     eachStudentResultList.Add(eachStudentResult);
+
                 }
                 var programTemp = utilityRepository.getProgramByProgramId(programId);
                 responseToReturn.programId = programTemp.Id;
@@ -991,9 +992,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 var semesterTemp = utilityRepository.getSemesterBySemesterId(semesterId);
                 responseToReturn.semesterId = semesterTemp.Id;
                 responseToReturn.semesterName = semesterTemp.SemesterNo;
-
-                responseToReturn.batchId = 4;//these has to be chaged
-                responseToReturn.batchName = "";
+                var batchTemp = utilityRepository.getBatch(programTemp.Id, semesterTemp.Id);
+                responseToReturn.batchId = batchTemp.Id;
+                responseToReturn.batchName = "Batch: "+ batchTemp.BatchNo;
 
                 List<String> courseToResponse = new List<String>();
 

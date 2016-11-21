@@ -10,11 +10,11 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
     public interface AttendanceManagementSerI
     {
         int getLastClassNumber(int programId, int semesterId, int batchId, int courseId);
-        void saveAttendance(GiveAttendanceResDto giveAttendanceResDto);
+        void saveAttendance(GiveAttendanceResDto giveAttendanceResDto,string teacherId);
         GetCLassesNumbersAndDatesResDto getClassesNumbersAndDates(int programId, int semesterId, int batchId, int courseId);
         GetAttendanceForEditing getAttendances(int programId, int semesterId, int batchId, int courseId, int classNo);
         void saveEditedAttendance(EditAttendanceReqDto editAttendanceReqDto);
         AttendanceHistoryResDto getAttendancesCourseWise(int programId, int semesterId, int batchId, int courseId);
-        AllCourseAttendanceHistoryOfAStudentResDto getAttendanceOfAStudentOfAllCourses();
+        AllCourseAttendanceHistoryOfAStudentResDto getAttendanceOfAStudentOfAllCourses(int studentId);
     }
 }

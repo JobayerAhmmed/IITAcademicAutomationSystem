@@ -16,7 +16,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
         AcademicFileRepoI academicFileRepository = new AcademicFileRepoImpl();
         UtilitySerI utilityService = new UtilitySerImpl();
 
-        public void uploadRoutine(UploadRoutineReqDto uploadRoutineReqDto)
+        public void uploadRoutine(UploadRoutineReqDto uploadRoutineReqDto, string uploaderId)
         {
             AcademicFile file = new AcademicFile();
             try
@@ -28,7 +28,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
                 DateTime thisDay = DateTime.Today;
                 file.date = thisDay.ToString("d");
-                file.uploaderId = utilityService.getIdOfLoggedInProgramOfficer();
+                file.uploaderId = uploaderId;
                 file.isDeleted = false;
 
                 if (uploadRoutineReqDto.programId == -1)
@@ -99,12 +99,12 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public RoutineAllResDto getRoutines_student()
+        public RoutineAllResDto getRoutines_student(int studentId)
         {
             RoutineAllResDto responseToResturn = new RoutineAllResDto();
             try
             {
-                var studentInfo = utilityService.getProgramSemesterBatchOfLoggedInStudent();
+                var studentInfo = utilityService.getProgramSemesterBatchOfLoggedInStudent(studentId);
                 int programId = studentInfo.program.id;
                 int semesterId = studentInfo.semester.id;
                 int batchId = studentInfo.batch.id;

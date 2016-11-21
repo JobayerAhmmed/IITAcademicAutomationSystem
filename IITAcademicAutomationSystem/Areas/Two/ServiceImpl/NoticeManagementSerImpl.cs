@@ -18,7 +18,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
         
 
-        public void uploadNotice(UploadNoticeReqDto uploadNoticeReqDto)
+        public void uploadNotice(UploadNoticeReqDto uploadNoticeReqDto,string uploaderId)
         {
             AcademicFile file = new AcademicFile();
             try
@@ -30,7 +30,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
                 DateTime thisDay = DateTime.Today;
                 file.date = thisDay.ToString("d");
-                file.uploaderId = utilityService.getIdOfLoggedInProgramOfficer();
+                file.uploaderId = uploaderId;
                 file.isDeleted = false;
 
                 if(uploadNoticeReqDto.programId== -1)
@@ -78,6 +78,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             {              
 
                 var batch = utilityService.getBatch(programId,semesterId);
+                if (batch == null)
+                    return null;
                 int batchId = batch.id;
 
                 string type = "notice";
@@ -109,12 +111,14 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public NoticeAllResDto getNotices_student()
+        public NoticeAllResDto getNotices_student(int studentId)
         {
             NoticeAllResDto responseToResturn = new NoticeAllResDto();
             try
             {
-                var studentInfo = utilityService.getProgramSemesterBatchOfLoggedInStudent();
+                var studentInfo = utilityService.getProgramSemesterBatchOfLoggedInStudent(studentId);
+                if (studentInfo == null)
+                    return null;
                 int programId = studentInfo.program.id;
                 int semesterId = studentInfo.semester.id;
                 int batchId = studentInfo.batch.id;

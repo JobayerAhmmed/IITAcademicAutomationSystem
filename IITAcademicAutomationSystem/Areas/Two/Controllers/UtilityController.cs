@@ -1,10 +1,12 @@
 ﻿using IITAcademicAutomationSystem.Areas.Two.Service;
 using IITAcademicAutomationSystem.Areas.Two.ServiceImpl;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace IITAcademicAutomationSystem.Areas.Two.Controllers
 {
@@ -12,7 +14,31 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
     {
 
         private UtilitySerI utilityService=new UtilitySerImpl();
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
 
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: Two/Utility
         public ActionResult Index()
@@ -53,7 +79,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             try
             {
-                int teacherId = utilityService.getIdOfLoggedInTeacher();//this has to be changed
+                var teacherId = User.Identity.GetUserId();
                 var data= utilityService.getProgramsOfATeacher(teacherId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
@@ -87,7 +113,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             try
             {
-                int teacherId = utilityService.getIdOfLoggedInTeacher();//this has to be changed
+                var teacherId = User.Identity.GetUserId();
                 var data = utilityService.getSemestersOfATeacherOfAProgram(teacherId,programId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
@@ -104,7 +130,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             try
             {
-                int teacherId = utilityService.getIdOfLoggedInTeacher();//this has to be changed
+                var teacherId = User.Identity.GetUserId();
                 var data = utilityService.getCoursesOfATeacherOfASemesterOfAProgram(teacherId, programId,semesterId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
@@ -121,7 +147,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {            
             try
             {
-                int teacherId = utilityService.getIdOfLoggedInTeacher();//this has to be changed
+                var teacherId = User.Identity.GetUserId();
                 var data = utilityService.getBatch(programId,semesterId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
@@ -138,7 +164,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             try
             {
-                var data = utilityService.getProgramSemesterBatchOfLoggedInStudent();
+                var userId = User.Identity.GetUserId();
+                int studentId = utilityService.getStudentIdByUserId(userId);
+                var data = utilityService.getProgramSemesterBatchOfLoggedInStudent(studentId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }
@@ -170,7 +198,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             try
             {
-                var data = utilityService.getCoursesOfAStudent();
+                var userId = User.Identity.GetUserId();
+                int studentId = utilityService.getStudentIdByUserId(userId);
+                var data = utilityService.getCoursesOfAStudent(studentId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }

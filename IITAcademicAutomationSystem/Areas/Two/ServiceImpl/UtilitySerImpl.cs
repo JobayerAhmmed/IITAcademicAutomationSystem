@@ -7,6 +7,8 @@ using IITAcademicAutomationSystem.Areas.Two.ResponseDto;
 using IITAcademicAutomationSystem.Areas.Two.Repo;
 using IITAcademicAutomationSystem.Areas.Two.RepoImpl;
 using IITAcademicAutomationSystem.Models;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 
 namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 {
@@ -14,7 +16,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
     {
         UtilityRepoI utilityRepository=new UtilityRepoImpl();
 
-        public int getIdOfLoggedInTeacher()
+        /*public int getIdOfLoggedInTeacher()
         {
             try
             {
@@ -24,9 +26,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             {
                 throw e;
             }
-        }
+        }*/
 
-        public int getIdOfLoggedInStudent()
+       /* public int getIdOfLoggedInStudent()
         {
             try
             {
@@ -36,7 +38,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             {
                 throw e;
             }
-        }
+        }*/
 
         public GetProgramsResDto getAllPrograms()
         {
@@ -63,7 +65,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public GetProgramsResDto getProgramsOfATeacher(int teacherId)
+        public GetProgramsResDto getProgramsOfATeacher(string teacherId)
         {
             GetProgramsResDto getProgramsResDto = new GetProgramsResDto();           
 
@@ -117,7 +119,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public GetSemestersResDto getSemestersOfATeacherOfAProgram(int teacherId, int programId)
+        public GetSemestersResDto getSemestersOfATeacherOfAProgram(string teacherId, int programId)
         {
             GetSemestersResDto getSemestersResDto = new GetSemestersResDto();
 
@@ -144,7 +146,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public GetCoursesResDto getCoursesOfATeacherOfASemesterOfAProgram(int teacherId, int programId, int semesterId)
+        public GetCoursesResDto getCoursesOfATeacherOfASemesterOfAProgram(string teacherId, int programId, int semesterId)
         {
             GetCoursesResDto getCoursesResDto = new GetCoursesResDto();
 
@@ -177,8 +179,11 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             try
             {
                 var batch = utilityRepository.getBatch(programId, semesterId);
-                batchResDto.id = batch.Id;
-                batchResDto.name = ""+batch.BatchNo;//be careful about this
+                if (batch != null)
+                {
+                    batchResDto.id = batch.Id;
+                    batchResDto.name = "" + batch.BatchNo;//be careful about this
+                }
                 return batchResDto;
             }
             catch(Exception e)
@@ -187,27 +192,33 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             }
         }
 
-        public ProgramSemesterBatchResDto getProgramSemesterBatchOfLoggedInStudent()
+        public ProgramSemesterBatchResDto getProgramSemesterBatchOfLoggedInStudent(int studentId)
         {
             ProgramSemesterBatchResDto programSemesterBatchResDto = new ProgramSemesterBatchResDto();
             try
             {
-                ProgramResDto programResDto = new ProgramResDto();
-                programResDto.id = 1;
-                programResDto.name = "BSSE";
-                programSemesterBatchResDto.program = programResDto;
-
-
                 SemesterResDto semesterResDto = new SemesterResDto();
-                semesterResDto.id = 2;
-                semesterResDto.name="2nd";
-
+                Semester semester = utilityRepository.getSemesterOfAStudentByStudentId(studentId);
+                if (semester == null)
+                    return null;
+                semesterResDto.id = semester.Id;
+                semesterResDto.name = "Semester: " + semester.SemesterNo;
                 programSemesterBatchResDto.semester = semesterResDto;
 
-                                              
+                ProgramResDto programResDto = new ProgramResDto();
+                Program program = utilityRepository.getProgramOfAStudentBySemesterId(semester.Id);
+                if (program == null)
+                    return null;
+                programResDto.id = program.Id;
+                programResDto.name = program.ProgramName;
+                programSemesterBatchResDto.program = programResDto;
+
+                Batch batch = utilityRepository.getCurrentBatchOfAStudentByStudentId(studentId);
+                if (batch == null)
+                    return null;
                 BatchResDto batchResDto = new BatchResDto();
-                batchResDto.id = 4;
-                batchResDto.name = "Fifth Batch";
+                batchResDto.id = batch.Id;
+                batchResDto.name = "Batch: "+batch.BatchNo;
                 programSemesterBatchResDto.batch = batchResDto;
 
                 return programSemesterBatchResDto;
@@ -223,88 +234,24 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             GetStudentsResponseDto getStudentsResponseDto = new GetStudentsResponseDto();
             try
             {
-                StudentResDto[] studentList = new StudentResDto[5];
-                StudentResDto student = new StudentResDto();
+                List<Student> studentListFromRepo = utilityRepository.getStudentsOfASemester(programId,semesterId, batchId);
+                List<StudentResDto> studentList = new List<StudentResDto>();
 
-                student.id = 1;
-                student.classRoll = "0501";
-                student.name = "Dipok Chandra Dus";
-                student.examRoll = "111";
-                studentList[0] = student;
-                student = new StudentResDto();
+                for (int i = 0; i < studentListFromRepo.Count; i++)
+                {
+                    var tempStudent = studentListFromRepo.ElementAt(i);
+                    StudentResDto student = new StudentResDto();
+                    student.id = tempStudent.Id;
+                    //var temp1 = utilityRepository.getStudentByStudentId(studentTemp.id);
+                    var studentUser = utilityRepository.getUserByUserId(tempStudent.UserId);
+                    student.classRoll = tempStudent.CurrentRoll;
+                    student.name = studentUser.FullName;
+                    student.examRoll = "";
+                    studentList.Add(student);
 
-                student.id = 2;
-                student.classRoll = "0502";
-                student.name = "Jobayer Ahmed";
-                student.examRoll = "222";
-                studentList[1] = student;
-                student = new StudentResDto();
-
-                student.id = 3;
-                student.classRoll = "0503";
-                student.name = "Shofol Kawsir";
-                student.examRoll = "666666";
-                studentList[2] = student;
-                student = new StudentResDto();
-
-                student.id = 4;
-                student.classRoll = "0504";
-                student.name = "Tayeb Zayed";
-                student.examRoll = "333";
-                studentList[3] = student;
-                student = new StudentResDto();
-
-                student.id = 5;
-                student.classRoll = "0505";
-                student.name = "Atikur Rahman";
-                student.examRoll = "555";
-                studentList[4] = student;
-                student = new StudentResDto();
-
-                /*student.id = 7;
-                student.classRoll = "0507";
-                student.name = "Shadiqur Rahman";
-                student.examRoll = "666";
-                studentList[5] = student;
-                student = new StudentResDto();
-
-                student.id = 8;
-                student.classRoll = "0508";
-                student.name = "Misu Bin Imp";
-                student.examRoll = "777";
-                studentList[6] = student;
-                student = new StudentResDto();
-
-                student.id = 9;
-                student.classRoll = "0509";
-                student.name = "Mostaq Adil";
-                student.examRoll = "888";
-                studentList[7] = student;
-                student = new StudentResDto();
-
-                student.id = 10;
-                student.classRoll = "0510";
-                student.name = "Babu Pahari";
-                student.examRoll = "999";
-                studentList[8] = student;
-                student = new StudentResDto();
-
-                student.id = 11;
-                student.classRoll = "0511";
-                student.name = "Saimul Islam";
-                student.examRoll = "000";
-                studentList[9] = student;
-                student = new StudentResDto();
-
-
-                student.id = 12;
-                student.classRoll = "0512";
-                student.name = "Ishmam Shahriar";
-                student.examRoll = "221";
-                studentList[10] = student;
-                student = new StudentResDto();*/
-
-                getStudentsResponseDto.students = studentList;
+                }
+                
+                getStudentsResponseDto.students = studentList.ToArray();
                 return getStudentsResponseDto;
 
             }
@@ -319,89 +266,24 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             GetStudentsResponseDto getStudentsResponseDto = new GetStudentsResponseDto();
             try
             {
-                StudentResDto[] studentList = new StudentResDto[5];
-                StudentResDto student = new StudentResDto();
+                List<Student> studentListFromRepo = utilityRepository.getStudentsOfACOurse(programId, semesterId, batchId, courseId);
+                List<StudentResDto> studentList = new List<StudentResDto>();
 
-                student.id = 1;
-                student.classRoll = "0501";
-                student.name = "Dipok Chandra Dus";
-                student.examRoll = "111";
-                studentList[0] = student;
-                student = new StudentResDto();
+                for (int i = 0; i < studentListFromRepo.Count; i++)
+                {
+                    var tempStudent = studentListFromRepo.ElementAt(i);
+                    StudentResDto student = new StudentResDto();
+                    student.id = tempStudent.Id;
+                    student.classRoll = tempStudent.CurrentRoll;
+                    var user = utilityRepository.getUserByUserId(tempStudent.UserId);
+                    student.name = user.FullName;
+                    student.examRoll = "";
+                    studentList.Add(student);
 
-                student.id = 2;
-                student.classRoll = "0502";
-                student.name = "Jobayer Ahmed";
-                student.examRoll = "222";
-                studentList[1] = student;
-                student = new StudentResDto();
+                }
 
-                student.id = 3;
-                student.classRoll = "0503";
-                student.name = "Shofol Kawsir";
-                student.examRoll = "666666";
-                studentList[2] = student;
-                student = new StudentResDto();
-
-                student.id = 4;
-                student.classRoll = "0504";
-                student.name = "Tayeb Zayed";
-                student.examRoll = "333";
-                studentList[3] = student;
-                student = new StudentResDto();
-
-                student.id = 5;
-                student.classRoll = "0505";
-                student.name = "Atikur Rahman";
-                student.examRoll = "555";
-                studentList[4] = student;
-                student = new StudentResDto();
-
-                /*student.id = 7;
-                student.classRoll = "0507";
-                student.name = "Shadiqur Rahman";
-                student.examRoll = "666";
-                studentList[5] = student;
-                student = new StudentResDto();
-
-                student.id = 8;
-                student.classRoll = "0508";
-                student.name = "Misu Bin Imp";
-                student.examRoll = "777";
-                studentList[6] = student;
-                student = new StudentResDto();
-
-                student.id = 9;
-                student.classRoll = "0509";
-                student.name = "Mostaq Adil";
-                student.examRoll = "888";
-                studentList[7] = student;
-                student = new StudentResDto();
-
-                student.id = 10;
-                student.classRoll = "0510";
-                student.name = "Babu Pahari";
-                student.examRoll = "999";
-                studentList[8] = student;
-                student = new StudentResDto();
-
-                student.id = 11;
-                student.classRoll = "0511";
-                student.name = "Saimul Islam";
-                student.examRoll = "000";
-                studentList[9] = student;
-                student = new StudentResDto();
-                
-
-                student.id = 12;
-                student.classRoll = "0512";
-                student.name = "Ishmam Shahriar";
-                student.examRoll = "221";
-                studentList[10] = student;
-                student = new StudentResDto();*/
-
-                getStudentsResponseDto.students = studentList;
-                return  getStudentsResponseDto;
+                getStudentsResponseDto.students = studentList.ToArray();
+                return getStudentsResponseDto;
 
             }
             catch(Exception e)
@@ -416,7 +298,8 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
 
             try
             {
-                var courseList = utilityRepository.getCoursesOfATeacherOfASemesterOfAProgram(10,10,10);//.....................
+                ProgramSemesterBatchResDto programSemesterBatch = getProgramSemesterBatchOfLoggedInStudent(studentId);
+                var courseList = utilityRepository.getCoursesOfAStudentOfASemesterOfAProgram(studentId, programSemesterBatch.program.id, programSemesterBatch.semester.id, programSemesterBatch.batch.id);//.....................
                 CourseResDto[] courseResDtoList = new CourseResDto[courseList.Count];
                 for (int i = 0; i < courseList.Count; i++)
                 {
@@ -440,22 +323,27 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
         public StudentFullInfoResDto getStudentByStudentId(int studentId)
         {
            try
-            {
-                StudentFullInfoResDto student = new StudentFullInfoResDto();               
+           {
+                Student studentFromRepo = utilityRepository.getStudentByStudentId(studentId);
+                ApplicationUser studentUser = utilityRepository.getUserByUserId(studentFromRepo.UserId);
 
-                student.id = 4;
-                student.classRoll = "0510";
-                student.name = "Tayeb Zayed";
-                student.examRoll = "999";
+                StudentFullInfoResDto student = new StudentFullInfoResDto();
+                student.id = studentFromRepo.Id;
+                student.classRoll = studentFromRepo.CurrentRoll;
+                student.name = studentUser.FullName;
+                student.examRoll = "";
 
-                student.programId = 1;
-                student.programName = "BSSE";
+                student.programId = studentFromRepo.ProgramId;
+               Program program = utilityRepository.getProgramByProgramId(studentFromRepo.ProgramId);
+                student.programName = program.ProgramName;
+                
+                student.semesterId = studentFromRepo.SemesterId;
+               Semester semester = utilityRepository.getSemesterBySemesterId(studentFromRepo.SemesterId);
+                student.semesterName = "Semester: "+semester.SemesterNo;
 
-                student.semesterId = 2;
-                student.semesterName = "2nd Semester";
-
-                student.batchId = 4;
-                student.batchName = "Fifth Batch";
+                student.batchId = studentFromRepo.BatchIdCurrent;
+               Batch batch = utilityRepository.getBatchByBatchId(studentFromRepo.BatchIdCurrent);
+                student.batchName = "Batch: "+ batch.BatchNo;
 
                 return student;
             }
@@ -464,50 +352,20 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 throw e;
             }
         }
-
-        public string getIdOfLoggedInProgramOfficer()
-        {
-            try
-            {
-                return ""+10;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+        
 
         public CourseResDto getCourse(int courseId)
         {
             try
             {
+                Course courseFromRepo = utilityRepository.getCourseByCourseId(courseId);
                 CourseResDto courseResDto = new CourseResDto();
-                List<Course> courseList = new List<Course>();
 
-                Course course = new Course();
-                course.Id = 1;
-                course.CourseCode = "CSE-801";
-                courseList.Add(course);
-
-                course = new Course();
-                course.Id = 2;
-                course.CourseCode = "CSE-802";
-                courseList.Add(course);
-
-                course = new Course();
-                course.Id = 3;
-                course.CourseCode = "CSE-803";
-                courseList.Add(course);
-
-                for (int i = 0; i < courseList.Count; i++)
+                if (courseFromRepo != null)
                 {
-                    if (courseList.ElementAt(i).Id == courseId)
-                    {
-                        courseResDto.id = courseList.ElementAt(i).Id;
-                        courseResDto.name = courseList.ElementAt(i).CourseCode;
-                    }
+                    courseResDto.id = courseFromRepo.Id;
+                    courseResDto.name = courseFromRepo.CourseCode;
                 }
-
                 return courseResDto;
             }
             catch (Exception e)
@@ -522,35 +380,16 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             List<CourseResDto> courseList = new List<CourseResDto>();
             try
             {
-                CourseResDto course = new CourseResDto();
-                course.id = 1;
-                course.name = "CSE-801";
-                courseList.Add(course);
+                List<Course> courseFromRepo = utilityRepository.getAllCoursesOfASemester(programId, semesterId, batchId);
 
-                course = new CourseResDto();
-                course.id = 2;
-                course.name = "CSE-802";
-                courseList.Add(course);
-
-                course = new CourseResDto();
-                course.id = 3;
-                course.name = "CSE-803";
-                courseList.Add(course);
-
+                for (int i = 0; i < courseFromRepo.Count; i++)
+                {
+                    CourseResDto course = new CourseResDto();
+                    course.id = courseFromRepo.ElementAt(i).Id;
+                    course.name = courseFromRepo.ElementAt(i).CourseTitle;
+                    courseList.Add(course);
+                }
                 return courseList;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public GetCoursesResDto getCoursesOfAStudent()
-        {
-            try
-            {
-                var studentId = getIdOfLoggedInStudent();
-                return getCoursesOfAStudent(studentId);
             }
             catch (Exception e)
             {
@@ -674,6 +513,18 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             {
                 return utilityRepository.checkIfCourseWiseGPAIsSaved(semesterId, batchId, courseId, studentId);
 
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public int getStudentIdByUserId(string userId)
+        {
+            try
+            {
+                return utilityRepository.getStudentIdByUserId(userId);
             }
             catch (Exception e)
             {

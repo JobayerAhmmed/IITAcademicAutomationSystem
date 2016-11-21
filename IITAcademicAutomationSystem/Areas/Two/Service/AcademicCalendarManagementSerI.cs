@@ -10,9 +10,9 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
 {
     interface AcademicCalendarManagementSerI
     {
-        void uploadAcademicCalendar(UploadAcademicCalendarReqDto uploadAcademicCalendarReqDto);
+        void uploadAcademicCalendar(UploadAcademicCalendarReqDto uploadAcademicCalendarReqDto, string uploaderId);
         AcademicCalendarAllResDto getAcademicCalendars_teacherProgramOfficer(int programId, int semesterId);
-        AcademicCalendarAllResDto getAcademicCalendars_student();
+        AcademicCalendarAllResDto getAcademicCalendars_student(int studentId);
         void editAcademicCalendar(EditAcademicCalendarReqDto editAcademicCalendarReqDto);
         void deleteAcademicCalendar(int academicCalendarId);
         bool checkIfAcademicCalendarUploaded(int programId,int semesterId);
