@@ -15,3 +15,20 @@
 .box {
     border-top: 0 !important;
 }
+.main-footer {
+    padding: 5px;
+    font-size: 95%;
+}
+
+.developer-img {
+    border: 1px solid #d2d6de !important;
+    height:150px !important;
+    width: 180px !important;
+    padding: 0 !important;
+}
+.carousel-body {
+    padding: 0 !important;
+}
+.carousel-img {
+    min-height: 400px;
+}

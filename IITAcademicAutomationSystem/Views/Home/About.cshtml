@@ -1,7 +1,31 @@
 ﻿@{
-    ViewBag.Title = "About";
+    ViewBag.Title = "About the App";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<div class="content">
+    <div class="panel panel-default" style="max-width: 800px; margin: auto;">
+        <div class="panel-body text-center">
+            <h3>The application is developed by - </h3><hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <br />
+                    <img src="@Url.Content("~/Areas/One/Content/UserImage/jobayer.png")"
+                         class="profile-user-img img-responsive developer-img"
+                         alt="Jobayer" />
+                    <br />
+                    <h3 class="profile-username text-center">Jobayer Ahmmed</h3>
+                    <p class="text-muted text-center">BSSE 0502</p>
+                </div>
+                <div class="col-md-6">
+                    <br />
+                    <img src="@Url.Content("~/Areas/One/Content/UserImage/ishmam.png")"
+                         class="profile-user-img img-responsive developer-img"
+                         alt="Ishmam" />
+                    <br />
+                    <h3 class="profile-username text-center">Shahriar Mohammed Ishmam</h3>
+                    <p class="text-muted text-center">BSSE 0523</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

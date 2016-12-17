@@ -47,7 +47,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Repositories
         {
             return context.Courses.Where(c => 
                 c.ProgramId == programId && 
-                c.IsDelete == false).OrderBy(o => o.CourseCode).ToList();
+                c.IsDelete == false).OrderBy(o => o.Id).ToList();
         }
 
         // Get deleted courses

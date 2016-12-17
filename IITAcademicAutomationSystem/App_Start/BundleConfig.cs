@@ -43,6 +43,7 @@ namespace IITAcademicAutomationSystem
             bundles.Add(new StyleBundle("~/bootstrapcss").Include(
                       "~/Content/bootstrap/css/bootstrap.css",
                       "~/Content/font-awesome/css/font-awesome.min.css",
+                      "~/Content/font-awesome/css/animate.min.css",
                       "~/Content/ionicons/css/ionicons.min.css"));
 
             // Datatable css

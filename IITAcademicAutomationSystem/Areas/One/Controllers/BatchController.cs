@@ -396,10 +396,26 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             }
 
             batchToUpdate.BatchStatus = model.BatchStatusNew;
-            batchService.EditBatch(batchToUpdate);
+            var result = batchService.EditBatch(batchToUpdate);
 
-            return RedirectToAction("Details", "Batch",
+            BatchCoordinator lastCoordinator = batchService.GetLastBatchCoordinator(model.BatchId);
+            var result1 = true;
+            IdentityResult result5 = new IdentityResult();
+
+            if (lastCoordinator != null)
+            {
+                lastCoordinator.EndDate = DateTime.Now;
+                result1 = batchService.EditBatchCoordinator(lastCoordinator);
+                result5 = UserManager.RemoveFromRole(lastCoordinator.TeacherId, "Batch Coordinator");
+            }
+
+            if (result)
+            {
+                return RedirectToAction("Details", "Batch",
                 new { area = "One", id = model.BatchId });
+            }
+            ModelState.AddModelError("", "Unable to save, try again");
+            return View(model);
         }
 
         // Batch coordinators
@@ -455,12 +471,29 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             model.BatchId = batchId;
             model.BatchNo = batch.BatchNo;
 
+            // return empty teacher list for passed batch
+            if (batch.BatchStatus == "Passed")
+            {
+                model.Teachers = null;
+                return View(model);
+            }
+
             IdentityRole role = roleService.GetRoleByName("Teacher");
             var teachers = UserManager.Users.Where(u => 
                 u.Status == "On Duty" &&
                 u.Roles.Any(r => r.RoleId == role.Id)).ToList();
 
-            model.Teachers = teachers;
+            List<ApplicationUser> eligibleTeacher = new List<ApplicationUser>();
+            foreach (var item in teachers)
+            {
+                if (UserManager.IsInRole(item.Id, "Batch Coordinator"))
+                {
+                    continue;
+                }
+                eligibleTeacher.Add(item);
+            }
+
+            model.Teachers = eligibleTeacher;
 
             return View(model);
         }
@@ -471,9 +504,10 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
         public ActionResult AssignCoordinator(AssignCoordinatorViewModel model)
         {
-            if (model.CoordinatorId == "")
+            if (model.CoordinatorId == "0")
             {
-                return RedirectToAction("BatchCoordinators", "Batch", new { area = "One", id = model.BatchId });
+                return RedirectToAction("BatchCoordinators", "Batch", 
+                    new { area = "One", id = model.BatchId });
             }
 
             Batch batch = batchService.ViewBatch(model.BatchId);
@@ -488,10 +522,13 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
 
             BatchCoordinator lastCoordinator = batchService.GetLastBatchCoordinator(model.BatchId);
             var result1 = true;
+            IdentityResult result5 = new IdentityResult();
+
             if (lastCoordinator != null)
             {
                 lastCoordinator.EndDate = coordinator.StartDate;
                 result1 = batchService.EditBatchCoordinator(lastCoordinator);
+                result5 = UserManager.RemoveFromRole(lastCoordinator.TeacherId, roleCoordinator.Name);
             }
 
             IdentityRole role;

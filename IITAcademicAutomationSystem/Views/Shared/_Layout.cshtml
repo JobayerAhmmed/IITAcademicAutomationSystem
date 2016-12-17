@@ -25,9 +25,13 @@
     <body class="hold-transition skin-blue fixed sidebar-mini">
         <div class="wrapper">
             <header class="main-header">
-                <a href="http://www.iit.du.ac.bd/" class="logo" target="_blank">
+                @*<a href="http://www.iit.du.ac.bd/" class="logo" target="_blank">
                     <span class="logo-mini"><b>IIT</b> DU</span>
                     <span class="logo-lg"><b>IIT</b> DU</span>
+                </a>*@
+                <a href='@Url.Action("Index", "Home", new { area="" })' class="logo">
+                    <span class="logo-mini"><i class="fa fa-home"></i></span>
+                    <span class="logo-lg"><i class="fa fa-home"></i></span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
                     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -50,10 +54,14 @@
                 @RenderBody()
             </div>
 
-            <footer class="main-footer  text-center">
-                <strong>2016 &copy; IIT.</strong> Developed by Jobayer Ahmmed, Shahriar Mohammed Ishmam.
+            <footer class="main-footer">
+                    <div class="pull-right hiddden-xs">
+                        @Html.ActionLink("About", "About", "Home", new { area="" }, null)
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <strong>2016 &copy; IIT</strong>
             </footer>
-
         </div>
 
         @Scripts.Render("~/jquery")
@@ -72,9 +80,10 @@ else
                 <nav class="navbar navbar-static-top" role="navigation">
                     <div class="container">
                         <div class="navbar-header">
-                            <a href="http://www.iit.du.ac.bd/" class="navbar-brand" target="_blank">
-                                <b>IIT</b> DU
-                            </a>
+                            <span class="navbar-brand">
+                                IIT Academic Automation System
+                            </span>
+                            
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                                 <i class="fa fa-bars"></i>
                             </button>
@@ -94,10 +103,9 @@ else
                 @RenderBody()
             </div>
 
-            <footer class="main-footer  text-center">
-                <strong>2016 &copy; IIT.</strong> Developed by Jobayer Ahmmed, Shahriar Mohammed Ishmam.
+            <footer class="main-footer text-center">
+                    <strong>2016 &copy; IIT</strong>
             </footer>
-
         </div>
 
         @Scripts.Render("~/jquery")

@@ -48,7 +48,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Models
             {
                 return Enumerable.Repeat(new SelectListItem
                 {
-                    Value = "",
+                    Value = "0",
                     Text = "--Select Coordinator--",
                 }, count: 1);
             }
