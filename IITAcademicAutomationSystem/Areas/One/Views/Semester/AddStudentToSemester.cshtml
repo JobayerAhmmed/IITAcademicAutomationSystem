@@ -39,7 +39,10 @@
                         @Html.HiddenFor(model => model.SemesterId)
                         @Html.HiddenFor(model => model.SemesterNo)
 
-                        <ul class="todo-list ui-sortable">
+                        <div class="selectAll">
+                            <input type="checkbox" id="checkAll" /> <label>&nbsp; Select All</label>
+                        </div>
+                        <ul class="todo-list ui-sortable" id="chex">
                             @for (int i = 0; i < Model.Students.Count; i++)
                             {
                                 <li>
@@ -64,3 +67,19 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+<script>
+    $(document).ready(function () {
+        $("#checkAll").click(function () {
+            //if (!this.checked) {
+            //    $("#checkAll").attr('checked', false);
+            //}
+            //else if ($("#chex :checkbox").length == $("#chex :checked").length) {
+            //    $("#checkall").attr('checked', true);
+            //}
+            $("#chex :checkbox").attr("checked", $(this).attr("checked"));
+        });
+    });
+</script>    
+}

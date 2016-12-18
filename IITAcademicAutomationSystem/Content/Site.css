@@ -32,3 +32,15 @@
 .carousel-img {
     min-height: 400px;
 }
+
+.navbar-brand {
+    padding: 7px 15px !important;
+    line-height: 16px !important;
+}
+.navbar-brand-sm {
+    font-size: 80%;
+}
+.selectAll {
+    padding: 15px;
+    font-weight: bold;
+}
