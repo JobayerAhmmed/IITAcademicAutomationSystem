@@ -34,5 +34,6 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
         bool checkIfAllCourseAreFinallySubmitted(int programId, int semesterId, int batchId);
         AllStudentsResultResDto getCompleteResultOfAllStudents(int programId, int semesterId, int batchId);
         IndividualStudentPromotionResDto[] getPassFailInfoOfStudents(int programId, int semesterId, int batchId);
+        ResultOfACourseResDto getResultOfACourse(int programId, int semesterId, int batchId, int courseId);
     }
 }
