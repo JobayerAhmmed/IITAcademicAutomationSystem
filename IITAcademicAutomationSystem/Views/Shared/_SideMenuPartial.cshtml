@@ -85,6 +85,7 @@
                             <li class="active"><a href="@Url.Action("GiveMarks", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Give/Edit Marks</a></li>
                             <li><a href="@Url.Action("ViewGivenMarks_t", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> View Marks</a></li>
                             <li class="active"><a href="@Url.Action("FinalSubmission", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Final Submit</a></li>
+                            <li class="active"><a href="@Url.Action("ViewGPAOfACourse", "ResultManagement", new {area = "two"})"><i class="fa fa-circle-o"></i> Course GPA</a></li>
                         }
                         @if (User.IsInRole("Admin") || User.IsInRole("Batch Coordinator"))
                         {

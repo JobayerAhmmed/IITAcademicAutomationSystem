@@ -1374,7 +1374,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                         MarksOfHeadResDto headMarksToReturn=new MarksOfHeadResDto();
                         headMarksToReturn.headId = head.Id;
                         headMarksToReturn.headName = head.name;
-                        headMarksToReturn.marks = marksOfAHead;
+                        headMarksToReturn.marks = Math.Round(marksOfAHead, 2);
                         eachHeadMarksList.Add(headMarksToReturn);
                     }
                    
@@ -1386,7 +1386,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                     }
 
                     studentToReturn.allHeadMarks = eachHeadMarksList.ToArray();
-                    studentToReturn.totalMarks = totalMarks;
+                    studentToReturn.totalMarks = Math.Round(totalMarks,2);
                     studentToReturn.GPA = findGPABasedOnMarks(totalMarks);
                     studentToReturn.grade = findGradeBasedOnMarks(totalMarks);
                     studentToReturnList.Add(studentToReturn);

@@ -463,6 +463,7 @@
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewAllFinalSubmission.Controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewGivenMarks_s.Controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewGivenMarks_t.Controller.js" />
+    <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewGPAOfACourse.Controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewMarksDistribution_student.controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewMarksDistribution_teacher.Controller.js" />
     <Content Include="Areas\Two\Scripts\ExamManagement\Controllers\ViewResult.Controller.js" />
@@ -658,6 +659,7 @@
     <Content Include="Areas\One\Content\CourseContent\Lecture 01.pptx" />
     <Content Include="Areas\One\Content\CourseContent\Lecture 02.pptx" />
     <Content Include="Areas\One\Content\CourseContent\SRS - Jobayer - Presentation.pptx" />
+    <Content Include="Areas\Two\Views\ResultManagement\ViewGPAOfACourse.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

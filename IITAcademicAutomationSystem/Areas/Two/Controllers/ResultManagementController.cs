@@ -121,6 +121,12 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             return View();
         }
+
+        public ActionResult ViewGPAOfACourse()
+        {
+            return View();
+        }
+
         [Authorize(Roles = "Batch Coordinator")]
         public ActionResult ViewResult()
         {
