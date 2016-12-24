@@ -52,7 +52,7 @@
                                         <div class="col-sm-4">
                                             <b>Subhead Name</b>
                                             <div>
-                                                <span><input type="text" id="subHead" name="subHead" class="form-control" ng-model="selected.subHeadName" ng-change="checkIfSubHeadExist()" ng-minlength="5" ng-maxlength="20" ng-pattern="/^[A-z][A-z0-9_ ]*$/" required /></span>
+                                                <span><input type="text" id="subHead" name="subHead" class="form-control" ng-model="selected.subHeadName" ng-change="checkIfSubHeadExist()" ng-minlength="1" ng-maxlength="30" ng-pattern="/^[A-z][A-z0-9_ ]*$/" required /></span>
                                                 <span style="color:#ff0000">
                                                     <b>
                                                         <span ng-show="subHeadCreation.subHead.$error.required && subHeadCreation.subHead.$dirty">Required</span>
