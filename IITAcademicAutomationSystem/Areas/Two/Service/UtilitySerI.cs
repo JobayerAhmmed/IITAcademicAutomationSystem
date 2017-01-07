@@ -9,18 +9,12 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
 {
     interface UtilitySerI
     {
-
-        //int getIdOfLoggedInTeacher();
-        //int getIdOfLoggedInStudent();
-        //string getIdOfLoggedInProgramOfficer();
         GetProgramsResDto getAllPrograms();
         GetProgramsResDto getProgramsOfATeacher(string teacherId);
         GetSemestersResDto getSemestersOfAProgram(int programId);
         GetSemestersResDto getSemestersOfATeacherOfAProgram(string teacherId, int programId);
         GetCoursesResDto getCoursesOfATeacherOfASemesterOfAProgram(string teacherId, int programId, int semesterId);
-        //GetCoursesResDto getCoursesOfAStudent();
         GetCoursesResDto getCoursesOfAStudent(int studentId);
-
         BatchResDto getBatch(int programId,int semesterId);
         ProgramSemesterBatchResDto getProgramSemesterBatchOfLoggedInStudent(int studentId);
         GetStudentsResponseDto getStudentsOfASemester(int programId, int semesterId, int batchId);
@@ -28,7 +22,6 @@ namespace IITAcademicAutomationSystem.Areas.Two.Service
         StudentFullInfoResDto getStudentByStudentId(int studentId);
         CourseResDto getCourse(int courseId);
         List<CourseResDto> getAllCoursesOfASemester(int programId, int semesterId, int batchId);
-
         BatchResDto[] getBatchesOfAProgram(int programId);
 
         void savePassFailInfoOfAStudnet(int semesterId, int batchId, int studentId,double GPA);

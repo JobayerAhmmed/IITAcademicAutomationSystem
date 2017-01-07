@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewBag.Title = "View GPA";
+}
+<script src='~/Areas/Two/Library/angular.min.js'></script>
+
+<script src="~/Areas/Two/Scripts/Utility/Module/Utility.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Module/ExaminationManagement.module.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Controllers/ViewGPAOfACourse.Controller.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/ExamManagement/Factory/Result.Factory.js" type="text/javascript"></script>
+<script src="~/Areas/Two/Scripts/Utility/Factory/Utility.Factory.js" type="text/javascript"></script>
+
+<div class="container-fluid">
+    <div>
+        <div ng-app="examinationManagement_module" ng-controller="viewGPAOfACourse_controller">
+            <div ng-cloak>
+                {{selection}}
+                ////////
+                //////
+                {{selected}}
+                ///////
+                //////
+                {{flag}}
+                <div>
+                    <div ng-if="message.content!=''">
+                        <div class="{{message.color}}">{{message.content}}</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <div>
+                                    <b>Program</b>
+                                </div>
+                                <div>
+                                    <select class="form-control" ng-change="whenProgramIsSelected()" ng-model="selected.program" ng-options="program as program.name for program in selection.programs"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div ng-show="selected.program.name">
+                                    <div>
+                                        <b>Semester</b>
+                                    </div>
+                                    <div>
+                                        <select class="form-control" ng-change="whenSemesterIsSelected()" ng-model="selected.semester" ng-options="semester as semester.name for semester in selection.semesters"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div ng-show="selected.program.name && selected.semester.name">
+                                    <div>
+                                        <b>Course</b>
+                                    </div>
+                                    <div>
+                                        <select class="form-control" ng-change="whenCourseIsSelected()" ng-model="selected.course" ng-options="course as course.name for course in selection.courses"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div ng-show="selected.program.name && selected.semester.name && selected.course.name">
+                    <div class="box">
+                        <div ng-if="flag.isMarksAlreadyDistributed==false">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-12">
+                                        <div class="alert alert-success">
+                                            <h3>Marks is Not distributed Yet</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="flag.isMarksAlreadyDistributed==true">
+                            <div ng-if="flag.ifMarksOfAllHeadsAreGiven==false">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-12">
+                                            <div class="alert alert-success">
+                                                <h3>All Heads' Marks Is Not Given Yet</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="flag.ifMarksOfAllHeadsAreGiven==true">
+                                <div id="printArea">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-3">
+                                                <h3>{{"Program : "+selected.program.name+" "}}</h3>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <h3>{{"Semster : "+selected.semester.name+" "}}</h3>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <h3>{{"Batch :"+selected.batch.name}}</h3>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <h3>{{selected.course.name}}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Name</th>
+                                            <th class="text-center">Class Roll</th>
+                                            <th class="text-center" ng-repeat="head in selection.GPAOfCourse.studentResult[0].allHeadMarks">
+                                                {{head.headName}}
+                                            </th>
+                                            <th class="text-center">Total Marks</th>
+                                            <th class="text-center">GPA</th>
+                                            <th class="text-center">Grade</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="student in selection.GPAOfCourse.studentResult">
+                                            <td class="text-center">{{student.studentName}}</td>
+                                            <td class="text-center">{{student.classRoll}}</td>
+                                            <td class="text-center" ng-repeat="head in student.allHeadMarks">{{head.marks}}</td>
+                                            <td class="text-center">{{student.totalMarks}}</td>
+                                            <td class="text-center">{{student.GPA}}</td>
+                                            <td class="text-center">{{student.grade}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-12">
+                                            <input type="button" class="btn btn-primary" value="Download" ng-click="printIt()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

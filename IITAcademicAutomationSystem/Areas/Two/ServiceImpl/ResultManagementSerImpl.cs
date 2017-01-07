@@ -951,9 +951,7 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
                 for (int studentCount = 0; studentCount < studentList.students.Length; studentCount++)
                 {
                     var studentTemp = studentList.students.ElementAt(studentCount);
-
                     IndividualResultResDto eachStudentResult = new IndividualResultResDto();
-
                     List<IndividualCourseResultResDto> courseResultList = new List<IndividualCourseResultResDto>();
                     for (int courseCount = 0; courseCount < courseList.Count; courseCount++)
                     {
@@ -1108,6 +1106,31 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             if (marks < 40)//it means fails
                 return 0.00;//it means fail
             return 0.00;
+        }
+
+        private string findGradeBasedOnMarks(double marks)
+        {
+            if (marks >= 80)
+                return "A+";
+            if (marks >= 75 && marks < 80)
+                return "A";
+            if (marks >= 70 && marks < 75)
+                return "A-";
+            if (marks >= 65 && marks < 70)
+                return "B+";
+            if (marks >= 60 && marks < 65)
+                return "B";
+            if (marks >= 55 && marks < 60)
+                return "B-";
+            if (marks >= 50 && marks < 55)
+                return "C+";
+            if (marks >= 45 && marks < 50)
+                return "C";
+            if (marks >= 40 && marks < 45)
+                return "D";
+            if (marks < 40)//it means fails
+                return "F";//it means fail
+            return "F";
         }
 
         public IndividualStudentPromotionResDto[] getPassFailInfoOfStudents(int programId,int semesterId,int batchId)
@@ -1307,20 +1330,75 @@ namespace IITAcademicAutomationSystem.Areas.Two.ServiceImpl
             return result;
         }
 
-        /*private void savingResultToDb(List<AllStudentsResultResDto> allSemesterResultList)
+        public ResultOfACourseResDto getResultOfACourse(int programId, int semesterId, int batchId, int courseId)
         {
-            for (int semesterCounter = 0; semesterCounter < allSemesterResultList.Count; semesterCounter++)
+            try
             {
-                var semesterResult = allSemesterResultList.ElementAt(semesterCounter);
+                ResultOfACourseResDto responseToReturn=new ResultOfACourseResDto();
+                var course = utilityRepository.getCourseByCourseId(courseId);
+                responseToReturn.courseId = courseId;
+                responseToReturn.courseName = course.CourseTitle;
+                responseToReturn.courseCode = course.CourseCode;
 
-                for (int studentCounter = 0; studentCounter < semesterResult.results.Length; studentCounter++)
+                var studentList = utilityService.getStudentsOfACOurse(programId, semesterId, batchId, courseId).students;
+                var marksDistribtionList = getDistributedMarks(programId, semesterId, batchId, courseId);
+                if (marksDistribtionList.isFinallySubmitted == false)
+                    return null;
+
+                List< ResultOfACourseOfAStudentResDto > studentToReturnList=new List<ResultOfACourseOfAStudentResDto>();
+                for (int studentCount = 0; studentCount < studentList.Length; studentCount++)
                 {
-                    var individualStudentResult = semesterResult.results[studentCounter];
+                    ResultOfACourseOfAStudentResDto studentToReturn=new ResultOfACourseOfAStudentResDto();
 
+                    var tempStuden = studentList.ElementAt(studentCount);
+                    studentToReturn.id = tempStuden.id;
+                    studentToReturn.studentName = tempStuden.name;
+                    studentToReturn.classRoll = tempStuden.classRoll;
+                    studentToReturn.examRoll = tempStuden.examRoll;
 
+                    List< MarksOfHeadResDto > eachHeadMarksList=new List<MarksOfHeadResDto>();
+
+                    for (int distributionCount = 0;
+                        distributionCount < marksDistribtionList.distributedMarks.Length;
+                        distributionCount++)
+                    {
+                        var marksDistributionTemp = marksDistribtionList.distributedMarks.ElementAt(distributionCount);
+
+                        var allMarksList =
+                            marksRepository.getMarksOfAHeadOfAllSubHeadOfAStudent(marksDistributionTemp.id,
+                                tempStuden.id);
+                        MarksDistribution tempDistribution = marksDistributionRepo.getDistributedMarks(marksDistributionTemp.id);
+                        double marksOfAHead = countMarksOfAHead(tempDistribution, allMarksList);
+
+                        MarksHead head = marksHeadRepo.getHead(tempDistribution.headId);
+                        MarksOfHeadResDto headMarksToReturn=new MarksOfHeadResDto();
+                        headMarksToReturn.headId = head.Id;
+                        headMarksToReturn.headName = head.name;
+                        headMarksToReturn.marks = Math.Round(marksOfAHead, 2);
+                        eachHeadMarksList.Add(headMarksToReturn);
+                    }
+                   
+
+                    double totalMarks = 0;
+                    for (int i = 0; i < eachHeadMarksList.Count; i++)
+                    {
+                        totalMarks = totalMarks + eachHeadMarksList.ElementAt(i).marks;
+                    }
+
+                    studentToReturn.allHeadMarks = eachHeadMarksList.ToArray();
+                    studentToReturn.totalMarks = Math.Round(totalMarks,2);
+                    studentToReturn.GPA = findGPABasedOnMarks(totalMarks);
+                    studentToReturn.grade = findGradeBasedOnMarks(totalMarks);
+                    studentToReturnList.Add(studentToReturn);
                 }
-            }
-        }*/
+                responseToReturn.studentResult = studentToReturnList.ToArray();
 
+                return responseToReturn;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

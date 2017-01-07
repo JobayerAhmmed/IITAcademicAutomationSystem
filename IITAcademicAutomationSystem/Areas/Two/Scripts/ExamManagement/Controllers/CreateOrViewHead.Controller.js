@@ -2,27 +2,20 @@
     function(){
         angular.module("examinationManagement_module").controller("viewOrCreateHead_controller", ["$scope", "Result_Service", "Utility_Service", function ($scope, ResultService, UtilityService) {
             $scope.name="Ishmnam";
-
-
             var AddHead={
                 name:""
             }
-
             $scope.selected={
                 headName:""
             }
-
             $scope.selection={
                 heads:[]
             }
-
-
             $scope.flag = {
                 isCreateHeadClicked:false,
                 ifHeadAlreadyExist:false,
                 disableSubmitButton:true
             }
-
             $scope.message = {
                 content: "",
                 color:""
@@ -38,7 +31,6 @@
             $scope.checkIfHeadExist = function () {
                 if($scope.selected.headName===undefined)
                     return;
-
                 var ifExist;
                 for(var i=0;i<$scope.selection.heads.length;i++){                   
                     var currentHeadLowerCased=$scope.selection.heads[i].name.toLowerCase();
@@ -46,7 +38,6 @@
                     if(currentHeadLowerCased==inputLowerCased)
                         ifExist=true;
                 }
-
                 if(ifExist){
                     $scope.flag.ifHeadAlreadyExist=true;
                     $scope.flag.disableSubmitButton=true;

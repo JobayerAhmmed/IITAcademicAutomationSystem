@@ -240,7 +240,17 @@
                         }
                 );
         },
-        
+        getResultOfACourse: function (programId, semesterId, batchId, courseId) {
+            return $http.get('/ResultManagement/getResultOfACourse?programId=' + programId + "&semesterId=" + semesterId + "&batchId=" + batchId + "&courseId=" + courseId)
+            .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        return $q.reject(errResponse);
+                    }
+            );
+        },
         checkIfAllCourseAreFinallySubmitted: function (programId, semesterId, batchId) {
             return $http.get('/ResultManagement/checkIfAllCourseAreFinallySubmitted?programId=' + programId + "&semesterId=" + semesterId + "&batchId=" + batchId)
             .then(
@@ -251,7 +261,7 @@
                         return $q.reject(errResponse);
                     }
             );
-         }
+        }
     };
 
 }])

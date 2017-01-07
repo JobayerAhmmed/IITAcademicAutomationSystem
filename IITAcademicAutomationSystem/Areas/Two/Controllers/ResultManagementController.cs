@@ -121,6 +121,12 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
         {
             return View();
         }
+
+        public ActionResult ViewGPAOfACourse()
+        {
+            return View();
+        }
+
         [Authorize(Roles = "Batch Coordinator")]
         public ActionResult ViewResult()
         {
@@ -474,21 +480,19 @@ namespace IITAcademicAutomationSystem.Areas.Two.Controllers
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }
         }
-
-        /*[HttpGet]
-        public JsonResult getPassFailInfoOfASemester(int programId, int semesterId, int batchId)
+        public JsonResult getResultOfACourse(int programId, int semesterId, int batchId,int courseId)
         {
             try
             {
-                var data = resultManagementSerI.getPassFailInfoOfStudents(programId, semesterId, batchId);
+                var data = resultManagementSerI.getResultOfACourse(programId, semesterId, batchId,courseId);
                 Object response = new { Status = "OK", Data = data };
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                Object response = new { Status = "ERROR", Message = "Error has Occured While Reading Distributed Marks Info" + e };
+                Object response = new { Status = "ERROR", Message = "Error has Occured While Processing Result"};
                 return this.Json(response, JsonRequestBehavior.AllowGet);
             }
-        }*/
+        }
     }
 }

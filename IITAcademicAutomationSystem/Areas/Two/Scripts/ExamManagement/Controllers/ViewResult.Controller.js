@@ -86,34 +86,6 @@
                     getBatches();
             }
 
-
-            /*$scope.whenBatchIsSelected = function () {
-                $scope.selected = {
-                    program: $scope.selected.program,
-                    semester: $scope.selected.semester,
-                    batch: $scope.selected.batch
-                }
-
-                $scope.selection = {
-                    programs: $scope.selection.programs,
-                    batches: $scope.selection.batches,
-                    semesters: $scope.selection.semesters,
-                    courses: [],
-                    resultInfo: {
-
-                    }
-                }
-                $scope.flag = {
-
-                }
-
-                if ($scope.selected.program.id && $scope.selected.batch.id && $scope.selected.semester.id) {
-                    checkIfAllCourseAreFinallySubmitted();
-                }
-            }*/
-
-            
-
             $scope.printIt = function(){
                 var table = document.getElementById('printArea').innerHTML;
                 var myWindow = $window.open('', '', 'width=800, height=600');
