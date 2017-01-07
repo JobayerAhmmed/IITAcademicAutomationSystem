@@ -72,23 +72,23 @@ User.IsInRole("Program Officer Evening"))
                                         }
                                     </td>
                                     <td>
-@if (User.IsInRole("Admin") ||
-                User.IsInRole("Program Officer Regular") ||
-                User.IsInRole("Program Officer Evening"))
-{
+                                    @if (User.IsInRole("Admin") ||
+                                        User.IsInRole("Program Officer Regular") ||
+                                        User.IsInRole("Program Officer Evening"))
+                                    {
                                         @Html.ActionLink("Set Role", "TeacherSetRole", "Account",
-             new { area = "", id = item.Id },
-             new { @class = "btn btn-primary btn-flat btn-xs" })
+                                             new { area = "", id = item.Id },
+                                             new { @class = "btn btn-primary btn-flat btn-xs" })
                                         @Html.ActionLink("Change Email", "ResetEmail", "Account",
-             new { area = "", id = item.Id },
-             new { @class = "btn btn-primary btn-flat btn-xs" })
-                                        @Html.ActionLink("Edit", "TeacherEdit", "Account",
-             new { area = "", id = item.Id },
-             new { @class = "btn btn-primary btn-flat btn-xs" })
-}
-                                        @Html.ActionLink("Details", "TeacherDetails", "Account",
                                             new { area = "", id = item.Id },
                                             new { @class = "btn btn-primary btn-flat btn-xs" })
+                                        @Html.ActionLink("Edit", "TeacherEdit", "Account",
+                                             new { area = "", id = item.Id },
+                                             new { @class = "btn btn-primary btn-flat btn-xs" })
+                                    }
+                                    @Html.ActionLink("Details", "TeacherDetails", "Account",
+                                        new { area = "", id = item.Id },
+                                        new { @class = "btn btn-primary btn-flat btn-xs" })
                                         
                                         @*@Html.ActionLink("Delete", "TeacherDelete", "Account",
                                             new { area = "", id = item.Id },

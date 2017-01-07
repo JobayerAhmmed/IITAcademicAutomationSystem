@@ -3,6 +3,7 @@ using IITAcademicAutomationSystem.Areas.One.Models;
 using IITAcademicAutomationSystem.Areas.One.Services;
 using IITAcademicAutomationSystem.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,8 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             var semester = semesterService.ViewSemester(semesterId);
             var batch = batchService.ViewBatch(batchId);
             var program = programService.ViewProgram(batch.ProgramId);
+            var currentSemester = semesterService.ViewSemester(batch.SemesterIdCurrent);
+
             IEnumerable<Course> courses = semesterService.GetSemesterCourses(batchId, semesterId);
             IEnumerable<Student> students = semesterService.GetSemesterStudents(batchId, semesterId);
             IEnumerable<ApplicationUser> teachers = semesterService.GetSemesterTeachers(batchId, semesterId);
@@ -79,6 +82,21 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             model.NumberOfOfferedCourses = courses.Count();
             model.NumberOfEnrolledStudents = students.Count();
             model.NumberOfCourseTeachers = teachers.Count();
+
+            model.SemesterIdCurrent = batch.SemesterIdCurrent;
+            model.CurrentSemesterNo = 0;
+            if (currentSemester != null)
+            {
+                model.CurrentSemesterNo = currentSemester.SemesterNo;
+            }
+            model.Status = batch.BatchStatus;
+            model.BatchCoordinator = "";
+
+            ApplicationUser batchCoordinator = batchService.GetBatchCoordinator(batchId);
+            if (batchCoordinator != null)
+            {
+                model.BatchCoordinator = batchCoordinator.FullName;
+            }
 
             return View(model);
         }
@@ -350,9 +368,25 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             var semester = semesterService.ViewSemester(semesterId);
             var batch = batchService.ViewBatch(batchId);
             var program = programService.ViewProgram(batch.ProgramId);
+
             IEnumerable<Course> courses = semesterService.GetSemesterCourses(batchId, semesterId);
-            IEnumerable<CourseIndexViewModel> coursesToView =
-                Mapper.Map<IEnumerable<Course>, IEnumerable<CourseIndexViewModel>>(courses);
+
+            //IEnumerable<CourseIndexViewModel> coursesToView2 =
+            //    Mapper.Map<IEnumerable<Course>, IEnumerable<CourseIndexViewModel>>(courses);
+
+            IList<CourseIndexViewModel> coursesToView = new List<CourseIndexViewModel>();
+            CourseIndexViewModel item = new CourseIndexViewModel();
+
+            foreach (var c in courses)
+            {
+                item.Id = c.Id;
+                item.CourseCode = c.CourseCode;
+                item.CourseTitle = c.CourseTitle;
+                item.NumberOfStudents = semesterService.GetCourseStudentsNumber(batchId, semesterId, c.Id);
+                item.NumberOfTeachers = semesterService.GetCourseTeachersNumber(batchId, semesterId, c.Id);
+                coursesToView.Add(item);
+                item = new CourseIndexViewModel();
+            }
 
             SemesterIndexViewModel model = new SemesterIndexViewModel();
             model.ProgramId = program.Id;
@@ -525,7 +559,15 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         public ActionResult RemoveStudentFromSemester(SemesterAddStudentViewModel model)
         {
             StudentSemester studentSemester;
-            bool result;
+            StudentCourse studentCourse;
+            Semester previousSemester = null;
+            if (model.SemesterNo > 1)
+            {
+                previousSemester = semesterService.GetPreviousSemester(model.SemesterId);
+            }
+            bool result1 = false;
+            bool result2 = false;
+            bool result3 = false;
             foreach (var student in model.Students)
             {
                 if (student.IsChecked)
@@ -536,10 +578,33 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
                         BatchId = model.BatchId,
                         StudentId = Convert.ToInt32(student.Value)
                     };
-                    result = semesterService.RemoveStudentFromStudentSemester(studentSemester);
 
-                    if (result)
+                    studentCourse = new StudentCourse()
+                    {
+                        BatchId = model.BatchId,
+                        SemesterId = model.SemesterId,
+                        StudentId = Convert.ToInt32(student.Value)
+                    };
+                    result1 = semesterService.RemoveStudentFromStudentSemester(studentSemester);
+
+                    if (result1)
+                    {
+                        result2 = semesterService.RemoveStudentsFromStudentCourse(studentCourse);
+                    }
+
+                    if (result2)
+                    {
+                        Student std = studentService.ViewStudent(Convert.ToInt32(student.Value));
+                        if (previousSemester != null)
+                        {
+                            std.SemesterId = previousSemester.Id;
+                        }
+                        result3 = studentService.EditStudent(std);
+                    }
+                    if (result3)
+                    {
                         continue;
+                    }
 
                     return View(model);
                 }
@@ -652,7 +717,9 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
         public ActionResult RemoveCourseFromSemester(SemesterCourseAllocationViewModel model)
         {
             CourseSemester courseSemester;
-            bool result;
+            StudentCourse studentCourse;
+            bool result = false;
+            bool result2 = false;
             foreach (var course in model.Courses)
             {
                 if (course.IsChecked)
@@ -663,10 +730,22 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
                         BatchId = model.BatchId,
                         CourseId = Convert.ToInt32(course.Value)
                     };
-                    result = semesterService.RemoveCourseFromSemester(courseSemester);
+                    studentCourse = new StudentCourse()
+                    {
+                        BatchId = model.BatchId,
+                        SemesterId = model.SemesterId,
+                        CourseId = Convert.ToInt32(course.Value)
+                    };
+                    result = semesterService.RemoveCoursesFromSemester(courseSemester);
 
                     if (result)
+                    {
+                        result2 = semesterService.RemoveCoursesFromStudentCourse(studentCourse);
+                    }
+                    if (result2)
+                    {
                         continue;
+                    }
 
                     return View(model);
                 }
@@ -781,6 +860,77 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
                         StudentId = Convert.ToInt32(student.Value)
                     };
                     result = semesterService.AddStudentToStudentCourse(studentCourse);
+
+                    if (result)
+                        continue;
+
+                    return View(model);
+                }
+            }
+
+            return RedirectToAction("CourseStudents", "Semester",
+                new { area = "One", batchId = model.BatchId, semesterId = model.SemesterId, courseId = courseId });
+        }
+
+        // Remove Student from Course
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
+        public ActionResult RemoveStudentFromCourse(int batchId, int semesterId, int courseId)
+        {
+            var batch = batchService.ViewBatch(batchId);
+            var semester = semesterService.ViewSemester(semesterId);
+            var program = programService.ViewProgram(batch.ProgramId);
+            var course = courseService.ViewCourse(courseId);
+
+            var addedStudents = semesterService.GetCourseStudents(batchId, semesterId, courseId);
+
+            SemesterAddStudentViewModel model = new SemesterAddStudentViewModel();
+            model.ProgramId = program.Id;
+            model.ProgramName = program.ProgramName;
+            model.BatchId = batchId;
+            model.BatchNo = batch.BatchNo;
+            model.SemesterId = semesterId;
+            model.SemesterNo = semester.SemesterNo;
+
+            var checkBoxListItems = new List<CheckBoxListItem>();
+            ApplicationUser user;
+            foreach (var student in addedStudents)
+            {
+                user = userService.ViewUser(student.UserId);
+                checkBoxListItems.Add(new CheckBoxListItem()
+                {
+                    Value = (student.Id).ToString(),
+                    Text = student.CurrentRoll + " - " + user.FullName,
+                    IsChecked = false
+                });
+            }
+            model.Students = checkBoxListItems;
+
+            ViewBag.CourseId = courseId;
+            ViewBag.CourseCode = course.CourseCode;
+
+            return View(model);
+        }
+
+        // POST: Remove student from Course
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
+        public ActionResult RemoveStudentFromCourse(SemesterAddStudentViewModel model, int courseId)
+        {
+            StudentCourse studentCourse;
+            bool result;
+            foreach (var student in model.Students)
+            {
+                if (student.IsChecked)
+                {
+                    studentCourse = new StudentCourse()
+                    {
+                        BatchId = model.BatchId,
+                        SemesterId = model.SemesterId,
+                        CourseId = courseId,
+                        StudentId = Convert.ToInt32(student.Value)
+                    };
+                    result = semesterService.RemoveStudentFromStudentCourse(studentCourse);
 
                     if (result)
                         continue;
@@ -983,18 +1133,183 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
                 new { area = "One", batchId = model.BatchId, semesterId = model.SemesterId, courseId = model.CourseId });
         }
 
-        // Remove Student from Course
+        // Update current semester
         [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
-        public ActionResult RemoveStudentFromCourse(int batchId, int semesterId, int courseId)
+        public ActionResult UpdateCurrentSemester(int batchId, int semesterId)
         {
-            var batch = batchService.ViewBatch(batchId);
-            var semester = semesterService.ViewSemester(semesterId);
-            var program = programService.ViewProgram(batch.ProgramId);
-            var course = courseService.ViewCourse(courseId);
+            Batch batch = batchService.ViewBatch(batchId);
+            Program program = programService.ViewProgram(batch.ProgramId);
+            Semester semester = semesterService.ViewSemester(semesterId);
+            Semester currentSemester = semesterService.ViewSemester(batch.SemesterIdCurrent);
 
-            var addedStudents = semesterService.GetCourseStudents(batchId, semesterId, courseId);
+            UpdateCurrentSemesterViewModel model = new UpdateCurrentSemesterViewModel();
+            model.ProgramId = program.Id;
+            model.ProgramName = program.ProgramName;
+            model.SemesterId = semester.Id;
+            model.SemesterNo = semester.SemesterNo;
+            model.BatchId = batchId;
+            model.BatchNo = batch.BatchNo;
+            model.SemesterIdCurrent = currentSemester.Id;
+            model.CurrentSemesterNo = currentSemester.SemesterNo;
 
-            SemesterAddStudentViewModel model = new SemesterAddStudentViewModel();
+            List<Semester> semesters = semesterService.GetSemestersOfProgram(program.Id).ToList();
+            
+            model.Semesters = semesters;
+
+            return View(model);
+        }
+
+        // POST: update current sememster
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
+        public ActionResult UpdateCurrentSemester(UpdateCurrentSemesterViewModel model)
+        {
+            Batch batchToUpdate = batchService.ViewBatch(model.BatchId);
+
+            if (batchToUpdate.SemesterIdCurrent == model.SemesterIdUpdated)
+            {
+                return RedirectToAction("Index", "Semester",
+                    new { area = "One", batchId = model.BatchId, semesterId = model.SemesterId });
+            }
+
+            batchToUpdate.SemesterIdCurrent = model.SemesterIdUpdated;
+            batchService.EditBatch(batchToUpdate);
+
+            //if (batchService.EditBatch(batchToUpdate))
+            //{
+            //    // Update students current semester
+            //    var students = batchService.ViewCurrentStudentsOfBatch(model.BatchId);
+            //    foreach (var student in students)
+            //    {
+            //        student.SemesterId = model.SemesterIdUpdated;
+            //        if (!studentService.EditStudent(student))
+            //        {
+            //            break;
+            //        }
+            //    }
+            //}
+
+            return RedirectToAction("Index", "Semester",
+                new { area = "One", batchId = model.BatchId, semesterId = model.SemesterId });
+        }
+
+        // update batch status
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
+        public ActionResult UpdateBatchStatus(int batchId, int semesterId)
+        {
+            Batch batch = batchService.ViewBatch(batchId);
+            Program program = programService.ViewProgram(batch.ProgramId);
+            Semester semester = semesterService.ViewSemester(semesterId);
+            Semester currentSemester = semesterService.ViewSemester(batch.SemesterIdCurrent);
+
+            UpdateBatchStatusViewModel model = new UpdateBatchStatusViewModel();
+            model.ProgramId = program.Id;
+            model.ProgramName = program.ProgramName;
+            model.SemesterId = semesterId;
+            model.SemesterNo = semester.SemesterNo;
+            model.BatchId = batchId;
+            model.BatchNo = batch.BatchNo;
+            model.CurrentSemesterNo = currentSemester.SemesterNo;
+            model.BatchStatus = batch.BatchStatus;
+
+            List<string> values = new List<string>();
+            values.Add("Active");
+            values.Add("Passed");
+            model.StatusValues = values;
+
+            return View(model);
+        }
+
+        // POST: update batch status
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
+        public ActionResult UpdateBatchStatus(UpdateBatchStatusViewModel model)
+        {
+            Batch batchToUpdate = batchService.ViewBatch(model.BatchId);
+
+            if (batchToUpdate.BatchStatus == model.BatchStatusNew)
+            {
+                return RedirectToAction("Index", "Semester",
+                    new { area = "One", batchId = model.BatchId, semesterId = model.SemesterId });
+            }
+
+            batchToUpdate.BatchStatus = model.BatchStatusNew;
+            var result = batchService.EditBatch(batchToUpdate);
+
+            BatchCoordinator lastCoordinator = batchService.GetLastBatchCoordinator(model.BatchId);
+            var result1 = true;
+            IdentityResult result5 = new IdentityResult();
+
+            if (lastCoordinator != null)
+            {
+                lastCoordinator.EndDate = DateTime.Now;
+                result1 = batchService.EditBatchCoordinator(lastCoordinator);
+                result5 = UserManager.RemoveFromRole(lastCoordinator.TeacherId, "Batch Coordinator");
+            }
+
+            if (result)
+            {
+                return RedirectToAction("Index", "Semester",
+                new { area = "One", batchId = model.BatchId, semesterId = model.SemesterId });
+            }
+            ModelState.AddModelError("", "Unable to save, try again");
+            return View(model);
+        }
+
+        // Batch coordinators
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular, Batch Coordinator, Student, Teacher")]
+        public ActionResult BatchCoordinators(int batchId, int semesterId)
+        {
+            Batch batch = batchService.ViewBatch(batchId);
+            Semester sem = semesterService.ViewSemester(semesterId);
+            Program program = programService.ViewProgram(batch.ProgramId);
+
+            BatchCoordinatorIndexViewModel model = new BatchCoordinatorIndexViewModel();
+            model.ProgramId = program.Id;
+            model.ProgramName = program.ProgramName;
+            model.BatchId = batchId;
+            model.BatchNo = batch.BatchNo;
+            model.SemesterId = semesterId;
+            model.SemesterNo = sem.SemesterNo;
+
+            var batchCoordinators = batchService.GetBatchCoordinatorOfBatch(batchId);
+            List<BatchCoordinatorViewModel> coordinators = new List<BatchCoordinatorViewModel>();
+            BatchCoordinatorViewModel bcModel = new BatchCoordinatorViewModel();
+            Semester semester;
+            ApplicationUser user;
+            foreach (var item in batchCoordinators)
+            {
+                semester = semesterService.ViewSemester(item.SemesterId);
+                user = userService.ViewUser(item.TeacherId);
+
+                bcModel.SemesterNo = semester.SemesterNo;
+                bcModel.Name = user.FullName;
+                bcModel.ImagePath = user.ImagePath;
+                bcModel.StartDate = item.StartDate.ToString("dd-MM-yyyy");
+                bcModel.EndDate = item.EndDate.ToString("dd-MM-yyyy");
+                //bcModel.StartDate = item.StartDate.ToString();
+                //bcModel.EndDate = item.EndDate.ToString();
+
+                coordinators.Add(bcModel);
+                bcModel = new BatchCoordinatorViewModel();
+            }
+
+            model.Coordinators = coordinators;
+
+            return View(model);
+        }
+
+        // Assign batch coordinators
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
+        public ActionResult AssignCoordinator(int batchId, int semesterId)
+        {
+            Batch batch = batchService.ViewBatch(batchId);
+            Program program = programService.ViewProgram(batch.ProgramId);
+            Semester semester = semesterService.ViewSemester(semesterId);
+
+            AssignCoordinatorViewModel model = new AssignCoordinatorViewModel();
             model.ProgramId = program.Id;
             model.ProgramName = program.ProgramName;
             model.BatchId = batchId;
@@ -1002,56 +1317,97 @@ namespace IITAcademicAutomationSystem.Areas.One.Controllers
             model.SemesterId = semesterId;
             model.SemesterNo = semester.SemesterNo;
 
-            var checkBoxListItems = new List<CheckBoxListItem>();
-            ApplicationUser user;
-            foreach (var student in addedStudents)
+            // return empty teacher list for passed batch
+            if (batch.BatchStatus == "Passed")
             {
-                user = userService.ViewUser(student.UserId);
-                checkBoxListItems.Add(new CheckBoxListItem()
-                {
-                    Value = (student.Id).ToString(),
-                    Text = student.CurrentRoll + " - " + user.FullName,
-                    IsChecked = false
-                });
+                model.Teachers = null;
+                return View(model);
             }
-            model.Students = checkBoxListItems;
 
-            ViewBag.CourseId = courseId;
-            ViewBag.CourseCode = course.CourseCode;
+            IdentityRole role = roleService.GetRoleByName("Teacher");
+            var teachers = UserManager.Users.Where(u =>
+                u.Status == "On Duty" &&
+                u.Roles.Any(r => r.RoleId == role.Id)).ToList();
+
+            List<ApplicationUser> eligibleTeacher = new List<ApplicationUser>();
+            foreach (var item in teachers)
+            {
+                if (UserManager.IsInRole(item.Id, "Batch Coordinator"))
+                {
+                    continue;
+                }
+                eligibleTeacher.Add(item);
+            }
+
+            model.Teachers = eligibleTeacher;
 
             return View(model);
         }
 
-        // POST: Remove student from Course
+        // POST: Assign batch coordinator
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
-        public ActionResult RemoveStudentFromCourse(SemesterAddStudentViewModel model, int courseId)
+        public ActionResult AssignCoordinator(AssignCoordinatorViewModel model)
         {
-            StudentCourse studentCourse;
-            bool result;
-            foreach (var student in model.Students)
+            if (model.CoordinatorId == "0")
             {
-                if (student.IsChecked)
-                {
-                    studentCourse = new StudentCourse()
-                    {
-                        BatchId = model.BatchId,
-                        SemesterId = model.SemesterId,
-                        CourseId = courseId,
-                        StudentId = Convert.ToInt32(student.Value)
-                    };
-                    result = semesterService.RemoveStudentFromStudentCourse(studentCourse);
-
-                    if (result)
-                        continue;
-
-                    return View(model);
-                }
+                return RedirectToAction("BatchCoordinators", "Semester",
+                    new { area = "One", batchId = model.BatchId, semesterId = model.SemesterId });
             }
 
-            return RedirectToAction("CourseStudents", "Semester",
-                new { area = "One", batchId = model.BatchId, semesterId = model.SemesterId, courseId = courseId });
+            Batch batch = batchService.ViewBatch(model.BatchId);
+            var roleCoordinator = roleService.GetRoleByName("Batch Coordinator");
+
+            BatchCoordinator coordinator = new BatchCoordinator();
+            coordinator.BatchId = model.BatchId;
+            coordinator.SemesterId = batch.SemesterIdCurrent;
+            coordinator.TeacherId = model.CoordinatorId;
+            coordinator.StartDate = DateTime.Now;
+            coordinator.EndDate = coordinator.StartDate;
+
+            BatchCoordinator lastCoordinator = batchService.GetLastBatchCoordinator(model.BatchId);
+            var result1 = true;
+            IdentityResult result5 = new IdentityResult();
+
+            if (lastCoordinator != null)
+            {
+                lastCoordinator.EndDate = coordinator.StartDate;
+                result1 = batchService.EditBatchCoordinator(lastCoordinator);
+                result5 = UserManager.RemoveFromRole(lastCoordinator.TeacherId, roleCoordinator.Name);
+            }
+
+            IdentityRole role;
+            IEnumerable<ApplicationUser> teachers;
+
+            if (result1)
+            {
+                var result2 = batchService.AssignCoordinator(coordinator);
+                IdentityResult result3 = UserManager.AddToRole(model.CoordinatorId, roleCoordinator.Name);
+                if (result2 && result3.Succeeded)
+                {
+                    return RedirectToAction("BatchCoordinators", "Semester", 
+                        new { area = "One", batchId = model.BatchId, semesterId = model.SemesterId });
+                }
+
+                role = roleService.GetRoleByName("Teacher");
+                teachers = UserManager.Users.Where(u =>
+                    u.Status == "On Duty" &&
+                    u.Roles.Any(r => r.RoleId == role.Id)).ToList();
+
+                model.Teachers = teachers;
+
+                return View(model);
+            }
+
+            role = roleService.GetRoleByName("Teacher");
+            teachers = UserManager.Users.Where(u =>
+                u.Status == "On Duty" &&
+                u.Roles.Any(r => r.RoleId == role.Id)).ToList();
+
+            model.Teachers = teachers;
+
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)

@@ -26,6 +26,22 @@
 
 </section>
 <section class="content">
+    @if (User.IsInRole("Admin") ||
+                                                                    User.IsInRole("Program Officer Regular") ||
+                                                                    User.IsInRole("Program Officer Evening"))
+    {
+        <div class="row">
+            <div class="col-xs-12 text-right">
+                @Html.ActionLink("Add Student", "AddStudentToSemester", "Semester",
+                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                new { @class = "btn btn-success btn-flat" })
+                @Html.ActionLink("Remove Student", "RemoveStudentFromSemester", "Semester",
+                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                new { @class = "btn btn-danger btn-flat" })
+            </div>
+        </div>
+    }
+    <br />
     <div class="row">
         <div class="col-xs-12 text-right">
             @Html.ActionLink("Passed Students", "SemesterPassedStudents", "Semester",
@@ -95,7 +111,7 @@
                 <div class="box-footer">
                     @Html.ActionLink("Back to Semester", "Index", "Semester",
                         new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
-                        new { @class = "btn btn-primary btn-flat btn-lg" })
+                        new { @class = "btn btn-primary btn-flat" })
                 </div>
             </div>
         </div>

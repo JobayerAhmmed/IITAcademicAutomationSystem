@@ -20,31 +20,21 @@
     </ol>
 </section>
 <section class="content">
-    @if (User.IsInRole("Admin") ||
-                                                            User.IsInRole("Program Officer Regular") ||
-                                                            User.IsInRole("Program Officer Evening"))
+    @if ((Model.SemesterNo == 1) && (User.IsInRole("Admin") ||
+        User.IsInRole("Program Officer Regular") ||
+        User.IsInRole("Program Officer Evening")))
     {
         <div class="row">
             <div class="col-xs-12 text-right">
-                @Html.ActionLink("Add Student", "AddStudentToSemester", "Semester",
-                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
-                                new { @class = "btn btn-success btn-flat btn-lg" })
-                @Html.ActionLink("Remove Student", "RemoveStudentFromSemester", "Semester",
-                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
-                                new { @class = "btn btn-success btn-flat btn-lg" })
-                @Html.ActionLink("Add Course", "AllocateCoursesToSemester", "Semester",
-                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
-                                new { @class = "btn btn-success btn-flat btn-lg" })
-                @Html.ActionLink("Remove Course", "RemoveCourseFromSemester", "Semester",
-                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
-                                new { @class = "btn btn-success btn-flat btn-lg" })
+                @Html.ActionLink("Admit Students", "StudentRegister2", "Account",
+                new { area = "", programId = Model.ProgramId, batchId = Model.BatchId, semesterId = Model.SemesterId },
+                new { @class = "btn btn-success btn-flat btn-lg" })
             </div>
         </div>
     }
-    
     <hr />
     <div class="row">
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-3 col-xs-12">
             <div class="small-box bg-one-aqua">
                 <div class="inner">
                     <h3>@Model.NumberOfEnrolledStudents</h3>
@@ -60,32 +50,139 @@
                 </a>
             </div>
         </div>
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-3 col-xs-12">
             <div class="small-box bg-teal">
                 <div class="inner">
                     <h3>@Model.NumberOfOfferedCourses</h3>
                     <p>Offered Courses</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-ios-people-outline"></i>
+                    <i class="ion ion-ios-photos-outline"></i>
                 </div>
                 <a href='@Url.Action("SemesterCourses", "Semester",
                         new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId })' class="small-box-footer">View<i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-xs-6">
-            <div class="small-box bg-yellow">
+        <div class="col-lg-3 col-xs-12">
+            <div class="small-box bg-green">
                 <div class="inner">
                     <h3>@Model.NumberOfCourseTeachers</h3>
                     <p>Course Teachers</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-ios-gear-outline"></i>
+                    <i class="ion ion-ios-people-outline"></i>
                 </div>
                 <a href='@Url.Action("SemesterTeachers", "Semester",
                         new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId })' class="small-box-footer">View<i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
+        <div class="col-lg-3 col-xs-12">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>@Model.CurrentSemesterNo</h3>
+                    <p>Current Semester</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                @if (User.IsInRole("Admin") ||
+User.IsInRole("Program Officer Regular") ||
+User.IsInRole("Program Officer Evening"))
+                {
+                    <a href='@Url.Action("UpdateCurrentSemester", "Semester", new
+                    {
+                        area = "One",
+                        batchId = Model.BatchId,
+                        semesterId = Model.SemesterId
+                    })'
+                       class="small-box-footer">Update<i class="fa fa-arrow-circle-right"></i></a>
+                }
+                else
+                {
+                    <a href="#" class="small-box-footer" style="cursor:default;">&nbsp;</a>
+                }
+
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-xs-12 col-lg-offset-3">
+            <div class="small-box bg-olive">
+                <div class="inner">
+                    <h4 style="margin-bottom: 22px;">@Model.BatchCoordinator</h4>
+                    <p>
+                        Batch Coordinator
+                    </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios-person"></i>
+                </div>
+                <a href='@Url.Action("BatchCoordinators", "Semester", 
+                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId })' class="small-box-footer">
+                    View <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-12">
+            @if (Model.Status == "Active")
+            {
+                <div class="small-box bg-olive">
+                    <div class="inner">
+                        <h3>@Model.Status</h3>
+                        <p>Batch Status</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-checkmark"></i>
+                    </div>
+                    @if (User.IsInRole("Admin") ||
+User.IsInRole("Program Officer Regular") ||
+User.IsInRole("Program Officer Evening"))
+                    {
+                        <a href='@Url.Action("UpdateBatchStatus", "Semester", new
+                        {
+                            area = "One",
+                            batchId = Model.BatchId,
+                            semesterId = Model.SemesterId
+                        })' class="small-box-footer">Update<i class="fa fa-arrow-circle-right"></i></a>
+                    }
+                    else
+                    {
+                        <a href="#" class="small-box-footer" style="cursor:default;">&nbsp;</a>
+                    }
+
+                </div>
+            }
+            else
+            {
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>@Model.Status</h3>
+                        <p>Batch status</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-close"></i>
+                    </div>
+
+                    @if (User.IsInRole("Admin") ||
+User.IsInRole("Program Officer Regular") ||
+User.IsInRole("Program Officer Evening"))
+                    {
+                        <a href='@Url.Action("UpdateBatchStatus", "Semester", new
+                        {
+                            area = "One",
+                            batchId = Model.BatchId,
+                            semesterId = Model.SemesterId
+                        })' class="small-box-footer">Update<i class="fa fa-arrow-circle-right"></i></a>
+                    }
+                    else
+                    {
+                        <a href="#" class="small-box-footer" style="cursor:default;">&nbsp;</a>
+                    }
+                </div>
+            }
+        </div>
+
     </div>
     <hr />
     <div class="row">

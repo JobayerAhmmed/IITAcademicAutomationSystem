@@ -13,6 +13,8 @@ namespace IITAcademicAutomationSystem.Models
         public string ProgramName { get; set; }
         public int BatchId { get; set; }
         public int BatchNo { get; set; }
+        public int SemesterId { get; set; }
+        public int SemesterNo { get; set; }
         public string StudentFile { get; set; }
     }
 
@@ -22,6 +24,8 @@ namespace IITAcademicAutomationSystem.Models
         public string ProgramName { get; set; }
         public int BatchId { get; set; }
         public int BatchNo { get; set; }
+        public int SemesterId { get; set; }
+        public int SemesterNo { get; set; }
         public List<string> Names { get; set; }
         public List<string> Rolls { get; set; }
         public List<string> Emails { get; set; }

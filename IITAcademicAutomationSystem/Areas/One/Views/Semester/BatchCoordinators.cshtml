@@ -1,31 +1,26 @@
-﻿@model IITAcademicAutomationSystem.Areas.One.Models.SemesterPassedStudentIndexViewModel
+﻿@model IITAcademicAutomationSystem.Areas.One.Models.BatchCoordinatorIndexViewModel
 
 @{
-    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo + " - Semester " + Model.SemesterNo;
+    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo + " - Batch Coordinators";
 }
 
 <section class="content-header">
     <h1>
-        @ViewBag.Title <small>Failed Students</small>
+        @ViewBag.Title
     </h1>
     <ol class="breadcrumb">
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li>
-            @Html.ActionLink(Model.ProgramName, "Index", "Batch",
-                new { area = "One", programId = Model.ProgramId }, null)
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
         </li>
         <li>
             @Html.ActionLink(Model.ProgramName + " " + Model.BatchNo + " - Semester " + Model.SemesterNo,
                 "Index", "Semester",
                 new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
         </li>
-        <li>
-            @Html.ActionLink("Enrolled Students", "SemesterStudents", "Semester",
-                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
-        </li>
-        <li class="active">Failed Students</li>
+        <li class="active">Coordinators</li>
     </ol>
 
 </section>
@@ -33,17 +28,34 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
+                @if (User.IsInRole("Admin") ||
+                    User.IsInRole("Program Officer Regular") ||
+                    User.IsInRole("Program Officer Evening"))
+                {
+                    <div class="box-header text-right">
+                        @Html.ActionLink("Assign Coordinator", "AssignCoordinator", "Semester",
+                        new
+                        {
+                            area = "One",
+                            batchId = Model.BatchId,
+                            semesterId = Model.SemesterId
+                        },
+                        new { @class = "btn btn-success btn-flat" })
+                    </div>
+                }
+
                 <div class="box-body">
-                    <table id="semesterFailedStudents" class="table table-responsive table-bordered table-hover">
+                    <table id="batchCoordinators" class="table table-responsive table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>Roll</th>
                                 <th>Name</th>
-                                <th>GPA</th>
+                                <th class="text-center">Semester</th>
+                                <th class="text-center">Start Date</th>
+                                <th class="text-center">End Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.Students)
+                            @foreach (var item in Model.Coordinators)
                             {
                                 <tr>
                                     <td>
@@ -52,14 +64,17 @@
                                                  class="img-responsive img-rounded img-sm"
                                                  alt="" />
                                             &nbsp;&nbsp;
-                                            @item.Roll
+                                            @item.Name
                                         </span>
                                     </td>
-                                    <td>
-                                        @item.FullName
+                                    <td class="text-center">
+                                        Semester @item.SemesterNo
                                     </td>
-                                    <td>
-                                        @item.GPA
+                                    <td class="text-center">
+                                        @item.StartDate
+                                    </td>
+                                    <td class="text-center">
+                                        @item.EndDate
                                     </td>
                                 </tr>
                             }
@@ -67,7 +82,7 @@
                     </table>
                 </div>
                 <div class="box-footer">
-                    @Html.ActionLink("Back to Enrolled Students", "SemesterStudents", "Semester",
+                    @Html.ActionLink("Back to Semester", "Index", "Semester",
                         new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
                         new { @class = "btn btn-primary btn-flat" })
                 </div>
@@ -80,11 +95,11 @@
     @Scripts.Render("~/datatable")
     <script>
         $(function () {
-            $("#semesterFailedStudents").DataTable({
+            $("#batchCoordinators").DataTable({
                 "paging": false,
                 "lengthChange": false,
                 "searching": false,
-                "ordering": true,
+                "ordering": false,
                 "info": true,
                 "autoWidth": true
             });

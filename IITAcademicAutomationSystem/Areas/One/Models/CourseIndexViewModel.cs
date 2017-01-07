@@ -11,5 +11,7 @@ namespace IITAcademicAutomationSystem.Areas.One.Models
         public int ProgramId { get; set; }
         public string CourseCode { get; set; }
         public string CourseTitle { get; set; }
+        public int NumberOfStudents { get; set; }
+        public int NumberOfTeachers { get; set; }
     }
 }

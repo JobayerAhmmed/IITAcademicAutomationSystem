@@ -658,6 +658,10 @@
     <Content Include="Areas\One\Content\CourseContent\Lecture 01.pptx" />
     <Content Include="Areas\One\Content\CourseContent\Lecture 02.pptx" />
     <Content Include="Areas\One\Content\CourseContent\SRS - Jobayer - Presentation.pptx" />
+    <Content Include="Areas\One\Views\Semester\UpdateCurrentSemester.cshtml" />
+    <Content Include="Areas\One\Views\Semester\UpdateBatchStatus.cshtml" />
+    <Content Include="Areas\One\Views\Semester\BatchCoordinators.cshtml" />
+    <Content Include="Areas\One\Views\Semester\AssignCoordinator.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -755,6 +759,8 @@
     <Content Include="Views\Account\StudentEditConfirmed.cshtml" />
     <Content Include="Views\Account\StudentEdit.cshtml" />
     <Content Include="Views\Account\TeacherCourses.cshtml" />
+    <Content Include="Views\Account\StudentRegister2.cshtml" />
+    <Content Include="Views\Account\StudentRegisterConfirmed2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

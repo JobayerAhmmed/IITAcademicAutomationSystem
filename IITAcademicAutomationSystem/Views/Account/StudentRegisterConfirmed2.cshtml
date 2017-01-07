@@ -1,20 +1,19 @@
-﻿@model IITAcademicAutomationSystem.Areas.One.Models.SemesterPassedStudentIndexViewModel
+﻿@model IITAcademicAutomationSystem.Models.StudentRegisterConfirmedViewModel
 
 @{
-    ViewBag.Title = Model.ProgramName + " " + Model.BatchNo + " - Semester " + Model.SemesterNo;
+    ViewBag.Title = "Admit Students Confirmation";
 }
 
 <section class="content-header">
     <h1>
-        @ViewBag.Title <small>Failed Students</small>
+        @ViewBag.Title
     </h1>
     <ol class="breadcrumb">
         <li>
             @Html.ActionLink(" Home", "Index", "Home", new { area = "" }, new { @class = "fa fa-home" })
         </li>
         <li>
-            @Html.ActionLink(Model.ProgramName, "Index", "Batch",
-                new { area = "One", programId = Model.ProgramId }, null)
+            @Html.ActionLink(Model.ProgramName, "Index", "Batch", new { area = "One", programId = Model.ProgramId }, null)
         </li>
         <li>
             @Html.ActionLink(Model.ProgramName + " " + Model.BatchNo + " - Semester " + Model.SemesterNo,
@@ -22,44 +21,46 @@
                 new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
         </li>
         <li>
-            @Html.ActionLink("Enrolled Students", "SemesterStudents", "Semester",
-                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
+            @Html.ActionLink("Admit Students", "StudentRegister2", "Account",
+                new { area = "", programId = Model.ProgramId, batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
         </li>
-        <li class="active">Failed Students</li>
+        <li class="active">
+            Confirm
+        </li>
     </ol>
-
 </section>
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
                 <div class="box-body">
-                    <table id="semesterFailedStudents" class="table table-responsive table-bordered table-hover">
+                    <table id="studentRegister" class="table table-responsive table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>Roll</th>
                                 <th>Name</th>
-                                <th>GPA</th>
+                                <th>Email</th>
+                                <th>Message</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.Students)
+                            @{
+                                int rows = Model.Rolls.Count;
+                            }
+                            @for (int i = 0; i < rows; i++)
                             {
                                 <tr>
                                     <td>
-                                        <span>
-                                            <img src="@Url.Content("~/Areas/One/Content/UserImage/" + @item.ImagePath)"
-                                                 class="img-responsive img-rounded img-sm"
-                                                 alt="" />
-                                            &nbsp;&nbsp;
-                                            @item.Roll
-                                        </span>
+                                        @Model.Rolls[i]
                                     </td>
                                     <td>
-                                        @item.FullName
+                                        @Model.Names[i]
                                     </td>
                                     <td>
-                                        @item.GPA
+                                        @Model.Emails[i]
+                                    </td>
+                                    <td>
+                                        @Model.Messages[i]
                                     </td>
                                 </tr>
                             }
@@ -67,8 +68,8 @@
                     </table>
                 </div>
                 <div class="box-footer">
-                    @Html.ActionLink("Back to Enrolled Students", "SemesterStudents", "Semester",
-                        new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                    @Html.ActionLink("Back to Admit Students", "StudentRegister2", "Account",
+                        new { area = "", programId = Model.ProgramId, batchId = Model.BatchId, semesterId = Model.SemesterId },
                         new { @class = "btn btn-primary btn-flat" })
                 </div>
             </div>
@@ -80,10 +81,10 @@
     @Scripts.Render("~/datatable")
     <script>
         $(function () {
-            $("#semesterFailedStudents").DataTable({
+            $("#studentRegister").DataTable({
                 "paging": false,
                 "lengthChange": false,
-                "searching": false,
+                "searching": true,
                 "ordering": true,
                 "info": true,
                 "autoWidth": true

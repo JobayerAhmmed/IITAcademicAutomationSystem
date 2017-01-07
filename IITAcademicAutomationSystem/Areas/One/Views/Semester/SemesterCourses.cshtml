@@ -26,6 +26,22 @@
 
 </section>
 <section class="content">
+    @if (User.IsInRole("Admin") ||
+                                                                    User.IsInRole("Program Officer Regular") ||
+                                                                    User.IsInRole("Program Officer Evening"))
+    {
+        <div class="row">
+            <div class="col-xs-12 text-right">
+                @Html.ActionLink("Add Course", "AllocateCoursesToSemester", "Semester",
+                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                new { @class = "btn btn-success btn-flat" })
+                @Html.ActionLink("Remove Course", "RemoveCourseFromSemester", "Semester",
+                                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
+                                new { @class = "btn btn-danger btn-flat" })
+            </div>
+        </div>
+    }
+    <hr />
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-default">
@@ -49,25 +65,26 @@
                                         @item.CourseTitle
                                     </td>
                                     <td class="text-center">
-                                        <div class="btn-group">
-                                            @Html.ActionLink("Students", "CourseStudents", "Semester",
+                                        <a href="@Url.Action("CourseStudents", "Semester",
                                                     new
                                                     {
                                                         area = "One",
                                                         batchId = Model.BatchId,
                                                         semesterId = Model.SemesterId,
                                                         courseId = item.Id
-                                                    },
-                                                    new { @class = "btn btn-primary btn-flat" })
-                                            @Html.ActionLink("Teachers", "CourseTeachers", "Semester",
+                                                    })" class="btn btn-primary btn-flat">
+                                            Students <span class="badge">@item.NumberOfStudents</span>
+                                        </a>
+                                        <a href="@Url.Action("CourseTeachers", "Semester",
                                                     new
                                                     {
                                                         area = "One",
                                                         batchId = Model.BatchId,
                                                         semesterId = Model.SemesterId,
                                                         courseId = item.Id
-                                                    },
-                                                    new { @class = "btn btn-primary btn-flat" })
+                                                    })" class="btn btn-primary btn-flat">
+                                            Teachers <span class="badge">@item.NumberOfTeachers</span>
+                                        </a>
                                             @Html.ActionLink("Contents", "IndexStudent", "CourseContent",
                                                     new
                                                     {
@@ -80,7 +97,6 @@
                                             @*@Html.ActionLink("Details", "", "",
                                                     new { area = "One" },
                                                     new { @class = "btn btn-primary btn-flat" })*@
-                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -90,7 +106,7 @@
                 <div class="box-footer">
                     @Html.ActionLink("Back to Semester", "Index", "Semester",
                         new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
-                        new { @class = "btn btn-primary btn-flat btn-lg" })
+                        new { @class = "btn btn-primary btn-flat" })
                 </div>
             </div>
         </div>

@@ -21,8 +21,13 @@
                 "Index", "Semester",
                 new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
         </li>
+        <li>
+            @Html.ActionLink("Students", "SemesterStudents", "Semester",
+                new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId }, null)
+        </li>
         <li class="active">Add Student</li>
     </ol>
+
 </section>
 <section class="content">
     <div class="row">
@@ -55,9 +60,9 @@
                     </div>
                     <div class="box-footer clearfix no-border">
                         <input type="submit" value="Add Student" class="btn btn-primary btn-flat" />
-                        @Html.ActionLink("Back to Semester", "Index", "Semester",
+                        @Html.ActionLink("Cancel", "SemesterStudents", "Semester",
                                 new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
-                                new { @class = "btn btn-primary btn-flat" })
+                                new { @class = "btn btn-danger btn-flat" })
                     </div>
                 }
             </div>

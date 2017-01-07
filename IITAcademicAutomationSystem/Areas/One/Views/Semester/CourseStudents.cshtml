@@ -46,7 +46,7 @@
                  semesterId = Model.SemesterId,
                  courseId = ViewBag.CourseId
              },
-             new { @class = "btn btn-success btn-flat btn-lg" })
+             new { @class = "btn btn-success btn-flat" })
                     @Html.ActionLink("Remove Students", "RemoveStudentFromCourse", "Semester",
              new
              {
@@ -55,7 +55,7 @@
                  semesterId = Model.SemesterId,
                  courseId = ViewBag.CourseId
              },
-             new { @class = "btn btn-success btn-flat btn-lg" })
+             new { @class = "btn btn-danger btn-flat" })
                 </div>
 }
                 <div class="box-body">
@@ -90,7 +90,7 @@
                 <div class="box-footer">
                     @Html.ActionLink("Back to Courses", "SemesterCourses", "Semester",
                         new { area = "One", batchId = Model.BatchId, semesterId = Model.SemesterId },
-                        new { @class = "btn btn-primary btn-flat btn-lg" })
+                        new { @class = "btn btn-primary btn-flat" })
                 </div>
             </div>
         </div>

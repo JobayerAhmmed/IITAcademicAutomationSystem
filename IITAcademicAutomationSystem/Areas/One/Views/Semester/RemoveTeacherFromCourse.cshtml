@@ -71,14 +71,14 @@
                     </div>
                     <div class="box-footer clearfix no-border">
                         <input type="submit" value="Remove Teacher" class="btn btn-primary btn-flat" />
-                        @Html.ActionLink("Back to Teachers", "CourseTeachers", "Semester",
+                        @Html.ActionLink("Cancel", "CourseTeachers", "Semester",
                             new
                             {
                                 area = "One",
                                 batchId = Model.BatchId,
                                 semesterId = Model.SemesterId,
                                 courseId = Model.CourseId
-                            }, new { @class = "btn btn-primary btn-flat" })
+                            }, new { @class = "btn btn-danger btn-flat" })
                     </div>
                 }
             </div>

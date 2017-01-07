@@ -14,6 +14,8 @@ namespace IITAcademicAutomationSystem.Areas.One.Models
         public string ProgramName { get; set; }
         public int BatchId { get; set; }
         public int BatchNo { get; set; }
+        public int SemesterId { get; set; }
+        public int SemesterNo { get; set; }
         public string CoordinatorId { get; set; }
 
         [DataType(DataType.Date)]

@@ -648,6 +648,181 @@ namespace IITAcademicAutomationSystem.Controllers
 
             return View(model);
         }
+
+        // Student Register
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
+        public ActionResult StudentRegister2(int programId, int batchId, int semesterId)
+        {
+            var program = programService.ViewProgram(programId);
+            var batch = batchService.ViewBatch(batchId);
+            var semester = semesterService.ViewSemester(semesterId);
+
+            var model = new StudentRegisterViewModel()
+            {
+                ProgramId = programId,
+                ProgramName = program.ProgramName,
+                BatchId = batchId,
+                BatchNo = batch.BatchNo,
+                SemesterId = semesterId,
+                SemesterNo = semester.SemesterNo,
+                StudentFile = "Student-Info.xlsx"
+            };
+            return View(model);
+        }
+
+        // POST: Student Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Program Officer Evening, Program Officer Regular")]
+        public async Task<ActionResult> StudentRegister2(StudentRegisterViewModel model, HttpPostedFileBase file)
+        {
+            if (ModelState.IsValid)
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+                    Stream stream = file.InputStream;
+
+                    IExcelDataReader reader = null;
+
+                    if (file.FileName.EndsWith(".xlsx"))
+                    {
+                        reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("StudentFile", "File format is not supported.");
+                        return View(model);
+                    }
+
+                    DataSet result = null;
+                    DataTable dataTable = null;
+
+                    try
+                    {
+                        reader.IsFirstRowAsColumnNames = true;
+                        result = reader.AsDataSet();
+
+                        dataTable = result.Tables[0];
+                        reader.Close();
+                    }
+                    catch (Exception)
+                    {
+                        ModelState.AddModelError("StudentFile", "File does not contain any student information row.");
+                        return View(model);
+                    }
+
+                    if (dataTable.Columns.Count != 9)
+                    {
+                        ModelState.AddModelError("StudentFile", "Number of columns of the file should be 9.");
+                        return View(model);
+                    }
+
+                    var columns = dataTable.Columns;
+                    var semester = semesterService.GetFirstSemester(model.ProgramId);
+
+                    var studentRegisterConfirmedModel = new StudentRegisterConfirmedViewModel();
+                    studentRegisterConfirmedModel.ProgramId = model.ProgramId;
+                    studentRegisterConfirmedModel.ProgramName = model.ProgramName;
+                    studentRegisterConfirmedModel.BatchId = model.BatchId;
+                    studentRegisterConfirmedModel.BatchNo = model.BatchNo;
+                    studentRegisterConfirmedModel.SemesterId = model.SemesterId;
+                    studentRegisterConfirmedModel.SemesterNo = model.SemesterNo;
+
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        if (IsRowEmpty(row))
+                        {
+                            continue;
+                        }
+                        var user = new ApplicationUser();
+                        var student = new Student();
+
+                        user.FullName = row[columns[2].ColumnName].ToString();
+                        user.Designation = "Student";
+                        user.Email = row[columns[4].ColumnName].ToString();
+                        user.UserName = user.Email;
+                        user.PhoneNumber = row[columns[5].ColumnName].ToString();
+                        user.Status = "Active";
+
+                        student.ProgramId = model.ProgramId;
+                        student.BatchIdOriginal = model.BatchId;
+                        student.BatchIdCurrent = model.BatchId;
+                        student.SemesterId = semester.Id;
+                        student.OriginalRoll = row[columns[0].ColumnName].ToString();
+                        student.CurrentRoll = row[columns[0].ColumnName].ToString();
+                        student.RegistrationNo = row[columns[1].ColumnName].ToString();
+                        student.AdmissionSession = row[columns[3].ColumnName].ToString();
+                        student.CurrentSession = row[columns[3].ColumnName].ToString();
+                        student.GuardianPhone = row[columns[6].ColumnName].ToString();
+                        student.CurrentAddress = row[columns[7].ColumnName].ToString();
+                        student.PermanentAddress = row[columns[8].ColumnName].ToString();
+
+                        studentRegisterConfirmedModel.Names.Add(user.FullName);
+                        studentRegisterConfirmedModel.Emails.Add(user.Email);
+                        studentRegisterConfirmedModel.Rolls.Add(student.OriginalRoll);
+
+                        string validationMessage = ValidateStudent(user, student);
+
+                        if (userService.UserExist(user.Email))
+                        {
+                            studentRegisterConfirmedModel.Messages.Add("Student exists with this email.");
+                        }
+                        else if (validationMessage == "")
+                        {
+                            // Create user
+                            var createResult = await UserManager.CreateAsync(user, "iit123");
+                            if (createResult.Succeeded)
+                            {
+                                await UserManager.AddToRoleAsync(user.Id, "Student");
+
+                                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                                var callbackUrl = Url.Action(
+                                    "ConfirmEmail", "Account",
+                                    new { userId = user.Id, code = code },
+                                    protocol: Request.Url.Scheme);
+
+                                await UserManager.SendEmailAsync(user.Id,
+                                    "Confirm your account",
+                                    "<h1>IIT Academic Automation System</h1><hr>" +
+                                    "<h3>Hello Mr. " + user.FullName + "</h3>" +
+                                    "<p>An account has been created for you using the email \"" + user.Email +
+                                    "\" in the IIT Academic Automation System.<p>" +
+                                    "Please <a href=\"" + callbackUrl + "\">confirm your account.</a>");
+
+                                // Create student
+                                student.UserId = user.Id;
+                                var studentCreateResult = studentService.CreateStudent(student);
+                                if (studentCreateResult == -1)
+                                {
+                                    studentRegisterConfirmedModel.Messages.Add("Unable to create student account");
+                                }
+                                else
+                                {
+                                    studentRegisterConfirmedModel.Messages.Add("Successful");
+                                }
+                            } // end create user
+                            else
+                            {
+                                studentRegisterConfirmedModel.Messages.Add("Unable to create user account");
+                            }
+                        }
+                        else
+                        {
+                            studentRegisterConfirmedModel.Messages.Add(validationMessage);
+                        }
+                    } // end of excel file
+
+                    return View("StudentRegisterConfirmed2", studentRegisterConfirmedModel);
+                }
+                else
+                {
+                    ModelState.AddModelError("StudentFile", "Please upload student information file.");
+                }
+            }
+
+            return View(model);
+        }
+
         protected bool IsRowEmpty(DataRow dr)
         {
             if (dr == null)
