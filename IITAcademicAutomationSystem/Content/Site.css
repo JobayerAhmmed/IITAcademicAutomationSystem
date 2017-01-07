@@ -33,9 +33,10 @@
     min-height: 400px;
 }
 
-.navbar-brand {
+.navbar-brand-iit {
     padding: 7px 15px !important;
     line-height: 16px !important;
+    font-size: 20px;
 }
 .navbar-brand-sm {
     font-size: 80%;
